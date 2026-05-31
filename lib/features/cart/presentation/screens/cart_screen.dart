@@ -6,6 +6,9 @@ import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
+import 'package:farm2fork_mobile/core/widgets/app_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
@@ -22,12 +25,7 @@ class CartScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        title: Text(
-          context.l10n.yourCart,
-          style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
-        ),
+        title: Text(context.l10n.yourCart, style: AppTextStyles.h3),
         actions: [
           if (groups.isNotEmpty)
             TextButton(
@@ -74,18 +72,8 @@ class _FarmerGroupCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return AppCard(
+      padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -96,9 +84,7 @@ class _FarmerGroupCard extends ConsumerWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: AppColors.primaryGreen.withValues(
-                    alpha: 0.15,
-                  ),
+                  backgroundColor: AppColors.primaryGreenSoft,
                   child: Text(
                     group.farmerName.isNotEmpty
                         ? group.farmerName[0].toUpperCase()
@@ -128,6 +114,12 @@ class _FarmerGroupCard extends ConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+                AppBadge(
+                  label: context.l10n.checkout,
+                  icon: Icons.verified_outlined,
+                  backgroundColor: AppColors.secondaryBlueSoft,
+                  foregroundColor: AppColors.secondaryBlue,
                 ),
               ],
             ),
@@ -187,42 +179,28 @@ class _FarmerGroupCard extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.lg),
 
                 // ── Checkout Button ────────────────────────────────────────
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Placeholder: real checkout will navigate to payment flow
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            context.l10n.checkoutForFarmer(group.farmerName),
-                            style: AppTextStyles.small.copyWith(
-                              color: AppColors.white,
-                            ),
-                          ),
-                          backgroundColor: AppColors.secondaryBlue,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppRadius.md),
+                AppButton(
+                  label: context.l10n.checkout,
+                  icon: Icons.lock_outline_rounded,
+                  expand: true,
+                  onPressed: () {
+                    // Placeholder: real checkout will navigate to payment flow
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          context.l10n.checkoutForFarmer(group.farmerName),
+                          style: AppTextStyles.small.copyWith(
+                            color: AppColors.white,
                           ),
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                      foregroundColor: AppColors.white,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.md,
+                        backgroundColor: AppColors.secondaryBlue,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.pill),
-                      ),
-                      textStyle: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    child: Text(context.l10n.checkout),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -263,7 +241,7 @@ class _CartItemRow extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: AppColors.primaryGreen.withValues(alpha: 0.1),
+              color: AppColors.primaryGreenSoft,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
             child: const Icon(
@@ -293,7 +271,7 @@ class _CartItemRow extends StatelessWidget {
                     productUnitLabel(context, item.product.unit),
                   ),
                   style: AppTextStyles.small.copyWith(
-                    color: AppColors.textDark.withValues(alpha: 0.55),
+                    color: AppColors.textMuted,
                   ),
                 ),
               ],
@@ -447,9 +425,16 @@ class _GrandTotalBanner extends StatelessWidget {
         horizontal: AppSpacing.pagePadding,
         vertical: AppSpacing.lg,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.white,
-        border: Border(top: BorderSide(color: AppColors.surfaceMedium)),
+        border: const Border(top: BorderSide(color: AppColors.surfaceMedium)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(alpha: 0.05),
+            blurRadius: 16,
+            offset: const Offset(0, -6),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -460,7 +445,7 @@ class _GrandTotalBanner extends StatelessWidget {
           ),
           Text(
             context.l10n.currencyAmount(formatCurrencyAmount(total, locale)),
-            style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
+            style: AppTextStyles.h3.copyWith(color: AppColors.primaryGreenDark),
           ),
         ],
       ),
@@ -482,7 +467,7 @@ class _EmptyCart extends StatelessWidget {
             Icon(
               Icons.shopping_cart_outlined,
               size: 88,
-              color: AppColors.primaryGreen.withValues(alpha: 0.4),
+              color: AppColors.primaryGreen.withValues(alpha: 0.45),
             ),
             const SizedBox(height: AppSpacing.xl),
             Text(
@@ -499,24 +484,10 @@ class _EmptyCart extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xxl),
-            ElevatedButton.icon(
+            AppButton(
+              label: context.l10n.shopNow,
+              icon: Icons.store_rounded,
               onPressed: () => context.go('/marketplace'),
-              icon: const Icon(Icons.store_rounded),
-              label: Text(context.l10n.shopNow),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryGreen,
-                foregroundColor: AppColors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xxl,
-                  vertical: AppSpacing.lg,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.pill),
-                ),
-                textStyle: AppTextStyles.body.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
             ),
           ],
         ),

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
-import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
+import 'package:farm2fork_mobile/core/widgets/app_button.dart';
+import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/widgets/product_card.dart';
-import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 
 class MarketplaceScreen extends ConsumerStatefulWidget {
   const MarketplaceScreen({super.key});
@@ -26,15 +29,6 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
     super.dispose();
   }
 
-  void _onSearch(String value) {
-    ref.read(searchQueryProvider.notifier).update(value);
-  }
-
-  void _clearSearch() {
-    _searchController.clear();
-    ref.read(searchQueryProvider.notifier).clear();
-  }
-
   @override
   Widget build(BuildContext context) {
     final activeCategory = ref.watch(activeCategoryProvider);
@@ -44,19 +38,14 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        title: Text(
-          context.l10n.marketplace,
-          style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
-        ),
+        title: Text(context.l10n.marketplace, style: AppTextStyles.h3),
         actions: [
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
-                color: AppColors.textDark,
+                color: AppColors.primaryGreenDark,
                 onPressed: () => context.go('/cart'),
               ),
               if (cartCount > 0)
@@ -88,21 +77,29 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
       ),
       body: Column(
         children: [
-          // ── Search Bar ──────────────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.pagePadding,
+              AppSpacing.sm,
+              AppSpacing.pagePadding,
+              0,
+            ),
+            child: _MarketplaceHeader(cartCount: cartCount),
+          ),
           _SearchBar(
             controller: _searchController,
-            onChanged: _onSearch,
-            onClear: _clearSearch,
+            onChanged: (value) =>
+                ref.read(searchQueryProvider.notifier).update(value),
+            onClear: () {
+              _searchController.clear();
+              ref.read(searchQueryProvider.notifier).clear();
+            },
           ),
-
-          // ── Category Chips ───────────────────────────────────────────────
           _CategoryChips(
             selected: activeCategory,
             onSelect: (cat) =>
                 ref.read(activeCategoryProvider.notifier).select(cat),
           ),
-
-          // ── Product Grid ─────────────────────────────────────────────────
           Expanded(
             child: productsAsync.when(
               loading: () => const Center(
@@ -116,46 +113,52 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                 if (products.isEmpty) {
                   return _EmptyState(message: context.l10n.noDataFound);
                 }
+
                 return RefreshIndicator(
                   color: AppColors.primaryGreen,
                   onRefresh: () async => ref.invalidate(productsProvider),
-                  child: GridView.builder(
-                    padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isWide = constraints.maxWidth >= 600;
+                      return GridView.builder(
+                        padding: const EdgeInsets.all(AppSpacing.pagePadding),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: isWide ? 3 : 2,
                           crossAxisSpacing: AppSpacing.md,
                           mainAxisSpacing: AppSpacing.md,
-                          childAspectRatio: 0.72,
+                          childAspectRatio: isWide ? 0.82 : 0.70,
                         ),
-                    itemCount: products.length,
-                    itemBuilder: (context, i) {
-                      final product = products[i];
-                      return ProductCard(
-                        product: product,
-                        onTap: () =>
-                            context.push('/marketplace/products/${product.id}'),
-                        onAddToCart: () {
-                          ref
-                              .read(cartControllerProvider.notifier)
-                              .addItem(product);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                context.l10n.addedToCart,
-                                style: AppTextStyles.small.copyWith(
-                                  color: AppColors.white,
-                                ),
-                              ),
-                              backgroundColor: AppColors.primaryGreen,
-                              duration: const Duration(seconds: 1),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  AppRadius.md,
-                                ),
-                              ),
+                        itemCount: products.length,
+                        itemBuilder: (context, i) {
+                          final product = products[i];
+                          return ProductCard(
+                            product: product,
+                            onTap: () => context.push(
+                              '/marketplace/products/${product.id}',
                             ),
+                            onAddToCart: () {
+                              ref
+                                  .read(cartControllerProvider.notifier)
+                                  .addItem(product);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    context.l10n.addedToCart,
+                                    style: AppTextStyles.small.copyWith(
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: AppColors.primaryGreen,
+                                  duration: const Duration(seconds: 1),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppRadius.md,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
                       );
@@ -171,7 +174,42 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
   }
 }
 
-// ─── Private Widgets ──────────────────────────────────────────────────────────
+class _MarketplaceHeader extends StatelessWidget {
+  const _MarketplaceHeader({required this.cartCount});
+
+  final int cartCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: AppColors.primaryGreenDark,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryGreenDark.withValues(alpha: 0.16),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: SectionHeader(
+        title: context.l10n.marketplace,
+        subtitle: context.l10n.searchHint,
+        titleColor: AppColors.white,
+        subtitleColor: AppColors.primaryGreenSoft,
+        trailing: AppBadge(
+          label: '$cartCount',
+          icon: Icons.shopping_cart_outlined,
+          backgroundColor: AppColors.accentYellowSoft,
+          foregroundColor: AppColors.primaryGreenDark,
+        ),
+      ),
+    );
+  }
+}
 
 class _SearchBar extends StatelessWidget {
   const _SearchBar({
@@ -199,9 +237,6 @@ class _SearchBar extends StatelessWidget {
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: context.l10n.searchHint,
-          hintStyle: AppTextStyles.small.copyWith(
-            color: AppColors.textDark.withValues(alpha: 0.45),
-          ),
           prefixIcon: const Icon(
             Icons.search_rounded,
             color: AppColors.primaryGreen,
@@ -209,33 +244,10 @@ class _SearchBar extends StatelessWidget {
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.close_rounded),
-                  color: AppColors.textDark.withValues(alpha: 0.5),
+                  color: AppColors.textMuted,
                   onPressed: onClear,
                 )
               : null,
-          filled: true,
-          fillColor: AppColors.white,
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.sm,
-            horizontal: AppSpacing.md,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            borderSide: BorderSide(
-              color: AppColors.primaryGreen.withValues(alpha: 0.25),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            borderSide: const BorderSide(
-              color: AppColors.primaryGreen,
-              width: 1.5,
-            ),
-          ),
         ),
       ),
     );
@@ -307,19 +319,19 @@ class _Chip extends StatelessWidget {
             vertical: AppSpacing.xs,
           ),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primaryGreen : AppColors.white,
+            color: isSelected ? AppColors.primaryGreenDark : AppColors.white,
             borderRadius: BorderRadius.circular(AppRadius.pill),
             border: Border.all(
               color: isSelected
-                  ? AppColors.primaryGreen
-                  : AppColors.primaryGreen.withValues(alpha: 0.3),
+                  ? AppColors.primaryGreenDark
+                  : AppColors.surfaceStrong,
             ),
           ),
           child: Text(
             label,
             style: AppTextStyles.small.copyWith(
-              color: isSelected ? AppColors.white : AppColors.primaryGreen,
-              fontWeight: FontWeight.w600,
+              color: isSelected ? AppColors.white : AppColors.primaryGreenDark,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -341,14 +353,12 @@ class _EmptyState extends StatelessWidget {
           Icon(
             Icons.search_off_rounded,
             size: 64,
-            color: AppColors.textDark.withValues(alpha: 0.3),
+            color: AppColors.textMuted.withValues(alpha: 0.45),
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
             message,
-            style: AppTextStyles.body.copyWith(
-              color: AppColors.textDark.withValues(alpha: 0.55),
-            ),
+            style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
           ),
         ],
       ),
@@ -375,14 +385,10 @@ class _ErrorState extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           Text(message, style: AppTextStyles.body),
           const SizedBox(height: AppSpacing.lg),
-          ElevatedButton.icon(
+          AppButton(
+            label: context.l10n.retry,
+            icon: Icons.refresh_rounded,
             onPressed: onRetry,
-            icon: const Icon(Icons.refresh_rounded),
-            label: Text(context.l10n.retry),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryGreen,
-              foregroundColor: AppColors.white,
-            ),
           ),
         ],
       ),

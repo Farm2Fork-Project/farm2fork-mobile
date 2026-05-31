@@ -8,15 +8,22 @@ abstract final class AppTextStyles {
 
   static TextStyle get h1 => TextStyle(
     fontFamily: primaryFontFamily,
-    fontSize: 32.sp,
+    fontSize: 28.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.textDark,
   );
 
   static TextStyle get h2 => TextStyle(
     fontFamily: primaryFontFamily,
-    fontSize: 24.sp,
+    fontSize: 21.sp,
     fontWeight: FontWeight.w600,
+    color: AppColors.textDark,
+  );
+
+  static TextStyle get h3 => TextStyle(
+    fontFamily: primaryFontFamily,
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w700,
     color: AppColors.textDark,
   );
 
@@ -29,9 +36,16 @@ abstract final class AppTextStyles {
 
   static TextStyle get small => TextStyle(
     fontFamily: primaryFontFamily,
-    fontSize: 12.sp,
+    fontSize: 12.5.sp,
     fontWeight: FontWeight.w400,
     color: AppColors.textDark,
+  );
+
+  static TextStyle get label => TextStyle(
+    fontFamily: primaryFontFamily,
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textMuted,
   );
 
   static TextStyle get dashboard => TextStyle(

@@ -6,6 +6,10 @@ import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
+import 'package:farm2fork_mobile/core/widgets/app_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
@@ -104,12 +108,12 @@ class _ProductDetailBody extends StatelessWidget {
         SliverAppBar(
           expandedHeight: 260,
           pinned: true,
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundLight,
           leading: IconButton(
             icon: Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: AppColors.white.withValues(alpha: 0.9),
+                color: AppColors.white.withValues(alpha: 0.94),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -123,7 +127,7 @@ class _ProductDetailBody extends StatelessWidget {
             background: product.images.isNotEmpty
                 ? Image.network(product.images.first, fit: BoxFit.cover)
                 : Container(
-                    color: AppColors.primaryGreen.withValues(alpha: 0.15),
+                    color: AppColors.primaryGreenSoft,
                     child: const Icon(
                       Icons.eco_rounded,
                       size: 100,
@@ -159,15 +163,17 @@ class _ProductDetailBody extends StatelessWidget {
                     productUnitLabel(context, product.unit),
                   ),
                   style: AppTextStyles.body.copyWith(
-                    color: AppColors.primaryGreen,
+                    color: AppColors.primaryGreenDark,
                     fontWeight: FontWeight.w700,
-                    fontSize: 18,
+                    fontSize: 19,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
 
                 // ── Quality Badge + Available Quantity ─────────────────
-                Row(
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
                   children: [
                     _InfoPill(
                       icon: Icons.verified_rounded,
@@ -176,7 +182,6 @@ class _ProductDetailBody extends StatelessWidget {
                       ),
                       color: AppColors.primaryGreen,
                     ),
-                    const SizedBox(width: AppSpacing.sm),
                     _InfoPill(
                       icon: Icons.inventory_2_rounded,
                       label: context.l10n.quantityAmountWithUnit(
@@ -190,18 +195,20 @@ class _ProductDetailBody extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
 
                 // ── Description ────────────────────────────────────────
-                Text(
-                  context.l10n.description,
-                  style: AppTextStyles.body.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  product.description,
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.textDark.withValues(alpha: 0.7),
-                    height: 1.6,
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionHeader(title: context.l10n.description),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        product.description,
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.textMuted,
+                          height: 1.55,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xl),
@@ -212,41 +219,28 @@ class _ProductDetailBody extends StatelessWidget {
 
                 // ── Quantity Selector ──────────────────────────────────
                 if (isAvailable) ...[
-                  Text(
-                    context.l10n.quantity,
-                    style: AppTextStyles.body.copyWith(
-                      fontWeight: FontWeight.w700,
+                  AppCard(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SectionHeader(title: context.l10n.quantity),
+                        ),
+                        _QuantitySelector(
+                          quantity: quantity,
+                          onIncrement: onIncrement,
+                          onDecrement: onDecrement,
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  _QuantitySelector(
-                    quantity: quantity,
-                    onIncrement: onIncrement,
-                    onDecrement: onDecrement,
                   ),
                   const SizedBox(height: AppSpacing.xxl),
 
                   // ── Add to Cart ────────────────────────────────────
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: onAddToCart,
-                      icon: const Icon(Icons.shopping_cart_outlined),
-                      label: Text(context.l10n.addToCart),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryGreen,
-                        foregroundColor: AppColors.white,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: AppSpacing.lg,
-                        ),
-                        textStyle: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.pill),
-                        ),
-                      ),
-                    ),
+                  AppButton(
+                    label: context.l10n.addToCart,
+                    icon: Icons.shopping_cart_outlined,
+                    expand: true,
+                    onPressed: onAddToCart,
                   ),
                 ] else
                   _OutOfStockBanner(),
@@ -282,23 +276,11 @@ class _StatusChip extends StatelessWidget {
         AppColors.errorRed,
       ),
     };
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
-      ),
-      child: Text(
-        label,
-        style: AppTextStyles.small.copyWith(
-          color: color,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
+    return AppBadge(
+      label: label,
+      icon: Icons.verified_outlined,
+      backgroundColor: color.withValues(alpha: 0.12),
+      foregroundColor: color,
     );
   }
 }
@@ -315,29 +297,11 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: color),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: AppTextStyles.small.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
+    return AppBadge(
+      label: label,
+      icon: icon,
+      backgroundColor: color.withValues(alpha: 0.10),
+      foregroundColor: color,
     );
   }
 }
@@ -349,32 +313,17 @@ class _FarmerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final farmer = product.farmer;
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.l10n.farmerInfo,
-            style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-          ),
+          SectionHeader(title: context.l10n.farmerInfo),
           const SizedBox(height: AppSpacing.md),
           Row(
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.15),
+                backgroundColor: AppColors.primaryGreenSoft,
                 child: Text(
                   farmer.name.isNotEmpty ? farmer.name[0].toUpperCase() : '?',
                   style: AppTextStyles.h2.copyWith(
@@ -396,7 +345,7 @@ class _FarmerCard extends StatelessWidget {
                     Text(
                       farmer.farmName,
                       style: AppTextStyles.small.copyWith(
-                        color: AppColors.textDark.withValues(alpha: 0.6),
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],
@@ -434,7 +383,7 @@ class _FarmerCard extends StatelessWidget {
                 child: Text(
                   farmer.farmLocationAddress,
                   style: AppTextStyles.small.copyWith(
-                    color: AppColors.textDark.withValues(alpha: 0.65),
+                    color: AppColors.textMuted,
                   ),
                 ),
               ),
@@ -451,9 +400,7 @@ class _FarmerCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 context.l10n.totalSales(farmer.totalSales),
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textDark.withValues(alpha: 0.65),
-                ),
+                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
               ),
             ],
           ),
@@ -511,9 +458,7 @@ class _QBtn extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: enabled
-              ? AppColors.primaryGreen.withValues(alpha: 0.1)
-              : AppColors.surfaceMedium,
+          color: enabled ? AppColors.primaryGreenSoft : AppColors.surfaceMedium,
           border: Border.all(
             color: enabled
                 ? AppColors.primaryGreen.withValues(alpha: 0.5)

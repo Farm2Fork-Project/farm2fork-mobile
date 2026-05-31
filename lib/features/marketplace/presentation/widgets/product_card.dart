@@ -4,6 +4,7 @@ import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
@@ -25,102 +26,117 @@ class ProductCard extends StatelessWidget {
     final isAvailable = product.status == ProductStatus.active;
     final locale = Localizations.localeOf(context);
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.07),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Image area ──────────────────────────────────────────────
-            Stack(
-              children: [
-                _ProductImage(images: product.images),
-                if (!isAvailable)
-                  Positioned.fill(
-                    child: Container(
-                      color: AppColors.black.withValues(alpha: 0.45),
-                      alignment: Alignment.center,
-                      child: Text(
-                        productStatusLabel(context, product.status),
-                        style: AppTextStyles.small.copyWith(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                PositionedDirectional(
-                  top: AppSpacing.sm,
-                  start: AppSpacing.sm,
-                  child: _GradeBadge(grade: product.qualityGrade),
-                ),
-              ],
-            ),
-
-            // ── Info area ───────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(
-                AppSpacing.md,
-                AppSpacing.sm,
-                AppSpacing.md,
-                AppSpacing.xs,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            border: Border.all(color: AppColors.surfaceMedium),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: 0.045),
+                blurRadius: 18,
+                offset: const Offset(0, 6),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Image area ──────────────────────────────────────────────
+              Stack(
                 children: [
-                  Text(
-                    product.name,
-                    style: AppTextStyles.body.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    product.farmer.farmName,
-                    style: AppTextStyles.small.copyWith(
-                      color: AppColors.textDark.withValues(alpha: 0.55),
-                      fontSize: 11,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        context.l10n.priceAmountWithUnit(
-                          formatCurrencyAmount(product.price, locale),
-                          productUnitLabel(context, product.unit),
-                        ),
-                        style: AppTextStyles.small.copyWith(
-                          color: AppColors.primaryGreen,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
+                  _ProductImage(images: product.images),
+                  if (!isAvailable)
+                    Positioned.fill(
+                      child: Container(
+                        color: AppColors.black.withValues(alpha: 0.45),
+                        alignment: Alignment.center,
+                        child: Text(
+                          productStatusLabel(context, product.status),
+                          style: AppTextStyles.small.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                      _AddButton(enabled: isAvailable, onTap: onAddToCart),
-                    ],
+                    ),
+                  PositionedDirectional(
+                    top: AppSpacing.sm,
+                    start: AppSpacing.sm,
+                    child: AppBadge(
+                      label: qualityGradeLabel(context, product.qualityGrade),
+                      icon: Icons.verified_rounded,
+                      backgroundColor: AppColors.white.withValues(alpha: 0.92),
+                      foregroundColor: _gradeColor(product.qualityGrade),
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+
+              // ── Info area ───────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  AppSpacing.md,
+                  AppSpacing.sm,
+                  AppSpacing.md,
+                  AppSpacing.xs,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13.5,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      product.farmer.farmName,
+                      style: AppTextStyles.small.copyWith(
+                        color: AppColors.textDark.withValues(alpha: 0.55),
+                        fontSize: 11,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            context.l10n.priceAmountWithUnit(
+                              formatCurrencyAmount(product.price, locale),
+                              productUnitLabel(context, product.unit),
+                            ),
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.primaryGreenDark,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12.5,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        _AddButton(enabled: isAvailable, onTap: onAddToCart),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -136,12 +152,12 @@ class _ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 110,
+      height: 112,
       width: double.infinity,
       child: images.isNotEmpty
           ? Image.network(images.first, fit: BoxFit.cover)
           : Container(
-              color: AppColors.primaryGreen.withValues(alpha: 0.12),
+              color: AppColors.primaryGreenSoft,
               child: const Icon(
                 Icons.eco_rounded,
                 size: 48,
@@ -152,37 +168,12 @@ class _ProductImage extends StatelessWidget {
   }
 }
 
-class _GradeBadge extends StatelessWidget {
-  const _GradeBadge({required this.grade});
-  final QualityGrade grade;
-
-  Color get _color => switch (grade) {
+Color _gradeColor(QualityGrade grade) {
+  return switch (grade) {
     QualityGrade.a => AppColors.primaryGreen,
     QualityGrade.b => AppColors.accentYellow,
     QualityGrade.c => AppColors.errorRed,
   };
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 2,
-      ),
-      decoration: BoxDecoration(
-        color: _color,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: Text(
-        qualityGradeLabel(context, grade),
-        style: AppTextStyles.small.copyWith(
-          color: AppColors.white,
-          fontWeight: FontWeight.w700,
-          fontSize: 10,
-        ),
-      ),
-    );
-  }
 }
 
 class _AddButton extends StatelessWidget {
@@ -196,8 +187,8 @@ class _AddButton extends StatelessWidget {
       onTap: enabled ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        width: 28,
-        height: 28,
+        width: 30,
+        height: 30,
         decoration: BoxDecoration(
           color: enabled
               ? AppColors.primaryGreen
