@@ -9,17 +9,10 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.orders),
-      ),
+      appBar: AppBar(title: Text(context.l10n.orders)),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.pagePadding),
-        child: Center(
-          child: Text(
-            context.l10n.noDataFound,
-            style: AppTextStyles.body,
-          ),
-        ),
+        child: Center(child: Text(context.l10n.noDataFound, style: AppTextStyles.body)),
       ),
     );
   }

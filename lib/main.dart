@@ -5,9 +5,5 @@ import 'package:Farm2Fork/app/bootstrap.dart';
 
 void main() async {
   await bootstrap();
-  runApp(
-    const ProviderScope(
-      child: Farm2ForkApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: Farm2ForkApp()));
 }

@@ -23,10 +23,7 @@ class Farm2ForkApp extends ConsumerWidget {
           theme: AppTheme.lightTheme,
           routerConfig: goRouter,
           locale: localeAsync.value ?? const Locale('en'),
-          supportedLocales: const [
-            Locale('en'),
-            Locale('ur'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('ur')],
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           debugShowCheckedModeBanner: false,
         );

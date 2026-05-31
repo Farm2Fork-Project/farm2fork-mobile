@@ -14,33 +14,23 @@ class ProfileScreen extends ConsumerWidget {
     final localeAsync = ref.watch(localeControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.profile),
-      ),
+      appBar: AppBar(title: Text(context.l10n.profile)),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.pagePadding),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                context.l10n.settings,
-                style: AppTextStyles.h1,
-              ),
+              Text(context.l10n.settings, style: AppTextStyles.h1),
               const SizedBox(height: AppSpacing.xxl),
               Card(
                 color: AppColors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Column(
                     children: [
-                      Text(
-                        context.l10n.selectLanguage,
-                        style: AppTextStyles.h2,
-                      ),
+                      Text(context.l10n.selectLanguage, style: AppTextStyles.h2),
                       const SizedBox(height: AppSpacing.md),
                       localeAsync.when(
                         data: (locale) => Row(
@@ -50,12 +40,14 @@ class ProfileScreen extends ConsumerWidget {
                               onPressed: locale.languageCode == 'en'
                                   ? null
                                   : () => ref
-                                      .read(localeControllerProvider.notifier)
-                                      .setLocale(const Locale('en')),
+                                        .read(localeControllerProvider.notifier)
+                                        .setLocale(const Locale('en')),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primaryGreen,
                                 foregroundColor: AppColors.white,
-                                disabledBackgroundColor: AppColors.primaryGreen.withValues(alpha: 0.5),
+                                disabledBackgroundColor: AppColors.primaryGreen.withValues(
+                                  alpha: 0.5,
+                                ),
                                 disabledForegroundColor: AppColors.white,
                               ),
                               child: Text(context.l10n.english),
@@ -65,12 +57,14 @@ class ProfileScreen extends ConsumerWidget {
                               onPressed: locale.languageCode == 'ur'
                                   ? null
                                   : () => ref
-                                      .read(localeControllerProvider.notifier)
-                                      .setLocale(const Locale('ur')),
+                                        .read(localeControllerProvider.notifier)
+                                        .setLocale(const Locale('ur')),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primaryGreen,
                                 foregroundColor: AppColors.white,
-                                disabledBackgroundColor: AppColors.primaryGreen.withValues(alpha: 0.5),
+                                disabledBackgroundColor: AppColors.primaryGreen.withValues(
+                                  alpha: 0.5,
+                                ),
                                 disabledForegroundColor: AppColors.white,
                               ),
                               child: Text(context.l10n.urdu),
@@ -83,9 +77,8 @@ class ProfileScreen extends ConsumerWidget {
                       const SizedBox(height: AppSpacing.lg),
                       localeAsync.when(
                         data: (locale) => OutlinedButton(
-                          onPressed: () => ref
-                              .read(localeControllerProvider.notifier)
-                              .toggleLocale(),
+                          onPressed: () =>
+                              ref.read(localeControllerProvider.notifier).toggleLocale(),
                           child: Text(context.l10n.changeLanguage),
                         ),
                         loading: () => const SizedBox.shrink(),

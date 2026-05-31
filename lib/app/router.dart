@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:Farm2Fork/features/marketplace/presentation/screens/marketplace_screen.dart';
+import 'package:Farm2Fork/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:Farm2Fork/features/cart/presentation/screens/cart_screen.dart';
 import 'package:Farm2Fork/features/orders/presentation/screens/orders_screen.dart';
 import 'package:Farm2Fork/features/profile/presentation/screens/profile_screen.dart';
@@ -13,6 +14,17 @@ final goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/marketplace',
   routes: [
+    // ── Full-screen routes (outside the shell) ────────────────────────────
+    GoRoute(
+      path: '/marketplace/products/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return ProductDetailScreen(productId: id);
+      },
+    ),
+
+    // ── Shell (tab bar) routes ─────────────────────────────────────────────
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -20,35 +32,17 @@ final goRouter = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [
-            GoRoute(
-              path: '/marketplace',
-              builder: (context, state) => const MarketplaceScreen(),
-            ),
+            GoRoute(path: '/marketplace', builder: (context, state) => const MarketplaceScreen()),
           ],
         ),
         StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/cart',
-              builder: (context, state) => const CartScreen(),
-            ),
-          ],
+          routes: [GoRoute(path: '/cart', builder: (context, state) => const CartScreen())],
         ),
         StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/orders',
-              builder: (context, state) => const OrdersScreen(),
-            ),
-          ],
+          routes: [GoRoute(path: '/orders', builder: (context, state) => const OrdersScreen())],
         ),
         StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ],
+          routes: [GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen())],
         ),
       ],
     ),
@@ -56,18 +50,12 @@ final goRouter = GoRouter(
 );
 
 class ScaffoldWithNestedNavigation extends StatelessWidget {
-  const ScaffoldWithNestedNavigation({
-    super.key,
-    required this.navigationShell,
-  });
+  const ScaffoldWithNestedNavigation({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   void _goBranch(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
+    navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
   }
 
   @override
@@ -81,10 +69,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 8,
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.store),
-            label: context.l10n.navHome,
-          ),
+          BottomNavigationBarItem(icon: const Icon(Icons.store), label: context.l10n.navHome),
           BottomNavigationBarItem(
             icon: const Icon(Icons.shopping_cart),
             label: context.l10n.navCart,
@@ -93,10 +78,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
             icon: const Icon(Icons.receipt_long),
             label: context.l10n.navOrders,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
-            label: context.l10n.navProfile,
-          ),
+          BottomNavigationBarItem(icon: const Icon(Icons.person), label: context.l10n.navProfile),
         ],
         onTap: _goBranch,
         type: BottomNavigationBarType.fixed,

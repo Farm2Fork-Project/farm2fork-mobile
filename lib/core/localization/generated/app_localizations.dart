@@ -62,8 +62,7 @@ import 'app_localizations_ur.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,8 +70,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -93,10 +91,7 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('ur'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('ur')];
 
   /// The name of the application
   ///
@@ -223,10 +218,225 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'تبدیل کریں (Change Language)'**
   String get changeLanguage;
+
+  /// Category filter chip for all products
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allCategories;
+
+  /// Vegetable product category label
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetables'**
+  String get categoryVegetables;
+
+  /// Fruits product category label
+  ///
+  /// In en, this message translates to:
+  /// **'Fruits'**
+  String get categoryFruits;
+
+  /// Grains product category label
+  ///
+  /// In en, this message translates to:
+  /// **'Grains'**
+  String get categoryGrains;
+
+  /// Dairy product category label
+  ///
+  /// In en, this message translates to:
+  /// **'Dairy'**
+  String get categoryDairy;
+
+  /// Placeholder text for the search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search products, farms...'**
+  String get searchHint;
+
+  /// Button label for adding a product to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
+
+  /// Snackbar message after adding a product
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart'**
+  String get addedToCart;
+
+  /// Label shown when a product is unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Out of Stock'**
+  String get outOfStock;
+
+  /// Screen title for product detail page
+  ///
+  /// In en, this message translates to:
+  /// **'Product Details'**
+  String get productDetails;
+
+  /// Section heading for farmer details
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer Info'**
+  String get farmerInfo;
+
+  /// Price label with unit placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Price / {unit}'**
+  String pricePerUnit(String unit);
+
+  /// Pakistani Rupee currency label
+  ///
+  /// In en, this message translates to:
+  /// **'PKR'**
+  String get pkr;
+
+  /// Label for quantity selector
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// Section heading for product description
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// Label for quality grade
+  ///
+  /// In en, this message translates to:
+  /// **'Quality Grade'**
+  String get qualityGrade;
+
+  /// Quality grade A+
+  ///
+  /// In en, this message translates to:
+  /// **'A+'**
+  String get gradeAPlus;
+
+  /// Quality grade A
+  ///
+  /// In en, this message translates to:
+  /// **'A'**
+  String get gradeA;
+
+  /// Quality grade B
+  ///
+  /// In en, this message translates to:
+  /// **'B'**
+  String get gradeB;
+
+  /// Quality grade C
+  ///
+  /// In en, this message translates to:
+  /// **'C'**
+  String get gradeC;
+
+  /// Cart screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Your Cart'**
+  String get yourCart;
+
+  /// Message when cart has no items
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get cartEmpty;
+
+  /// Subtitle below empty cart message
+  ///
+  /// In en, this message translates to:
+  /// **'Browse the marketplace and add fresh produce.'**
+  String get cartEmptySubtitle;
+
+  /// CTA button on empty cart screen
+  ///
+  /// In en, this message translates to:
+  /// **'Shop Now'**
+  String get shopNow;
+
+  /// Subtotal label in cart group
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotal;
+
+  /// Platform fee label in cart group
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Fee (5%)'**
+  String get platformFee;
+
+  /// Grand total label in cart group
+  ///
+  /// In en, this message translates to:
+  /// **'Grand Total'**
+  String get grandTotal;
+
+  /// Checkout button label in farmer cart group
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Button to remove a cart item
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeItem;
+
+  /// Snackbar message after removing a cart item
+  ///
+  /// In en, this message translates to:
+  /// **'Item removed'**
+  String get itemRemoved;
+
+  /// Label for farmer/product rating
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get rating;
+
+  /// Label prefix before farmer name on product card
+  ///
+  /// In en, this message translates to:
+  /// **'Sold by'**
+  String get soldBy;
+
+  /// Label for farm location
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// Number of sales by a farmer
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sales'**
+  String totalSales(int count);
+
+  /// Status label for available products
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// Status label for products arriving soon
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get comingSoon;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -235,8 +445,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ur'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

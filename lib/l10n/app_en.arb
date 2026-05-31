@@ -1,86 +1,182 @@
 {
   "appName": "Farm2Fork",
-  "@appName": {
-    "description": "The name of the application"
-  },
+  "@appName": { "description": "The name of the application" },
+
   "selectLanguage": "Select Language",
-  "@selectLanguage": {
-    "description": "Title for language selection screen/toggle"
-  },
+  "@selectLanguage": { "description": "Title for language selection screen/toggle" },
+
   "english": "English",
-  "@english": {
-    "description": "Label for English language option"
-  },
+  "@english": { "description": "Label for English language option" },
+
   "urdu": "Urdu",
-  "@urdu": {
-    "description": "Label for Urdu language option"
-  },
+  "@urdu": { "description": "Label for Urdu language option" },
+
   "login": "Login",
-  "@login": {
-    "description": "Button or title label for logging in"
-  },
+  "@login": { "description": "Button or title label for logging in" },
+
   "logout": "Logout",
-  "@logout": {
-    "description": "Button or title label for logging out"
-  },
+  "@logout": { "description": "Button or title label for logging out" },
+
   "welcome": "Welcome",
-  "@welcome": {
-    "description": "A general greeting"
-  },
+  "@welcome": { "description": "A general greeting" },
+
   "marketplace": "Marketplace",
-  "@marketplace": {
-    "description": "Label for the Marketplace epic/tab"
-  },
+  "@marketplace": { "description": "Label for the Marketplace epic/tab" },
+
   "cart": "Cart",
-  "@cart": {
-    "description": "Label for the Cart epic/tab"
-  },
+  "@cart": { "description": "Label for the Cart epic/tab" },
+
   "orders": "Orders",
-  "@orders": {
-    "description": "Label for the Orders epic/tab"
-  },
+  "@orders": { "description": "Label for the Orders epic/tab" },
+
   "profile": "Profile",
-  "@profile": {
-    "description": "Label for the Profile epic/tab"
-  },
+  "@profile": { "description": "Label for the Profile epic/tab" },
+
   "settings": "Settings",
-  "@settings": {
-    "description": "Label for the Settings epic/tab"
-  },
+  "@settings": { "description": "Label for the Settings epic/tab" },
+
   "navHome": "Home",
-  "@navHome": {
-    "description": "Bottom navigation label for Home/Marketplace"
-  },
+  "@navHome": { "description": "Bottom navigation label for Home/Marketplace" },
+
   "navCart": "Cart",
-  "@navCart": {
-    "description": "Bottom navigation label for Cart"
-  },
+  "@navCart": { "description": "Bottom navigation label for Cart" },
+
   "navOrders": "Orders",
-  "@navOrders": {
-    "description": "Bottom navigation label for Orders"
-  },
+  "@navOrders": { "description": "Bottom navigation label for Orders" },
+
   "navProfile": "Profile",
-  "@navProfile": {
-    "description": "Bottom navigation label for Profile"
-  },
+  "@navProfile": { "description": "Bottom navigation label for Profile" },
+
   "errorOccurred": "An error occurred. Please try again.",
-  "@errorOccurred": {
-    "description": "Generic error message"
-  },
+  "@errorOccurred": { "description": "Generic error message" },
+
   "retry": "Retry",
-  "@retry": {
-    "description": "Button label for retrying an operation"
-  },
+  "@retry": { "description": "Button label for retrying an operation" },
+
   "noDataFound": "No data found.",
-  "@noDataFound": {
-    "description": "Fallback text when lists or details are empty"
-  },
+  "@noDataFound": { "description": "Fallback text when lists or details are empty" },
+
   "loading": "Loading...",
-  "@loading": {
-    "description": "Generic loading indicator text"
-  },
+  "@loading": { "description": "Generic loading indicator text" },
+
   "changeLanguage": "تبدیل کریں (Change Language)",
-  "@changeLanguage": {
-    "description": "Label for language switching action"
-  }
+  "@changeLanguage": { "description": "Label for language switching action" },
+
+  "allCategories": "All",
+  "@allCategories": { "description": "Category filter chip for all products" },
+
+  "categoryVegetables": "Vegetables",
+  "@categoryVegetables": { "description": "Vegetable product category label" },
+
+  "categoryFruits": "Fruits",
+  "@categoryFruits": { "description": "Fruits product category label" },
+
+  "categoryGrains": "Grains",
+  "@categoryGrains": { "description": "Grains product category label" },
+
+  "categoryDairy": "Dairy",
+  "@categoryDairy": { "description": "Dairy product category label" },
+
+  "searchHint": "Search products, farms...",
+  "@searchHint": { "description": "Placeholder text for the search field" },
+
+  "addToCart": "Add to Cart",
+  "@addToCart": { "description": "Button label for adding a product to the cart" },
+
+  "addedToCart": "Added to cart",
+  "@addedToCart": { "description": "Snackbar message after adding a product" },
+
+  "outOfStock": "Out of Stock",
+  "@outOfStock": { "description": "Label shown when a product is unavailable" },
+
+  "productDetails": "Product Details",
+  "@productDetails": { "description": "Screen title for product detail page" },
+
+  "farmerInfo": "Farmer Info",
+  "@farmerInfo": { "description": "Section heading for farmer details" },
+
+  "pricePerUnit": "Price / {unit}",
+  "@pricePerUnit": {
+    "description": "Price label with unit placeholder",
+    "placeholders": {
+      "unit": { "type": "String", "example": "kg" }
+    }
+  },
+
+  "pkr": "PKR",
+  "@pkr": { "description": "Pakistani Rupee currency label" },
+
+  "quantity": "Quantity",
+  "@quantity": { "description": "Label for quantity selector" },
+
+  "description": "Description",
+  "@description": { "description": "Section heading for product description" },
+
+  "qualityGrade": "Quality Grade",
+  "@qualityGrade": { "description": "Label for quality grade" },
+
+  "gradeAPlus": "A+",
+  "@gradeAPlus": { "description": "Quality grade A+" },
+
+  "gradeA": "A",
+  "@gradeA": { "description": "Quality grade A" },
+
+  "gradeB": "B",
+  "@gradeB": { "description": "Quality grade B" },
+
+  "gradeC": "C",
+  "@gradeC": { "description": "Quality grade C" },
+
+  "yourCart": "Your Cart",
+  "@yourCart": { "description": "Cart screen title" },
+
+  "cartEmpty": "Your cart is empty",
+  "@cartEmpty": { "description": "Message when cart has no items" },
+
+  "cartEmptySubtitle": "Browse the marketplace and add fresh produce.",
+  "@cartEmptySubtitle": { "description": "Subtitle below empty cart message" },
+
+  "shopNow": "Shop Now",
+  "@shopNow": { "description": "CTA button on empty cart screen" },
+
+  "subtotal": "Subtotal",
+  "@subtotal": { "description": "Subtotal label in cart group" },
+
+  "platformFee": "Platform Fee (5%)",
+  "@platformFee": { "description": "Platform fee label in cart group" },
+
+  "grandTotal": "Grand Total",
+  "@grandTotal": { "description": "Grand total label in cart group" },
+
+  "checkout": "Checkout",
+  "@checkout": { "description": "Checkout button label in farmer cart group" },
+
+  "removeItem": "Remove",
+  "@removeItem": { "description": "Button to remove a cart item" },
+
+  "itemRemoved": "Item removed",
+  "@itemRemoved": { "description": "Snackbar message after removing a cart item" },
+
+  "rating": "Rating",
+  "@rating": { "description": "Label for farmer/product rating" },
+
+  "soldBy": "Sold by",
+  "@soldBy": { "description": "Label prefix before farmer name on product card" },
+
+  "location": "Location",
+  "@location": { "description": "Label for farm location" },
+
+  "totalSales": "{count} sales",
+  "@totalSales": {
+    "description": "Number of sales by a farmer",
+    "placeholders": {
+      "count": { "type": "int", "example": "312" }
+    }
+  },
+
+  "available": "Available",
+  "@available": { "description": "Status label for available products" },
+
+  "comingSoon": "Coming Soon",
+  "@comingSoon": { "description": "Status label for products arriving soon" }
 }
