@@ -1,0 +1,23 @@
+{
+  "appName": "فارم ٹو فورک",
+  "selectLanguage": "زبان منتخب کریں",
+  "english": "انگریزی (English)",
+  "urdu": "اردو (Urdu)",
+  "login": "لاگ ان",
+  "logout": "لاگ آؤٹ",
+  "welcome": "خوش آمدید",
+  "marketplace": "مارکیٹ پلیس",
+  "cart": "کارٹ",
+  "orders": "آرڈرز",
+  "profile": "پروفائل",
+  "settings": "ترتیبات",
+  "navHome": "ہوم",
+  "navCart": "کارٹ",
+  "navOrders": "آرڈرز",
+  "navProfile": "پروفائل",
+  "errorOccurred": "خرابی پیش آگئی ہے۔ براہ کرم دوبارہ کوشش کریں۔",
+  "retry": "دوبارہ کوشش کریں",
+  "noDataFound": "کوئی ڈیٹا نہیں ملا۔",
+  "loading": "لوڈ ہو رہا ہے...",
+  "changeLanguage": "Change Language (زبان تبدیل کریں)"
+}

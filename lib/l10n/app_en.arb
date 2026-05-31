@@ -1,0 +1,86 @@
+{
+  "appName": "Farm2Fork",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Title for language selection screen/toggle"
+  },
+  "english": "English",
+  "@english": {
+    "description": "Label for English language option"
+  },
+  "urdu": "Urdu",
+  "@urdu": {
+    "description": "Label for Urdu language option"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Button or title label for logging in"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Button or title label for logging out"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "A general greeting"
+  },
+  "marketplace": "Marketplace",
+  "@marketplace": {
+    "description": "Label for the Marketplace epic/tab"
+  },
+  "cart": "Cart",
+  "@cart": {
+    "description": "Label for the Cart epic/tab"
+  },
+  "orders": "Orders",
+  "@orders": {
+    "description": "Label for the Orders epic/tab"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Label for the Profile epic/tab"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Label for the Settings epic/tab"
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom navigation label for Home/Marketplace"
+  },
+  "navCart": "Cart",
+  "@navCart": {
+    "description": "Bottom navigation label for Cart"
+  },
+  "navOrders": "Orders",
+  "@navOrders": {
+    "description": "Bottom navigation label for Orders"
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Bottom navigation label for Profile"
+  },
+  "errorOccurred": "An error occurred. Please try again.",
+  "@errorOccurred": {
+    "description": "Generic error message"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Button label for retrying an operation"
+  },
+  "noDataFound": "No data found.",
+  "@noDataFound": {
+    "description": "Fallback text when lists or details are empty"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Generic loading indicator text"
+  },
+  "changeLanguage": "تبدیل کریں (Change Language)",
+  "@changeLanguage": {
+    "description": "Label for language switching action"
+  }
+}
