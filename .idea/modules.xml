@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/farm2fork.iml" filepath="$PROJECT_DIR$/farm2fork.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/farm2fork_android.iml" filepath="$PROJECT_DIR$/android/farm2fork_android.iml" />
-    </modules>
-  </component>
-</project>
