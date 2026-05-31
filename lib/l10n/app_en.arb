@@ -89,6 +89,91 @@
   "paymentOptionsNote": "Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.",
   "@paymentOptionsNote": { "description": "Payment provider placeholder note" },
 
+  "authWelcomeTitle": "Farm2Fork Access",
+  "@authWelcomeTitle": { "description": "Title on the mock authentication role selection screen" },
+
+  "authWelcomeSubtitle": "Choose the account role you want to preview. Real login will connect here after the backend auth module is ready.",
+  "@authWelcomeSubtitle": { "description": "Subtitle on the mock authentication role selection screen" },
+
+  "chooseYourRole": "Choose your role",
+  "@chooseYourRole": { "description": "Section heading for role selection" },
+
+  "continueAsRole": "Continue as {role}",
+  "@continueAsRole": {
+    "description": "Button label to continue as a selected role",
+    "placeholders": {
+      "role": { "type": "String", "example": "Farmer" }
+    }
+  },
+
+  "roleFarmer": "Farmer",
+  "@roleFarmer": { "description": "User role label for farmers" },
+
+  "roleBuyer": "Buyer",
+  "@roleBuyer": { "description": "User role label for buyers" },
+
+  "roleTransporter": "Transporter",
+  "@roleTransporter": { "description": "User role label for transporters" },
+
+  "roleFinancialPartner": "Financial Partner",
+  "@roleFinancialPartner": { "description": "User role label for financial partners" },
+
+  "roleAdmin": "Admin",
+  "@roleAdmin": { "description": "User role label for admins" },
+
+  "farmerRoleDescription": "Manage produce listings, orders, and community updates.",
+  "@farmerRoleDescription": { "description": "Description for farmer role selection" },
+
+  "buyerRoleDescription": "Buy fresh produce, scan QR codes, and track your orders.",
+  "@buyerRoleDescription": { "description": "Description for buyer role selection" },
+
+  "transporterRoleDescription": "View shipment tasks and update delivery progress.",
+  "@transporterRoleDescription": { "description": "Description for transporter role selection" },
+
+  "financialPartnerRoleDescription": "Review loan requests and farmer finance activity.",
+  "@financialPartnerRoleDescription": { "description": "Description for financial partner role selection" },
+
+  "adminRoleDescription": "Monitor marketplace, orders, finance, and platform activity.",
+  "@adminRoleDescription": { "description": "Description for admin role selection" },
+
+  "signedInAsRole": "Signed in as {role}",
+  "@signedInAsRole": {
+    "description": "Profile label showing the current signed-in role",
+    "placeholders": {
+      "role": { "type": "String", "example": "Farmer" }
+    }
+  },
+
+  "listingsTitle": "My Listings",
+  "@listingsTitle": { "description": "Farmer listings screen title" },
+
+  "listingsDescription": "Review active produce listings, update stock, and manage farm inventory.",
+  "@listingsDescription": { "description": "Farmer listings placeholder description" },
+
+  "createListingTitle": "Create Listing",
+  "@createListingTitle": { "description": "Create produce listing screen title" },
+
+  "createListingDescription": "Add crop details, quantity, grade, price, and harvest information for buyers.",
+  "@createListingDescription": { "description": "Create produce listing placeholder description" },
+
+  "feedTitle": "Farm Feed",
+  "@feedTitle": { "description": "Community feed screen title" },
+
+  "feedDescription": "Share updates, ask questions, and follow trusted activity across the Farm2Fork network.",
+  "@feedDescription": { "description": "Community feed placeholder description" },
+
+  "shipmentsTitle": "Shipments",
+  "@shipmentsTitle": { "description": "Transporter shipments screen title" },
+
+  "shipmentsDescription": "Track assigned pickups, delivery status, and QR-linked shipment movement.",
+  "@shipmentsDescription": { "description": "Transporter shipments placeholder description" },
+
+  "loansTitle": "Loans",
+  "@loansTitle": { "description": "Financial partner loans screen title" },
+
+  "loansDescription": "Review farmer finance requests, repayment status, and partner decisions.",
+  "@loansDescription": { "description": "Financial partner loans placeholder description" },
+
   "changeLanguage": "تبدیل کریں (Change Language)",
   "@changeLanguage": { "description": "Label for language switching action" },
 
@@ -259,5 +344,131 @@
   "@productStatusInactive": { "description": "Status label for inactive products" },
 
   "productStatusSoldOut": "Sold out",
-  "@productStatusSoldOut": { "description": "Status label for sold out products" }
+  "@productStatusSoldOut": { "description": "Status label for sold out products" },
+
+  "signUp": "Sign Up",
+  "@signUp": { "description": "Sign up button label" },
+
+  "createAccount": "Create Account",
+  "@createAccount": { "description": "Create account button label" },
+
+  "continueAsGuest": "Continue as guest",
+  "@continueAsGuest": { "description": "Link to dismiss auth and stay as guest" },
+
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": { "description": "Prompt before sign-up link on login screen" },
+
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": { "description": "Prompt before login link on signup screen" },
+
+  "emailOrPhone": "Email / Phone",
+  "@emailOrPhone": { "description": "Login email/phone field label" },
+
+  "password": "Password",
+  "@password": { "description": "Password field label" },
+
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": { "description": "Confirm password field label" },
+
+  "forgotPassword": "Forgot password?",
+  "@forgotPassword": { "description": "Forgot password link on login screen" },
+
+  "invalidCredentials": "Incorrect email or password. Please try again.",
+  "@invalidCredentials": { "description": "Login error message" },
+
+  "signUpSuccess": "Account created! You are now logged in.",
+  "@signUpSuccess": { "description": "Snackbar after successful signup" },
+
+  "sessionExpiredMessage": "Your session has expired. Please login again.",
+  "@sessionExpiredMessage": { "description": "Snackbar when session expires" },
+
+  "loginRequired": "Login Required",
+  "@loginRequired": { "description": "Title for auth-required prompts" },
+
+  "loginToAddToCart": "Login or create an account to add products to your cart.",
+  "@loginToAddToCart": { "description": "Auth prompt reason for cart" },
+
+  "loginToCheckout": "Login or create an account to checkout.",
+  "@loginToCheckout": { "description": "Auth prompt reason for checkout" },
+
+  "loginToViewOrders": "Login or create an account to view your orders.",
+  "@loginToViewOrders": { "description": "Auth prompt reason for orders" },
+
+  "loginToViewProfile": "Login or create an account to manage your profile.",
+  "@loginToViewProfile": { "description": "Auth prompt reason for profile" },
+
+  "authRequiredDismiss": "Continue browsing",
+  "@authRequiredDismiss": { "description": "Dismiss button on auth-required sheet" },
+
+  "signUpSelectRole": "I want to...",
+  "@signUpSelectRole": { "description": "Heading on signup role picker" },
+
+  "signUpName": "Full Name",
+  "@signUpName": { "description": "Name field label on signup" },
+
+  "signUpPhone": "Phone Number",
+  "@signUpPhone": { "description": "Phone field label on signup" },
+
+  "personalInfo": "Personal Information",
+  "@personalInfo": { "description": "Step heading for personal info in multi-step signup" },
+
+  "farmInfo": "Farm Information",
+  "@farmInfo": { "description": "Step heading for farm details in farmer signup" },
+
+  "farmName": "Farm Name",
+  "@farmName": { "description": "Farm name field label" },
+
+  "farmLocation": "Farm Location",
+  "@farmLocation": { "description": "Farm location field label" },
+
+  "farmSize": "Farm Size (acres)",
+  "@farmSize": { "description": "Farm size field label" },
+
+  "cropTypes": "Crop Types",
+  "@cropTypes": { "description": "Crop types section label" },
+
+  "certifications": "Certifications (optional)",
+  "@certifications": { "description": "Certifications field label" },
+
+  "vehicleInfo": "Vehicle Information",
+  "@vehicleInfo": { "description": "Step heading for vehicle details in transporter signup" },
+
+  "vehicleType": "Vehicle Type",
+  "@vehicleType": { "description": "Vehicle type field label" },
+
+  "vehicleLicense": "Vehicle License Number",
+  "@vehicleLicense": { "description": "Vehicle license number field label" },
+
+  "serviceArea": "Service Area",
+  "@serviceArea": { "description": "Service area field label" },
+
+  "cnic": "CNIC (optional)",
+  "@cnic": { "description": "CNIC field label" },
+
+  "availabilityStatus": "Availability",
+  "@availabilityStatus": { "description": "Availability status dropdown label" },
+
+  "stepNofM": "Step {n} of {m}",
+  "@stepNofM": {
+    "description": "Multi-step form progress label",
+    "placeholders": {
+      "n": { "type": "int", "example": "1" },
+      "m": { "type": "int", "example": "2" }
+    }
+  },
+
+  "next": "Next",
+  "@next": { "description": "Next step button label" },
+
+  "back": "Back",
+  "@back": { "description": "Back step button label" },
+
+  "welcomeToFarm2Fork": "Welcome to Farm2Fork",
+  "@welcomeToFarm2Fork": { "description": "Guest account screen title" },
+
+  "guestWelcomeSubtitle": "Login or create an account to access your orders, cart, and full profile.",
+  "@guestWelcomeSubtitle": { "description": "Guest account screen subtitle" },
+
+  "devTestAccounts": "Dev test accounts",
+  "@devTestAccounts": { "description": "Label for dev-mode credential hints" }
 }

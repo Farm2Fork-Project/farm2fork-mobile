@@ -31,91 +31,137 @@ class AppNavItem {
 }
 
 abstract final class AppNavConfig {
+  static const String guestHomeRoute = '/guest/marketplace';
+
+  static List<AppNavItem> forGuest() => [
+    AppNavItem(
+      destination: AppNavDestination.marketplace,
+      route: '/guest/marketplace',
+      icon: Icons.storefront_rounded,
+      labelBuilder: _marketplaceLabel,
+    ),
+    AppNavItem(
+      destination: AppNavDestination.trace,
+      route: '/guest/trace',
+      icon: Icons.qr_code_scanner_rounded,
+      labelBuilder: _traceLabel,
+    ),
+    AppNavItem(
+      destination: AppNavDestination.cart,
+      route: '/guest/cart',
+      icon: Icons.shopping_basket_rounded,
+      labelBuilder: _cartLabel,
+    ),
+    AppNavItem(
+      destination: AppNavDestination.profile,
+      route: '/guest/profile',
+      icon: Icons.person_rounded,
+      labelBuilder: _profileLabel,
+    ),
+  ];
+
   static List<AppNavItem> forRole(AppUserRole role) {
     return switch (role) {
-      AppUserRole.buyer => [_marketplace, _trace, _cart, _orders, _profile],
-      AppUserRole.farmer => [
-        _listings,
-        _createListing,
-        _orders,
-        _feed,
-        _profile,
+      AppUserRole.buyer => [
+        _item(role, AppNavDestination.marketplace),
+        _item(role, AppNavDestination.trace),
+        _item(role, AppNavDestination.cart),
+        _item(role, AppNavDestination.orders),
+        _item(role, AppNavDestination.profile),
       ],
-      AppUserRole.transporter => [_shipments, _trace, _orders, _profile],
-      AppUserRole.financialPartner => [_loans, _feed, _profile],
-      AppUserRole.admin => [_marketplace, _orders, _loans, _feed, _profile],
+      AppUserRole.farmer => [
+        _item(role, AppNavDestination.listings),
+        _item(role, AppNavDestination.createListing),
+        _item(role, AppNavDestination.orders),
+        _item(role, AppNavDestination.feed),
+        _item(role, AppNavDestination.profile),
+      ],
+      AppUserRole.transporter => [
+        _item(role, AppNavDestination.shipments),
+        _item(role, AppNavDestination.trace),
+        _item(role, AppNavDestination.orders),
+        _item(role, AppNavDestination.profile),
+      ],
+      AppUserRole.financialPartner => [
+        _item(role, AppNavDestination.loans),
+        _item(role, AppNavDestination.feed),
+        _item(role, AppNavDestination.profile),
+      ],
+      AppUserRole.admin => [
+        _item(role, AppNavDestination.marketplace),
+        _item(role, AppNavDestination.orders),
+        _item(role, AppNavDestination.loans),
+        _item(role, AppNavDestination.feed),
+        _item(role, AppNavDestination.profile),
+      ],
     };
   }
 
-  static const _marketplace = AppNavItem(
-    destination: AppNavDestination.marketplace,
-    route: '/marketplace',
-    icon: Icons.storefront_rounded,
-    labelBuilder: _marketplaceLabel,
-  );
+  static String homeRouteForRole(AppUserRole role) => forRole(role).first.route;
 
-  static const _listings = AppNavItem(
-    destination: AppNavDestination.listings,
-    route: '/marketplace',
-    icon: Icons.inventory_2_rounded,
-    labelBuilder: _listingsLabel,
-  );
+  static AppNavItem _item(AppUserRole role, AppNavDestination destination) {
+    return AppNavItem(
+      destination: destination,
+      route: routeFor(role, destination),
+      icon: _iconFor(destination),
+      labelBuilder: _labelFor(destination),
+    );
+  }
 
-  static const _createListing = AppNavItem(
-    destination: AppNavDestination.createListing,
-    route: '/create-listing',
-    icon: Icons.add_business_rounded,
-    labelBuilder: _createListingLabel,
-  );
+  static String routeFor(AppUserRole role, AppNavDestination destination) {
+    final rolePath = switch (role) {
+      AppUserRole.farmer => 'farmer',
+      AppUserRole.buyer => 'buyer',
+      AppUserRole.transporter => 'transporter',
+      AppUserRole.financialPartner => 'finance',
+      AppUserRole.admin => 'admin',
+    };
+    final destinationPath = switch (destination) {
+      AppNavDestination.marketplace => 'marketplace',
+      AppNavDestination.listings => 'listings',
+      AppNavDestination.createListing => 'create-listing',
+      AppNavDestination.trace => 'trace',
+      AppNavDestination.cart => 'cart',
+      AppNavDestination.orders => 'orders',
+      AppNavDestination.shipments => 'shipments',
+      AppNavDestination.loans => 'loans',
+      AppNavDestination.feed => 'feed',
+      AppNavDestination.profile => 'profile',
+    };
+    return '/$rolePath/$destinationPath';
+  }
 
-  static const _trace = AppNavItem(
-    destination: AppNavDestination.trace,
-    route: '/trace',
-    icon: Icons.qr_code_scanner_rounded,
-    labelBuilder: _traceLabel,
-  );
+  static IconData _iconFor(AppNavDestination destination) {
+    return switch (destination) {
+      AppNavDestination.marketplace => Icons.storefront_rounded,
+      AppNavDestination.listings => Icons.inventory_2_rounded,
+      AppNavDestination.createListing => Icons.add_business_rounded,
+      AppNavDestination.trace => Icons.qr_code_scanner_rounded,
+      AppNavDestination.cart => Icons.shopping_basket_rounded,
+      AppNavDestination.orders => Icons.receipt_long_rounded,
+      AppNavDestination.shipments => Icons.local_shipping_rounded,
+      AppNavDestination.loans => Icons.account_balance_rounded,
+      AppNavDestination.feed => Icons.forum_rounded,
+      AppNavDestination.profile => Icons.person_rounded,
+    };
+  }
 
-  static const _cart = AppNavItem(
-    destination: AppNavDestination.cart,
-    route: '/cart',
-    icon: Icons.shopping_basket_rounded,
-    labelBuilder: _cartLabel,
-  );
-
-  static const _orders = AppNavItem(
-    destination: AppNavDestination.orders,
-    route: '/orders',
-    icon: Icons.receipt_long_rounded,
-    labelBuilder: _ordersLabel,
-  );
-
-  static const _shipments = AppNavItem(
-    destination: AppNavDestination.shipments,
-    route: '/shipments',
-    icon: Icons.local_shipping_rounded,
-    labelBuilder: _shipmentsLabel,
-  );
-
-  static const _loans = AppNavItem(
-    destination: AppNavDestination.loans,
-    route: '/loans',
-    icon: Icons.account_balance_rounded,
-    labelBuilder: _loansLabel,
-  );
-
-  static const _feed = AppNavItem(
-    destination: AppNavDestination.feed,
-    route: '/feed',
-    icon: Icons.forum_rounded,
-    labelBuilder: _feedLabel,
-  );
-
-  static const _profile = AppNavItem(
-    destination: AppNavDestination.profile,
-    route: '/profile',
-    icon: Icons.person_rounded,
-    labelBuilder: _profileLabel,
-  );
+  static String Function(BuildContext context) _labelFor(
+    AppNavDestination destination,
+  ) {
+    return switch (destination) {
+      AppNavDestination.marketplace => _marketplaceLabel,
+      AppNavDestination.listings => _listingsLabel,
+      AppNavDestination.createListing => _createListingLabel,
+      AppNavDestination.trace => _traceLabel,
+      AppNavDestination.cart => _cartLabel,
+      AppNavDestination.orders => _ordersLabel,
+      AppNavDestination.shipments => _shipmentsLabel,
+      AppNavDestination.loans => _loansLabel,
+      AppNavDestination.feed => _feedLabel,
+      AppNavDestination.profile => _profileLabel,
+    };
+  }
 }
 
 String _marketplaceLabel(BuildContext context) => context.l10n.navHome;

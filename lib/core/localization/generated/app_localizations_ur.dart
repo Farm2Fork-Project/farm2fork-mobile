@@ -101,6 +101,96 @@ class AppLocalizationsUr extends AppLocalizations {
       'ادائیگی کے لیے کیش، JazzCash، اور دیگر گیٹ ویز جیسے کئی طریقے شامل کیے جائیں گے جب provider فائنل ہو جائے گا۔';
 
   @override
+  String get authWelcomeTitle => 'فارم ٹو فورک رسائی';
+
+  @override
+  String get authWelcomeSubtitle =>
+      'جس اکاؤنٹ رول کا preview دیکھنا ہے اسے منتخب کریں۔ backend auth module تیار ہونے کے بعد اصل login یہاں connect ہوگا۔';
+
+  @override
+  String get chooseYourRole => 'اپنا رول منتخب کریں';
+
+  @override
+  String continueAsRole(String role) {
+    return '$role کے طور پر جاری رکھیں';
+  }
+
+  @override
+  String get roleFarmer => 'کسان';
+
+  @override
+  String get roleBuyer => 'خریدار';
+
+  @override
+  String get roleTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String get roleFinancialPartner => 'فنانشل پارٹنر';
+
+  @override
+  String get roleAdmin => 'ایڈمن';
+
+  @override
+  String get farmerRoleDescription =>
+      'پیداوار کی listings، orders، اور community updates manage کریں۔';
+
+  @override
+  String get buyerRoleDescription =>
+      'تازہ پیداوار خریدیں، QR code scan کریں، اور orders track کریں۔';
+
+  @override
+  String get transporterRoleDescription =>
+      'shipment tasks دیکھیں اور delivery progress update کریں۔';
+
+  @override
+  String get financialPartnerRoleDescription =>
+      'loan requests اور farmer finance activity review کریں۔';
+
+  @override
+  String get adminRoleDescription =>
+      'marketplace، orders، finance، اور platform activity monitor کریں۔';
+
+  @override
+  String signedInAsRole(String role) {
+    return '$role کے طور پر لاگ ان';
+  }
+
+  @override
+  String get listingsTitle => 'میری لسٹنگز';
+
+  @override
+  String get listingsDescription =>
+      'active produce listings، stock updates، اور farm inventory manage کریں۔';
+
+  @override
+  String get createListingTitle => 'لسٹنگ بنائیں';
+
+  @override
+  String get createListingDescription =>
+      'buyers کے لیے crop details، quantity، grade، price، اور harvest information شامل کریں۔';
+
+  @override
+  String get feedTitle => 'فارم فیڈ';
+
+  @override
+  String get feedDescription =>
+      'updates share کریں، سوالات پوچھیں، اور Farm2Fork network کی trusted activity follow کریں۔';
+
+  @override
+  String get shipmentsTitle => 'شپمنٹس';
+
+  @override
+  String get shipmentsDescription =>
+      'assigned pickups، delivery status، اور QR-linked shipment movement track کریں۔';
+
+  @override
+  String get loansTitle => 'قرضے';
+
+  @override
+  String get loansDescription =>
+      'farmer finance requests، repayment status، اور partner decisions review کریں۔';
+
+  @override
   String get changeLanguage => 'Change Language (زبان تبدیل کریں)';
 
   @override
@@ -249,4 +339,132 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get productStatusSoldOut => 'اسٹاک ختم';
+
+  @override
+  String get signUp => 'اکاؤنٹ بنائیں';
+
+  @override
+  String get createAccount => 'اکاؤنٹ بنائیں';
+
+  @override
+  String get continueAsGuest => 'مہمان کے طور پر جاری رکھیں';
+
+  @override
+  String get dontHaveAccount => 'اکاؤنٹ نہیں ہے؟';
+
+  @override
+  String get alreadyHaveAccount => 'پہلے سے اکاؤنٹ ہے؟';
+
+  @override
+  String get emailOrPhone => 'ای میل / فون';
+
+  @override
+  String get password => 'پاس ورڈ';
+
+  @override
+  String get confirmPassword => 'پاس ورڈ کی تصدیق کریں';
+
+  @override
+  String get forgotPassword => 'پاس ورڈ بھول گئے؟';
+
+  @override
+  String get invalidCredentials => 'غلط ای میل یا پاس ورڈ۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get signUpSuccess => 'اکاؤنٹ بن گیا! آپ لاگ ان ہو گئے ہیں۔';
+
+  @override
+  String get sessionExpiredMessage =>
+      'آپ کا سیشن ختم ہو گیا۔ دوبارہ لاگ ان کریں۔';
+
+  @override
+  String get loginRequired => 'لاگ ان ضروری ہے';
+
+  @override
+  String get loginToAddToCart =>
+      'کارٹ میں مصنوعات شامل کرنے کے لیے لاگ ان کریں یا اکاؤنٹ بنائیں۔';
+
+  @override
+  String get loginToCheckout =>
+      'چیک آؤٹ کرنے کے لیے لاگ ان کریں یا اکاؤنٹ بنائیں۔';
+
+  @override
+  String get loginToViewOrders =>
+      'اپنے آرڈر دیکھنے کے لیے لاگ ان کریں یا اکاؤنٹ بنائیں۔';
+
+  @override
+  String get loginToViewProfile =>
+      'اپنا پروفائل منظم کرنے کے لیے لاگ ان کریں یا اکاؤنٹ بنائیں۔';
+
+  @override
+  String get authRequiredDismiss => 'براؤز کرتے رہیں';
+
+  @override
+  String get signUpSelectRole => 'میں چاہتا/چاہتی ہوں...';
+
+  @override
+  String get signUpName => 'پورا نام';
+
+  @override
+  String get signUpPhone => 'فون نمبر';
+
+  @override
+  String get personalInfo => 'ذاتی معلومات';
+
+  @override
+  String get farmInfo => 'فارم کی معلومات';
+
+  @override
+  String get farmName => 'فارم کا نام';
+
+  @override
+  String get farmLocation => 'فارم کا مقام';
+
+  @override
+  String get farmSize => 'فارم کا رقبہ (ایکڑ)';
+
+  @override
+  String get cropTypes => 'فصلوں کی اقسام';
+
+  @override
+  String get certifications => 'سرٹیفیکیشن (اختیاری)';
+
+  @override
+  String get vehicleInfo => 'گاڑی کی معلومات';
+
+  @override
+  String get vehicleType => 'گاڑی کی قسم';
+
+  @override
+  String get vehicleLicense => 'گاڑی کا لائسنس نمبر';
+
+  @override
+  String get serviceArea => 'سروس ایریا';
+
+  @override
+  String get cnic => 'شناختی کارڈ نمبر (اختیاری)';
+
+  @override
+  String get availabilityStatus => 'دستیابی';
+
+  @override
+  String stepNofM(int n, int m) {
+    return 'مرحلہ $n از $m';
+  }
+
+  @override
+  String get next => 'اگلا';
+
+  @override
+  String get back => 'واپس';
+
+  @override
+  String get welcomeToFarm2Fork => 'Farm2Fork میں خوش آمدید';
+
+  @override
+  String get guestWelcomeSubtitle =>
+      'اپنے آرڈر، کارٹ اور پروفائل تک رسائی کے لیے لاگ ان کریں یا اکاؤنٹ بنائیں۔';
+
+  @override
+  String get devTestAccounts => 'ڈیو ٹیسٹ اکاؤنٹس';
 }

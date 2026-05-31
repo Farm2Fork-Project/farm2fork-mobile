@@ -101,6 +101,96 @@ class AppLocalizationsEn extends AppLocalizations {
       'Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.';
 
   @override
+  String get authWelcomeTitle => 'Farm2Fork Access';
+
+  @override
+  String get authWelcomeSubtitle =>
+      'Choose the account role you want to preview. Real login will connect here after the backend auth module is ready.';
+
+  @override
+  String get chooseYourRole => 'Choose your role';
+
+  @override
+  String continueAsRole(String role) {
+    return 'Continue as $role';
+  }
+
+  @override
+  String get roleFarmer => 'Farmer';
+
+  @override
+  String get roleBuyer => 'Buyer';
+
+  @override
+  String get roleTransporter => 'Transporter';
+
+  @override
+  String get roleFinancialPartner => 'Financial Partner';
+
+  @override
+  String get roleAdmin => 'Admin';
+
+  @override
+  String get farmerRoleDescription =>
+      'Manage produce listings, orders, and community updates.';
+
+  @override
+  String get buyerRoleDescription =>
+      'Buy fresh produce, scan QR codes, and track your orders.';
+
+  @override
+  String get transporterRoleDescription =>
+      'View shipment tasks and update delivery progress.';
+
+  @override
+  String get financialPartnerRoleDescription =>
+      'Review loan requests and farmer finance activity.';
+
+  @override
+  String get adminRoleDescription =>
+      'Monitor marketplace, orders, finance, and platform activity.';
+
+  @override
+  String signedInAsRole(String role) {
+    return 'Signed in as $role';
+  }
+
+  @override
+  String get listingsTitle => 'My Listings';
+
+  @override
+  String get listingsDescription =>
+      'Review active produce listings, update stock, and manage farm inventory.';
+
+  @override
+  String get createListingTitle => 'Create Listing';
+
+  @override
+  String get createListingDescription =>
+      'Add crop details, quantity, grade, price, and harvest information for buyers.';
+
+  @override
+  String get feedTitle => 'Farm Feed';
+
+  @override
+  String get feedDescription =>
+      'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.';
+
+  @override
+  String get shipmentsTitle => 'Shipments';
+
+  @override
+  String get shipmentsDescription =>
+      'Track assigned pickups, delivery status, and QR-linked shipment movement.';
+
+  @override
+  String get loansTitle => 'Loans';
+
+  @override
+  String get loansDescription =>
+      'Review farmer finance requests, repayment status, and partner decisions.';
+
+  @override
   String get changeLanguage => 'تبدیل کریں (Change Language)';
 
   @override
@@ -249,4 +339,132 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productStatusSoldOut => 'Sold out';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get continueAsGuest => 'Continue as guest';
+
+  @override
+  String get dontHaveAccount => 'Don\'t have an account?';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get emailOrPhone => 'Email / Phone';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get invalidCredentials =>
+      'Incorrect email or password. Please try again.';
+
+  @override
+  String get signUpSuccess => 'Account created! You are now logged in.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Your session has expired. Please login again.';
+
+  @override
+  String get loginRequired => 'Login Required';
+
+  @override
+  String get loginToAddToCart =>
+      'Login or create an account to add products to your cart.';
+
+  @override
+  String get loginToCheckout => 'Login or create an account to checkout.';
+
+  @override
+  String get loginToViewOrders =>
+      'Login or create an account to view your orders.';
+
+  @override
+  String get loginToViewProfile =>
+      'Login or create an account to manage your profile.';
+
+  @override
+  String get authRequiredDismiss => 'Continue browsing';
+
+  @override
+  String get signUpSelectRole => 'I want to...';
+
+  @override
+  String get signUpName => 'Full Name';
+
+  @override
+  String get signUpPhone => 'Phone Number';
+
+  @override
+  String get personalInfo => 'Personal Information';
+
+  @override
+  String get farmInfo => 'Farm Information';
+
+  @override
+  String get farmName => 'Farm Name';
+
+  @override
+  String get farmLocation => 'Farm Location';
+
+  @override
+  String get farmSize => 'Farm Size (acres)';
+
+  @override
+  String get cropTypes => 'Crop Types';
+
+  @override
+  String get certifications => 'Certifications (optional)';
+
+  @override
+  String get vehicleInfo => 'Vehicle Information';
+
+  @override
+  String get vehicleType => 'Vehicle Type';
+
+  @override
+  String get vehicleLicense => 'Vehicle License Number';
+
+  @override
+  String get serviceArea => 'Service Area';
+
+  @override
+  String get cnic => 'CNIC (optional)';
+
+  @override
+  String get availabilityStatus => 'Availability';
+
+  @override
+  String stepNofM(int n, int m) {
+    return 'Step $n of $m';
+  }
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get welcomeToFarm2Fork => 'Welcome to Farm2Fork';
+
+  @override
+  String get guestWelcomeSubtitle =>
+      'Login or create an account to access your orders, cart, and full profile.';
+
+  @override
+  String get devTestAccounts => 'Dev test accounts';
 }

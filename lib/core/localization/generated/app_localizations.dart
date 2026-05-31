@@ -278,6 +278,156 @@ abstract class AppLocalizations {
   /// **'Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.'**
   String get paymentOptionsNote;
 
+  /// Title on the mock authentication role selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork Access'**
+  String get authWelcomeTitle;
+
+  /// Subtitle on the mock authentication role selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the account role you want to preview. Real login will connect here after the backend auth module is ready.'**
+  String get authWelcomeSubtitle;
+
+  /// Section heading for role selection
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your role'**
+  String get chooseYourRole;
+
+  /// Button label to continue as a selected role
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as {role}'**
+  String continueAsRole(String role);
+
+  /// User role label for farmers
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get roleFarmer;
+
+  /// User role label for buyers
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get roleBuyer;
+
+  /// User role label for transporters
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get roleTransporter;
+
+  /// User role label for financial partners
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Partner'**
+  String get roleFinancialPartner;
+
+  /// User role label for admins
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get roleAdmin;
+
+  /// Description for farmer role selection
+  ///
+  /// In en, this message translates to:
+  /// **'Manage produce listings, orders, and community updates.'**
+  String get farmerRoleDescription;
+
+  /// Description for buyer role selection
+  ///
+  /// In en, this message translates to:
+  /// **'Buy fresh produce, scan QR codes, and track your orders.'**
+  String get buyerRoleDescription;
+
+  /// Description for transporter role selection
+  ///
+  /// In en, this message translates to:
+  /// **'View shipment tasks and update delivery progress.'**
+  String get transporterRoleDescription;
+
+  /// Description for financial partner role selection
+  ///
+  /// In en, this message translates to:
+  /// **'Review loan requests and farmer finance activity.'**
+  String get financialPartnerRoleDescription;
+
+  /// Description for admin role selection
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor marketplace, orders, finance, and platform activity.'**
+  String get adminRoleDescription;
+
+  /// Profile label showing the current signed-in role
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {role}'**
+  String signedInAsRole(String role);
+
+  /// Farmer listings screen title
+  ///
+  /// In en, this message translates to:
+  /// **'My Listings'**
+  String get listingsTitle;
+
+  /// Farmer listings placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Review active produce listings, update stock, and manage farm inventory.'**
+  String get listingsDescription;
+
+  /// Create produce listing screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Listing'**
+  String get createListingTitle;
+
+  /// Create produce listing placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Add crop details, quantity, grade, price, and harvest information for buyers.'**
+  String get createListingDescription;
+
+  /// Community feed screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Feed'**
+  String get feedTitle;
+
+  /// Community feed placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.'**
+  String get feedDescription;
+
+  /// Transporter shipments screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Shipments'**
+  String get shipmentsTitle;
+
+  /// Transporter shipments placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Track assigned pickups, delivery status, and QR-linked shipment movement.'**
+  String get shipmentsDescription;
+
+  /// Financial partner loans screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get loansTitle;
+
+  /// Financial partner loans placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Review farmer finance requests, repayment status, and partner decisions.'**
+  String get loansDescription;
+
   /// Label for language switching action
   ///
   /// In en, this message translates to:
@@ -547,6 +697,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sold out'**
   String get productStatusSoldOut;
+
+  /// Sign up button label
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// Create account button label
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// Link to dismiss auth and stay as guest
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get continueAsGuest;
+
+  /// Prompt before sign-up link on login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get dontHaveAccount;
+
+  /// Prompt before login link on signup screen
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAccount;
+
+  /// Login email/phone field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email / Phone'**
+  String get emailOrPhone;
+
+  /// Password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Confirm password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// Forgot password link on login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPassword;
+
+  /// Login error message
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password. Please try again.'**
+  String get invalidCredentials;
+
+  /// Snackbar after successful signup
+  ///
+  /// In en, this message translates to:
+  /// **'Account created! You are now logged in.'**
+  String get signUpSuccess;
+
+  /// Snackbar when session expires
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please login again.'**
+  String get sessionExpiredMessage;
+
+  /// Title for auth-required prompts
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get loginRequired;
+
+  /// Auth prompt reason for cart
+  ///
+  /// In en, this message translates to:
+  /// **'Login or create an account to add products to your cart.'**
+  String get loginToAddToCart;
+
+  /// Auth prompt reason for checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Login or create an account to checkout.'**
+  String get loginToCheckout;
+
+  /// Auth prompt reason for orders
+  ///
+  /// In en, this message translates to:
+  /// **'Login or create an account to view your orders.'**
+  String get loginToViewOrders;
+
+  /// Auth prompt reason for profile
+  ///
+  /// In en, this message translates to:
+  /// **'Login or create an account to manage your profile.'**
+  String get loginToViewProfile;
+
+  /// Dismiss button on auth-required sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Continue browsing'**
+  String get authRequiredDismiss;
+
+  /// Heading on signup role picker
+  ///
+  /// In en, this message translates to:
+  /// **'I want to...'**
+  String get signUpSelectRole;
+
+  /// Name field label on signup
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get signUpName;
+
+  /// Phone field label on signup
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get signUpPhone;
+
+  /// Step heading for personal info in multi-step signup
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInfo;
+
+  /// Step heading for farm details in farmer signup
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Information'**
+  String get farmInfo;
+
+  /// Farm name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Name'**
+  String get farmName;
+
+  /// Farm location field label
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Location'**
+  String get farmLocation;
+
+  /// Farm size field label
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Size (acres)'**
+  String get farmSize;
+
+  /// Crop types section label
+  ///
+  /// In en, this message translates to:
+  /// **'Crop Types'**
+  String get cropTypes;
+
+  /// Certifications field label
+  ///
+  /// In en, this message translates to:
+  /// **'Certifications (optional)'**
+  String get certifications;
+
+  /// Step heading for vehicle details in transporter signup
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Information'**
+  String get vehicleInfo;
+
+  /// Vehicle type field label
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Type'**
+  String get vehicleType;
+
+  /// Vehicle license number field label
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle License Number'**
+  String get vehicleLicense;
+
+  /// Service area field label
+  ///
+  /// In en, this message translates to:
+  /// **'Service Area'**
+  String get serviceArea;
+
+  /// CNIC field label
+  ///
+  /// In en, this message translates to:
+  /// **'CNIC (optional)'**
+  String get cnic;
+
+  /// Availability status dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availabilityStatus;
+
+  /// Multi-step form progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of {m}'**
+  String stepNofM(int n, int m);
+
+  /// Next step button label
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// Back step button label
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// Guest account screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Farm2Fork'**
+  String get welcomeToFarm2Fork;
+
+  /// Guest account screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Login or create an account to access your orders, cart, and full profile.'**
+  String get guestWelcomeSubtitle;
+
+  /// Label for dev-mode credential hints
+  ///
+  /// In en, this message translates to:
+  /// **'Dev test accounts'**
+  String get devTestAccounts;
 }
 
 class _AppLocalizationsDelegate

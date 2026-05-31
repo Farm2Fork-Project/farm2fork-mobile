@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -46,7 +47,12 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
                 color: AppColors.primaryGreenDark,
-                onPressed: () => context.go('/cart'),
+                onPressed: () => context.go(
+                  AppNavConfig.routeFor(
+                    AppUserRole.buyer,
+                    AppNavDestination.cart,
+                  ),
+                ),
               ),
               if (cartCount > 0)
                 PositionedDirectional(

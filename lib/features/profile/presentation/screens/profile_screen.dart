@@ -8,6 +8,8 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/utils/auth_role_l10n.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -15,6 +17,8 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localeAsync = ref.watch(localeControllerProvider);
+    final authState = ref.watch(authControllerProvider);
+    final user = authState.asData?.value.user;
 
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
@@ -35,6 +39,45 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
+          if (user != null) ...[
+            AppCard(
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: AppColors.primaryGreenSoft,
+                    child: Icon(
+                      user.role.icon,
+                      color: AppColors.primaryGreenDark,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.l10n.signedInAsRole(
+                            user.role.localizedLabel(context),
+                          ),
+                          style: AppTextStyles.body.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          user.email,
+                          style: AppTextStyles.small.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+          ],
           AppCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,6 +134,16 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          AppButton(
+            label: context.l10n.logout,
+            icon: Icons.logout_rounded,
+            variant: AppButtonVariant.danger,
+            expand: true,
+            onPressed: authState.isLoading
+                ? null
+                : () => ref.read(authControllerProvider.notifier).signOut(),
           ),
         ],
       ),

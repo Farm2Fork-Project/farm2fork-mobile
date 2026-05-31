@@ -45,5 +45,38 @@ void main() {
         AppNavDestination.profile,
       ]);
     });
+
+    test('home routes are role-scoped for separate tab shells', () {
+      expect(
+        AppNavConfig.homeRouteForRole(AppUserRole.buyer),
+        '/buyer/marketplace',
+      );
+      expect(
+        AppNavConfig.homeRouteForRole(AppUserRole.farmer),
+        '/farmer/listings',
+      );
+      expect(
+        AppNavConfig.homeRouteForRole(AppUserRole.transporter),
+        '/transporter/shipments',
+      );
+      expect(
+        AppNavConfig.homeRouteForRole(AppUserRole.financialPartner),
+        '/finance/loans',
+      );
+    });
+
+    test('guest shell has 4 tabs: marketplace, trace, cart, profile', () {
+      final tabs = AppNavConfig.forGuest();
+      expect(tabs.map((t) => t.destination).toList(), [
+        AppNavDestination.marketplace,
+        AppNavDestination.trace,
+        AppNavDestination.cart,
+        AppNavDestination.profile,
+      ]);
+    });
+
+    test('guest home route is /guest/marketplace', () {
+      expect(AppNavConfig.guestHomeRoute, '/guest/marketplace');
+    });
   });
 }

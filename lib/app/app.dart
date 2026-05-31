@@ -12,6 +12,7 @@ class Farm2ForkApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localeAsync = ref.watch(localeControllerProvider);
+    final router = ref.watch(goRouterProvider);
 
     return ScreenUtilInit(
       designSize: const Size(360, 690), // Base design size for responsiveness
@@ -21,7 +22,7 @@ class Farm2ForkApp extends ConsumerWidget {
         return MaterialApp.router(
           title: 'Farm2Fork',
           theme: AppTheme.lightTheme,
-          routerConfig: goRouter,
+          routerConfig: router,
           locale: localeAsync.value ?? const Locale('en'),
           supportedLocales: const [Locale('en'), Locale('ur')],
           localizationsDelegates: AppLocalizations.localizationsDelegates,
