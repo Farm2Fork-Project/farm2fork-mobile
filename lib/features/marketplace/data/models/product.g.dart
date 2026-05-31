@@ -7,37 +7,41 @@ part of 'product.dart';
 // **************************************************************************
 
 _Product _$ProductFromJson(Map<String, dynamic> json) => _Product(
-  id: json['id'] as String,
+  id: json['_id'] as String,
   farmerId: json['farmerId'] as String,
   name: json['name'] as String,
   category: $enumDecode(_$ProductCategoryEnumMap, json['category']),
   description: json['description'] as String,
-  pricePerUnit: (json['pricePerUnit'] as num).toDouble(),
-  availableQuantity: (json['availableQuantity'] as num).toDouble(),
-  unit: json['unit'] as String,
-  imageUrls:
-      (json['imageUrls'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+  price: (json['price'] as num).toDouble(),
+  quantity: (json['quantity'] as num).toDouble(),
+  unit: $enumDecode(_$ProductUnitEnumMap, json['unit']),
+  images:
+      (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
   qualityGrade:
       $enumDecodeNullable(_$QualityGradeEnumMap, json['qualityGrade']) ??
       QualityGrade.a,
+  qrCode: json['qrCode'] as String?,
+  initialBlockchainRecordId: json['initialBlockchainRecordId'] as String?,
   status:
       $enumDecodeNullable(_$ProductStatusEnumMap, json['status']) ??
-      ProductStatus.available,
+      ProductStatus.active,
   farmer: FarmerSummary.fromJson(json['farmer'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$ProductToJson(_Product instance) => <String, dynamic>{
-  'id': instance.id,
+  '_id': instance.id,
   'farmerId': instance.farmerId,
   'name': instance.name,
   'category': _$ProductCategoryEnumMap[instance.category]!,
   'description': instance.description,
-  'pricePerUnit': instance.pricePerUnit,
-  'availableQuantity': instance.availableQuantity,
-  'unit': instance.unit,
-  'imageUrls': instance.imageUrls,
+  'price': instance.price,
+  'quantity': instance.quantity,
+  'unit': _$ProductUnitEnumMap[instance.unit]!,
+  'images': instance.images,
   'qualityGrade': _$QualityGradeEnumMap[instance.qualityGrade]!,
+  'qrCode': instance.qrCode,
+  'initialBlockchainRecordId': instance.initialBlockchainRecordId,
   'status': _$ProductStatusEnumMap[instance.status]!,
   'farmer': instance.farmer,
 };
@@ -49,15 +53,22 @@ const _$ProductCategoryEnumMap = {
   ProductCategory.dairy: 'dairy',
 };
 
+const _$ProductUnitEnumMap = {
+  ProductUnit.kg: 'kg',
+  ProductUnit.ton: 'ton',
+  ProductUnit.dozen: 'dozen',
+  ProductUnit.piece: 'piece',
+  ProductUnit.litre: 'litre',
+};
+
 const _$QualityGradeEnumMap = {
-  QualityGrade.aPlus: 'aPlus',
-  QualityGrade.a: 'a',
-  QualityGrade.b: 'b',
-  QualityGrade.c: 'c',
+  QualityGrade.a: 'A',
+  QualityGrade.b: 'B',
+  QualityGrade.c: 'C',
 };
 
 const _$ProductStatusEnumMap = {
-  ProductStatus.available: 'available',
-  ProductStatus.outOfStock: 'outOfStock',
-  ProductStatus.comingSoon: 'comingSoon',
+  ProductStatus.active: 'active',
+  ProductStatus.inactive: 'inactive',
+  ProductStatus.soldOut: 'sold_out',
 };

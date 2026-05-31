@@ -1,6 +1,6 @@
-import 'package:Farm2Fork/features/marketplace/data/mock/mock_products.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product_category.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/mock/mock_products.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 import 'marketplace_repository.dart';
 
 /// Mock implementation of [MarketplaceRepository] using in-memory data.
@@ -11,7 +11,9 @@ class MockMarketplaceRepository implements MarketplaceRepository {
     // Simulate network latency
     await Future<void>.delayed(const Duration(milliseconds: 400));
     if (category == null) return List.unmodifiable(mockProducts);
-    return mockProducts.where((p) => p.category == category).toList(growable: false);
+    return mockProducts
+        .where((p) => p.category == category)
+        .toList(growable: false);
   }
 
   @override

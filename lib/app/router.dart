@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Farm2Fork/features/marketplace/presentation/screens/marketplace_screen.dart';
-import 'package:Farm2Fork/features/marketplace/presentation/screens/product_detail_screen.dart';
-import 'package:Farm2Fork/features/cart/presentation/screens/cart_screen.dart';
-import 'package:Farm2Fork/features/orders/presentation/screens/orders_screen.dart';
-import 'package:Farm2Fork/features/profile/presentation/screens/profile_screen.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marketplace_screen.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'root',
+);
 
 final goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -32,17 +34,35 @@ final goRouter = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [
-            GoRoute(path: '/marketplace', builder: (context, state) => const MarketplaceScreen()),
+            GoRoute(
+              path: '/marketplace',
+              builder: (context, state) => const MarketplaceScreen(),
+            ),
           ],
         ),
         StatefulShellBranch(
-          routes: [GoRoute(path: '/cart', builder: (context, state) => const CartScreen())],
+          routes: [
+            GoRoute(
+              path: '/cart',
+              builder: (context, state) => const CartScreen(),
+            ),
+          ],
         ),
         StatefulShellBranch(
-          routes: [GoRoute(path: '/orders', builder: (context, state) => const OrdersScreen())],
+          routes: [
+            GoRoute(
+              path: '/orders',
+              builder: (context, state) => const OrdersScreen(),
+            ),
+          ],
         ),
         StatefulShellBranch(
-          routes: [GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen())],
+          routes: [
+            GoRoute(
+              path: '/profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+          ],
         ),
       ],
     ),
@@ -50,12 +70,18 @@ final goRouter = GoRouter(
 );
 
 class ScaffoldWithNestedNavigation extends StatelessWidget {
-  const ScaffoldWithNestedNavigation({super.key, required this.navigationShell});
+  const ScaffoldWithNestedNavigation({
+    super.key,
+    required this.navigationShell,
+  });
 
   final StatefulNavigationShell navigationShell;
 
   void _goBranch(int index) {
-    navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
@@ -69,7 +95,10 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 8,
         items: [
-          BottomNavigationBarItem(icon: const Icon(Icons.store), label: context.l10n.navHome),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.store),
+            label: context.l10n.navHome,
+          ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.shopping_cart),
             label: context.l10n.navCart,
@@ -78,7 +107,10 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
             icon: const Icon(Icons.receipt_long),
             label: context.l10n.navOrders,
           ),
-          BottomNavigationBarItem(icon: const Icon(Icons.person), label: context.l10n.navProfile),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: context.l10n.navProfile,
+          ),
         ],
         onTap: _goBranch,
         type: BottomNavigationBarType.fixed,

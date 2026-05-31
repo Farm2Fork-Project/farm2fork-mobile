@@ -95,16 +95,46 @@
   "farmerInfo": "Farmer Info",
   "@farmerInfo": { "description": "Section heading for farmer details" },
 
-  "pricePerUnit": "Price / {unit}",
-  "@pricePerUnit": {
-    "description": "Price label with unit placeholder",
+  "priceAmountWithUnit": "Rs {amount} / {unit}",
+  "@priceAmountWithUnit": {
+    "description": "Localized product price with unit",
     "placeholders": {
+      "amount": { "type": "String", "example": "120" },
       "unit": { "type": "String", "example": "kg" }
     }
   },
 
-  "pkr": "PKR",
-  "@pkr": { "description": "Pakistani Rupee currency label" },
+  "currencyAmount": "Rs {amount}",
+  "@currencyAmount": {
+    "description": "Localized Pakistani rupee amount",
+    "placeholders": {
+      "amount": { "type": "String", "example": "1,250" }
+    }
+  },
+
+  "quantityAmountWithUnit": "{amount} {unit}",
+  "@quantityAmountWithUnit": {
+    "description": "Quantity with unit",
+    "placeholders": {
+      "amount": { "type": "String", "example": "20" },
+      "unit": { "type": "String", "example": "kg" }
+    }
+  },
+
+  "unitKg": "kg",
+  "@unitKg": { "description": "Kilogram unit label" },
+
+  "unitTon": "ton",
+  "@unitTon": { "description": "Ton unit label" },
+
+  "unitDozen": "dozen",
+  "@unitDozen": { "description": "Dozen unit label" },
+
+  "unitPiece": "piece",
+  "@unitPiece": { "description": "Piece unit label" },
+
+  "unitLitre": "litre",
+  "@unitLitre": { "description": "Litre unit label" },
 
   "quantity": "Quantity",
   "@quantity": { "description": "Label for quantity selector" },
@@ -115,8 +145,13 @@
   "qualityGrade": "Quality Grade",
   "@qualityGrade": { "description": "Label for quality grade" },
 
-  "gradeAPlus": "A+",
-  "@gradeAPlus": { "description": "Quality grade A+" },
+  "qualityGradeWithValue": "Quality Grade: {grade}",
+  "@qualityGradeWithValue": {
+    "description": "Quality grade label with value",
+    "placeholders": {
+      "grade": { "type": "String", "example": "A" }
+    }
+  },
 
   "gradeA": "A",
   "@gradeA": { "description": "Quality grade A" },
@@ -142,14 +177,27 @@
   "subtotal": "Subtotal",
   "@subtotal": { "description": "Subtotal label in cart group" },
 
-  "platformFee": "Platform Fee (5%)",
-  "@platformFee": { "description": "Platform fee label in cart group" },
+  "platformFeeWithPercent": "Platform Fee ({percent}%)",
+  "@platformFeeWithPercent": {
+    "description": "Platform fee label in cart group",
+    "placeholders": {
+      "percent": { "type": "String", "example": "5" }
+    }
+  },
 
   "grandTotal": "Grand Total",
   "@grandTotal": { "description": "Grand total label in cart group" },
 
   "checkout": "Checkout",
   "@checkout": { "description": "Checkout button label in farmer cart group" },
+
+  "checkoutForFarmer": "Checkout for {farmerName}",
+  "@checkoutForFarmer": {
+    "description": "Snackbar message for farmer-specific checkout",
+    "placeholders": {
+      "farmerName": { "type": "String", "example": "Ali Hassan" }
+    }
+  },
 
   "removeItem": "Remove",
   "@removeItem": { "description": "Button to remove a cart item" },
@@ -174,9 +222,12 @@
     }
   },
 
-  "available": "Available",
-  "@available": { "description": "Status label for available products" },
+  "productStatusActive": "Available",
+  "@productStatusActive": { "description": "Status label for active products" },
 
-  "comingSoon": "Coming Soon",
-  "@comingSoon": { "description": "Status label for products arriving soon" }
+  "productStatusInactive": "Inactive",
+  "@productStatusInactive": { "description": "Status label for inactive products" },
+
+  "productStatusSoldOut": "Sold out",
+  "@productStatusSoldOut": { "description": "Status label for sold out products" }
 }

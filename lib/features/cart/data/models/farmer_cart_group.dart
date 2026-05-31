@@ -1,10 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'cart_item.dart';
+import 'cart_pricing_config.dart';
 
 part 'farmer_cart_group.freezed.dart';
-
-/// Platform fee rate applied per farmer group order (5%).
-const double kPlatformFeeRate = 0.05;
 
 @freezed
 abstract class FarmerCartGroup with _$FarmerCartGroup {
@@ -13,13 +11,20 @@ abstract class FarmerCartGroup with _$FarmerCartGroup {
     required String farmerName,
     required String farmName,
     required List<CartItem> items,
+    @Default(CartPricingConfig.fallback) CartPricingConfig pricingConfig,
   }) = _FarmerCartGroup;
 
   const FarmerCartGroup._();
 
-  double get itemsSubtotal => items.fold(0.0, (sum, item) => sum + item.subtotal);
+  double get itemsSubtotal =>
+      items.fold(0.0, (sum, item) => sum + item.subtotal);
 
-  double get platformFee => itemsSubtotal * kPlatformFeeRate;
+  double get platformFeePercent => pricingConfig.platformFeePercent;
+
+  double get platformFee => pricingConfig.platformFeeFor(itemsSubtotal);
 
   double get grandTotal => itemsSubtotal + platformFee;
+
+  FarmerCartGroup withPricing(CartPricingConfig config) =>
+      copyWith(pricingConfig: config);
 }

@@ -35,12 +35,18 @@
 
   "productDetails": "مصنوع کی تفصیل",
   "farmerInfo": "کسان کی معلومات",
-  "pricePerUnit": "قیمت / {unit}",
-  "pkr": "روپے",
+  "priceAmountWithUnit": "{amount} روپے / {unit}",
+  "currencyAmount": "{amount} روپے",
+  "quantityAmountWithUnit": "{amount} {unit}",
+  "unitKg": "کلو",
+  "unitTon": "ٹن",
+  "unitDozen": "درجن",
+  "unitPiece": "عدد",
+  "unitLitre": "لیٹر",
   "quantity": "مقدار",
   "description": "تفصیل",
   "qualityGrade": "معیار",
-  "gradeAPlus": "اے+",
+  "qualityGradeWithValue": "معیار: {grade}",
   "gradeA": "اے",
   "gradeB": "بی",
   "gradeC": "سی",
@@ -51,9 +57,10 @@
   "shopNow": "ابھی خریداری کریں",
 
   "subtotal": "ذیلی کل",
-  "platformFee": "پلیٹ فارم فیس (5%)",
+  "platformFeeWithPercent": "پلیٹ فارم فیس ({percent}%)",
   "grandTotal": "کل رقم",
   "checkout": "ادائیگی کریں",
+  "checkoutForFarmer": "{farmerName} کے لیے چیک آؤٹ",
   "removeItem": "ہٹائیں",
   "itemRemoved": "آئٹم ہٹا دیا گیا",
 
@@ -61,6 +68,7 @@
   "soldBy": "فروخت کنندہ",
   "location": "مقام",
   "totalSales": "{count} فروخت",
-  "available": "دستیاب",
-  "comingSoon": "جلد آ رہا ہے"
+  "productStatusActive": "دستیاب",
+  "productStatusInactive": "غیر فعال",
+  "productStatusSoldOut": "اسٹاک ختم"
 }

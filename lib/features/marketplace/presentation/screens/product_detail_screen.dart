@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
-import 'package:Farm2Fork/features/marketplace/presentation/providers/marketplace_providers.dart';
-import 'package:Farm2Fork/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   const ProductDetailScreen({super.key, required this.productId});
@@ -15,7 +17,8 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
 
   @override
-  ConsumerState<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  ConsumerState<ProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
@@ -33,8 +36,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       body: productAsync.when(
-        loading: () =>
-            const Center(child: CircularProgressIndicator(color: AppColors.primaryGreen)),
+        loading: () => const Center(
+          child: CircularProgressIndicator(color: AppColors.primaryGreen),
+        ),
         error: (e, _) => Center(child: Text(context.l10n.errorOccurred)),
         data: (product) {
           if (product == null) {
@@ -46,7 +50,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             onIncrement: _increment,
             onDecrement: _decrement,
             onAddToCart: () {
-              ref.read(cartControllerProvider.notifier).addItem(product, quantity: _quantity);
+              ref
+                  .read(cartControllerProvider.notifier)
+                  .addItem(product, quantity: _quantity);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -56,7 +62,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   backgroundColor: AppColors.primaryGreen,
                   duration: const Duration(seconds: 1),
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
                 ),
               );
               context.pop();
@@ -87,7 +95,8 @@ class _ProductDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAvailable = product.status == ProductStatus.available;
+    final isAvailable = product.status == ProductStatus.active;
+    final locale = Localizations.localeOf(context);
 
     return CustomScrollView(
       slivers: [
@@ -103,16 +112,23 @@ class _ProductDetailBody extends StatelessWidget {
                 color: AppColors.white.withValues(alpha: 0.9),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.arrow_back_rounded, color: AppColors.textDark),
+              child: const Icon(
+                Icons.arrow_back_rounded,
+                color: AppColors.textDark,
+              ),
             ),
             onPressed: () => Navigator.of(context).maybePop(),
           ),
           flexibleSpace: FlexibleSpaceBar(
-            background: product.imageUrls.isNotEmpty
-                ? Image.network(product.imageUrls.first, fit: BoxFit.cover)
+            background: product.images.isNotEmpty
+                ? Image.network(product.images.first, fit: BoxFit.cover)
                 : Container(
                     color: AppColors.primaryGreen.withValues(alpha: 0.15),
-                    child: const Icon(Icons.eco_rounded, size: 100, color: AppColors.primaryGreen),
+                    child: const Icon(
+                      Icons.eco_rounded,
+                      size: 100,
+                      color: AppColors.primaryGreen,
+                    ),
                   ),
           ),
         ),
@@ -127,7 +143,9 @@ class _ProductDetailBody extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(child: Text(product.name, style: AppTextStyles.h2)),
+                    Expanded(
+                      child: Text(product.name, style: AppTextStyles.h2),
+                    ),
                     const SizedBox(width: AppSpacing.sm),
                     _StatusChip(status: product.status),
                   ],
@@ -136,7 +154,10 @@ class _ProductDetailBody extends StatelessWidget {
 
                 // ── Price ──────────────────────────────────────────────
                 Text(
-                  'PKR ${product.pricePerUnit.toStringAsFixed(0)} / ${product.unit}',
+                  context.l10n.priceAmountWithUnit(
+                    formatCurrencyAmount(product.price, locale),
+                    productUnitLabel(context, product.unit),
+                  ),
                   style: AppTextStyles.body.copyWith(
                     color: AppColors.primaryGreen,
                     fontWeight: FontWeight.w700,
@@ -150,14 +171,18 @@ class _ProductDetailBody extends StatelessWidget {
                   children: [
                     _InfoPill(
                       icon: Icons.verified_rounded,
-                      label:
-                          '${context.l10n.qualityGrade}: ${_gradeLabel(context, product.qualityGrade)}',
+                      label: context.l10n.qualityGradeWithValue(
+                        qualityGradeLabel(context, product.qualityGrade),
+                      ),
                       color: AppColors.primaryGreen,
                     ),
                     const SizedBox(width: AppSpacing.sm),
                     _InfoPill(
                       icon: Icons.inventory_2_rounded,
-                      label: '${product.availableQuantity.toStringAsFixed(0)} ${product.unit}',
+                      label: context.l10n.quantityAmountWithUnit(
+                        formatCompactNumber(product.quantity, locale),
+                        productUnitLabel(context, product.unit),
+                      ),
                       color: AppColors.secondaryBlue,
                     ),
                   ],
@@ -167,7 +192,9 @@ class _ProductDetailBody extends StatelessWidget {
                 // ── Description ────────────────────────────────────────
                 Text(
                   context.l10n.description,
-                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
@@ -187,7 +214,9 @@ class _ProductDetailBody extends StatelessWidget {
                 if (isAvailable) ...[
                   Text(
                     context.l10n.quantity,
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   _QuantitySelector(
@@ -207,8 +236,12 @@ class _ProductDetailBody extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryGreen,
                         foregroundColor: AppColors.white,
-                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                        textStyle: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppSpacing.lg,
+                        ),
+                        textStyle: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.pill),
                         ),
@@ -225,13 +258,6 @@ class _ProductDetailBody extends StatelessWidget {
       ],
     );
   }
-
-  String _gradeLabel(BuildContext context, QualityGrade grade) => switch (grade) {
-    QualityGrade.aPlus => context.l10n.gradeAPlus,
-    QualityGrade.a => context.l10n.gradeA,
-    QualityGrade.b => context.l10n.gradeB,
-    QualityGrade.c => context.l10n.gradeC,
-  };
 }
 
 // ─── Sub-widgets ──────────────────────────────────────────────────────────────
@@ -243,12 +269,24 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (label, color) = switch (status) {
-      ProductStatus.available => (context.l10n.available, AppColors.success),
-      ProductStatus.outOfStock => (context.l10n.outOfStock, AppColors.errorRed),
-      ProductStatus.comingSoon => (context.l10n.comingSoon, AppColors.accentYellow),
+      ProductStatus.active => (
+        productStatusLabel(context, status),
+        AppColors.success,
+      ),
+      ProductStatus.inactive => (
+        productStatusLabel(context, status),
+        AppColors.accentYellow,
+      ),
+      ProductStatus.soldOut => (
+        productStatusLabel(context, status),
+        AppColors.errorRed,
+      ),
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -256,14 +294,21 @@ class _StatusChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTextStyles.small.copyWith(color: color, fontWeight: FontWeight.w700),
+        style: AppTextStyles.small.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
 }
 
 class _InfoPill extends StatelessWidget {
-  const _InfoPill({required this.icon, required this.label, required this.color});
+  const _InfoPill({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
   final IconData icon;
   final String label;
   final Color color;
@@ -271,7 +316,10 @@ class _InfoPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -283,7 +331,10 @@ class _InfoPill extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: AppTextStyles.small.copyWith(color: color, fontWeight: FontWeight.w600),
+            style: AppTextStyles.small.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -326,7 +377,9 @@ class _FarmerCard extends StatelessWidget {
                 backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.15),
                 child: Text(
                   farmer.name.isNotEmpty ? farmer.name[0].toUpperCase() : '?',
-                  style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
+                  style: AppTextStyles.h2.copyWith(
+                    color: AppColors.primaryGreen,
+                  ),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -336,7 +389,9 @@ class _FarmerCard extends StatelessWidget {
                   children: [
                     Text(
                       farmer.name,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Text(
                       farmer.farmName,
@@ -350,11 +405,17 @@ class _FarmerCard extends StatelessWidget {
               // Rating
               Row(
                 children: [
-                  const Icon(Icons.star_rounded, size: 16, color: AppColors.accentYellow),
+                  const Icon(
+                    Icons.star_rounded,
+                    size: 16,
+                    color: AppColors.accentYellow,
+                  ),
                   const SizedBox(width: 2),
                   Text(
                     farmer.rating.toStringAsFixed(1),
-                    style: AppTextStyles.small.copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.small.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
@@ -363,7 +424,11 @@ class _FarmerCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
-              const Icon(Icons.location_on_outlined, size: 14, color: AppColors.secondaryBlue),
+              const Icon(
+                Icons.location_on_outlined,
+                size: 14,
+                color: AppColors.secondaryBlue,
+              ),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
@@ -378,7 +443,11 @@ class _FarmerCard extends StatelessWidget {
           const SizedBox(height: 4),
           Row(
             children: [
-              const Icon(Icons.shopping_bag_outlined, size: 14, color: AppColors.primaryGreen),
+              const Icon(
+                Icons.shopping_bag_outlined,
+                size: 14,
+                color: AppColors.primaryGreen,
+              ),
               const SizedBox(width: 4),
               Text(
                 context.l10n.totalSales(farmer.totalSales),
@@ -409,10 +478,17 @@ class _QuantitySelector extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _QBtn(icon: Icons.remove_rounded, onTap: onDecrement, enabled: quantity > 1),
+        _QBtn(
+          icon: Icons.remove_rounded,
+          onTap: onDecrement,
+          enabled: quantity > 1,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-          child: Text('$quantity', style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen)),
+          child: Text(
+            '$quantity',
+            style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
+          ),
         ),
         _QBtn(icon: Icons.add_rounded, onTap: onIncrement, enabled: true),
       ],
@@ -435,7 +511,9 @@ class _QBtn extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: enabled ? AppColors.primaryGreen.withValues(alpha: 0.1) : AppColors.surfaceMedium,
+          color: enabled
+              ? AppColors.primaryGreen.withValues(alpha: 0.1)
+              : AppColors.surfaceMedium,
           border: Border.all(
             color: enabled
                 ? AppColors.primaryGreen.withValues(alpha: 0.5)
@@ -445,7 +523,9 @@ class _QBtn extends StatelessWidget {
         child: Icon(
           icon,
           size: 20,
-          color: enabled ? AppColors.primaryGreen : AppColors.textDark.withValues(alpha: 0.3),
+          color: enabled
+              ? AppColors.primaryGreen
+              : AppColors.textDark.withValues(alpha: 0.3),
         ),
       ),
     );

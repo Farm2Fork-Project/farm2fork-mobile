@@ -1,5 +1,5 @@
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product_category.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 
 /// Abstract contract for marketplace data operations.
 /// Mock and real (Dio) implementations both satisfy this interface.

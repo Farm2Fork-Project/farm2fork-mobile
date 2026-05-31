@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product_category.dart';
-import 'package:Farm2Fork/features/marketplace/data/repositories/marketplace_repository.dart';
-import 'package:Farm2Fork/features/marketplace/data/repositories/mock_marketplace_repository.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/repositories/marketplace_repository.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/repositories/mock_marketplace_repository.dart';
 
 // ─── Repository Provider ─────────────────────────────────────────────────────
 
@@ -16,8 +16,8 @@ final marketplaceRepositoryProvider = Provider<MarketplaceRepository>(
 /// null means "All categories".
 final activeCategoryProvider =
     NotifierProvider<_CategoryNotifier, ProductCategory?>(
-  _CategoryNotifier.new,
-);
+      _CategoryNotifier.new,
+    );
 
 class _CategoryNotifier extends Notifier<ProductCategory?> {
   @override
@@ -28,8 +28,9 @@ class _CategoryNotifier extends Notifier<ProductCategory?> {
 
 // ─── Search Query ─────────────────────────────────────────────────────────────
 
-final searchQueryProvider =
-    NotifierProvider<_SearchNotifier, String>(_SearchNotifier.new);
+final searchQueryProvider = NotifierProvider<_SearchNotifier, String>(
+  _SearchNotifier.new,
+);
 
 class _SearchNotifier extends Notifier<String> {
   @override
@@ -56,8 +57,9 @@ final productsProvider = FutureProvider.autoDispose<List<Product>>((ref) {
 
 // ─── Single Product ───────────────────────────────────────────────────────────
 
-final productByIdProvider =
-    FutureProvider.autoDispose.family<Product?, String>((ref, id) {
-  final repo = ref.watch(marketplaceRepositoryProvider);
-  return repo.getProductById(id);
-});
+final productByIdProvider = FutureProvider.autoDispose.family<Product?, String>(
+  (ref, id) {
+    final repo = ref.watch(marketplaceRepositoryProvider);
+    return repo.getProductById(id);
+  },
+);

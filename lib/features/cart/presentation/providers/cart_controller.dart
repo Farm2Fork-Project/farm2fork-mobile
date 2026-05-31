@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Farm2Fork/features/cart/data/models/cart_item.dart';
-import 'package:Farm2Fork/features/cart/data/models/farmer_cart_group.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/cart/data/models/cart_pricing_config.dart';
+import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
+import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
 // ─── Cart Controller ─────────────────────────────────────────────────────────
 
@@ -21,7 +22,10 @@ class CartController extends Notifier<List<CartItem>> {
     } else {
       state = [
         for (var i = 0; i < state.length; i++)
-          if (i == idx) state[i].copyWith(quantity: state[i].quantity + quantity) else state[i],
+          if (i == idx)
+            state[i].copyWith(quantity: state[i].quantity + quantity)
+          else
+            state[i],
       ];
     }
   }
@@ -39,7 +43,10 @@ class CartController extends Notifier<List<CartItem>> {
     }
     state = [
       for (final item in state)
-        if (item.product.id == productId) item.copyWith(quantity: quantity) else item,
+        if (item.product.id == productId)
+          item.copyWith(quantity: quantity)
+        else
+          item,
     ];
   }
 
@@ -54,12 +61,20 @@ class CartController extends Notifier<List<CartItem>> {
 
 // ─── Provider ────────────────────────────────────────────────────────────────
 
-final cartControllerProvider = NotifierProvider<CartController, List<CartItem>>(CartController.new);
+final cartControllerProvider = NotifierProvider<CartController, List<CartItem>>(
+  CartController.new,
+);
 
 // ─── Derived: Total item count badge ─────────────────────────────────────────
 
 final cartItemCountProvider = Provider<int>((ref) {
-  return ref.watch(cartControllerProvider).fold(0, (sum, item) => sum + item.quantity);
+  return ref
+      .watch(cartControllerProvider)
+      .fold(0, (sum, item) => sum + item.quantity);
+});
+
+final cartPricingConfigProvider = Provider<CartPricingConfig>((ref) {
+  return CartPricingConfig.fallback;
 });
 
 // ─── Derived: Grouped by Farmer ──────────────────────────────────────────────
@@ -67,6 +82,7 @@ final cartItemCountProvider = Provider<int>((ref) {
 /// Groups flat cart items into [FarmerCartGroup] list sorted by farmer name.
 final farmerCartGroupsProvider = Provider<List<FarmerCartGroup>>((ref) {
   final items = ref.watch(cartControllerProvider);
+  final pricingConfig = ref.watch(cartPricingConfigProvider);
   final Map<String, List<CartItem>> grouped = {};
 
   for (final item in items) {
@@ -80,6 +96,7 @@ final farmerCartGroupsProvider = Provider<List<FarmerCartGroup>>((ref) {
       farmerName: first.farmerName,
       farmName: first.farmName,
       items: entry.value,
+      pricingConfig: pricingConfig,
     );
   }).toList()..sort((a, b) => a.farmerName.compareTo(b.farmerName));
 
@@ -89,5 +106,7 @@ final farmerCartGroupsProvider = Provider<List<FarmerCartGroup>>((ref) {
 // ─── Derived: Cart total ──────────────────────────────────────────────────────
 
 final cartGrandTotalProvider = Provider<double>((ref) {
-  return ref.watch(farmerCartGroupsProvider).fold(0.0, (sum, g) => sum + g.grandTotal);
+  return ref
+      .watch(farmerCartGroupsProvider)
+      .fold(0.0, (sum, g) => sum + g.grandTotal);
 });

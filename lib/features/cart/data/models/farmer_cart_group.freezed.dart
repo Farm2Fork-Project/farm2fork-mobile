@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FarmerCartGroup {
 
- String get farmerId; String get farmerName; String get farmName; List<CartItem> get items;
+ String get farmerId; String get farmerName; String get farmName; List<CartItem> get items; CartPricingConfig get pricingConfig;
 /// Create a copy of FarmerCartGroup
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FarmerCartGroupCopyWith<FarmerCartGroup> get copyWith => _$FarmerCartGroupCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FarmerCartGroup&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.farmerName, farmerName) || other.farmerName == farmerName)&&(identical(other.farmName, farmName) || other.farmName == farmName)&&const DeepCollectionEquality().equals(other.items, items));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FarmerCartGroup&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.farmerName, farmerName) || other.farmerName == farmerName)&&(identical(other.farmName, farmName) || other.farmName == farmName)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.pricingConfig, pricingConfig) || other.pricingConfig == pricingConfig));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,farmerId,farmerName,farmName,const DeepCollectionEquality().hash(items));
+int get hashCode => Object.hash(runtimeType,farmerId,farmerName,farmName,const DeepCollectionEquality().hash(items),pricingConfig);
 
 @override
 String toString() {
-  return 'FarmerCartGroup(farmerId: $farmerId, farmerName: $farmerName, farmName: $farmName, items: $items)';
+  return 'FarmerCartGroup(farmerId: $farmerId, farmerName: $farmerName, farmName: $farmName, items: $items, pricingConfig: $pricingConfig)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $FarmerCartGroupCopyWith<$Res>  {
   factory $FarmerCartGroupCopyWith(FarmerCartGroup value, $Res Function(FarmerCartGroup) _then) = _$FarmerCartGroupCopyWithImpl;
 @useResult
 $Res call({
- String farmerId, String farmerName, String farmName, List<CartItem> items
+ String farmerId, String farmerName, String farmName, List<CartItem> items, CartPricingConfig pricingConfig
 });
 
 
@@ -62,13 +62,14 @@ class _$FarmerCartGroupCopyWithImpl<$Res>
 
 /// Create a copy of FarmerCartGroup
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? farmerId = null,Object? farmerName = null,Object? farmName = null,Object? items = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? farmerId = null,Object? farmerName = null,Object? farmName = null,Object? items = null,Object? pricingConfig = null,}) {
   return _then(_self.copyWith(
 farmerId: null == farmerId ? _self.farmerId : farmerId // ignore: cast_nullable_to_non_nullable
 as String,farmerName: null == farmerName ? _self.farmerName : farmerName // ignore: cast_nullable_to_non_nullable
 as String,farmName: null == farmName ? _self.farmName : farmName // ignore: cast_nullable_to_non_nullable
 as String,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<CartItem>,
+as List<CartItem>,pricingConfig: null == pricingConfig ? _self.pricingConfig : pricingConfig // ignore: cast_nullable_to_non_nullable
+as CartPricingConfig,
   ));
 }
 
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items,  CartPricingConfig pricingConfig)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FarmerCartGroup() when $default != null:
-return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case _:
+return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items,_that.pricingConfig);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items,  CartPricingConfig pricingConfig)  $default,) {final _that = this;
 switch (_that) {
 case _FarmerCartGroup():
-return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case _:
+return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items,_that.pricingConfig);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String farmerId,  String farmerName,  String farmName,  List<CartItem> items,  CartPricingConfig pricingConfig)?  $default,) {final _that = this;
 switch (_that) {
 case _FarmerCartGroup() when $default != null:
-return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case _:
+return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items,_that.pricingConfig);case _:
   return null;
 
 }
@@ -209,7 +210,7 @@ return $default(_that.farmerId,_that.farmerName,_that.farmName,_that.items);case
 
 
 class _FarmerCartGroup extends FarmerCartGroup {
-  const _FarmerCartGroup({required this.farmerId, required this.farmerName, required this.farmName, required final  List<CartItem> items}): _items = items,super._();
+  const _FarmerCartGroup({required this.farmerId, required this.farmerName, required this.farmName, required final  List<CartItem> items, this.pricingConfig = CartPricingConfig.fallback}): _items = items,super._();
   
 
 @override final  String farmerId;
@@ -222,6 +223,7 @@ class _FarmerCartGroup extends FarmerCartGroup {
   return EqualUnmodifiableListView(_items);
 }
 
+@override@JsonKey() final  CartPricingConfig pricingConfig;
 
 /// Create a copy of FarmerCartGroup
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +235,16 @@ _$FarmerCartGroupCopyWith<_FarmerCartGroup> get copyWith => __$FarmerCartGroupCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FarmerCartGroup&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.farmerName, farmerName) || other.farmerName == farmerName)&&(identical(other.farmName, farmName) || other.farmName == farmName)&&const DeepCollectionEquality().equals(other._items, _items));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FarmerCartGroup&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.farmerName, farmerName) || other.farmerName == farmerName)&&(identical(other.farmName, farmName) || other.farmName == farmName)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.pricingConfig, pricingConfig) || other.pricingConfig == pricingConfig));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,farmerId,farmerName,farmName,const DeepCollectionEquality().hash(_items));
+int get hashCode => Object.hash(runtimeType,farmerId,farmerName,farmName,const DeepCollectionEquality().hash(_items),pricingConfig);
 
 @override
 String toString() {
-  return 'FarmerCartGroup(farmerId: $farmerId, farmerName: $farmerName, farmName: $farmName, items: $items)';
+  return 'FarmerCartGroup(farmerId: $farmerId, farmerName: $farmerName, farmName: $farmName, items: $items, pricingConfig: $pricingConfig)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$FarmerCartGroupCopyWith<$Res> implements $FarmerCartGroup
   factory _$FarmerCartGroupCopyWith(_FarmerCartGroup value, $Res Function(_FarmerCartGroup) _then) = __$FarmerCartGroupCopyWithImpl;
 @override @useResult
 $Res call({
- String farmerId, String farmerName, String farmName, List<CartItem> items
+ String farmerId, String farmerName, String farmName, List<CartItem> items, CartPricingConfig pricingConfig
 });
 
 
@@ -270,13 +272,14 @@ class __$FarmerCartGroupCopyWithImpl<$Res>
 
 /// Create a copy of FarmerCartGroup
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? farmerId = null,Object? farmerName = null,Object? farmName = null,Object? items = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? farmerId = null,Object? farmerName = null,Object? farmName = null,Object? items = null,Object? pricingConfig = null,}) {
   return _then(_FarmerCartGroup(
 farmerId: null == farmerId ? _self.farmerId : farmerId // ignore: cast_nullable_to_non_nullable
 as String,farmerName: null == farmerName ? _self.farmerName : farmerName // ignore: cast_nullable_to_non_nullable
 as String,farmName: null == farmName ? _self.farmName : farmName // ignore: cast_nullable_to_non_nullable
 as String,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<CartItem>,
+as List<CartItem>,pricingConfig: null == pricingConfig ? _self.pricingConfig : pricingConfig // ignore: cast_nullable_to_non_nullable
+as CartPricingConfig,
   ));
 }
 

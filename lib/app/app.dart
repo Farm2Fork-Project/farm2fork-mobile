@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:Farm2Fork/core/localization/generated/app_localizations.dart';
-import 'package:Farm2Fork/app/router.dart';
-import 'package:Farm2Fork/core/localization/locale_controller.dart';
-import 'package:Farm2Fork/core/theme/app_theme.dart';
+import 'package:farm2fork_mobile/core/localization/generated/app_localizations.dart';
+import 'package:farm2fork_mobile/app/router.dart';
+import 'package:farm2fork_mobile/core/localization/locale_controller.dart';
+import 'package:farm2fork_mobile/core/theme/app_theme.dart';
 
 class Farm2ForkApp extends ConsumerWidget {
   const Farm2ForkApp({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -12,7 +12,9 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(title: Text(context.l10n.orders)),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.pagePadding),
-        child: Center(child: Text(context.l10n.noDataFound, style: AppTextStyles.body)),
+        child: Center(
+          child: Text(context.l10n.noDataFound, style: AppTextStyles.body),
+        ),
       ),
     );
   }

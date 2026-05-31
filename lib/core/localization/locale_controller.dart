@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'locale_repository.dart';
 
-final localeControllerProvider = AsyncNotifierProvider<LocaleController, Locale>(() {
-  return LocaleController();
-});
+final localeControllerProvider =
+    AsyncNotifierProvider<LocaleController, Locale>(() {
+      return LocaleController();
+    });
 
 class LocaleController extends AsyncNotifier<Locale> {
   late final LocaleRepository _repository;
@@ -32,7 +33,9 @@ class LocaleController extends AsyncNotifier<Locale> {
 
   Future<void> toggleLocale() async {
     final current = state.value ?? const Locale('en');
-    final next = current.languageCode == 'en' ? const Locale('ur') : const Locale('en');
+    final next = current.languageCode == 'en'
+        ? const Locale('ur')
+        : const Locale('en');
     await setLocale(next);
   }
 }

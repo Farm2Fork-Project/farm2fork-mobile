@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product_category.dart';
-import 'package:Farm2Fork/features/marketplace/presentation/providers/marketplace_providers.dart';
-import 'package:Farm2Fork/features/marketplace/presentation/widgets/product_card.dart';
-import 'package:Farm2Fork/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/widgets/product_card.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 
 class MarketplaceScreen extends ConsumerStatefulWidget {
   const MarketplaceScreen({super.key});
@@ -52,7 +52,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
         ),
         actions: [
           Stack(
-            alignment: Alignment.topRight,
+            alignment: AlignmentDirectional.topEnd,
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
@@ -60,8 +60,8 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                 onPressed: () => context.go('/cart'),
               ),
               if (cartCount > 0)
-                Positioned(
-                  right: 8,
+                PositionedDirectional(
+                  end: 8,
                   top: 8,
                   child: Container(
                     width: 16,
@@ -89,19 +89,25 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
       body: Column(
         children: [
           // ── Search Bar ──────────────────────────────────────────────────
-          _SearchBar(controller: _searchController, onChanged: _onSearch, onClear: _clearSearch),
+          _SearchBar(
+            controller: _searchController,
+            onChanged: _onSearch,
+            onClear: _clearSearch,
+          ),
 
           // ── Category Chips ───────────────────────────────────────────────
           _CategoryChips(
             selected: activeCategory,
-            onSelect: (cat) => ref.read(activeCategoryProvider.notifier).select(cat),
+            onSelect: (cat) =>
+                ref.read(activeCategoryProvider.notifier).select(cat),
           ),
 
           // ── Product Grid ─────────────────────────────────────────────────
           Expanded(
             child: productsAsync.when(
-              loading: () =>
-                  const Center(child: CircularProgressIndicator(color: AppColors.primaryGreen)),
+              loading: () => const Center(
+                child: CircularProgressIndicator(color: AppColors.primaryGreen),
+              ),
               error: (e, _) => _ErrorState(
                 message: context.l10n.errorOccurred,
                 onRetry: () => ref.invalidate(productsProvider),
@@ -115,31 +121,39 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                   onRefresh: () async => ref.invalidate(productsProvider),
                   child: GridView.builder(
                     padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: AppSpacing.md,
-                      mainAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 0.72,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: AppSpacing.md,
+                          mainAxisSpacing: AppSpacing.md,
+                          childAspectRatio: 0.72,
+                        ),
                     itemCount: products.length,
                     itemBuilder: (context, i) {
                       final product = products[i];
                       return ProductCard(
                         product: product,
-                        onTap: () => context.push('/marketplace/products/${product.id}'),
+                        onTap: () =>
+                            context.push('/marketplace/products/${product.id}'),
                         onAddToCart: () {
-                          ref.read(cartControllerProvider.notifier).addItem(product);
+                          ref
+                              .read(cartControllerProvider.notifier)
+                              .addItem(product);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
                                 context.l10n.addedToCart,
-                                style: AppTextStyles.small.copyWith(color: AppColors.white),
+                                style: AppTextStyles.small.copyWith(
+                                  color: AppColors.white,
+                                ),
                               ),
                               backgroundColor: AppColors.primaryGreen,
                               duration: const Duration(seconds: 1),
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.md,
+                                ),
                               ),
                             ),
                           );
@@ -160,7 +174,11 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
 // ─── Private Widgets ──────────────────────────────────────────────────────────
 
 class _SearchBar extends StatelessWidget {
-  const _SearchBar({required this.controller, required this.onChanged, required this.onClear});
+  const _SearchBar({
+    required this.controller,
+    required this.onChanged,
+    required this.onClear,
+  });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
@@ -169,7 +187,7 @@ class _SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const EdgeInsetsDirectional.fromSTEB(
         AppSpacing.pagePadding,
         AppSpacing.md,
         AppSpacing.pagePadding,
@@ -184,7 +202,10 @@ class _SearchBar extends StatelessWidget {
           hintStyle: AppTextStyles.small.copyWith(
             color: AppColors.textDark.withValues(alpha: 0.45),
           ),
-          prefixIcon: const Icon(Icons.search_rounded, color: AppColors.primaryGreen),
+          prefixIcon: const Icon(
+            Icons.search_rounded,
+            color: AppColors.primaryGreen,
+          ),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.close_rounded),
@@ -204,11 +225,16 @@ class _SearchBar extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.pill),
-            borderSide: BorderSide(color: AppColors.primaryGreen.withValues(alpha: 0.25)),
+            borderSide: BorderSide(
+              color: AppColors.primaryGreen.withValues(alpha: 0.25),
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.pill),
-            borderSide: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
+            borderSide: const BorderSide(
+              color: AppColors.primaryGreen,
+              width: 1.5,
+            ),
           ),
         ),
       ),
@@ -248,16 +274,21 @@ class _CategoryChips extends StatelessWidget {
     );
   }
 
-  String _categoryLabel(BuildContext context, ProductCategory cat) => switch (cat) {
-    ProductCategory.vegetables => context.l10n.categoryVegetables,
-    ProductCategory.fruits => context.l10n.categoryFruits,
-    ProductCategory.grains => context.l10n.categoryGrains,
-    ProductCategory.dairy => context.l10n.categoryDairy,
-  };
+  String _categoryLabel(BuildContext context, ProductCategory cat) =>
+      switch (cat) {
+        ProductCategory.vegetables => context.l10n.categoryVegetables,
+        ProductCategory.fruits => context.l10n.categoryFruits,
+        ProductCategory.grains => context.l10n.categoryGrains,
+        ProductCategory.dairy => context.l10n.categoryDairy,
+      };
 }
 
 class _Chip extends StatelessWidget {
-  const _Chip({required this.label, required this.isSelected, required this.onTap});
+  const _Chip({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   final String label;
   final bool isSelected;
@@ -266,12 +297,15 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
+      padding: const EdgeInsetsDirectional.only(end: AppSpacing.sm),
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xs),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xs,
+          ),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primaryGreen : AppColors.white,
             borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -312,7 +346,9 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           Text(
             message,
-            style: AppTextStyles.body.copyWith(color: AppColors.textDark.withValues(alpha: 0.55)),
+            style: AppTextStyles.body.copyWith(
+              color: AppColors.textDark.withValues(alpha: 0.55),
+            ),
           ),
         ],
       ),
@@ -331,7 +367,11 @@ class _ErrorState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.wifi_off_rounded, size: 64, color: AppColors.errorRed),
+          const Icon(
+            Icons.wifi_off_rounded,
+            size: 64,
+            color: AppColors.errorRed,
+          ),
           const SizedBox(height: AppSpacing.md),
           Text(message, style: AppTextStyles.body),
           const SizedBox(height: AppSpacing.lg),

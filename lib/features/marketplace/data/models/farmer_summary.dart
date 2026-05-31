@@ -14,5 +14,6 @@ abstract class FarmerSummary with _$FarmerSummary {
     @Default(0) int totalSales,
   }) = _FarmerSummary;
 
-  factory FarmerSummary.fromJson(Map<String, dynamic> json) => _$FarmerSummaryFromJson(json);
+  factory FarmerSummary.fromJson(Map<String, dynamic> json) =>
+      _$FarmerSummaryFromJson(json);
 }

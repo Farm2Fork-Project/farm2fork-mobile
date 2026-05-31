@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/core/localization/locale_controller.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/localization/locale_controller.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -25,12 +25,17 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.xxl),
               Card(
                 color: AppColors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Column(
                     children: [
-                      Text(context.l10n.selectLanguage, style: AppTextStyles.h2),
+                      Text(
+                        context.l10n.selectLanguage,
+                        style: AppTextStyles.h2,
+                      ),
                       const SizedBox(height: AppSpacing.md),
                       localeAsync.when(
                         data: (locale) => Row(
@@ -45,9 +50,8 @@ class ProfileScreen extends ConsumerWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primaryGreen,
                                 foregroundColor: AppColors.white,
-                                disabledBackgroundColor: AppColors.primaryGreen.withValues(
-                                  alpha: 0.5,
-                                ),
+                                disabledBackgroundColor: AppColors.primaryGreen
+                                    .withValues(alpha: 0.5),
                                 disabledForegroundColor: AppColors.white,
                               ),
                               child: Text(context.l10n.english),
@@ -62,9 +66,8 @@ class ProfileScreen extends ConsumerWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primaryGreen,
                                 foregroundColor: AppColors.white,
-                                disabledBackgroundColor: AppColors.primaryGreen.withValues(
-                                  alpha: 0.5,
-                                ),
+                                disabledBackgroundColor: AppColors.primaryGreen
+                                    .withValues(alpha: 0.5),
                                 disabledForegroundColor: AppColors.white,
                               ),
                               child: Text(context.l10n.urdu),
@@ -77,8 +80,9 @@ class ProfileScreen extends ConsumerWidget {
                       const SizedBox(height: AppSpacing.lg),
                       localeAsync.when(
                         data: (locale) => OutlinedButton(
-                          onPressed: () =>
-                              ref.read(localeControllerProvider.notifier).toggleLocale(),
+                          onPressed: () => ref
+                              .read(localeControllerProvider.notifier)
+                              .toggleLocale(),
                           child: Text(context.l10n.changeLanguage),
                         ),
                         loading: () => const SizedBox.shrink(),

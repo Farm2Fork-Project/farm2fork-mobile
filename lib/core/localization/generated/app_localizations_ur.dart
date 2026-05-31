@@ -105,12 +105,34 @@ class AppLocalizationsUr extends AppLocalizations {
   String get farmerInfo => 'کسان کی معلومات';
 
   @override
-  String pricePerUnit(String unit) {
-    return 'قیمت / $unit';
+  String priceAmountWithUnit(String amount, String unit) {
+    return '$amount روپے / $unit';
   }
 
   @override
-  String get pkr => 'روپے';
+  String currencyAmount(String amount) {
+    return '$amount روپے';
+  }
+
+  @override
+  String quantityAmountWithUnit(String amount, String unit) {
+    return '$amount $unit';
+  }
+
+  @override
+  String get unitKg => 'کلو';
+
+  @override
+  String get unitTon => 'ٹن';
+
+  @override
+  String get unitDozen => 'درجن';
+
+  @override
+  String get unitPiece => 'عدد';
+
+  @override
+  String get unitLitre => 'لیٹر';
 
   @override
   String get quantity => 'مقدار';
@@ -122,7 +144,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get qualityGrade => 'معیار';
 
   @override
-  String get gradeAPlus => 'اے+';
+  String qualityGradeWithValue(String grade) {
+    return 'معیار: $grade';
+  }
 
   @override
   String get gradeA => 'اے';
@@ -140,7 +164,8 @@ class AppLocalizationsUr extends AppLocalizations {
   String get cartEmpty => 'آپ کا کارٹ خالی ہے';
 
   @override
-  String get cartEmptySubtitle => 'مارکیٹ پلیس دیکھیں اور تازہ مصنوعات شامل کریں۔';
+  String get cartEmptySubtitle =>
+      'مارکیٹ پلیس دیکھیں اور تازہ مصنوعات شامل کریں۔';
 
   @override
   String get shopNow => 'ابھی خریداری کریں';
@@ -149,13 +174,20 @@ class AppLocalizationsUr extends AppLocalizations {
   String get subtotal => 'ذیلی کل';
 
   @override
-  String get platformFee => 'پلیٹ فارم فیس (5%)';
+  String platformFeeWithPercent(String percent) {
+    return 'پلیٹ فارم فیس ($percent%)';
+  }
 
   @override
   String get grandTotal => 'کل رقم';
 
   @override
   String get checkout => 'ادائیگی کریں';
+
+  @override
+  String checkoutForFarmer(String farmerName) {
+    return '$farmerName کے لیے چیک آؤٹ';
+  }
 
   @override
   String get removeItem => 'ہٹائیں';
@@ -178,8 +210,11 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get available => 'دستیاب';
+  String get productStatusActive => 'دستیاب';
 
   @override
-  String get comingSoon => 'جلد آ رہا ہے';
+  String get productStatusInactive => 'غیر فعال';
+
+  @override
+  String get productStatusSoldOut => 'اسٹاک ختم';
 }

@@ -105,12 +105,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get farmerInfo => 'Farmer Info';
 
   @override
-  String pricePerUnit(String unit) {
-    return 'Price / $unit';
+  String priceAmountWithUnit(String amount, String unit) {
+    return 'Rs $amount / $unit';
   }
 
   @override
-  String get pkr => 'PKR';
+  String currencyAmount(String amount) {
+    return 'Rs $amount';
+  }
+
+  @override
+  String quantityAmountWithUnit(String amount, String unit) {
+    return '$amount $unit';
+  }
+
+  @override
+  String get unitKg => 'kg';
+
+  @override
+  String get unitTon => 'ton';
+
+  @override
+  String get unitDozen => 'dozen';
+
+  @override
+  String get unitPiece => 'piece';
+
+  @override
+  String get unitLitre => 'litre';
 
   @override
   String get quantity => 'Quantity';
@@ -122,7 +144,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qualityGrade => 'Quality Grade';
 
   @override
-  String get gradeAPlus => 'A+';
+  String qualityGradeWithValue(String grade) {
+    return 'Quality Grade: $grade';
+  }
 
   @override
   String get gradeA => 'A';
@@ -140,7 +164,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cartEmpty => 'Your cart is empty';
 
   @override
-  String get cartEmptySubtitle => 'Browse the marketplace and add fresh produce.';
+  String get cartEmptySubtitle =>
+      'Browse the marketplace and add fresh produce.';
 
   @override
   String get shopNow => 'Shop Now';
@@ -149,13 +174,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subtotal => 'Subtotal';
 
   @override
-  String get platformFee => 'Platform Fee (5%)';
+  String platformFeeWithPercent(String percent) {
+    return 'Platform Fee ($percent%)';
+  }
 
   @override
   String get grandTotal => 'Grand Total';
 
   @override
   String get checkout => 'Checkout';
+
+  @override
+  String checkoutForFarmer(String farmerName) {
+    return 'Checkout for $farmerName';
+  }
 
   @override
   String get removeItem => 'Remove';
@@ -178,8 +210,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get available => 'Available';
+  String get productStatusActive => 'Available';
 
   @override
-  String get comingSoon => 'Coming Soon';
+  String get productStatusInactive => 'Inactive';
+
+  @override
+  String get productStatusSoldOut => 'Sold out';
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
-import 'package:Farm2Fork/features/marketplace/data/models/product.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
 /// Compact product card for grid display on the Marketplace screen.
 class ProductCard extends StatelessWidget {
@@ -20,7 +22,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAvailable = product.status == ProductStatus.available;
+    final isAvailable = product.status == ProductStatus.active;
+    final locale = Localizations.localeOf(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -43,14 +46,14 @@ class ProductCard extends StatelessWidget {
             // ── Image area ──────────────────────────────────────────────
             Stack(
               children: [
-                _ProductImage(imageUrls: product.imageUrls),
+                _ProductImage(images: product.images),
                 if (!isAvailable)
                   Positioned.fill(
                     child: Container(
                       color: AppColors.black.withValues(alpha: 0.45),
                       alignment: Alignment.center,
                       child: Text(
-                        context.l10n.outOfStock,
+                        productStatusLabel(context, product.status),
                         style: AppTextStyles.small.copyWith(
                           color: AppColors.white,
                           fontWeight: FontWeight.w700,
@@ -58,9 +61,9 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                Positioned(
+                PositionedDirectional(
                   top: AppSpacing.sm,
-                  left: AppSpacing.sm,
+                  start: AppSpacing.sm,
                   child: _GradeBadge(grade: product.qualityGrade),
                 ),
               ],
@@ -68,7 +71,7 @@ class ProductCard extends StatelessWidget {
 
             // ── Info area ───────────────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.fromLTRB(
+              padding: const EdgeInsetsDirectional.fromSTEB(
                 AppSpacing.md,
                 AppSpacing.sm,
                 AppSpacing.md,
@@ -79,7 +82,10 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600, fontSize: 13),
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -98,7 +104,10 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'PKR ${product.pricePerUnit.toStringAsFixed(0)}/${product.unit}',
+                        context.l10n.priceAmountWithUnit(
+                          formatCurrencyAmount(product.price, locale),
+                          productUnitLabel(context, product.unit),
+                        ),
                         style: AppTextStyles.small.copyWith(
                           color: AppColors.primaryGreen,
                           fontWeight: FontWeight.w700,
@@ -121,19 +130,23 @@ class ProductCard extends StatelessWidget {
 // ─── Private helpers ──────────────────────────────────────────────────────────
 
 class _ProductImage extends StatelessWidget {
-  const _ProductImage({required this.imageUrls});
-  final List<String> imageUrls;
+  const _ProductImage({required this.images});
+  final List<String> images;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 110,
       width: double.infinity,
-      child: imageUrls.isNotEmpty
-          ? Image.network(imageUrls.first, fit: BoxFit.cover)
+      child: images.isNotEmpty
+          ? Image.network(images.first, fit: BoxFit.cover)
           : Container(
               color: AppColors.primaryGreen.withValues(alpha: 0.12),
-              child: const Icon(Icons.eco_rounded, size: 48, color: AppColors.primaryGreen),
+              child: const Icon(
+                Icons.eco_rounded,
+                size: 48,
+                color: AppColors.primaryGreen,
+              ),
             ),
     );
   }
@@ -144,26 +157,24 @@ class _GradeBadge extends StatelessWidget {
   final QualityGrade grade;
 
   Color get _color => switch (grade) {
-    QualityGrade.aPlus => const Color(0xFF2E7D32),
     QualityGrade.a => AppColors.primaryGreen,
     QualityGrade.b => AppColors.accentYellow,
     QualityGrade.c => AppColors.errorRed,
   };
 
-  String get _label => switch (grade) {
-    QualityGrade.aPlus => 'A+',
-    QualityGrade.a => 'A',
-    QualityGrade.b => 'B',
-    QualityGrade.c => 'C',
-  };
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2),
-      decoration: BoxDecoration(color: _color, borderRadius: BorderRadius.circular(AppRadius.pill)),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: 2,
+      ),
+      decoration: BoxDecoration(
+        color: _color,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+      ),
       child: Text(
-        _label,
+        qualityGradeLabel(context, grade),
         style: AppTextStyles.small.copyWith(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
@@ -188,13 +199,17 @@ class _AddButton extends StatelessWidget {
         width: 28,
         height: 28,
         decoration: BoxDecoration(
-          color: enabled ? AppColors.primaryGreen : AppColors.textDark.withValues(alpha: 0.2),
+          color: enabled
+              ? AppColors.primaryGreen
+              : AppColors.textDark.withValues(alpha: 0.2),
           shape: BoxShape.circle,
         ),
         child: Icon(
           Icons.add_rounded,
           size: 18,
-          color: enabled ? AppColors.white : AppColors.textDark.withValues(alpha: 0.4),
+          color: enabled
+              ? AppColors.white
+              : AppColors.textDark.withValues(alpha: 0.4),
         ),
       ),
     );

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Farm2Fork/core/theme/app_colors.dart';
-import 'package:Farm2Fork/core/theme/app_sizes.dart';
-import 'package:Farm2Fork/core/theme/app_typography.dart';
-import 'package:Farm2Fork/core/localization/l10n_extension.dart';
-import 'package:Farm2Fork/features/cart/data/models/farmer_cart_group.dart';
-import 'package:Farm2Fork/features/cart/data/models/cart_item.dart';
-import 'package:Farm2Fork/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
+import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -29,7 +31,8 @@ class CartScreen extends ConsumerWidget {
         actions: [
           if (groups.isNotEmpty)
             TextButton(
-              onPressed: () => ref.read(cartControllerProvider.notifier).clear(),
+              onPressed: () =>
+                  ref.read(cartControllerProvider.notifier).clear(),
               child: Text(
                 context.l10n.removeItem,
                 style: AppTextStyles.small.copyWith(
@@ -48,8 +51,10 @@ class CartScreen extends ConsumerWidget {
                   child: ListView.separated(
                     padding: const EdgeInsets.all(AppSpacing.pagePadding),
                     itemCount: groups.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.lg),
-                    itemBuilder: (context, i) => _FarmerGroupCard(group: groups[i]),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: AppSpacing.lg),
+                    itemBuilder: (context, i) =>
+                        _FarmerGroupCard(group: groups[i]),
                   ),
                 ),
 
@@ -91,9 +96,13 @@ class _FarmerGroupCard extends ConsumerWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.15),
+                  backgroundColor: AppColors.primaryGreen.withValues(
+                    alpha: 0.15,
+                  ),
                   child: Text(
-                    group.farmerName.isNotEmpty ? group.farmerName[0].toUpperCase() : '?',
+                    group.farmerName.isNotEmpty
+                        ? group.farmerName[0].toUpperCase()
+                        : '?',
                     style: AppTextStyles.body.copyWith(
                       color: AppColors.primaryGreen,
                       fontWeight: FontWeight.w700,
@@ -107,7 +116,9 @@ class _FarmerGroupCard extends ConsumerWidget {
                     children: [
                       Text(
                         group.farmerName,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       Text(
                         group.farmName,
@@ -128,7 +139,9 @@ class _FarmerGroupCard extends ConsumerWidget {
           ...group.items.map(
             (item) => _CartItemRow(
               item: item,
-              onRemove: () => ref.read(cartControllerProvider.notifier).removeItem(item.product.id),
+              onRemove: () => ref
+                  .read(cartControllerProvider.notifier)
+                  .removeItem(item.product.id),
               onDecrement: () => ref
                   .read(cartControllerProvider.notifier)
                   .updateQuantity(item.product.id, item.quantity - 1),
@@ -145,10 +158,18 @@ class _FarmerGroupCard extends ConsumerWidget {
             padding: const EdgeInsets.all(AppSpacing.lg),
             child: Column(
               children: [
-                _PriceRow(label: context.l10n.subtotal, amount: group.itemsSubtotal),
+                _PriceRow(
+                  label: context.l10n.subtotal,
+                  amount: group.itemsSubtotal,
+                ),
                 const SizedBox(height: AppSpacing.xs),
                 _PriceRow(
-                  label: context.l10n.platformFee,
+                  label: context.l10n.platformFeeWithPercent(
+                    formatCompactNumber(
+                      group.platformFeePercent,
+                      Localizations.localeOf(context),
+                    ),
+                  ),
                   amount: group.platformFee,
                   labelColor: AppColors.textDark.withValues(alpha: 0.6),
                 ),
@@ -174,8 +195,10 @@ class _FarmerGroupCard extends ConsumerWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            '${context.l10n.checkout} — ${group.farmerName}',
-                            style: AppTextStyles.small.copyWith(color: AppColors.white),
+                            context.l10n.checkoutForFarmer(group.farmerName),
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.white,
+                            ),
                           ),
                           backgroundColor: AppColors.secondaryBlue,
                           behavior: SnackBarBehavior.floating,
@@ -188,11 +211,15 @@ class _FarmerGroupCard extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryGreen,
                       foregroundColor: AppColors.white,
-                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.md,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AppRadius.pill),
                       ),
-                      textStyle: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      textStyle: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     child: Text(context.l10n.checkout),
                   ),
@@ -223,8 +250,12 @@ class _CartItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       child: Row(
         children: [
           // Product icon placeholder
@@ -235,7 +266,11 @@ class _CartItemRow extends StatelessWidget {
               color: AppColors.primaryGreen.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
-            child: const Icon(Icons.eco_rounded, color: AppColors.primaryGreen, size: 28),
+            child: const Icon(
+              Icons.eco_rounded,
+              color: AppColors.primaryGreen,
+              size: 28,
+            ),
           ),
           const SizedBox(width: AppSpacing.md),
 
@@ -246,12 +281,17 @@ class _CartItemRow extends StatelessWidget {
               children: [
                 Text(
                   item.product.name,
-                  style: AppTextStyles.small.copyWith(fontWeight: FontWeight.w600),
+                  style: AppTextStyles.small.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'PKR ${item.product.pricePerUnit.toStringAsFixed(0)}/${item.product.unit}',
+                  context.l10n.priceAmountWithUnit(
+                    formatCurrencyAmount(item.product.price, locale),
+                    productUnitLabel(context, item.product.unit),
+                  ),
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.textDark.withValues(alpha: 0.55),
                   ),
@@ -272,10 +312,16 @@ class _CartItemRow extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
                 child: Text(
                   '${item.quantity}',
-                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-              _SmallQBtn(icon: Icons.add_rounded, onTap: onIncrement, enabled: true),
+              _SmallQBtn(
+                icon: Icons.add_rounded,
+                onTap: onIncrement,
+                enabled: true,
+              ),
             ],
           ),
 
@@ -283,7 +329,11 @@ class _CartItemRow extends StatelessWidget {
 
           // Remove button
           IconButton(
-            icon: const Icon(Icons.delete_outline_rounded, color: AppColors.errorRed, size: 20),
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: AppColors.errorRed,
+              size: 20,
+            ),
             onPressed: () {
               onRemove();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -308,7 +358,11 @@ class _CartItemRow extends StatelessWidget {
 }
 
 class _SmallQBtn extends StatelessWidget {
-  const _SmallQBtn({required this.icon, required this.onTap, required this.enabled});
+  const _SmallQBtn({
+    required this.icon,
+    required this.onTap,
+    required this.enabled,
+  });
   final IconData icon;
   final VoidCallback onTap;
   final bool enabled;
@@ -331,7 +385,9 @@ class _SmallQBtn extends StatelessWidget {
         child: Icon(
           icon,
           size: 14,
-          color: enabled ? AppColors.primaryGreen : AppColors.textDark.withValues(alpha: 0.3),
+          color: enabled
+              ? AppColors.primaryGreen
+              : AppColors.textDark.withValues(alpha: 0.3),
         ),
       ),
     );
@@ -357,15 +413,19 @@ class _PriceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
     final style = isBold
         ? AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)
         : AppTextStyles.small;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: style.copyWith(color: labelColor ?? AppColors.textDark)),
         Text(
-          'PKR ${amount.toStringAsFixed(2)}',
+          label,
+          style: style.copyWith(color: labelColor ?? AppColors.textDark),
+        ),
+        Text(
+          context.l10n.currencyAmount(formatCurrencyAmount(amount, locale)),
           style: style.copyWith(color: amountColor ?? AppColors.textDark),
         ),
       ],
@@ -381,6 +441,7 @@ class _GrandTotalBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.pagePadding,
@@ -398,7 +459,7 @@ class _GrandTotalBanner extends StatelessWidget {
             style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
           ),
           Text(
-            'PKR ${total.toStringAsFixed(2)}',
+            context.l10n.currencyAmount(formatCurrencyAmount(total, locale)),
             style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
           ),
         ],
@@ -424,11 +485,17 @@ class _EmptyCart extends StatelessWidget {
               color: AppColors.primaryGreen.withValues(alpha: 0.4),
             ),
             const SizedBox(height: AppSpacing.xl),
-            Text(context.l10n.cartEmpty, style: AppTextStyles.h2, textAlign: TextAlign.center),
+            Text(
+              context.l10n.cartEmpty,
+              style: AppTextStyles.h2,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               context.l10n.cartEmptySubtitle,
-              style: AppTextStyles.body.copyWith(color: AppColors.textDark.withValues(alpha: 0.55)),
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.textDark.withValues(alpha: 0.55),
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xxl),
@@ -443,8 +510,12 @@ class _EmptyCart extends StatelessWidget {
                   horizontal: AppSpacing.xxl,
                   vertical: AppSpacing.lg,
                 ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.pill)),
-                textStyle: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.pill),
+                ),
+                textStyle: AppTextStyles.body.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],

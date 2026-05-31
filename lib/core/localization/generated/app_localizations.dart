@@ -62,7 +62,8 @@ import 'app_localizations_ur.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,7 +71,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -91,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('ur')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ur'),
+  ];
 
   /// The name of the application
   ///
@@ -285,17 +290,53 @@ abstract class AppLocalizations {
   /// **'Farmer Info'**
   String get farmerInfo;
 
-  /// Price label with unit placeholder
+  /// Localized product price with unit
   ///
   /// In en, this message translates to:
-  /// **'Price / {unit}'**
-  String pricePerUnit(String unit);
+  /// **'Rs {amount} / {unit}'**
+  String priceAmountWithUnit(String amount, String unit);
 
-  /// Pakistani Rupee currency label
+  /// Localized Pakistani rupee amount
   ///
   /// In en, this message translates to:
-  /// **'PKR'**
-  String get pkr;
+  /// **'Rs {amount}'**
+  String currencyAmount(String amount);
+
+  /// Quantity with unit
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit}'**
+  String quantityAmountWithUnit(String amount, String unit);
+
+  /// Kilogram unit label
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get unitKg;
+
+  /// Ton unit label
+  ///
+  /// In en, this message translates to:
+  /// **'ton'**
+  String get unitTon;
+
+  /// Dozen unit label
+  ///
+  /// In en, this message translates to:
+  /// **'dozen'**
+  String get unitDozen;
+
+  /// Piece unit label
+  ///
+  /// In en, this message translates to:
+  /// **'piece'**
+  String get unitPiece;
+
+  /// Litre unit label
+  ///
+  /// In en, this message translates to:
+  /// **'litre'**
+  String get unitLitre;
 
   /// Label for quantity selector
   ///
@@ -315,11 +356,11 @@ abstract class AppLocalizations {
   /// **'Quality Grade'**
   String get qualityGrade;
 
-  /// Quality grade A+
+  /// Quality grade label with value
   ///
   /// In en, this message translates to:
-  /// **'A+'**
-  String get gradeAPlus;
+  /// **'Quality Grade: {grade}'**
+  String qualityGradeWithValue(String grade);
 
   /// Quality grade A
   ///
@@ -372,8 +413,8 @@ abstract class AppLocalizations {
   /// Platform fee label in cart group
   ///
   /// In en, this message translates to:
-  /// **'Platform Fee (5%)'**
-  String get platformFee;
+  /// **'Platform Fee ({percent}%)'**
+  String platformFeeWithPercent(String percent);
 
   /// Grand total label in cart group
   ///
@@ -386,6 +427,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checkout'**
   String get checkout;
+
+  /// Snackbar message for farmer-specific checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout for {farmerName}'**
+  String checkoutForFarmer(String farmerName);
 
   /// Button to remove a cart item
   ///
@@ -423,20 +470,27 @@ abstract class AppLocalizations {
   /// **'{count} sales'**
   String totalSales(int count);
 
-  /// Status label for available products
+  /// Status label for active products
   ///
   /// In en, this message translates to:
   /// **'Available'**
-  String get available;
+  String get productStatusActive;
 
-  /// Status label for products arriving soon
+  /// Status label for inactive products
   ///
   /// In en, this message translates to:
-  /// **'Coming Soon'**
-  String get comingSoon;
+  /// **'Inactive'**
+  String get productStatusInactive;
+
+  /// Status label for sold out products
+  ///
+  /// In en, this message translates to:
+  /// **'Sold out'**
+  String get productStatusSoldOut;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -445,7 +499,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'ur'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
