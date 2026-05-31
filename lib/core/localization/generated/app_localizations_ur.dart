@@ -57,6 +57,24 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navProfile => 'پروفائل';
 
   @override
+  String get navListings => 'لسٹنگز';
+
+  @override
+  String get navCreateListing => 'بنائیں';
+
+  @override
+  String get navTrace => 'ٹریس';
+
+  @override
+  String get navShipments => 'شپمنٹس';
+
+  @override
+  String get navLoans => 'قرضے';
+
+  @override
+  String get navFeed => 'فیڈ';
+
+  @override
   String get errorOccurred => 'خرابی پیش آگئی ہے۔ براہ کرم دوبارہ کوشش کریں۔';
 
   @override
@@ -67,6 +85,20 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get loading => 'لوڈ ہو رہا ہے...';
+
+  @override
+  String get featureComingSoon => 'جلد آ رہا ہے';
+
+  @override
+  String get traceScannerTitle => 'اسکین اور ٹریس';
+
+  @override
+  String get traceScannerDescription =>
+      'مصنوعات کا QR کوڈ اسکین کریں تاکہ اصل جگہ، کسان، آرڈر کا سفر، شپمنٹ اپ ڈیٹس، اور بلاک چین ریکارڈز دیکھ سکیں۔';
+
+  @override
+  String get paymentOptionsNote =>
+      'ادائیگی کے لیے کیش، JazzCash، اور دیگر گیٹ ویز جیسے کئی طریقے شامل کیے جائیں گے جب provider فائنل ہو جائے گا۔';
 
   @override
   String get changeLanguage => 'Change Language (زبان تبدیل کریں)';

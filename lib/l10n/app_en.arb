@@ -47,6 +47,24 @@
   "navProfile": "Profile",
   "@navProfile": { "description": "Bottom navigation label for Profile" },
 
+  "navListings": "Listings",
+  "@navListings": { "description": "Bottom navigation label for farmer listings" },
+
+  "navCreateListing": "Create",
+  "@navCreateListing": { "description": "Bottom navigation label for creating a listing" },
+
+  "navTrace": "Trace",
+  "@navTrace": { "description": "Bottom navigation label for QR traceability" },
+
+  "navShipments": "Shipments",
+  "@navShipments": { "description": "Bottom navigation label for shipments" },
+
+  "navLoans": "Loans",
+  "@navLoans": { "description": "Bottom navigation label for loans" },
+
+  "navFeed": "Feed",
+  "@navFeed": { "description": "Bottom navigation label for community feed" },
+
   "errorOccurred": "An error occurred. Please try again.",
   "@errorOccurred": { "description": "Generic error message" },
 
@@ -58,6 +76,18 @@
 
   "loading": "Loading...",
   "@loading": { "description": "Generic loading indicator text" },
+
+  "featureComingSoon": "Coming soon",
+  "@featureComingSoon": { "description": "Placeholder title for future screens" },
+
+  "traceScannerTitle": "Scan & Trace",
+  "@traceScannerTitle": { "description": "QR traceability scanner screen title" },
+
+  "traceScannerDescription": "Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.",
+  "@traceScannerDescription": { "description": "QR traceability scanner placeholder description" },
+
+  "paymentOptionsNote": "Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.",
+  "@paymentOptionsNote": { "description": "Payment provider placeholder note" },
 
   "changeLanguage": "تبدیل کریں (Change Language)",
   "@changeLanguage": { "description": "Label for language switching action" },

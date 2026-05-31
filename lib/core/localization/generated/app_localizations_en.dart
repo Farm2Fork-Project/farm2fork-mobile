@@ -57,6 +57,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
+  String get navListings => 'Listings';
+
+  @override
+  String get navCreateListing => 'Create';
+
+  @override
+  String get navTrace => 'Trace';
+
+  @override
+  String get navShipments => 'Shipments';
+
+  @override
+  String get navLoans => 'Loans';
+
+  @override
+  String get navFeed => 'Feed';
+
+  @override
   String get errorOccurred => 'An error occurred. Please try again.';
 
   @override
@@ -67,6 +85,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loading => 'Loading...';
+
+  @override
+  String get featureComingSoon => 'Coming soon';
+
+  @override
+  String get traceScannerTitle => 'Scan & Trace';
+
+  @override
+  String get traceScannerDescription =>
+      'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.';
+
+  @override
+  String get paymentOptionsNote =>
+      'Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.';
 
   @override
   String get changeLanguage => 'تبدیل کریں (Change Language)';

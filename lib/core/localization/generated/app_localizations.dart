@@ -194,6 +194,42 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get navProfile;
 
+  /// Bottom navigation label for farmer listings
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get navListings;
+
+  /// Bottom navigation label for creating a listing
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get navCreateListing;
+
+  /// Bottom navigation label for QR traceability
+  ///
+  /// In en, this message translates to:
+  /// **'Trace'**
+  String get navTrace;
+
+  /// Bottom navigation label for shipments
+  ///
+  /// In en, this message translates to:
+  /// **'Shipments'**
+  String get navShipments;
+
+  /// Bottom navigation label for loans
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get navLoans;
+
+  /// Bottom navigation label for community feed
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get navFeed;
+
   /// Generic error message
   ///
   /// In en, this message translates to:
@@ -217,6 +253,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading...'**
   String get loading;
+
+  /// Placeholder title for future screens
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get featureComingSoon;
+
+  /// QR traceability scanner screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Scan & Trace'**
+  String get traceScannerTitle;
+
+  /// QR traceability scanner placeholder description
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.'**
+  String get traceScannerDescription;
+
+  /// Payment provider placeholder note
+  ///
+  /// In en, this message translates to:
+  /// **'Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.'**
+  String get paymentOptionsNote;
 
   /// Label for language switching action
   ///
