@@ -10,6 +10,8 @@ import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
@@ -35,6 +37,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authControllerProvider).asData?.value;
     final productAsync = ref.watch(productByIdProvider(widget.productId));
 
     return Scaffold(
@@ -54,6 +57,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             onIncrement: _increment,
             onDecrement: _decrement,
             onAddToCart: () {
+              if (authState?.isAuthenticated != true) {
+                showAuthRequiredSheet(
+                  context,
+                  message: context.l10n.loginToAddToCart,
+                );
+                return;
+              }
               ref
                   .read(cartControllerProvider.notifier)
                   .addItem(product, quantity: _quantity);

@@ -48,8 +48,7 @@ class SignupScreen extends StatelessWidget {
             children: [
               Text(
                 context.l10n.alreadyHaveAccount,
-                style:
-                    AppTextStyles.small.copyWith(color: AppColors.textMuted),
+                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
               ),
               TextButton(
                 onPressed: () => context.go('/auth/login'),
@@ -100,8 +99,9 @@ class _RoleCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppTextStyles.body
-                      .copyWith(fontWeight: FontWeight.w700),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(

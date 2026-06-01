@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +36,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _errorMessage = null);
 
-    await ref.read(authControllerProvider.notifier).signIn(
+    await ref
+        .read(authControllerProvider.notifier)
+        .signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -131,8 +132,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   Text(
                     context.l10n.dontHaveAccount,
-                    style: AppTextStyles.small
-                        .copyWith(color: AppColors.textMuted),
+                    style: AppTextStyles.small.copyWith(
+                      color: AppColors.textMuted,
+                    ),
                   ),
                   TextButton(
                     onPressed: () => context.push('/auth/signup'),
@@ -153,10 +155,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 expand: true,
                 onPressed: () => context.go('/guest/marketplace'),
               ),
-              if (kDebugMode) ...[
-                const SizedBox(height: AppSpacing.lg),
-                _DevHint(),
-              ],
             ],
           ),
         ),
@@ -174,46 +172,13 @@ class _AuthDivider extends StatelessWidget {
         children: [
           const Expanded(child: Divider()),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             child: Text(
-              'or',
-              style:
-                  AppTextStyles.small.copyWith(color: AppColors.textMuted),
+              context.l10n.authOr,
+              style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
             ),
           ),
           const Expanded(child: Divider()),
-        ],
-      ),
-    );
-  }
-}
-
-class _DevHint extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      backgroundColor: AppColors.surfaceMedium,
-      borderColor: AppColors.surfaceMedium,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.devTestAccounts,
-            style: AppTextStyles.small
-                .copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          for (final line in [
-            'buyer@test.com / test1234',
-            'farmer@test.com / test1234',
-            'transporter@test.com / test1234',
-          ])
-            Text(
-              line,
-              style: AppTextStyles.small
-                  .copyWith(color: AppColors.textMuted),
-            ),
         ],
       ),
     );

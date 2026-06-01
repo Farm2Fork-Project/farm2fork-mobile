@@ -46,10 +46,7 @@ class AuthUser {
 }
 
 class AuthState {
-  const AuthState({
-    this.status = AuthStatus.guest,
-    this.user,
-  });
+  const AuthState({this.status = AuthStatus.guest, this.user});
 
   final AuthStatus status;
   final AuthUser? user;

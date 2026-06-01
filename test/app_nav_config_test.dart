@@ -65,6 +65,10 @@ void main() {
       );
     });
 
+    test('admin has no mobile navigation tabs', () {
+      expect(AppNavConfig.forRole(AppUserRole.admin), isEmpty);
+    });
+
     test('guest shell has 4 tabs: marketplace, trace, cart, profile', () {
       final tabs = AppNavConfig.forGuest();
       expect(tabs.map((t) => t.destination).toList(), [
@@ -77,6 +81,28 @@ void main() {
 
     test('guest home route is /guest/marketplace', () {
       expect(AppNavConfig.guestHomeRoute, '/guest/marketplace');
+    });
+
+    test('guest and role route guards are centralized', () {
+      expect(AppNavConfig.isPublicRoute('/auth/login'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/guest/trace'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/marketplace/products/abc'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/buyer/cart'), isFalse);
+
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/buyer/cart',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/farmer/listings',
+        ),
+        isFalse,
+      );
     });
   });
 }

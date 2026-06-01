@@ -400,6 +400,9 @@
   "authRequiredDismiss": "Continue browsing",
   "@authRequiredDismiss": { "description": "Dismiss button on auth-required sheet" },
 
+  "authOr": "or",
+  "@authOr": { "description": "Divider text between login and signup actions" },
+
   "signUpSelectRole": "I want to...",
   "@signUpSelectRole": { "description": "Heading on signup role picker" },
 

@@ -44,8 +44,10 @@ class AuthTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide:
-              const BorderSide(color: AppColors.primaryGreen, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.primaryGreen,
+            width: 1.5,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -90,7 +92,11 @@ class AuthErrorBanner extends StatelessWidget {
 
 /// Step indicator for multi-step signup forms.
 class AuthStepIndicator extends StatelessWidget {
-  const AuthStepIndicator({super.key, required this.label, required this.progress});
+  const AuthStepIndicator({
+    super.key,
+    required this.label,
+    required this.progress,
+  });
   final String label;
   final double progress;
 

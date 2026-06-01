@@ -806,6 +806,12 @@ abstract class AppLocalizations {
   /// **'Continue browsing'**
   String get authRequiredDismiss;
 
+  /// Divider text between login and signup actions
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOr;
+
   /// Heading on signup role picker
   ///
   /// In en, this message translates to:

@@ -13,6 +13,8 @@ import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
 class CartScreen extends ConsumerWidget {
@@ -73,6 +75,7 @@ class _FarmerGroupCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authControllerProvider).asData?.value;
     return AppCard(
       padding: EdgeInsets.zero,
       child: Column(
@@ -185,7 +188,15 @@ class _FarmerGroupCard extends ConsumerWidget {
                   icon: Icons.lock_outline_rounded,
                   expand: true,
                   onPressed: () {
-                    // Placeholder: real checkout will navigate to payment flow
+                    if (authState?.isAuthenticated != true) {
+                      showAuthRequiredSheet(
+                        context,
+                        title: context.l10n.loginRequired,
+                        message: context.l10n.loginToCheckout,
+                        icon: Icons.lock_outline_rounded,
+                      );
+                      return;
+                    }
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(

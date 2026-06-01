@@ -85,10 +85,10 @@ class _StoredUser {
   final String password;
 
   AuthUser toAuthUser() => AuthUser(
-        id: id,
-        email: email,
-        role: role,
-        isVerified: true,
-        isActive: true,
-      );
+    id: id,
+    email: email,
+    role: role,
+    isVerified: true,
+    isActive: true,
+  );
 }

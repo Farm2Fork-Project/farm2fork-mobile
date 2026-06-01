@@ -10,6 +10,8 @@ import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/widgets/product_card.dart';
@@ -32,6 +34,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authControllerProvider).asData?.value;
     final activeCategory = ref.watch(activeCategoryProvider);
     final productsAsync = ref.watch(productsProvider);
     final cartCount = ref.watch(cartItemCountProvider);
@@ -47,12 +50,21 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
                 color: AppColors.primaryGreenDark,
-                onPressed: () => context.go(
-                  AppNavConfig.routeFor(
-                    AppUserRole.buyer,
-                    AppNavDestination.cart,
-                  ),
-                ),
+                onPressed: () {
+                  if (authState?.isAuthenticated != true) {
+                    showAuthRequiredSheet(
+                      context,
+                      message: context.l10n.loginToAddToCart,
+                    );
+                    return;
+                  }
+                  context.go(
+                    AppNavConfig.routeFor(
+                      AppUserRole.buyer,
+                      AppNavDestination.cart,
+                    ),
+                  );
+                },
               ),
               if (cartCount > 0)
                 PositionedDirectional(
@@ -143,6 +155,13 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                               '/marketplace/products/${product.id}',
                             ),
                             onAddToCart: () {
+                              if (authState?.isAuthenticated != true) {
+                                showAuthRequiredSheet(
+                                  context,
+                                  message: context.l10n.loginToAddToCart,
+                                );
+                                return;
+                              }
                               ref
                                   .read(cartControllerProvider.notifier)
                                   .addItem(product);

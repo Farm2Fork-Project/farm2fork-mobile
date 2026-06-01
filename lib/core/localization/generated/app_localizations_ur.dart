@@ -400,6 +400,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get authRequiredDismiss => 'براؤز کرتے رہیں';
 
   @override
+  String get authOr => 'یا';
+
+  @override
   String get signUpSelectRole => 'میں چاہتا/چاہتی ہوں...';
 
   @override

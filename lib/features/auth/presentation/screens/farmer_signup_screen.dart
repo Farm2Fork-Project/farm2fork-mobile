@@ -11,16 +11,23 @@ import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_contr
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_form_widgets.dart';
 
 const _availableCrops = [
-  'Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Maize',
-  'Tomatoes', 'Onions', 'Potatoes', 'Mangoes', 'Citrus',
+  'Wheat',
+  'Rice',
+  'Cotton',
+  'Sugarcane',
+  'Maize',
+  'Tomatoes',
+  'Onions',
+  'Potatoes',
+  'Mangoes',
+  'Citrus',
 ];
 
 class FarmerSignupScreen extends ConsumerStatefulWidget {
   const FarmerSignupScreen({super.key});
 
   @override
-  ConsumerState<FarmerSignupScreen> createState() =>
-      _FarmerSignupScreenState();
+  ConsumerState<FarmerSignupScreen> createState() => _FarmerSignupScreenState();
 }
 
 class _FarmerSignupScreenState extends ConsumerState<FarmerSignupScreen> {
@@ -65,7 +72,9 @@ class _FarmerSignupScreenState extends ConsumerState<FarmerSignupScreen> {
     }
     setState(() => _errorMessage = null);
 
-    await ref.read(authControllerProvider.notifier).signUp(
+    await ref
+        .read(authControllerProvider.notifier)
+        .signUp(
           request: FarmerSignUpRequest(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
@@ -76,10 +85,7 @@ class _FarmerSignupScreenState extends ConsumerState<FarmerSignupScreen> {
             cropTypes: _selectedCrops.toList(),
             certifications: _certController.text.trim().isEmpty
                 ? []
-                : _certController.text
-                    .split(',')
-                    .map((e) => e.trim())
-                    .toList(),
+                : _certController.text.split(',').map((e) => e.trim()).toList(),
           ),
         );
 
@@ -87,8 +93,9 @@ class _FarmerSignupScreenState extends ConsumerState<FarmerSignupScreen> {
     if (ref.read(authControllerProvider).hasError) {
       setState(() => _errorMessage = context.l10n.invalidCredentials);
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(context.l10n.signUpSuccess)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.signUpSuccess)));
     }
   }
 
@@ -126,8 +133,9 @@ class _FarmerSignupScreenState extends ConsumerState<FarmerSignupScreen> {
           AuthTextField(
             controller: _nameController,
             label: context.l10n.signUpName,
-            validator: (v) =>
-                (v == null || v.trim().isEmpty) ? context.l10n.signUpName : null,
+            validator: (v) => (v == null || v.trim().isEmpty)
+                ? context.l10n.signUpName
+                : null,
           ),
           const SizedBox(height: AppSpacing.md),
           AuthTextField(

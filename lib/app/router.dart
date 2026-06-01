@@ -57,14 +57,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (status == AuthStatus.authenticated) {
+        if (authState?.role == AppUserRole.admin) {
+          return AppNavConfig.guestHomeRoute;
+        }
         if (isAuthRoute || isGuestRoute) {
           return AppNavConfig.homeRouteForRole(authState!.role!);
+        }
+        if (!AppNavConfig.canAccessRouteForRole(
+          role: authState!.role!,
+          location: state.matchedLocation,
+        )) {
+          return AppNavConfig.homeRouteForRole(authState.role!);
         }
         return null;
       }
 
       // guest / unauthenticated / sessionExpired → guest shell
-      if (!isGuestRoute && !isAuthRoute) {
+      if (!AppNavConfig.isPublicRoute(state.matchedLocation)) {
         return AppNavConfig.guestHomeRoute;
       }
       return null;
@@ -80,10 +89,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, _) => const SignupScreen(),
         routes: [
-          GoRoute(
-            path: 'buyer',
-            builder: (_, _) => const BuyerSignupScreen(),
-          ),
+          GoRoute(path: 'buyer', builder: (_, _) => const BuyerSignupScreen()),
           GoRoute(
             path: 'farmer',
             builder: (_, _) => const FarmerSignupScreen(),
@@ -147,10 +153,8 @@ Widget _guestScreenFor(AppNavDestination destination) {
 StatefulShellRoute _roleShell(AppUserRole role) {
   final navItems = AppNavConfig.forRole(role);
   return StatefulShellRoute.indexedStack(
-    builder: (context, state, navigationShell) => Farm2ForkTabShell(
-      navigationShell: navigationShell,
-      role: role,
-    ),
+    builder: (context, state, navigationShell) =>
+        Farm2ForkTabShell(navigationShell: navigationShell, role: role),
     branches: [
       for (final item in navItems)
         StatefulShellBranch(
@@ -206,10 +210,10 @@ class _GuestTabShellState extends ConsumerState<GuestTabShell> {
 
   @override
   Widget build(BuildContext context) => _buildTabView(
-        context,
-        navigationShell: widget.navigationShell,
-        navItems: AppNavConfig.forGuest(),
-      );
+    context,
+    navigationShell: widget.navigationShell,
+    navItems: AppNavConfig.forGuest(),
+  );
 }
 
 class Farm2ForkTabShell extends StatelessWidget {
@@ -224,10 +228,10 @@ class Farm2ForkTabShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _buildTabView(
-        context,
-        navigationShell: navigationShell,
-        navItems: AppNavConfig.forRole(role),
-      );
+    context,
+    navigationShell: navigationShell,
+    navItems: AppNavConfig.forRole(role),
+  );
 }
 
 Widget _buildTabView(

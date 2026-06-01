@@ -75,24 +75,26 @@ void main() {
       expect(state.isAuthenticated, isFalse);
     });
 
-    test('signIn with valid credentials authenticates with correct role',
-        () async {
-      final container = ProviderContainer(
-        overrides: [
-          authRepositoryProvider.overrideWithValue(MockAuthRepository()),
-        ],
-      );
-      addTearDown(container.dispose);
+    test(
+      'signIn with valid credentials authenticates with correct role',
+      () async {
+        final container = ProviderContainer(
+          overrides: [
+            authRepositoryProvider.overrideWithValue(MockAuthRepository()),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      await container.read(authControllerProvider.future);
-      await container
-          .read(authControllerProvider.notifier)
-          .signIn(email: 'farmer@test.com', password: 'test1234');
+        await container.read(authControllerProvider.future);
+        await container
+            .read(authControllerProvider.notifier)
+            .signIn(email: 'farmer@test.com', password: 'test1234');
 
-      final state = container.read(authControllerProvider).value!;
-      expect(state.status, AuthStatus.authenticated);
-      expect(state.role, AppUserRole.farmer);
-    });
+        final state = container.read(authControllerProvider).value!;
+        expect(state.status, AuthStatus.authenticated);
+        expect(state.role, AppUserRole.farmer);
+      },
+    );
 
     test('signIn with wrong password results in error state', () async {
       final container = ProviderContainer(

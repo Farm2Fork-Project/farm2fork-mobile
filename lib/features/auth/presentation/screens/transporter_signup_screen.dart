@@ -66,7 +66,9 @@ class _TransporterSignupScreenState
     if (!_step2Key.currentState!.validate()) return;
     setState(() => _errorMessage = null);
 
-    await ref.read(authControllerProvider.notifier).signUp(
+    await ref
+        .read(authControllerProvider.notifier)
+        .signUp(
           request: TransporterSignUpRequest(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
@@ -85,8 +87,9 @@ class _TransporterSignupScreenState
     if (ref.read(authControllerProvider).hasError) {
       setState(() => _errorMessage = context.l10n.invalidCredentials);
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(context.l10n.signUpSuccess)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.signUpSuccess)));
     }
   }
 
@@ -124,8 +127,9 @@ class _TransporterSignupScreenState
           AuthTextField(
             controller: _nameController,
             label: context.l10n.signUpName,
-            validator: (v) =>
-                (v == null || v.trim().isEmpty) ? context.l10n.signUpName : null,
+            validator: (v) => (v == null || v.trim().isEmpty)
+                ? context.l10n.signUpName
+                : null,
           ),
           const SizedBox(height: AppSpacing.md),
           AuthTextField(
@@ -208,8 +212,7 @@ class _TransporterSignupScreenState
               for (final t in _vehicleTypes)
                 DropdownMenuItem(value: t, child: Text(t)),
             ],
-            validator: (v) =>
-                v == null ? context.l10n.vehicleType : null,
+            validator: (v) => v == null ? context.l10n.vehicleType : null,
             onChanged: (v) => setState(() => _selectedVehicleType = v),
           ),
           const SizedBox(height: AppSpacing.md),

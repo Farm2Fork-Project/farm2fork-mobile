@@ -18,10 +18,7 @@ class AuthController extends AsyncNotifier<AuthState> {
     return const AuthState(status: AuthStatus.guest);
   }
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final user = await ref

@@ -400,6 +400,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authRequiredDismiss => 'Continue browsing';
 
   @override
+  String get authOr => 'or';
+
+  @override
   String get signUpSelectRole => 'I want to...';
 
   @override

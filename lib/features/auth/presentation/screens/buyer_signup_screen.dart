@@ -40,7 +40,9 @@ class _BuyerSignupScreenState extends ConsumerState<BuyerSignupScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _errorMessage = null);
 
-    await ref.read(authControllerProvider.notifier).signUp(
+    await ref
+        .read(authControllerProvider.notifier)
+        .signUp(
           request: BuyerSignUpRequest(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
@@ -55,9 +57,9 @@ class _BuyerSignupScreenState extends ConsumerState<BuyerSignupScreen> {
     if (ref.read(authControllerProvider).hasError) {
       setState(() => _errorMessage = context.l10n.invalidCredentials);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.signUpSuccess)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.signUpSuccess)));
     }
   }
 

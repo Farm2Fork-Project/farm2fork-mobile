@@ -87,17 +87,37 @@ abstract final class AppNavConfig {
         _item(role, AppNavDestination.feed),
         _item(role, AppNavDestination.profile),
       ],
-      AppUserRole.admin => [
-        _item(role, AppNavDestination.marketplace),
-        _item(role, AppNavDestination.orders),
-        _item(role, AppNavDestination.loans),
-        _item(role, AppNavDestination.feed),
-        _item(role, AppNavDestination.profile),
-      ],
+      AppUserRole.admin => const <AppNavItem>[],
     };
   }
 
   static String homeRouteForRole(AppUserRole role) => forRole(role).first.route;
+
+  static String roleRoutePrefix(AppUserRole role) {
+    return switch (role) {
+      AppUserRole.farmer => '/farmer',
+      AppUserRole.buyer => '/buyer',
+      AppUserRole.transporter => '/transporter',
+      AppUserRole.financialPartner => '/finance',
+      AppUserRole.admin => '/admin',
+    };
+  }
+
+  static bool isPublicRoute(String location) {
+    return location.startsWith('/auth') ||
+        location.startsWith('/guest') ||
+        location.startsWith('/marketplace/products/');
+  }
+
+  static bool canAccessRouteForRole({
+    required AppUserRole role,
+    required String location,
+  }) {
+    if (role == AppUserRole.admin) return false;
+    if (location.startsWith('/marketplace/products/')) return true;
+    final prefix = roleRoutePrefix(role);
+    return location == prefix || location.startsWith('$prefix/');
+  }
 
   static AppNavItem _item(AppUserRole role, AppNavDestination destination) {
     return AppNavItem(
