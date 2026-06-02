@@ -1162,6 +1162,8 @@ The UI must be clean, responsive, and suitable for an agriculture/marketplace ap
 Rules:
 
 ```text
+- ONLY use the existing theme tokens for the UI (AppColors, AppTextStyles, AppSizes, etc.). Do NOT invent or hardcode custom colors or typographies (e.g., no random Color(0xFF...) or one-off TextStyles).
+- Every single user-visible string MUST be completely localized/translated in the ARB files (lib/l10n/app_en.arb and lib/l10n/app_ur.arb). Hardcoded English or Urdu strings in widgets are strictly forbidden.
 - Use app theme tokens for colors, spacing, radius, and typography.
 - Do not scatter magic numbers everywhere.
 - Use reusable widgets.
@@ -1173,6 +1175,7 @@ Rules:
 - Shipment screens must show timeline from real statusHistory.
 
 Agents must not build UI directly against fake maps or raw JSON.
+```
 
 ## Design Philosophy — Locked
 
