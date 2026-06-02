@@ -470,4 +470,197 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get devTestAccounts => 'ڈیو ٹیسٹ اکاؤنٹس';
+
+  @override
+  String get notificationSettings => 'اطلاعات کی ترتیبات';
+
+  @override
+  String get languageDisplay => 'زبان اور ڈسپلے';
+
+  @override
+  String get fontSize => 'فونٹ سائز';
+
+  @override
+  String get contactUs => 'ہم سے رابطہ کریں';
+
+  @override
+  String get faqs => 'اکثر پوچھے گئے سوالات';
+
+  @override
+  String get aboutUs => 'ہمارے بارے میں';
+
+  @override
+  String get privacyPolicy => 'رازداری کی پالیسی';
+
+  @override
+  String get termsConditions => 'شرائط و ضوابط';
+
+  @override
+  String get appSettings => 'ایپ کی ترتیبات';
+
+  @override
+  String get helpInformation => 'مدد اور معلومات';
+
+  @override
+  String get notificationsTitle => 'اطلاعات';
+
+  @override
+  String get notificationsSubtitle => 'منتخب کریں کہ آپ کو کیسے اطلاع دی جائے';
+
+  @override
+  String get orderUpdates => 'آرڈر کی اپ ڈیٹس';
+
+  @override
+  String get orderUpdatesDesc =>
+      'آرڈر کی صورتحال تبدیل ہونے پر اطلاع حاصل کریں';
+
+  @override
+  String get shipmentUpdates => 'شپمنٹ الرٹس';
+
+  @override
+  String get shipmentUpdatesDesc => 'فعال شپمنٹس کو حقیقی وقت میں ٹریک کریں';
+
+  @override
+  String get communityAlerts => 'کمیونٹی اپ ڈیٹس';
+
+  @override
+  String get communityAlertsDesc => 'نئی پوسٹس اور تبصروں پر الرٹ حاصل کریں';
+
+  @override
+  String get marketingAlerts => 'پروموشنل پیغامات';
+
+  @override
+  String get marketingAlertsDesc => 'ڈسکاؤنٹ اور مارکیٹ مہمات سے باخبر رہیں';
+
+  @override
+  String get languageDisplayTitle => 'زبان اور ڈسپلے';
+
+  @override
+  String get fontSizeSmall => 'چھوٹا';
+
+  @override
+  String get fontSizeMedium => 'درمیانہ';
+
+  @override
+  String get fontSizeLarge => 'بڑا';
+
+  @override
+  String get fontSizeXLarge => 'بہت بڑا';
+
+  @override
+  String get textScalePreview => 'پیش نظارہ';
+
+  @override
+  String get textScalePreviewDesc =>
+      'یہ ایک نمونہ جملہ ہے یہ دیکھنے کے لیے کہ فونٹ سائز کی تبدیلی ایپ میں پڑھنے کی سہولت پر کیا اثر ڈالتی ہے۔';
+
+  @override
+  String get contactUsTitle => 'ہم سے رابطہ کریں';
+
+  @override
+  String get contactUsSubtitle => 'سپورٹ ٹیم سے رابطہ کریں';
+
+  @override
+  String get contactSubject => 'موضوع';
+
+  @override
+  String get contactSubjectGeneral => 'عام معلومات';
+
+  @override
+  String get contactSubjectListing => 'لسٹنگ میں مدد';
+
+  @override
+  String get contactSubjectPayment => 'ادائیگی کا مسئلہ';
+
+  @override
+  String get contactSubjectTransport => 'ٹرانسپورٹ سپورٹ';
+
+  @override
+  String get contactMessage => 'پیغام';
+
+  @override
+  String get contactMessageHint => 'اپنی درخواست کی تفصیلات یہاں لکھیں...';
+
+  @override
+  String get contactSubmit => 'درخواست جمع کروائیں';
+
+  @override
+  String get contactEmail => 'سپورٹ ای میل';
+
+  @override
+  String get contactPhone => 'ہیلپ لائن نمبر';
+
+  @override
+  String get contactAddress => 'مرکزی دفتر کا پتہ';
+
+  @override
+  String get contactMessageSuccess =>
+      'آپ کا پیغام کامیابی سے جمع کر دیا گیا ہے!';
+
+  @override
+  String get pleaseEnterMessage => 'براہ کرم اپنا پیغام درج کریں';
+
+  @override
+  String get faqsTitle => 'اکثر پوچھے گئے سوالات';
+
+  @override
+  String get faqCategoryGeneral => 'عام';
+
+  @override
+  String get faqCategoryMarketplace => 'مارکیٹ پلیس';
+
+  @override
+  String get faqCategorySecurity => 'سیکورٹی';
+
+  @override
+  String get faqCategoryTransport => 'ڈیلیوری';
+
+  @override
+  String get faqQ1 => 'فارم ٹو فورک کیسے کام کرتا ہے؟';
+
+  @override
+  String get faqA1 =>
+      'فارم ٹو فورک کسانوں کو براہ راست خریداروں اور ٹرانسپورٹرز سے جوڑتا ہے۔ کسان فصلیں لسٹ کرتے ہیں، خریدار انہیں خریدتے ہیں، اور ٹرانسپورٹرز فراہم کرتے ہیں۔';
+
+  @override
+  String get faqQ2 => 'کیا میری ادائیگی محفوظ ہے؟';
+
+  @override
+  String get faqA2 =>
+      'جی ہاں۔ فارم ٹو فورک تصدیق شدہ ادائیگی کے طریقے (JazzCash، بینک ٹرانسفر) استعمال کرتا ہے جہاں رقم صرف ڈیلیوری کی کامیابی پر ہی جاری کی جاتی ہے۔';
+
+  @override
+  String get faqQ3 => 'پلیٹ فارم فیس کتنی ہے؟';
+
+  @override
+  String get faqA3 =>
+      'کامیاب لین دین پر پلیٹ فارم 5% تک کی چھوٹی فیس وصول کرتا ہے تاکہ سسٹم اور سپورٹ کے اخراجات کو پورا کیا جا سکے۔';
+
+  @override
+  String get faqQ4 => 'ٹرانسپورٹرز کیسے رجسٹر ہوتے ہیں؟';
+
+  @override
+  String get faqA4 =>
+      'ٹرانسپورٹرز ایپ میں ٹرانسپورٹر رول منتخب کر کے اپنی گاڑی کی تفصیلات، سروس ایریا اور لائسنس کی معلومات درج کر کے سائن اپ کر سکتے ہیں۔';
+
+  @override
+  String get aboutUsTitle => 'ہمارے بارے میں';
+
+  @override
+  String get aboutUsContent =>
+      'فارم ٹو فورک ایک زرعی اقدام ہے جو مقامی کسانوں کو بااختیار بنانے، درمیانی خریداروں (آڑھتی) سے بچانے، اور خریداروں کے لیے تازہ پیداوار کی ضمانت فراہم کرنے کے لیے بنایا گیا ہے۔ بلاک چین ریکارڈز کے ذریعے ہم براہ راست اور قابل اعتماد سپلائی نیٹ ورک بناتے ہیں۔';
+
+  @override
+  String get privacyPolicyTitle => 'رازداری کی پالیسی';
+
+  @override
+  String get privacyPolicyContent =>
+      'ہم آپ کی رازداری کا احترام کرتے ہیں۔ ہم نام، ای میل، فون نمبر اور لوکیشن ڈیٹا صرف لسٹنگ اور شپمنٹ ٹریکنگ کے لیے جمع کرتے ہیں۔ ہم کبھی بھی صارف کا ڈیٹا کسی تیسرے فریق کو فروخت نہیں کرتے۔';
+
+  @override
+  String get termsConditionsTitle => 'شرائط و ضوابط';
+
+  @override
+  String get termsConditionsContent =>
+      'ایپ استعمال کر کے آپ آرڈر کے وعدوں کو پورا کرنے پر متفق ہوتے ہیں۔ کسانوں کو معیار کی ضمانت دینی ہو گی، خریداروں کو چیک آؤٹ پر ادائیگی کرنی ہو گی، اور ٹرانسپورٹرز کو محفوظ طریقے سے ڈیلیور کرنا ہو گا۔ پلیٹ فارم فیس ناقابل واپسی ہے۔';
 }

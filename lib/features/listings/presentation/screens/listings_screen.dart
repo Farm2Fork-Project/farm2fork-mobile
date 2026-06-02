@@ -312,15 +312,14 @@ class _ListingCard extends ConsumerWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColors.backgroundLight,
-              borderRadius: BorderRadius.circular(AppRadius.md),
-              border: Border.all(color: AppColors.surfaceMedium),
+              color: AppColors.primaryGreenSoft,
+              borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
             child: const Center(
               child: Icon(
                 Icons.spa_rounded,
-                color: AppColors.primaryGreen,
-                size: 36,
+                color: AppColors.primaryGreenDark,
+                size: 38,
               ),
             ),
           ),
@@ -337,7 +336,9 @@ class _ListingCard extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         product.name,
-                        style: AppTextStyles.h3,
+                        style: AppTextStyles.h3.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -353,8 +354,8 @@ class _ListingCard extends ConsumerWidget {
                 Text(
                   formattedPrice,
                   style: AppTextStyles.body.copyWith(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryGreenDark,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -364,7 +365,7 @@ class _ListingCard extends ConsumerWidget {
                     color: AppColors.textMuted,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: AppSpacing.md),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -384,7 +385,7 @@ class _ListingCard extends ConsumerWidget {
                           localizedStatus,
                           style: AppTextStyles.small.copyWith(
                             color: statusColor,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -394,6 +395,8 @@ class _ListingCard extends ConsumerWidget {
                     Row(
                       children: [
                         IconButton(
+                          constraints: const BoxConstraints(),
+                          padding: const EdgeInsets.all(4),
                           icon: Icon(
                             product.status == ProductStatus.active
                                 ? Icons.visibility_rounded
@@ -405,7 +408,10 @@ class _ListingCard extends ConsumerWidget {
                               .read(listingsControllerProvider.notifier)
                               .toggleStatus(product.id, product.status),
                         ),
+                        const SizedBox(width: AppSpacing.sm),
                         IconButton(
+                          constraints: const BoxConstraints(),
+                          padding: const EdgeInsets.all(4),
                           icon: const Icon(
                             Icons.delete_outline_rounded,
                             color: AppColors.errorRed,

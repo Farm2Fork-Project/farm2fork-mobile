@@ -470,4 +470,197 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devTestAccounts => 'Dev test accounts';
+
+  @override
+  String get notificationSettings => 'Notification Settings';
+
+  @override
+  String get languageDisplay => 'Language & Display';
+
+  @override
+  String get fontSize => 'Font Size';
+
+  @override
+  String get contactUs => 'Contact Us';
+
+  @override
+  String get faqs => 'FAQs';
+
+  @override
+  String get aboutUs => 'About Us';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsConditions => 'Terms & Conditions';
+
+  @override
+  String get appSettings => 'App Settings';
+
+  @override
+  String get helpInformation => 'Help & Information';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsSubtitle => 'Choose how you want to be notified';
+
+  @override
+  String get orderUpdates => 'Order Updates';
+
+  @override
+  String get orderUpdatesDesc => 'Get notified when order status changes';
+
+  @override
+  String get shipmentUpdates => 'Shipment Alerts';
+
+  @override
+  String get shipmentUpdatesDesc => 'Track active shipments in real-time';
+
+  @override
+  String get communityAlerts => 'Community Updates';
+
+  @override
+  String get communityAlertsDesc => 'Get alerts on new posts and comments';
+
+  @override
+  String get marketingAlerts => 'Promotional Messages';
+
+  @override
+  String get marketingAlertsDesc =>
+      'Stay updated on discounts and marketplace campaigns';
+
+  @override
+  String get languageDisplayTitle => 'Language & Display';
+
+  @override
+  String get fontSizeSmall => 'Small';
+
+  @override
+  String get fontSizeMedium => 'Medium';
+
+  @override
+  String get fontSizeLarge => 'Large';
+
+  @override
+  String get fontSizeXLarge => 'Extra Large';
+
+  @override
+  String get textScalePreview => 'Font Size Preview Text';
+
+  @override
+  String get textScalePreviewDesc =>
+      'This is a sample sentence to see how font scaling affects readability across the application.';
+
+  @override
+  String get contactUsTitle => 'Contact Us';
+
+  @override
+  String get contactUsSubtitle => 'Get in touch with support team';
+
+  @override
+  String get contactSubject => 'Subject';
+
+  @override
+  String get contactSubjectGeneral => 'General Inquiry';
+
+  @override
+  String get contactSubjectListing => 'Listing Assistance';
+
+  @override
+  String get contactSubjectPayment => 'Payment Issue';
+
+  @override
+  String get contactSubjectTransport => 'Transportation Support';
+
+  @override
+  String get contactMessage => 'Message';
+
+  @override
+  String get contactMessageHint => 'Describe your request in detail...';
+
+  @override
+  String get contactSubmit => 'Submit Inquiry';
+
+  @override
+  String get contactEmail => 'Support Email';
+
+  @override
+  String get contactPhone => 'Toll-Free Helpline';
+
+  @override
+  String get contactAddress => 'Headquarters Address';
+
+  @override
+  String get contactMessageSuccess =>
+      'Your inquiry has been submitted successfully!';
+
+  @override
+  String get pleaseEnterMessage => 'Please enter your message';
+
+  @override
+  String get faqsTitle => 'Frequently Asked Questions';
+
+  @override
+  String get faqCategoryGeneral => 'General';
+
+  @override
+  String get faqCategoryMarketplace => 'Marketplace';
+
+  @override
+  String get faqCategorySecurity => 'Security';
+
+  @override
+  String get faqCategoryTransport => 'Delivery';
+
+  @override
+  String get faqQ1 => 'How does Farm2Fork work?';
+
+  @override
+  String get faqA1 =>
+      'Farm2Fork connects farmers directly with buyers and transporters. Farmers list crops, buyers purchase them, and transporters deliver them, eliminating middlemen.';
+
+  @override
+  String get faqQ2 => 'Is my payment secure?';
+
+  @override
+  String get faqA2 =>
+      'Yes. Farm2Fork uses verified payment escrow models (JazzCash, Bank transfers) where funds are safely released only upon successful cargo delivery.';
+
+  @override
+  String get faqQ3 => 'What is the platform fee?';
+
+  @override
+  String get faqA3 =>
+      'The platform charges a small fee (up to 5%) on successful transactions to cover payment gateway costs, system maintenance, and support.';
+
+  @override
+  String get faqQ4 => 'How do transporters register?';
+
+  @override
+  String get faqA4 =>
+      'Transporters can sign up in the app by selecting the Transporter role and entering their vehicle details, area of service, and license information.';
+
+  @override
+  String get aboutUsTitle => 'About Us';
+
+  @override
+  String get aboutUsContent =>
+      'Farm2Fork is an agri-tech initiative built to empower local farmers, bypass predatory middlemen, and guarantee fresh produce for buyers. By securing transactions through transparent blockchain-grade ledger records, we build direct, trustworthy, and efficient supply networks.';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyContent =>
+      'At Farm2Fork, we value your privacy. We collect profile details (name, email, phone number) and location data solely to facilitate transactions, listing maps, and shipment tracking. Transaction details are securely recorded to audit delivery steps, and we never sell user data to third parties.';
+
+  @override
+  String get termsConditionsTitle => 'Terms & Conditions';
+
+  @override
+  String get termsConditionsContent =>
+      'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.';
 }

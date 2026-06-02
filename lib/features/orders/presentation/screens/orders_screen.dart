@@ -202,27 +202,29 @@ class _OrderCard extends StatelessWidget {
                   Text(
                     'Order #${order.id}',
                     style: AppTextStyles.h3.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryGreenDark,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     _formatDate(order.createdAt),
                     style: AppTextStyles.small.copyWith(
                       color: AppColors.textMuted,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
               AppBadge(
                 label: statusText,
-                backgroundColor: statusColor.withValues(alpha: 0.1),
+                backgroundColor: statusColor.withValues(alpha: 0.12),
                 foregroundColor: statusColor,
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.surfaceMedium),
+          const Divider(color: AppColors.surfaceMedium, height: 1),
           const SizedBox(height: AppSpacing.md),
 
           // Items listing
@@ -238,9 +240,23 @@ class _OrderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                        '${item.productName} x ${item.quantity} ${item.unit}',
-                        style: AppTextStyles.body,
+                      child: RichText(
+                        text: TextSpan(
+                          style: AppTextStyles.body,
+                          children: [
+                            TextSpan(
+                              text: item.productName,
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: '  x ${item.quantity} ${item.unit}',
+                              style: TextStyle(
+                                color: AppColors.textMuted,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Text(
@@ -248,7 +264,7 @@ class _OrderCard extends StatelessWidget {
                         item.subtotal.toStringAsFixed(0),
                       ),
                       style: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -257,8 +273,8 @@ class _OrderCard extends StatelessWidget {
             },
           ),
           const SizedBox(height: AppSpacing.sm),
-          const Divider(color: AppColors.surfaceMedium),
-          const SizedBox(height: AppSpacing.sm),
+          const Divider(color: AppColors.surfaceMedium, height: 1),
+          const SizedBox(height: AppSpacing.md),
 
           // Totals
           Row(
@@ -266,31 +282,19 @@ class _OrderCard extends StatelessWidget {
             children: [
               Text(
                 context.l10n.subtotal,
-                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
+                style: AppTextStyles.small.copyWith(
+                  color: AppColors.textMuted,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               Text(
                 context.l10n.currencyAmount(
                   order.totalAmount.toStringAsFixed(0),
                 ),
-                style: AppTextStyles.small.copyWith(color: AppColors.textDark),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.platformFeeWithPercent(
-                  order.platformFeePercent.toStringAsFixed(0),
+                style: AppTextStyles.small.copyWith(
+                  color: AppColors.textDark,
+                  fontWeight: FontWeight.w600,
                 ),
-                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-              ),
-              Text(
-                context.l10n.currencyAmount(
-                  order.platformFeeAmount.toStringAsFixed(0),
-                ),
-                style: AppTextStyles.small.copyWith(color: AppColors.textDark),
               ),
             ],
           ),
@@ -299,16 +303,40 @@ class _OrderCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+                context.l10n.platformFeeWithPercent(
+                  order.platformFeePercent.toStringAsFixed(0),
+                ),
+                style: AppTextStyles.small.copyWith(
+                  color: AppColors.textMuted,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                context.l10n.currencyAmount(
+                  order.platformFeeAmount.toStringAsFixed(0),
+                ),
+                style: AppTextStyles.small.copyWith(
+                  color: AppColors.textDark,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 context.l10n.grandTotal,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
                 context.l10n.currencyAmount(
                   order.grandTotal.toStringAsFixed(0),
                 ),
-                style: AppTextStyles.body.copyWith(
-                  color: AppColors.primaryGreen,
-                  fontWeight: FontWeight.w700,
+                style: AppTextStyles.h2.copyWith(
+                  color: AppColors.primaryGreenDark,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ],
@@ -316,8 +344,8 @@ class _OrderCard extends StatelessWidget {
 
           // Role-specific fields
           const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.surfaceMedium),
-          const SizedBox(height: AppSpacing.sm),
+          const Divider(color: AppColors.surfaceMedium, height: 1),
+          const SizedBox(height: AppSpacing.md),
           _buildRoleSpecificDetails(context),
         ],
       ),

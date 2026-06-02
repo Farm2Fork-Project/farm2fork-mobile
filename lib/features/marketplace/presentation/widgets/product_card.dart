@@ -48,34 +48,39 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ── Image area ──────────────────────────────────────────────
-              Stack(
-                children: [
-                  _ProductImage(images: product.images),
-                  if (!isAvailable)
-                    Positioned.fill(
-                      child: Container(
-                        color: AppColors.black.withValues(alpha: 0.45),
-                        alignment: Alignment.center,
-                        child: Text(
-                          productStatusLabel(context, product.status),
-                          style: AppTextStyles.small.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w700,
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppRadius.md),
+                ),
+                child: Stack(
+                  children: [
+                    _ProductImage(images: product.images),
+                    if (!isAvailable)
+                      Positioned.fill(
+                        child: Container(
+                          color: AppColors.black.withValues(alpha: 0.45),
+                          alignment: Alignment.center,
+                          child: Text(
+                            productStatusLabel(context, product.status),
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
+                    PositionedDirectional(
+                      top: AppSpacing.sm,
+                      start: AppSpacing.sm,
+                      child: AppBadge(
+                        label: qualityGradeLabel(context, product.qualityGrade),
+                        icon: Icons.verified_rounded,
+                        backgroundColor: AppColors.white.withValues(alpha: 0.92),
+                        foregroundColor: _gradeColor(product.qualityGrade),
+                      ),
                     ),
-                  PositionedDirectional(
-                    top: AppSpacing.sm,
-                    start: AppSpacing.sm,
-                    child: AppBadge(
-                      label: qualityGradeLabel(context, product.qualityGrade),
-                      icon: Icons.verified_rounded,
-                      backgroundColor: AppColors.white.withValues(alpha: 0.92),
-                      foregroundColor: _gradeColor(product.qualityGrade),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               // ── Info area ───────────────────────────────────────────────

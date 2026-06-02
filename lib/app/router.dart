@@ -25,6 +25,13 @@ import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marke
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/notification_settings_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/language_display_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/contact_us_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/about_us_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/privacy_policy_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/terms_conditions_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/faq_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipments_screen.dart';
 import 'package:farm2fork_mobile/features/traceability/presentation/screens/trace_scanner_screen.dart';
 
@@ -107,6 +114,41 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           return ProductDetailScreen(productId: id);
         },
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/language-display',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const LanguageDisplayScreen(),
+      ),
+      GoRoute(
+        path: '/settings/contact-us',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const ContactUsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/about',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const AboutUsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/privacy',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: '/settings/terms',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const TermsConditionsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/faqs',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FaqScreen(),
       ),
       _guestShell(),
       _roleShell(AppUserRole.buyer),

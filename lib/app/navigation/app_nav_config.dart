@@ -106,7 +106,8 @@ abstract final class AppNavConfig {
   static bool isPublicRoute(String location) {
     return location.startsWith('/auth') ||
         location.startsWith('/guest') ||
-        location.startsWith('/marketplace/products/');
+        location.startsWith('/marketplace/products/') ||
+        location.startsWith('/settings/');
   }
 
   static bool canAccessRouteForRole({

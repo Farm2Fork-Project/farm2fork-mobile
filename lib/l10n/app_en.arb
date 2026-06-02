@@ -473,5 +473,188 @@
   "@guestWelcomeSubtitle": { "description": "Guest account screen subtitle" },
 
   "devTestAccounts": "Dev test accounts",
-  "@devTestAccounts": { "description": "Label for dev-mode credential hints" }
+  "@devTestAccounts": { "description": "Label for dev-mode credential hints" },
+
+  "notificationSettings": "Notification Settings",
+  "@notificationSettings": { "description": "Settings tile label for notifications" },
+
+  "languageDisplay": "Language & Display",
+  "@languageDisplay": { "description": "Settings tile label for language & display settings" },
+
+  "fontSize": "Font Size",
+  "@fontSize": { "description": "Settings font size label" },
+
+  "contactUs": "Contact Us",
+  "@contactUs": { "description": "Tile label for Contact Us screen" },
+
+  "faqs": "FAQs",
+  "@faqs": { "description": "Tile label for FAQs screen" },
+
+  "aboutUs": "About Us",
+  "@aboutUs": { "description": "Tile label for About Us screen" },
+
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": { "description": "Tile label for Privacy Policy screen" },
+
+  "termsConditions": "Terms & Conditions",
+  "@termsConditions": { "description": "Tile label for Terms & Conditions screen" },
+
+  "appSettings": "App Settings",
+  "@appSettings": { "description": "Section header for application settings" },
+
+  "helpInformation": "Help & Information",
+  "@helpInformation": { "description": "Section header for help and policies" },
+
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": { "description": "Notifications settings page title" },
+
+  "notificationsSubtitle": "Choose how you want to be notified",
+  "@notificationsSubtitle": { "description": "Notifications settings page subtitle" },
+
+  "orderUpdates": "Order Updates",
+  "@orderUpdates": { "description": "Order updates notification switch label" },
+
+  "orderUpdatesDesc": "Get notified when order status changes",
+  "@orderUpdatesDesc": { "description": "Order updates notification description" },
+
+  "shipmentUpdates": "Shipment Alerts",
+  "@shipmentUpdates": { "description": "Shipment updates notification switch label" },
+
+  "shipmentUpdatesDesc": "Track active shipments in real-time",
+  "@shipmentUpdatesDesc": { "description": "Shipment updates notification description" },
+
+  "communityAlerts": "Community Updates",
+  "@communityAlerts": { "description": "Community updates notification switch label" },
+
+  "communityAlertsDesc": "Get alerts on new posts and comments",
+  "@communityAlertsDesc": { "description": "Community updates notification description" },
+
+  "marketingAlerts": "Promotional Messages",
+  "@marketingAlerts": { "description": "Marketing updates notification switch label" },
+
+  "marketingAlertsDesc": "Stay updated on discounts and marketplace campaigns",
+  "@marketingAlertsDesc": { "description": "Marketing updates notification description" },
+
+  "languageDisplayTitle": "Language & Display",
+  "@languageDisplayTitle": { "description": "Language & display settings page title" },
+
+  "fontSizeSmall": "Small",
+  "@fontSizeSmall": { "description": "Small font scale label" },
+
+  "fontSizeMedium": "Medium",
+  "@fontSizeMedium": { "description": "Medium font scale label" },
+
+  "fontSizeLarge": "Large",
+  "@fontSizeLarge": { "description": "Large font scale label" },
+
+  "fontSizeXLarge": "Extra Large",
+  "@fontSizeXLarge": { "description": "Extra large font scale label" },
+
+  "textScalePreview": "Font Size Preview Text",
+  "@textScalePreview": { "description": "Header for font size preview card" },
+
+  "textScalePreviewDesc": "This is a sample sentence to see how font scaling affects readability across the application.",
+  "@textScalePreviewDesc": { "description": "Preview text for font size scaling" },
+
+  "contactUsTitle": "Contact Us",
+  "@contactUsTitle": { "description": "Contact us page title" },
+
+  "contactUsSubtitle": "Get in touch with support team",
+  "@contactUsSubtitle": { "description": "Contact us page subtitle" },
+
+  "contactSubject": "Subject",
+  "@contactSubject": { "description": "Contact us subject field label" },
+
+  "contactSubjectGeneral": "General Inquiry",
+  "@contactSubjectGeneral": { "description": "Subject general option" },
+
+  "contactSubjectListing": "Listing Assistance",
+  "@contactSubjectListing": { "description": "Subject listing option" },
+
+  "contactSubjectPayment": "Payment Issue",
+  "@contactSubjectPayment": { "description": "Subject payment option" },
+
+  "contactSubjectTransport": "Transportation Support",
+  "@contactSubjectTransport": { "description": "Subject transport option" },
+
+  "contactMessage": "Message",
+  "@contactMessage": { "description": "Contact us message field label" },
+
+  "contactMessageHint": "Describe your request in detail...",
+  "@contactMessageHint": { "description": "Contact us message hint" },
+
+  "contactSubmit": "Submit Inquiry",
+  "@contactSubmit": { "description": "Contact us submit button label" },
+
+  "contactEmail": "Support Email",
+  "@contactEmail": { "description": "Support email label" },
+
+  "contactPhone": "Toll-Free Helpline",
+  "@contactPhone": { "description": "Toll free Helpline label" },
+
+  "contactAddress": "Headquarters Address",
+  "@contactAddress": { "description": "Headquarters address label" },
+
+  "contactMessageSuccess": "Your inquiry has been submitted successfully!",
+  "@contactMessageSuccess": { "description": "Contact us form success message" },
+
+  "pleaseEnterMessage": "Please enter your message",
+  "@pleaseEnterMessage": { "description": "Contact us form validation message" },
+
+  "faqsTitle": "Frequently Asked Questions",
+  "@faqsTitle": { "description": "FAQs page title" },
+
+  "faqCategoryGeneral": "General",
+  "@faqCategoryGeneral": { "description": "FAQ category General label" },
+
+  "faqCategoryMarketplace": "Marketplace",
+  "@faqCategoryMarketplace": { "description": "FAQ category Marketplace label" },
+
+  "faqCategorySecurity": "Security",
+  "@faqCategorySecurity": { "description": "FAQ category Security label" },
+
+  "faqCategoryTransport": "Delivery",
+  "@faqCategoryTransport": { "description": "FAQ category Delivery label" },
+
+  "faqQ1": "How does Farm2Fork work?",
+  "@faqQ1": { "description": "FAQ Question 1" },
+
+  "faqA1": "Farm2Fork connects farmers directly with buyers and transporters. Farmers list crops, buyers purchase them, and transporters deliver them, eliminating middlemen.",
+  "@faqA1": { "description": "FAQ Answer 1" },
+
+  "faqQ2": "Is my payment secure?",
+  "@faqQ2": { "description": "FAQ Question 2" },
+
+  "faqA2": "Yes. Farm2Fork uses verified payment escrow models (JazzCash, Bank transfers) where funds are safely released only upon successful cargo delivery.",
+  "@faqA2": { "description": "FAQ Answer 2" },
+
+  "faqQ3": "What is the platform fee?",
+  "@faqQ3": { "description": "FAQ Question 3" },
+
+  "faqA3": "The platform charges a small fee (up to 5%) on successful transactions to cover payment gateway costs, system maintenance, and support.",
+  "@faqA3": { "description": "FAQ Answer 3" },
+
+  "faqQ4": "How do transporters register?",
+  "@faqQ4": { "description": "FAQ Question 4" },
+
+  "faqA4": "Transporters can sign up in the app by selecting the Transporter role and entering their vehicle details, area of service, and license information.",
+  "@faqA4": { "description": "FAQ Answer 4" },
+
+  "aboutUsTitle": "About Us",
+  "@aboutUsTitle": { "description": "About us page title" },
+
+  "aboutUsContent": "Farm2Fork is an agri-tech initiative built to empower local farmers, bypass predatory middlemen, and guarantee fresh produce for buyers. By securing transactions through transparent blockchain-grade ledger records, we build direct, trustworthy, and efficient supply networks.",
+  "@aboutUsContent": { "description": "About us page content" },
+
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": { "description": "Privacy policy page title" },
+
+  "privacyPolicyContent": "At Farm2Fork, we value your privacy. We collect profile details (name, email, phone number) and location data solely to facilitate transactions, listing maps, and shipment tracking. Transaction details are securely recorded to audit delivery steps, and we never sell user data to third parties.",
+  "@privacyPolicyContent": { "description": "Privacy policy page content" },
+
+  "termsConditionsTitle": "Terms & Conditions",
+  "@termsConditionsTitle": { "description": "Terms & Conditions page title" },
+
+  "termsConditionsContent": "By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.",
+  "@termsConditionsContent": { "description": "Terms & conditions page content" }
 }

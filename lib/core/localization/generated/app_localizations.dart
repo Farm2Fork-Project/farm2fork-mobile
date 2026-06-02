@@ -943,6 +943,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dev test accounts'**
   String get devTestAccounts;
+
+  /// Settings tile label for notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Settings'**
+  String get notificationSettings;
+
+  /// Settings tile label for language & display settings
+  ///
+  /// In en, this message translates to:
+  /// **'Language & Display'**
+  String get languageDisplay;
+
+  /// Settings font size label
+  ///
+  /// In en, this message translates to:
+  /// **'Font Size'**
+  String get fontSize;
+
+  /// Tile label for Contact Us screen
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactUs;
+
+  /// Tile label for FAQs screen
+  ///
+  /// In en, this message translates to:
+  /// **'FAQs'**
+  String get faqs;
+
+  /// Tile label for About Us screen
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get aboutUs;
+
+  /// Tile label for Privacy Policy screen
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// Tile label for Terms & Conditions screen
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get termsConditions;
+
+  /// Section header for application settings
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get appSettings;
+
+  /// Section header for help and policies
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Information'**
+  String get helpInformation;
+
+  /// Notifications settings page title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// Notifications settings page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you want to be notified'**
+  String get notificationsSubtitle;
+
+  /// Order updates notification switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get orderUpdates;
+
+  /// Order updates notification description
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when order status changes'**
+  String get orderUpdatesDesc;
+
+  /// Shipment updates notification switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Shipment Alerts'**
+  String get shipmentUpdates;
+
+  /// Shipment updates notification description
+  ///
+  /// In en, this message translates to:
+  /// **'Track active shipments in real-time'**
+  String get shipmentUpdatesDesc;
+
+  /// Community updates notification switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Community Updates'**
+  String get communityAlerts;
+
+  /// Community updates notification description
+  ///
+  /// In en, this message translates to:
+  /// **'Get alerts on new posts and comments'**
+  String get communityAlertsDesc;
+
+  /// Marketing updates notification switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Promotional Messages'**
+  String get marketingAlerts;
+
+  /// Marketing updates notification description
+  ///
+  /// In en, this message translates to:
+  /// **'Stay updated on discounts and marketplace campaigns'**
+  String get marketingAlertsDesc;
+
+  /// Language & display settings page title
+  ///
+  /// In en, this message translates to:
+  /// **'Language & Display'**
+  String get languageDisplayTitle;
+
+  /// Small font scale label
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get fontSizeSmall;
+
+  /// Medium font scale label
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get fontSizeMedium;
+
+  /// Large font scale label
+  ///
+  /// In en, this message translates to:
+  /// **'Large'**
+  String get fontSizeLarge;
+
+  /// Extra large font scale label
+  ///
+  /// In en, this message translates to:
+  /// **'Extra Large'**
+  String get fontSizeXLarge;
+
+  /// Header for font size preview card
+  ///
+  /// In en, this message translates to:
+  /// **'Font Size Preview Text'**
+  String get textScalePreview;
+
+  /// Preview text for font size scaling
+  ///
+  /// In en, this message translates to:
+  /// **'This is a sample sentence to see how font scaling affects readability across the application.'**
+  String get textScalePreviewDesc;
+
+  /// Contact us page title
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactUsTitle;
+
+  /// Contact us page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Get in touch with support team'**
+  String get contactUsSubtitle;
+
+  /// Contact us subject field label
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get contactSubject;
+
+  /// Subject general option
+  ///
+  /// In en, this message translates to:
+  /// **'General Inquiry'**
+  String get contactSubjectGeneral;
+
+  /// Subject listing option
+  ///
+  /// In en, this message translates to:
+  /// **'Listing Assistance'**
+  String get contactSubjectListing;
+
+  /// Subject payment option
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Issue'**
+  String get contactSubjectPayment;
+
+  /// Subject transport option
+  ///
+  /// In en, this message translates to:
+  /// **'Transportation Support'**
+  String get contactSubjectTransport;
+
+  /// Contact us message field label
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get contactMessage;
+
+  /// Contact us message hint
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your request in detail...'**
+  String get contactMessageHint;
+
+  /// Contact us submit button label
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Inquiry'**
+  String get contactSubmit;
+
+  /// Support email label
+  ///
+  /// In en, this message translates to:
+  /// **'Support Email'**
+  String get contactEmail;
+
+  /// Toll free Helpline label
+  ///
+  /// In en, this message translates to:
+  /// **'Toll-Free Helpline'**
+  String get contactPhone;
+
+  /// Headquarters address label
+  ///
+  /// In en, this message translates to:
+  /// **'Headquarters Address'**
+  String get contactAddress;
+
+  /// Contact us form success message
+  ///
+  /// In en, this message translates to:
+  /// **'Your inquiry has been submitted successfully!'**
+  String get contactMessageSuccess;
+
+  /// Contact us form validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your message'**
+  String get pleaseEnterMessage;
+
+  /// FAQs page title
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get faqsTitle;
+
+  /// FAQ category General label
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get faqCategoryGeneral;
+
+  /// FAQ category Marketplace label
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace'**
+  String get faqCategoryMarketplace;
+
+  /// FAQ category Security label
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get faqCategorySecurity;
+
+  /// FAQ category Delivery label
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery'**
+  String get faqCategoryTransport;
+
+  /// FAQ Question 1
+  ///
+  /// In en, this message translates to:
+  /// **'How does Farm2Fork work?'**
+  String get faqQ1;
+
+  /// FAQ Answer 1
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork connects farmers directly with buyers and transporters. Farmers list crops, buyers purchase them, and transporters deliver them, eliminating middlemen.'**
+  String get faqA1;
+
+  /// FAQ Question 2
+  ///
+  /// In en, this message translates to:
+  /// **'Is my payment secure?'**
+  String get faqQ2;
+
+  /// FAQ Answer 2
+  ///
+  /// In en, this message translates to:
+  /// **'Yes. Farm2Fork uses verified payment escrow models (JazzCash, Bank transfers) where funds are safely released only upon successful cargo delivery.'**
+  String get faqA2;
+
+  /// FAQ Question 3
+  ///
+  /// In en, this message translates to:
+  /// **'What is the platform fee?'**
+  String get faqQ3;
+
+  /// FAQ Answer 3
+  ///
+  /// In en, this message translates to:
+  /// **'The platform charges a small fee (up to 5%) on successful transactions to cover payment gateway costs, system maintenance, and support.'**
+  String get faqA3;
+
+  /// FAQ Question 4
+  ///
+  /// In en, this message translates to:
+  /// **'How do transporters register?'**
+  String get faqQ4;
+
+  /// FAQ Answer 4
+  ///
+  /// In en, this message translates to:
+  /// **'Transporters can sign up in the app by selecting the Transporter role and entering their vehicle details, area of service, and license information.'**
+  String get faqA4;
+
+  /// About us page title
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get aboutUsTitle;
+
+  /// About us page content
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork is an agri-tech initiative built to empower local farmers, bypass predatory middlemen, and guarantee fresh produce for buyers. By securing transactions through transparent blockchain-grade ledger records, we build direct, trustworthy, and efficient supply networks.'**
+  String get aboutUsContent;
+
+  /// Privacy policy page title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
+
+  /// Privacy policy page content
+  ///
+  /// In en, this message translates to:
+  /// **'At Farm2Fork, we value your privacy. We collect profile details (name, email, phone number) and location data solely to facilitate transactions, listing maps, and shipment tracking. Transaction details are securely recorded to audit delivery steps, and we never sell user data to third parties.'**
+  String get privacyPolicyContent;
+
+  /// Terms & Conditions page title
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get termsConditionsTitle;
+
+  /// Terms & conditions page content
+  ///
+  /// In en, this message translates to:
+  /// **'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.'**
+  String get termsConditionsContent;
 }
 
 class _AppLocalizationsDelegate
