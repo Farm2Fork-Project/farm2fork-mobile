@@ -1,11 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 import 'orders_repository.dart';
-
-final ordersRepositoryProvider = Provider<OrdersRepository>((ref) {
-  return MockOrdersRepository();
-});
 
 class MockOrdersRepository implements OrdersRepository {
   final List<Order> _orders = [
@@ -108,8 +103,46 @@ class MockOrdersRepository implements OrdersRepository {
   }
 
   @override
-  Future<Order> createOrder(Order order) async {
+  Future<Order> createOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
+    // The mock has no product catalogue to resolve prices from, so it builds a
+    // representative pending order. The real backend computes prices, the
+    // farmer, totals and the platform fee server-side.
+    const unitPrice = 100.0;
+    const feePercent = 5.0;
+    final orderItems = items
+        .map(
+          (line) => OrderItem(
+            productId: line.productId,
+            farmerId: 'farmer_mock',
+            productName: 'Product ${line.productId}',
+            quantity: line.quantity.toDouble(),
+            unit: 'kg',
+            unitPrice: unitPrice,
+            subtotal: unitPrice * line.quantity,
+          ),
+        )
+        .toList();
+    final totalAmount = orderItems.fold(0.0, (sum, i) => sum + i.subtotal);
+    final feeAmount = totalAmount * (feePercent / 100);
+    final now = DateTime.now();
+    final order = Order(
+      id: 'ord_${now.microsecondsSinceEpoch}',
+      buyerId: 'mock_buyer_001',
+      farmerId: 'farmer_mock',
+      items: orderItems,
+      totalAmount: totalAmount,
+      platformFeePercent: feePercent,
+      platformFeeAmount: feeAmount,
+      grandTotal: totalAmount + feeAmount,
+      shippingAddress: shippingAddress,
+      status: OrderStatus.pending,
+      createdAt: now,
+      updatedAt: now,
+    );
     _orders.insert(0, order);
     return order;
   }

@@ -312,6 +312,65 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
+  String get checkoutTitle => 'ادائیگی';
+
+  @override
+  String get shippingAddress => 'ترسیل کا پتہ';
+
+  @override
+  String get streetAddress => 'گلی کا پتہ';
+
+  @override
+  String get city => 'شہر';
+
+  @override
+  String get province => 'صوبہ';
+
+  @override
+  String get zipCode => 'پوسٹل کوڈ';
+
+  @override
+  String get orderSummary => 'آرڈر کا خلاصہ';
+
+  @override
+  String orderForFarmer(String farmerName) {
+    return '$farmerName کے لیے آرڈر';
+  }
+
+  @override
+  String get separateOrdersNote =>
+      'مختلف کسانوں کی اشیاء الگ الگ آرڈرز کے طور پر دی جاتی ہیں۔';
+
+  @override
+  String placeOrderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز دیں',
+      one: '1 آرڈر دیں',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ordersPlacedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کامیابی سے دے دیے گئے',
+      one: '1 آرڈر کامیابی سے دے دیا گیا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get orderPlacementFailed =>
+      'آپ کا آرڈر نہیں دیا جا سکا۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get fieldRequired => 'یہ خانہ ضروری ہے';
+
+  @override
   String get removeItem => 'ہٹائیں';
 
   @override

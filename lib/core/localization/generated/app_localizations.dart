@@ -644,6 +644,84 @@ abstract class AppLocalizations {
   /// **'Checkout for {farmerName}'**
   String checkoutForFarmer(String farmerName);
 
+  /// Checkout screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkoutTitle;
+
+  /// Shipping address section heading
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping Address'**
+  String get shippingAddress;
+
+  /// Street address field label
+  ///
+  /// In en, this message translates to:
+  /// **'Street Address'**
+  String get streetAddress;
+
+  /// City field label
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// Province field label
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get province;
+
+  /// Postal/ZIP code field label (optional)
+  ///
+  /// In en, this message translates to:
+  /// **'Postal Code'**
+  String get zipCode;
+
+  /// Order summary section heading
+  ///
+  /// In en, this message translates to:
+  /// **'Order Summary'**
+  String get orderSummary;
+
+  /// Per-farmer order group heading on checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Order for {farmerName}'**
+  String orderForFarmer(String farmerName);
+
+  /// Explains one-order-one-farmer to the buyer
+  ///
+  /// In en, this message translates to:
+  /// **'Items from different farmers are placed as separate orders.'**
+  String get separateOrdersNote;
+
+  /// Submit button label reflecting number of farmer orders
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Place 1 Order} other{Place {count} Orders}}'**
+  String placeOrderCount(int count);
+
+  /// Success message reflecting number of orders created
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order placed successfully} other{{count} orders placed successfully}}'**
+  String ordersPlacedCount(int count);
+
+  /// Generic checkout failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Could not place your order. Please try again.'**
+  String get orderPlacementFailed;
+
+  /// Generic required-field validation message
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
   /// Button to remove a cart item
   ///
   /// In en, this message translates to:

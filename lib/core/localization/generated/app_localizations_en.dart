@@ -312,6 +312,65 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get checkoutTitle => 'Checkout';
+
+  @override
+  String get shippingAddress => 'Shipping Address';
+
+  @override
+  String get streetAddress => 'Street Address';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get province => 'Province';
+
+  @override
+  String get zipCode => 'Postal Code';
+
+  @override
+  String get orderSummary => 'Order Summary';
+
+  @override
+  String orderForFarmer(String farmerName) {
+    return 'Order for $farmerName';
+  }
+
+  @override
+  String get separateOrdersNote =>
+      'Items from different farmers are placed as separate orders.';
+
+  @override
+  String placeOrderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Place $count Orders',
+      one: 'Place 1 Order',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ordersPlacedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count orders placed successfully',
+      one: '1 order placed successfully',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get orderPlacementFailed =>
+      'Could not place your order. Please try again.';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
   String get removeItem => 'Remove';
 
   @override
