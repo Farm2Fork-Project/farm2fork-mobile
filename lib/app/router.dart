@@ -17,6 +17,7 @@ import 'package:farm2fork_mobile/features/auth/presentation/screens/signup_scree
 import 'package:farm2fork_mobile/features/auth/presentation/screens/transporter_signup_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/screens/checkout_screen.dart';
 import 'package:farm2fork_mobile/features/feed/presentation/screens/feed_screen.dart';
 import 'package:farm2fork_mobile/features/finance/presentation/screens/loans_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
@@ -114,6 +115,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           return ProductDetailScreen(productId: id);
         },
+      ),
+      GoRoute(
+        path: '/checkout',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            CheckoutScreen(farmerId: state.uri.queryParameters['farmerId']),
       ),
       GoRoute(
         path: '/settings/notifications',

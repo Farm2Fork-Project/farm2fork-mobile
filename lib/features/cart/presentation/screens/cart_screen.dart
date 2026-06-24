@@ -197,21 +197,7 @@ class _FarmerGroupCard extends ConsumerWidget {
                       );
                       return;
                     }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          context.l10n.checkoutForFarmer(group.farmerName),
-                          style: AppTextStyles.small.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-                        backgroundColor: AppColors.secondaryBlue,
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
-                        ),
-                      ),
-                    );
+                    context.push('/checkout?farmerId=${group.farmerId}');
                   },
                 ),
               ],

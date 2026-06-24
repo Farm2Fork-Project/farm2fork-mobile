@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
-import 'package:farm2fork_mobile/features/orders/data/repositories/mock_orders_repository.dart';
+import 'package:farm2fork_mobile/features/orders/data/repositories/orders_repository_provider.dart';
 
 final ordersControllerProvider =
     AsyncNotifierProvider<OrdersController, List<Order>>(OrdersController.new);

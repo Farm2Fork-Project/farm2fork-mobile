@@ -314,6 +314,60 @@
     }
   },
 
+  "checkoutTitle": "Checkout",
+  "@checkoutTitle": { "description": "Checkout screen app bar title" },
+
+  "shippingAddress": "Shipping Address",
+  "@shippingAddress": { "description": "Shipping address section heading" },
+
+  "streetAddress": "Street Address",
+  "@streetAddress": { "description": "Street address field label" },
+
+  "city": "City",
+  "@city": { "description": "City field label" },
+
+  "province": "Province",
+  "@province": { "description": "Province field label" },
+
+  "zipCode": "Postal Code",
+  "@zipCode": { "description": "Postal/ZIP code field label (optional)" },
+
+  "orderSummary": "Order Summary",
+  "@orderSummary": { "description": "Order summary section heading" },
+
+  "orderForFarmer": "Order for {farmerName}",
+  "@orderForFarmer": {
+    "description": "Per-farmer order group heading on checkout",
+    "placeholders": {
+      "farmerName": { "type": "String", "example": "Ali Hassan" }
+    }
+  },
+
+  "separateOrdersNote": "Items from different farmers are placed as separate orders.",
+  "@separateOrdersNote": { "description": "Explains one-order-one-farmer to the buyer" },
+
+  "placeOrderCount": "{count, plural, =1{Place 1 Order} other{Place {count} Orders}}",
+  "@placeOrderCount": {
+    "description": "Submit button label reflecting number of farmer orders",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "ordersPlacedCount": "{count, plural, =1{1 order placed successfully} other{{count} orders placed successfully}}",
+  "@ordersPlacedCount": {
+    "description": "Success message reflecting number of orders created",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "orderPlacementFailed": "Could not place your order. Please try again.",
+  "@orderPlacementFailed": { "description": "Generic checkout failure message" },
+
+  "fieldRequired": "This field is required",
+  "@fieldRequired": { "description": "Generic required-field validation message" },
+
   "removeItem": "Remove",
   "@removeItem": { "description": "Button to remove a cart item" },
 
