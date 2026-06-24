@@ -30,7 +30,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get welcome => 'خوش آمدید';
 
   @override
-  String get marketplace => 'مارکیٹ پلیس';
+  String get marketplace => 'منڈی';
 
   @override
   String get cart => 'کارٹ';
@@ -45,7 +45,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get settings => 'ترتیبات';
 
   @override
-  String get navHome => 'ہوم';
+  String get navHome => 'منڈی';
 
   @override
   String get navCart => 'کارٹ';
@@ -57,13 +57,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navProfile => 'پروفائل';
 
   @override
-  String get navListings => 'لسٹنگز';
+  String get navListings => 'میری فصلیں';
 
   @override
-  String get navCreateListing => 'بنائیں';
+  String get navCreateListing => 'پیداوار درج کریں';
 
   @override
-  String get navTrace => 'ٹریس';
+  String get navTrace => 'فصل کا سفر';
 
   @override
   String get navShipments => 'شپمنٹس';
@@ -72,7 +72,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navLoans => 'قرضے';
 
   @override
-  String get navFeed => 'فیڈ';
+  String get navFeed => 'کسان چوپال';
 
   @override
   String get errorOccurred => 'خرابی پیش آگئی ہے۔ براہ کرم دوبارہ کوشش کریں۔';
@@ -105,7 +105,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get authWelcomeSubtitle =>
-      'جس اکاؤنٹ رول کا preview دیکھنا ہے اسے منتخب کریں۔ backend auth module تیار ہونے کے بعد اصل login یہاں connect ہوگا۔';
+      'آپ جس اکاؤنٹ کی قسم کو دیکھنا چاہتے ہیں، اسے منتخب کریں۔ سسٹم مکمل ہونے پر آپ کا اصل لاگ ان یہاں کام کرے گا۔';
 
   @override
   String get chooseYourRole => 'اپنا رول منتخب کریں';
@@ -116,7 +116,7 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get roleFarmer => 'کسان';
+  String get roleFarmer => 'کاشتکار';
 
   @override
   String get roleBuyer => 'خریدار';
@@ -132,23 +132,23 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get farmerRoleDescription =>
-      'پیداوار کی listings، orders، اور community updates manage کریں۔';
+      'اپنی فصلوں، آرڈرز، اور کسان چوپال کی سرگرمیوں کا انتظام کریں۔';
 
   @override
   String get buyerRoleDescription =>
-      'تازہ پیداوار خریدیں، QR code scan کریں، اور orders track کریں۔';
+      'تازہ پیداوار خریدیں، تصدیق کے لیے کیو آر (QR) کوڈ اسکین کریں، اور اپنے آرڈرز کو ٹریک کریں۔';
 
   @override
   String get transporterRoleDescription =>
-      'shipment tasks دیکھیں اور delivery progress update کریں۔';
+      'اپنی ترسیل کے کام دیکھیں اور اشیاء کی بروقت فراہمی کو اپ ڈیٹ کریں۔';
 
   @override
   String get financialPartnerRoleDescription =>
-      'loan requests اور farmer finance activity review کریں۔';
+      'کسانوں کے لیے قرض کی درخواستیں اور مالی سرگرمیاں دیکھیں۔';
 
   @override
   String get adminRoleDescription =>
-      'marketplace، orders، finance، اور platform activity monitor کریں۔';
+      'منڈی، آرڈرز، فنانس، اور پلیٹ فارم کی تمام سرگرمیوں کی نگرانی کریں۔';
 
   @override
   String signedInAsRole(String role) {
@@ -156,39 +156,39 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get listingsTitle => 'میری لسٹنگز';
+  String get listingsTitle => 'میری فصلیں';
 
   @override
   String get listingsDescription =>
-      'active produce listings، stock updates، اور farm inventory manage کریں۔';
+      'اپنی فصلوں، اسٹاک اور فارم کی پیداوار کا انتظام کریں۔';
 
   @override
-  String get createListingTitle => 'لسٹنگ بنائیں';
+  String get createListingTitle => 'پیداوار درج کریں';
 
   @override
   String get createListingDescription =>
-      'buyers کے لیے crop details، quantity، grade، price، اور harvest information شامل کریں۔';
+      'خریداروں کے لیے فصل کی تفصیلات، مقدار، کوالٹی، قیمت اور کٹائی کی معلومات درج کریں۔';
 
   @override
-  String get feedTitle => 'فارم فیڈ';
+  String get feedTitle => 'کسان چوپال';
 
   @override
   String get feedDescription =>
-      'updates share کریں، سوالات پوچھیں، اور Farm2Fork network کی trusted activity follow کریں۔';
+      'اپنی معلومات شیئر کریں، سوالات پوچھیں، اور کسانوں کے نیٹ ورک سے جڑے رہیں۔';
 
   @override
   String get shipmentsTitle => 'شپمنٹس';
 
   @override
   String get shipmentsDescription =>
-      'assigned pickups، delivery status، اور QR-linked shipment movement track کریں۔';
+      'اپنی تفویض کردہ ترسیلات، منزل کی صورتحال اور کیو آر (QR) کوڈ سے منسلک معلومات ٹریک کریں۔';
 
   @override
   String get loansTitle => 'قرضے';
 
   @override
   String get loansDescription =>
-      'farmer finance requests، repayment status، اور partner decisions review کریں۔';
+      'کسانوں کی مالی مدد، قرض کی واپسی کی صورتحال اور شراکت داروں کے فیصلے دیکھیں۔';
 
   @override
   String get changeLanguage => 'Change Language (زبان تبدیل کریں)';
