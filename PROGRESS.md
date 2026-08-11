@@ -10,7 +10,7 @@
 
 | Repo | State | Notes |
 |------|-------|-------|
-| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** + persisted payment initiation/simulated settlement | Payment list/read/refund still return mock DTOs; blockchain/transport/loan/community/notification/ai are otherwise schema-only scaffolds |
+| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** + persisted payment initiation/read/simulated settlement | Payment refund still returns a mock DTO; blockchain/transport/loan/community/notification/ai are otherwise schema-only scaffolds |
 | **farm2fork-mobile** (Flutter) | Network layer + Marketplace + **Checkout** + buyer payment status flow | Defaults to `USE_MOCKS=true`; real gateway polling, notifications, and loans are not built |
 | **farm2fork-web** (Next.js admin) | Polished UI prototype, all mock data | No API client / real auth yet |
 | **farm2fork-blockchain** (Fabric/Go) | ~70% — chaincode `RecordPayment` + `RecordSupplyChainEvent` work | No backend SDK integration yet |
@@ -44,9 +44,9 @@
 **Slice 3 — Local runtime + simulated payment.**
 
 - **Runtime** — backend branch `feature/payment-runtime`: `e0f1aef` removes Compose `env_file`, requires `DATABASE_URL` for Atlas, and runs local Redis only. `docker compose --env-file .env.example config` passed. No Atlas-backed `docker compose up` was run because only placeholder credentials are available.
-- **Backend payment write path** — `15f585a`, `f8355f6`, `4b87ae3`: buyer-owned pending orders create/reuse a persisted payment whose amount comes from `Order.grandTotal`. The guarded local simulator settles success idempotently in a MongoDB transaction, decrements stock once, marks zero stock `sold_out`, sets the order `paid`, and creates one pending blockchain outbox record. A public webhook now returns 501 until a real provider signature design exists. `pnpm run build` and `pnpm test` passed (59 tests).
-- **Mobile flow** — branch `feature/payment-mobile`: `be0ff8f`, `5574a6e`, `025b460` add typed payment API/mock repositories, a payment controller, a localized buyer status screen, and checkout-to-payment navigation. The test-completion action is visible only in mock mode or with `PAYMENT_SIMULATOR_ENABLED=true`; normal API builds create a pending payment and do not call the simulator. `flutter analyze` and `flutter test` passed (59 tests).
-- **Still open in this slice** — real JazzCash/Stripe and provider signature validation; Atlas Compose/device smoke test; transaction integration test against a MongoDB replica set; persisted payment `GET`/list/refund behavior; mobile polling after a real-gateway redirect; Fabric Gateway SDK/retry worker; web API integration; automatic refund restocking.
+- **Backend payment write/read path** — `15f585a`, `f8355f6`, `4b87ae3`, `021aa91`: buyer-owned pending orders create/reuse a persisted payment whose amount comes from `Order.grandTotal`; buyer/admin list and individual reads are now database-backed and ownership-scoped. The guarded local simulator settles success idempotently in a MongoDB transaction, decrements stock once, marks zero stock `sold_out`, sets the order `paid`, and creates one pending blockchain outbox record. A public webhook now returns 501 until a real provider signature design exists. `pnpm run build` and `pnpm test` passed (62 tests).
+- **Mobile flow** — branch `feature/payment-mobile`: `be0ff8f`, `5574a6e`, `025b460`, `9d85daf` add typed payment API/mock repositories, a payment controller, a localized buyer status screen, checkout-to-payment navigation, and a persisted payment-status adapter. The test-completion action is visible only in mock mode or with `PAYMENT_SIMULATOR_ENABLED=true`; normal API builds create a pending payment and do not call the simulator. `flutter analyze` and `flutter test` passed (60 tests).
+- **Still open in this slice** — real JazzCash/Stripe and provider signature validation; Atlas Compose/device smoke test; transaction integration test against a MongoDB replica set; persisted refund behavior; mobile polling after a real-gateway redirect; Fabric Gateway SDK/retry worker; web API integration; automatic refund restocking.
 
 Then, per implementation order: **Shipments/tracking → Notifications → Loans → Community → AI predictions → Blockchain traceability screens**.
 
