@@ -23,6 +23,16 @@ class _RecordingPaymentsRepository implements PaymentsRepository {
   }
 
   @override
+  Future<Payment> get(String paymentId) async => Payment(
+    id: paymentId,
+    orderId: paymentId.replaceFirst('payment-', ''),
+    amount: 870,
+    currency: 'PKR',
+    status: PaymentStatus.pending,
+    createdAt: DateTime(2026, 8, 11),
+  );
+
+  @override
   Future<Payment> simulate(String paymentId, PaymentStatus status) async {
     settledPaymentIds.add(paymentId);
     return Payment(

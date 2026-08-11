@@ -8,6 +8,7 @@ class _StubApi extends PaymentsApiService {
   _StubApi(this.response) : super(Dio());
   final Map<String, dynamic> response;
   Map<String, dynamic>? sent;
+  String? requestedPaymentId;
 
   @override
   Future<Map<String, dynamic>> initiatePayment({
@@ -17,25 +18,54 @@ class _StubApi extends PaymentsApiService {
     sent = {'orderId': orderId, 'gateway': gateway};
     return response;
   }
+
+  @override
+  Future<Map<String, dynamic>> getPayment(String paymentId) async {
+    requestedPaymentId = paymentId;
+    return response;
+  }
 }
 
 void main() {
-  test('maps a successful payment and sends no client-derived amount', () async {
+  test(
+    'maps a successful payment and sends no client-derived amount',
+    () async {
+      final api = _StubApi({
+        'payment': {
+          'id': 'payment-1',
+          'orderId': 'order-1',
+          'amount': 870,
+          'currency': 'PKR',
+          'status': 'success',
+          'createdAt': '2026-08-11T00:00:00.000Z',
+        },
+      });
+
+      final payment = await ApiPaymentsRepository(api).initiate('order-1');
+
+      expect(payment.status, PaymentStatus.success);
+      expect(payment.amount, 870);
+      expect(api.sent, {'orderId': 'order-1', 'gateway': 'jazzcash'});
+    },
+  );
+
+  test('loads a persisted payment by its backend id', () async {
     final api = _StubApi({
       'payment': {
-        'id': 'payment-1',
-        'orderId': 'order-1',
-        'amount': 870,
+        'id': 'payment-2',
+        'orderId': 'order-2',
+        'amount': '970',
         'currency': 'PKR',
-        'status': 'success',
+        'status': 'pending',
         'createdAt': '2026-08-11T00:00:00.000Z',
       },
     });
 
-    final payment = await ApiPaymentsRepository(api).initiate('order-1');
+    final payment = await ApiPaymentsRepository(api).get('payment-2');
 
-    expect(payment.status, PaymentStatus.success);
-    expect(payment.amount, 870);
-    expect(api.sent, {'orderId': 'order-1', 'gateway': 'jazzcash'});
+    expect(api.requestedPaymentId, 'payment-2');
+    expect(payment.id, 'payment-2');
+    expect(payment.status, PaymentStatus.pending);
+    expect(payment.amount, 970);
   });
 }

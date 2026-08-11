@@ -26,6 +26,11 @@ class ApiPaymentsRepository implements PaymentsRepository {
     return _paymentFromBody(body);
   }
 
+  @override
+  Future<Payment> get(String paymentId) async {
+    return _paymentFromBody(await _api.getPayment(paymentId));
+  }
+
   Payment _paymentFromBody(Map<String, dynamic> body) {
     final dto = body['payment'];
     if (dto is! Map<String, dynamic>) {
@@ -42,7 +47,8 @@ class ApiPaymentsRepository implements PaymentsRepository {
       amount: _number(dto['amount']),
       currency: (dto['currency'] as String?) ?? 'PKR',
       status: _status(dto['status'] as String?),
-      createdAt: DateTime.tryParse(dto['createdAt'] as String? ?? '') ??
+      createdAt:
+          DateTime.tryParse(dto['createdAt'] as String? ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0),
     );
   }
@@ -51,9 +57,9 @@ class ApiPaymentsRepository implements PaymentsRepository {
       value is num ? value.toDouble() : double.tryParse('$value') ?? 0;
 
   PaymentStatus _status(String? value) => switch (value) {
-        'success' => PaymentStatus.success,
-        'failed' => PaymentStatus.failed,
-        'refunded' => PaymentStatus.refunded,
-        _ => PaymentStatus.pending,
-      };
+    'success' => PaymentStatus.success,
+    'failed' => PaymentStatus.failed,
+    'refunded' => PaymentStatus.refunded,
+    _ => PaymentStatus.pending,
+  };
 }
