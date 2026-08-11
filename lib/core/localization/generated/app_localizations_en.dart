@@ -368,6 +368,61 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not place your order. Please try again.';
 
   @override
+  String get paymentTitle => 'Payment';
+
+  @override
+  String get paymentPending => 'Payment pending';
+
+  @override
+  String get paymentPendingDescription =>
+      'Your payment was created and is waiting for confirmation.';
+
+  @override
+  String paymentOrdersReadyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count orders are ready for payment',
+      one: '1 order is ready for payment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get completeTestPayment => 'Complete test payment';
+
+  @override
+  String get paymentComplete => 'Payment complete';
+
+  @override
+  String paymentCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count order payments completed',
+      one: '1 order payment completed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get paymentFailed => 'Payment could not be completed';
+
+  @override
+  String paymentFailedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count order payments failed',
+      one: '1 order payment failed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewOrders => 'View orders';
+
+  @override
   String get fieldRequired => 'This field is required';
 
   @override

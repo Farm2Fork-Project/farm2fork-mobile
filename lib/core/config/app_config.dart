@@ -20,6 +20,13 @@ abstract final class AppConfig {
     defaultValue: true,
   );
 
+  /// Enables the authenticated backend payment simulator in a non-mock build.
+  /// This must remain false for normal API builds.
+  static const bool paymentSimulatorEnabled = bool.fromEnvironment(
+    'PAYMENT_SIMULATOR_ENABLED',
+    defaultValue: false,
+  );
+
   /// Request/response timeout in milliseconds.
   static const int connectTimeoutMs = int.fromEnvironment(
     'CONNECT_TIMEOUT_MS',

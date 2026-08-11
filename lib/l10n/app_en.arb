@@ -365,6 +365,45 @@
   "orderPlacementFailed": "Could not place your order. Please try again.",
   "@orderPlacementFailed": { "description": "Generic checkout failure message" },
 
+  "paymentTitle": "Payment",
+  "@paymentTitle": { "description": "Payment status screen app bar title" },
+
+  "paymentPending": "Payment pending",
+  "@paymentPending": { "description": "Payment awaits gateway confirmation" },
+
+  "paymentPendingDescription": "Your payment was created and is waiting for confirmation.",
+  "@paymentPendingDescription": { "description": "Explains pending payment status" },
+
+  "paymentOrdersReadyCount": "{count, plural, =1{1 order is ready for payment} other{{count} orders are ready for payment}}",
+  "@paymentOrdersReadyCount": {
+    "description": "Number of checkout orders represented by the payment flow",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "completeTestPayment": "Complete test payment",
+  "@completeTestPayment": { "description": "Only shown when the payment simulator is enabled" },
+
+  "paymentComplete": "Payment complete",
+  "@paymentComplete": { "description": "Payment completed successfully" },
+
+  "paymentCompletedCount": "{count, plural, =1{1 order payment completed} other{{count} order payments completed}}",
+  "@paymentCompletedCount": {
+    "description": "Number of successful simulated order payments",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "paymentFailed": "Payment could not be completed",
+  "@paymentFailed": { "description": "Payment completion failure state" },
+
+  "paymentFailedCount": "{count, plural, =1{1 order payment failed} other{{count} order payments failed}}",
+  "@paymentFailedCount": {
+    "description": "Number of failed order payments",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "viewOrders": "View orders",
+  "@viewOrders": { "description": "Navigates buyer to their orders" },
+
   "fieldRequired": "This field is required",
   "@fieldRequired": { "description": "Generic required-field validation message" },
 

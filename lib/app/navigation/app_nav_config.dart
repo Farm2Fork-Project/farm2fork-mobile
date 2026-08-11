@@ -116,6 +116,10 @@ abstract final class AppNavConfig {
   }) {
     if (role == AppUserRole.admin) return false;
     if (location.startsWith('/marketplace/products/')) return true;
+    if (role == AppUserRole.buyer &&
+        (location == '/checkout' || location == '/payments')) {
+      return true;
+    }
     final prefix = roleRoutePrefix(role);
     return location == prefix || location.startsWith('$prefix/');
   }

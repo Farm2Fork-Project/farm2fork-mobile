@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -62,22 +61,22 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     if (!mounted) return;
     final messenger = ScaffoldMessenger.of(context);
 
-    if (result.isFullSuccess) {
+    if (result.placed.isNotEmpty) {
       messenger.showSnackBar(
         _snack(
-          context.l10n.ordersPlacedCount(result.placedCount),
-          AppColors.success,
+          result.isFullSuccess
+              ? context.l10n.ordersPlacedCount(result.placedCount)
+              : context.l10n.orderPlacementFailed,
+          result.isFullSuccess ? AppColors.success : AppColors.errorRed,
         ),
       );
-      context.go(
-        AppNavConfig.routeFor(AppUserRole.buyer, AppNavDestination.orders),
-      );
-    } else if (result.isPartial) {
-      // Some farmer orders succeeded, some failed; the cart still holds the
-      // failed ones so the buyer can retry just those.
-      messenger.showSnackBar(
-        _snack(context.l10n.orderPlacementFailed, AppColors.errorRed),
-      );
+      final location = Uri(
+        path: '/payments',
+        queryParameters: {
+          'orderId': result.placed.map((order) => order.id).toList(),
+        },
+      ).toString();
+      context.go(location);
     } else {
       messenger.showSnackBar(
         _snack(context.l10n.orderPlacementFailed, AppColors.errorRed),

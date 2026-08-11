@@ -716,6 +716,66 @@ abstract class AppLocalizations {
   /// **'Could not place your order. Please try again.'**
   String get orderPlacementFailed;
 
+  /// Payment status screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get paymentTitle;
+
+  /// Payment awaits gateway confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Payment pending'**
+  String get paymentPending;
+
+  /// Explains pending payment status
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment was created and is waiting for confirmation.'**
+  String get paymentPendingDescription;
+
+  /// Number of checkout orders represented by the payment flow
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order is ready for payment} other{{count} orders are ready for payment}}'**
+  String paymentOrdersReadyCount(int count);
+
+  /// Only shown when the payment simulator is enabled
+  ///
+  /// In en, this message translates to:
+  /// **'Complete test payment'**
+  String get completeTestPayment;
+
+  /// Payment completed successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Payment complete'**
+  String get paymentComplete;
+
+  /// Number of successful simulated order payments
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order payment completed} other{{count} order payments completed}}'**
+  String paymentCompletedCount(int count);
+
+  /// Payment completion failure state
+  ///
+  /// In en, this message translates to:
+  /// **'Payment could not be completed'**
+  String get paymentFailed;
+
+  /// Number of failed order payments
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order payment failed} other{{count} order payments failed}}'**
+  String paymentFailedCount(int count);
+
+  /// Navigates buyer to their orders
+  ///
+  /// In en, this message translates to:
+  /// **'View orders'**
+  String get viewOrders;
+
   /// Generic required-field validation message
   ///
   /// In en, this message translates to:

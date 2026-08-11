@@ -368,6 +368,61 @@ class AppLocalizationsUr extends AppLocalizations {
       'آپ کا آرڈر نہیں دیا جا سکا۔ براہ کرم دوبارہ کوشش کریں۔';
 
   @override
+  String get paymentTitle => 'ادائیگی';
+
+  @override
+  String get paymentPending => 'ادائیگی زیر التوا ہے';
+
+  @override
+  String get paymentPendingDescription =>
+      'آپ کی ادائیگی بن گئی ہے اور تصدیق کا انتظار کر رہی ہے۔';
+
+  @override
+  String paymentOrdersReadyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز ادائیگی کے لیے تیار ہیں',
+      one: '1 آرڈر ادائیگی کے لیے تیار ہے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get completeTestPayment => 'ٹیسٹ ادائیگی مکمل کریں';
+
+  @override
+  String get paymentComplete => 'ادائیگی مکمل ہو گئی';
+
+  @override
+  String paymentCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کی ادائیگیاں مکمل ہوئیں',
+      one: '1 آرڈر کی ادائیگی مکمل ہوئی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get paymentFailed => 'ادائیگی مکمل نہیں ہو سکی';
+
+  @override
+  String paymentFailedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کی ادائیگیاں ناکام ہوئیں',
+      one: '1 آرڈر کی ادائیگی ناکام ہوئی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewOrders => 'آرڈرز دیکھیں';
+
+  @override
   String get fieldRequired => 'یہ خانہ ضروری ہے';
 
   @override

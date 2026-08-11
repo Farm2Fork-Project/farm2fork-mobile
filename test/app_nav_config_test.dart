@@ -103,6 +103,27 @@ void main() {
         ),
         isFalse,
       );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/checkout',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/payments',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.farmer,
+          location: '/payments',
+        ),
+        isFalse,
+      );
     });
   });
 }

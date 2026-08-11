@@ -53,4 +53,28 @@ void main() {
     expect(result.successfulOrderIds, ['order-a', 'order-b']);
     expect(result.failedOrderIds, isEmpty);
   });
+
+  test(
+    'leaves initiated payments pending when simulation is disabled',
+    () async {
+      final repo = _RecordingPaymentsRepository();
+      final container = ProviderContainer(
+        overrides: [
+          paymentsRepositoryProvider.overrideWithValue(repo),
+          paymentSimulatorEnabledProvider.overrideWithValue(false),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final result = await container
+          .read(paymentControllerProvider.notifier)
+          .settle(const ['order-a']);
+
+      expect(repo.initiatedOrderIds, ['order-a']);
+      expect(repo.settledPaymentIds, isEmpty);
+      expect(result.successfulOrderIds, isEmpty);
+      expect(result.failedOrderIds, isEmpty);
+      expect(result.pendingOrderIds, ['order-a']);
+    },
+  );
 }

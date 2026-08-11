@@ -25,6 +25,7 @@ import 'package:farm2fork_mobile/features/listings/presentation/screens/listings
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marketplace_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
+import 'package:farm2fork_mobile/features/payments/presentation/screens/payment_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/notification_settings_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/language_display_screen.dart';
@@ -121,6 +122,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, state) =>
             CheckoutScreen(farmerId: state.uri.queryParameters['farmerId']),
+      ),
+      GoRoute(
+        path: '/payments',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) => PaymentScreen(
+          orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
+        ),
       ),
       GoRoute(
         path: '/settings/notifications',
