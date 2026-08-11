@@ -2,7 +2,7 @@
 
 > Working model: **Backend + Mobile in lockstep**, one vertical slice at a time. Each slice = a `feature/<name>` branch off `develop`, a PR per feature, reviewed and merged into `develop`. Integration branch is **`develop`** on every repo (team convention).
 >
-> Last updated: 2026-08-11
+> Last updated: 2026-08-12
 
 ---
 
@@ -10,9 +10,9 @@
 
 | Repo | State | Notes |
 |------|-------|-------|
-| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** + persisted payment initiation/read/refund/simulated settlement | Blockchain/transport/loan/community/notification/ai are otherwise schema-only scaffolds |
+| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** + persisted payment initiation/read/refund/simulated settlement + complete Swagger contract annotations on a feature branch | Loan/community/notification/ai are otherwise schema-only scaffolds; real gateway callbacks remain intentionally unimplemented |
 | **farm2fork-mobile** (Flutter) | Network layer + Marketplace + **Checkout** + buyer payment status flow | Defaults to `USE_MOCKS=true`; real gateway polling, notifications, and loans are not built |
-| **farm2fork-web** (Next.js admin) | Polished UI prototype, all mock data | No API client / real auth yet |
+| **farm2fork-web** (Next.js buyer prototype) | Buyer API-integration design and execution plan committed; UI remains mock-backed | No API client / real auth yet |
 | **farm2fork-blockchain** (Fabric/Go) | Local Fabric network and immutable payment/product shipment records, with a verified backend Gateway/outbox integration | Network is local-development only; production Fabric operations and traceability UI are not built |
 | **farm2fork-ai** (Python ML pipeline) | Dataset manifests, multi-task EfficientNet model, training/evaluation scripts, and 9 test modules exist | No FastAPI service code, generated manifests, trained checkpoint, or deployed inference API |
 
@@ -55,7 +55,13 @@
 - **Mobile data and transporter flow** — branch `feature/shipment-self-claim`: `62edbe5`, `769b59a`, `5418f22`, `6d87f9a` add typed real/mock shipment repositories, redacted available-delivery cards, atomic claim UI, a read-only `/shipments/:id` tracking route, buyer/farmer order-card entry when `shipmentId` exists, and complete EN/UR shipment-screen copy. The real client sends only `orderId` to claim and only `{status, note}` to transition. `flutter test test/shipments` (**5 tests**) and `flutter analyze` passed.
 - **Still open before this slice is complete** — run full `flutter test`; user-owned physical-device smoke checks; a normal payment/shipment-flow Fabric smoke. Maps/GPS, notifications, bids/fees, buyer offer selection, proof of delivery, reassignment, and web integration remain deferred.
 
-Then, per implementation order: **Notifications → Loans → Community → AI predictions → Blockchain traceability screens**. The backend-to-Fabric foundation is now in place; the later traceability screens still need a web/mobile API integration slice.
+**Slice 5 — Web buyer API integration (started; local-only).**
+
+- **Web design** — branch `feature/web-api-integration-design`: `b2d6a79`, `688aafc`, `3d1bf9b` define the existing-buyer login flow, temporary `sessionStorage` JWT boundary, marketplace/product/cart/one-farmer checkout/orders/payment-pending flow, and the Docker/CORS contract. The actual backend route prefix is `/api`; `API_VERSION=v1` is Swagger metadata only, so the web client must use `NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api` in local development. Implementation has not started.
+- **Backend Swagger contract** — branch `feature/web-api-swagger-contracts`: `78203c0` moves document construction into a testable factory and annotates all current health, auth, marketplace, order, payment, and shipment endpoints with success, authentication/authorization, validation, not-found/conflict, and current `501` webhook responses. The generated OpenAPI contract test covers every route, verifies the public webhook does not require bearer auth, and confirms that the unsupported gateway callback is not advertised as successful. Focused Jest coverage and `nest build` passed. This branch has not been merged into `develop`.
+- **Still open in this slice** — create the web implementation branch from the design branch; add the client test harness; implement session/API/repository/cart; replace the buyer mock path; Dockerize the web runtime; and run user-owned browser/device smoke checks. The security target remains HTTP-only cookie sessions, not the temporary `sessionStorage` token used for the first integration model.
+
+Then, per implementation order: finish **Web buyer API integration**, then **Notifications → Loans → Community → AI predictions → Blockchain traceability screens**. The backend-to-Fabric foundation is now in place; the later traceability screens still need web/mobile API integration.
 
 Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detail stub can be replaced with real farm name/location/rating.
 
