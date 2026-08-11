@@ -35,6 +35,7 @@ import 'package:farm2fork_mobile/features/profile/presentation/screens/privacy_p
 import 'package:farm2fork_mobile/features/profile/presentation/screens/terms_conditions_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/faq_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipments_screen.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipment_tracking_screen.dart';
 import 'package:farm2fork_mobile/features/traceability/presentation/screens/trace_scanner_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -129,6 +130,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, state) => PaymentScreen(
           orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
         ),
+      ),
+      GoRoute(
+        path: '/shipments/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            ShipmentTrackingScreen(shipmentId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/settings/notifications',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -246,7 +248,9 @@ class _OrderCard extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: item.productName,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             TextSpan(
                               text: '  x ${item.quantity} ${item.unit}',
@@ -347,6 +351,17 @@ class _OrderCard extends StatelessWidget {
           const Divider(color: AppColors.surfaceMedium, height: 1),
           const SizedBox(height: AppSpacing.md),
           _buildRoleSpecificDetails(context),
+          if ((role == AppUserRole.buyer || role == AppUserRole.farmer) &&
+              order.shipmentId != null) ...[
+            const SizedBox(height: AppSpacing.md),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => context.push('/shipments/${order.shipmentId}'),
+                child: Text(context.l10n.trackDelivery),
+              ),
+            ),
+          ],
         ],
       ),
     );

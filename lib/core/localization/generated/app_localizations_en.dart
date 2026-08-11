@@ -207,6 +207,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get claimDelivery => 'Claim delivery';
 
   @override
+  String get shipmentTracking => 'Shipment tracking';
+
+  @override
+  String get shipmentTimeline => 'Shipment timeline';
+
+  @override
+  String get shipmentAssigned => 'Assigned';
+
+  @override
+  String get shipmentPickedUp => 'Picked up';
+
+  @override
+  String get shipmentInTransit => 'In transit';
+
+  @override
+  String get shipmentDelivered => 'Delivered';
+
+  @override
+  String get shipmentFailed => 'Failed';
+
+  @override
+  String get trackDelivery => 'Track delivery';
+
+  @override
   String get loansTitle => 'Loans';
 
   @override

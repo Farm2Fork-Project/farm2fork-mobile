@@ -120,6 +120,12 @@ abstract final class AppNavConfig {
         (location == '/checkout' || location == '/payments')) {
       return true;
     }
+    if ((role == AppUserRole.buyer ||
+            role == AppUserRole.farmer ||
+            role == AppUserRole.transporter) &&
+        location.startsWith('/shipments/')) {
+      return true;
+    }
     final prefix = roleRoutePrefix(role);
     return location == prefix || location.startsWith('$prefix/');
   }

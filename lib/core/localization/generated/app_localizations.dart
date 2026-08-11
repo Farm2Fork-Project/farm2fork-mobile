@@ -446,6 +446,54 @@ abstract class AppLocalizations {
   /// **'Claim delivery'**
   String get claimDelivery;
 
+  /// No description provided for @shipmentTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipment tracking'**
+  String get shipmentTracking;
+
+  /// No description provided for @shipmentTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipment timeline'**
+  String get shipmentTimeline;
+
+  /// No description provided for @shipmentAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned'**
+  String get shipmentAssigned;
+
+  /// No description provided for @shipmentPickedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up'**
+  String get shipmentPickedUp;
+
+  /// No description provided for @shipmentInTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'In transit'**
+  String get shipmentInTransit;
+
+  /// No description provided for @shipmentDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get shipmentDelivered;
+
+  /// No description provided for @shipmentFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get shipmentFailed;
+
+  /// No description provided for @trackDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Track delivery'**
+  String get trackDelivery;
+
   /// Financial partner loans screen title
   ///
   /// In en, this message translates to:

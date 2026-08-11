@@ -207,6 +207,30 @@ class AppLocalizationsUr extends AppLocalizations {
   String get claimDelivery => 'ترسیل قبول کریں';
 
   @override
+  String get shipmentTracking => 'ترسیل کی ٹریکنگ';
+
+  @override
+  String get shipmentTimeline => 'ترسیل کی صورتحال';
+
+  @override
+  String get shipmentAssigned => 'تفویض شدہ';
+
+  @override
+  String get shipmentPickedUp => 'فصل وصول کر لی گئی';
+
+  @override
+  String get shipmentInTransit => 'راستے میں';
+
+  @override
+  String get shipmentDelivered => 'پہنچا دی گئی';
+
+  @override
+  String get shipmentFailed => 'ناکام';
+
+  @override
+  String get trackDelivery => 'ترسیل ٹریک کریں';
+
+  @override
   String get loansTitle => 'قرضے';
 
   @override
