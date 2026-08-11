@@ -14,6 +14,14 @@ class PaymentsApiService {
         data: {'orderId': orderId, 'gateway': gateway},
       ));
 
+  Future<Map<String, dynamic>> simulatePayment({
+    required String paymentId,
+    required String status,
+  }) => _unwrap(() => _dio.post<Map<String, dynamic>>(
+        '/payments/$paymentId/simulate',
+        data: {'status': status},
+      ));
+
   Future<Map<String, dynamic>> _unwrap(
     Future<Response<Map<String, dynamic>>> Function() request,
   ) async {

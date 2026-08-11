@@ -14,6 +14,19 @@ class ApiPaymentsRepository implements PaymentsRepository {
       orderId: orderId,
       gateway: 'jazzcash',
     );
+    return _paymentFromBody(body);
+  }
+
+  @override
+  Future<Payment> simulate(String paymentId, PaymentStatus status) async {
+    final body = await _api.simulatePayment(
+      paymentId: paymentId,
+      status: status.name,
+    );
+    return _paymentFromBody(body);
+  }
+
+  Payment _paymentFromBody(Map<String, dynamic> body) {
     final dto = body['payment'];
     if (dto is! Map<String, dynamic>) {
       throw const ApiException(ApiErrorKind.unknown);
