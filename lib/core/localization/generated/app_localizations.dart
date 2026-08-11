@@ -416,6 +416,36 @@ abstract class AppLocalizations {
   /// **'Track assigned pickups, delivery status, and QR-linked shipment movement.'**
   String get shipmentsDescription;
 
+  /// Heading for paid deliveries transporters may self-claim
+  ///
+  /// In en, this message translates to:
+  /// **'Available deliveries'**
+  String get availableDeliveries;
+
+  /// Heading for shipments assigned to the transporter
+  ///
+  /// In en, this message translates to:
+  /// **'My deliveries'**
+  String get myDeliveries;
+
+  /// Title for an available self-claim delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery request'**
+  String get deliveryRequest;
+
+  /// Redacted available delivery item count
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String deliveryItemCount(int count);
+
+  /// Transporter action to atomically claim a delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Claim delivery'**
+  String get claimDelivery;
+
   /// Financial partner loans screen title
   ///
   /// In en, this message translates to:

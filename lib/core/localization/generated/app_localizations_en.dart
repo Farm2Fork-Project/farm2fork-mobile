@@ -184,6 +184,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'Track assigned pickups, delivery status, and QR-linked shipment movement.';
 
   @override
+  String get availableDeliveries => 'Available deliveries';
+
+  @override
+  String get myDeliveries => 'My deliveries';
+
+  @override
+  String get deliveryRequest => 'Delivery request';
+
+  @override
+  String deliveryItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get claimDelivery => 'Claim delivery';
+
+  @override
   String get loansTitle => 'Loans';
 
   @override

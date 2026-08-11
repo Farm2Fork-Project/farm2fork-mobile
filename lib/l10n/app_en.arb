@@ -168,6 +168,17 @@
   "shipmentsDescription": "Track assigned pickups, delivery status, and QR-linked shipment movement.",
   "@shipmentsDescription": { "description": "Transporter shipments placeholder description" },
 
+  "availableDeliveries": "Available deliveries",
+  "@availableDeliveries": { "description": "Heading for paid deliveries transporters may self-claim" },
+  "myDeliveries": "My deliveries",
+  "@myDeliveries": { "description": "Heading for shipments assigned to the transporter" },
+  "deliveryRequest": "Delivery request",
+  "@deliveryRequest": { "description": "Title for an available self-claim delivery" },
+  "deliveryItemCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "@deliveryItemCount": { "description": "Redacted available delivery item count", "placeholders": { "count": { "type": "int", "example": "2" } } },
+  "claimDelivery": "Claim delivery",
+  "@claimDelivery": { "description": "Transporter action to atomically claim a delivery" },
+
   "loansTitle": "Loans",
   "@loansTitle": { "description": "Financial partner loans screen title" },
 

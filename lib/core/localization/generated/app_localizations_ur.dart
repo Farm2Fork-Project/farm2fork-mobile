@@ -184,6 +184,29 @@ class AppLocalizationsUr extends AppLocalizations {
       'اپنی تفویض کردہ ترسیلات، منزل کی صورتحال اور کیو آر (QR) کوڈ سے منسلک معلومات ٹریک کریں۔';
 
   @override
+  String get availableDeliveries => 'دستیاب ترسیلات';
+
+  @override
+  String get myDeliveries => 'میری ترسیلات';
+
+  @override
+  String get deliveryRequest => 'ترسیل کی درخواست';
+
+  @override
+  String deliveryItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اشیاء',
+      one: '1 شے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get claimDelivery => 'ترسیل قبول کریں';
+
+  @override
   String get loansTitle => 'قرضے';
 
   @override

@@ -6,6 +6,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/shipments_controller.dart';
 
@@ -30,8 +31,8 @@ class ShipmentsScreen extends ConsumerWidget {
               ref.read(shipmentsControllerProvider.notifier).fetchShipments(),
           color: AppColors.primaryGreen,
           child: shipmentsAsync.when(
-            data: (shipments) {
-              if (shipments.isEmpty) {
+            data: (dashboard) {
+              if (dashboard.available.isEmpty && dashboard.mine.isEmpty) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -56,16 +57,33 @@ class ShipmentsScreen extends ConsumerWidget {
                 );
               }
 
-              return ListView.builder(
+              return ListView(
                 padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                itemCount: shipments.length,
-                itemBuilder: (context, index) {
-                  final shipment = shipments[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                    child: _ShipmentCard(shipment: shipment),
-                  );
-                },
+                children: [
+                  if (dashboard.available.isNotEmpty) ...[
+                    Text(
+                      context.l10n.availableDeliveries,
+                      style: AppTextStyles.h3,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    for (final delivery in dashboard.available)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                        child: _AvailableDeliveryCard(delivery: delivery),
+                      ),
+                  ],
+                  if (dashboard.mine.isNotEmpty) ...[
+                    if (dashboard.available.isNotEmpty)
+                      const SizedBox(height: AppSpacing.lg),
+                    Text(context.l10n.myDeliveries, style: AppTextStyles.h3),
+                    const SizedBox(height: AppSpacing.md),
+                    for (final shipment in dashboard.mine)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                        child: _ShipmentCard(shipment: shipment),
+                      ),
+                  ],
+                ],
               );
             },
             loading: () => const Center(
@@ -100,6 +118,48 @@ class ShipmentsScreen extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _AvailableDeliveryCard extends ConsumerWidget {
+  const _AvailableDeliveryCard({required this.delivery});
+
+  final AvailableDelivery delivery;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(context.l10n.deliveryRequest, style: AppTextStyles.h3),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '${delivery.pickupCity}, ${delivery.pickupProvince} → ${delivery.deliveryCity}, ${delivery.deliveryProvince}',
+            style: AppTextStyles.body,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            context.l10n.deliveryItemCount(delivery.itemCount),
+            style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => ref
+                  .read(shipmentsControllerProvider.notifier)
+                  .claim(delivery.orderId),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryGreen,
+                foregroundColor: AppColors.white,
+              ),
+              child: Text(context.l10n.claimDelivery),
+            ),
+          ),
+        ],
       ),
     );
   }

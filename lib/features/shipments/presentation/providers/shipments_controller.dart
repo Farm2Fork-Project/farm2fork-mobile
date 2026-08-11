@@ -1,54 +1,67 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
+import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository_provider.dart';
 
 final shipmentsControllerProvider =
-    AsyncNotifierProvider<ShipmentsController, List<Shipment>>(
+    AsyncNotifierProvider<ShipmentsController, ShipmentDashboard>(
       ShipmentsController.new,
     );
 
-class ShipmentsController extends AsyncNotifier<List<Shipment>> {
+class ShipmentDashboard {
+  const ShipmentDashboard({required this.available, required this.mine});
+
+  final List<AvailableDelivery> available;
+  final List<Shipment> mine;
+}
+
+class ShipmentsController extends AsyncNotifier<ShipmentDashboard> {
   @override
-  Future<List<Shipment>> build() async {
+  Future<ShipmentDashboard> build() async {
     final authState = ref.watch(authControllerProvider).asData?.value;
     if (authState == null || authState.user == null) {
-      return [];
+      return const ShipmentDashboard(available: [], mine: []);
     }
-    final repository = ref.watch(shipmentsRepositoryProvider);
-    return repository.getShipmentsByTransporter(authState.user!.id);
+    return _load();
   }
 
   Future<void> fetchShipments() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) return [];
-      return ref
-          .read(shipmentsRepositoryProvider)
-          .getShipmentsByTransporter(authState.user!.id);
-    });
+    state = await AsyncValue.guard(_load);
   }
 
-  Future<void> updateShipmentStatus({
+  Future<Shipment> claim(String orderId) async {
+    final shipment = await ref.read(shipmentsRepositoryProvider).claim(orderId);
+    await fetchShipments();
+    return shipment;
+  }
+
+  Future<Shipment> updateShipmentStatus({
     required String shipmentId,
     required ShipmentStatus status,
     required String note,
   }) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) {
-        throw Exception('Unauthorized');
-      }
-      final repository = ref.read(shipmentsRepositoryProvider);
-      await repository.updateShipmentStatus(
-        shipmentId: shipmentId,
-        status: status,
-        note: note,
-        updatedBy: authState.user!.email,
-      );
-      return repository.getShipmentsByTransporter(authState.user!.id);
-    });
+    final shipment = await ref
+        .read(shipmentsRepositoryProvider)
+        .updateStatus(shipmentId: shipmentId, status: status, note: note);
+    await fetchShipments();
+    return shipment;
+  }
+
+  Future<ShipmentDashboard> _load() async {
+    final authState = ref.read(authControllerProvider).asData?.value;
+    if (authState?.user == null) {
+      return const ShipmentDashboard(available: [], mine: []);
+    }
+    final repository = ref.read(shipmentsRepositoryProvider);
+    final results = await Future.wait([
+      repository.getAvailable(),
+      repository.getMine(),
+    ]);
+    return ShipmentDashboard(
+      available: results[0] as List<AvailableDelivery>,
+      mine: results[1] as List<Shipment>,
+    );
   }
 }
