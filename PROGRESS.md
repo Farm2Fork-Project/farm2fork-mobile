@@ -48,7 +48,13 @@
 - **Mobile flow** — branch `feature/payment-mobile`: `be0ff8f`, `5574a6e`, `025b460`, `9d85daf` add typed payment API/mock repositories, a payment controller, a localized buyer status screen, checkout-to-payment navigation, and a persisted payment-status adapter. The test-completion action is visible only in mock mode or with `PAYMENT_SIMULATOR_ENABLED=true`; normal API builds create a pending payment and do not call the simulator. `flutter analyze` and `flutter test` passed (60 tests).
 - **Still open in this slice** — real JazzCash/Stripe and provider signature validation; Atlas Compose/device smoke test; mobile polling after a real-gateway redirect; Fabric Gateway SDK/retry worker; web API integration; automatic refund restocking.
 
-Then, per implementation order: **Shipments/tracking → Notifications → Loans → Community → AI predictions → Blockchain traceability screens**.
+**Slice 4 — Shipment self-claim and tracking (in progress; local-only).**
+
+- **Backend** — branch `feature/shipment-self-claim`: `3d5600f`, `5300e4c`, `82a2da7` add a privacy-preserving paid/unclaimed delivery list; an atomic first-claim transaction that creates the assigned shipment, updates the order, and writes a typed supply-chain outbox record; role-scoped shipment reads; and guarded transporter transitions (`assigned → picked_up → in_transit → delivered`, with terminal failure). The replica-set e2e test proves one concurrent claimant wins and duplicate-key conflicts return 409. `pnpm run build`, `pnpm test` (**70 tests**), and `pnpm test:e2e --runInBand` (**4 tests**) passed.
+- **Mobile data and transporter flow** — branch `feature/shipment-self-claim`: `62edbe5`, `769b59a`, `5418f22` add typed real/mock shipment repositories, redacted available-delivery cards, atomic claim UI, a read-only `/shipments/:id` tracking route, and buyer/farmer order-card entry when `shipmentId` exists. The real client sends only `orderId` to claim and only `{status, note}` to transition. `flutter test test/shipments` (**5 tests**) and `flutter analyze` passed.
+- **Still open before this slice is complete** — audit and replace the legacy hard-coded shipment status/card labels in EN+UR; run full `flutter test`; user-owned Atlas Compose and physical-device smoke checks. Maps/GPS, notifications, bids/fees, buyer offer selection, proof of delivery, reassignment, Fabric submission/retry, and web integration remain deferred.
+
+Then, per implementation order: **Notifications → Loans → Community → AI predictions → Blockchain traceability screens**.
 
 Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detail stub can be replaced with real farm name/location/rating.
 
