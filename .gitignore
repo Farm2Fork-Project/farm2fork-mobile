@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local linked worktrees
+.worktrees/
+
 # Symbolication related
 app.*.symbols
 
