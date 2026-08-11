@@ -231,6 +231,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trackDelivery => 'Track delivery';
 
   @override
+  String shipmentNumber(String id) {
+    return 'Shipment #$id';
+  }
+
+  @override
+  String get pickupFarm => 'Pickup farm';
+
+  @override
+  String get deliveryDestination => 'Delivery destination';
+
+  @override
+  String get confirmPickup => 'Confirm crop pickup';
+
+  @override
+  String get startTransit => 'Depart — in transit';
+
+  @override
+  String get confirmDelivery => 'Confirm final delivery';
+
+  @override
+  String shipmentStatusUpdate(String status) {
+    return 'Transporter updated status to $status.';
+  }
+
+  @override
   String get loansTitle => 'Loans';
 
   @override

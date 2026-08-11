@@ -179,13 +179,7 @@ class _ShipmentCard extends ConsumerWidget {
       ShipmentStatus.failed => AppColors.errorRed,
     };
 
-    final statusText = switch (shipment.status) {
-      ShipmentStatus.assigned => 'Assigned',
-      ShipmentStatus.pickedUp => 'Picked Up',
-      ShipmentStatus.inTransit => 'In Transit',
-      ShipmentStatus.delivered => 'Delivered',
-      ShipmentStatus.failed => 'Failed',
-    };
+    final statusText = _statusLabel(context, shipment.status);
 
     return AppCard(
       child: Column(
@@ -195,7 +189,7 @@ class _ShipmentCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Shipment #${shipment.id}',
+                context.l10n.shipmentNumber(shipment.id),
                 style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
               ),
               AppBadge(
@@ -213,7 +207,7 @@ class _ShipmentCard extends ConsumerWidget {
           _buildAddressRow(
             context,
             icon: Icons.storefront_rounded,
-            label: 'PICKUP FARM',
+            label: context.l10n.pickupFarm,
             address:
                 '${shipment.pickupAddress.street}, ${shipment.pickupAddress.city}',
           ),
@@ -221,7 +215,7 @@ class _ShipmentCard extends ConsumerWidget {
           _buildAddressRow(
             context,
             icon: Icons.location_on_rounded,
-            label: 'DELIVERY DESTINATION',
+            label: context.l10n.deliveryDestination,
             address:
                 '${shipment.deliveryAddress.street}, ${shipment.deliveryAddress.city}',
           ),
@@ -231,7 +225,7 @@ class _ShipmentCard extends ConsumerWidget {
           const SizedBox(height: AppSpacing.md),
 
           // Real status timeline
-          Text('Timeline History', style: AppTextStyles.h3),
+          Text(context.l10n.shipmentTimeline, style: AppTextStyles.h3),
           const SizedBox(height: AppSpacing.sm),
           _buildTimeline(context),
 
@@ -358,9 +352,9 @@ class _ShipmentCard extends ConsumerWidget {
     if (nextStatus == null) return const SizedBox.shrink();
 
     final actionLabel = switch (nextStatus) {
-      ShipmentStatus.pickedUp => 'Confirm Crop Pick Up',
-      ShipmentStatus.inTransit => 'Depart - In Transit',
-      ShipmentStatus.delivered => 'Confirm Final Delivery',
+      ShipmentStatus.pickedUp => context.l10n.confirmPickup,
+      ShipmentStatus.inTransit => context.l10n.startTransit,
+      ShipmentStatus.delivered => context.l10n.confirmDelivery,
       _ => '',
     };
 
@@ -373,7 +367,9 @@ class _ShipmentCard extends ConsumerWidget {
               .updateShipmentStatus(
                 shipmentId: shipment.id,
                 status: nextStatus,
-                note: 'Updated status to ${nextStatus.name} by transporter.',
+                note: context.l10n.shipmentStatusUpdate(
+                  _statusLabel(context, nextStatus),
+                ),
               );
         },
         style: ElevatedButton.styleFrom(
@@ -395,4 +391,13 @@ class _ShipmentCard extends ConsumerWidget {
       ),
     );
   }
+
+  String _statusLabel(BuildContext context, ShipmentStatus status) =>
+      switch (status) {
+        ShipmentStatus.assigned => context.l10n.shipmentAssigned,
+        ShipmentStatus.pickedUp => context.l10n.shipmentPickedUp,
+        ShipmentStatus.inTransit => context.l10n.shipmentInTransit,
+        ShipmentStatus.delivered => context.l10n.shipmentDelivered,
+        ShipmentStatus.failed => context.l10n.shipmentFailed,
+      };
 }

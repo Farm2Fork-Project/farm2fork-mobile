@@ -231,6 +231,31 @@ class AppLocalizationsUr extends AppLocalizations {
   String get trackDelivery => 'ترسیل ٹریک کریں';
 
   @override
+  String shipmentNumber(String id) {
+    return 'شپمنٹ #$id';
+  }
+
+  @override
+  String get pickupFarm => 'پک اپ فارم';
+
+  @override
+  String get deliveryDestination => 'ترسیل کی منزل';
+
+  @override
+  String get confirmPickup => 'فصل وصول کرنے کی تصدیق کریں';
+
+  @override
+  String get startTransit => 'روانہ کریں — راستے میں';
+
+  @override
+  String get confirmDelivery => 'حتمی ترسیل کی تصدیق کریں';
+
+  @override
+  String shipmentStatusUpdate(String status) {
+    return 'ٹرانسپورٹر نے صورتحال $status کر دی ہے۔';
+  }
+
+  @override
   String get loansTitle => 'قرضے';
 
   @override

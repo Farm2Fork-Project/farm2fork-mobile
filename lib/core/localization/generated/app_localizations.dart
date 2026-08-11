@@ -494,6 +494,48 @@ abstract class AppLocalizations {
   /// **'Track delivery'**
   String get trackDelivery;
 
+  /// No description provided for @shipmentNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipment #{id}'**
+  String shipmentNumber(String id);
+
+  /// No description provided for @pickupFarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup farm'**
+  String get pickupFarm;
+
+  /// No description provided for @deliveryDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery destination'**
+  String get deliveryDestination;
+
+  /// No description provided for @confirmPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm crop pickup'**
+  String get confirmPickup;
+
+  /// No description provided for @startTransit.
+  ///
+  /// In en, this message translates to:
+  /// **'Depart — in transit'**
+  String get startTransit;
+
+  /// No description provided for @confirmDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm final delivery'**
+  String get confirmDelivery;
+
+  /// No description provided for @shipmentStatusUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter updated status to {status}.'**
+  String shipmentStatusUpdate(String status);
+
   /// Financial partner loans screen title
   ///
   /// In en, this message translates to:
