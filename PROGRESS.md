@@ -2,7 +2,7 @@
 
 > Working model: **Backend + Mobile in lockstep**, one vertical slice at a time. Each slice = a `feature/<name>` branch off `develop`, a PR per feature, reviewed and merged into `develop`. Integration branch is **`develop`** on every repo (team convention).
 >
-> Last updated: 2026-06-24
+> Last updated: 2026-08-11
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Repo | State | Notes |
 |------|-------|-------|
-| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** real | Payment still mock; blockchain/transport/loan/community/notification/ai are schema-only scaffolds |
+| **farm2fork-backend** (Nest.js) | Auth + Profiles + 17 schemas + **Marketplace** + **Orders** real | Payment endpoints are DTO-shaped mocks; blockchain/transport/loan/community/notification/ai are schema-only scaffolds |
 | **farm2fork-mobile** (Flutter) | Network layer + Marketplace + **Checkout** wired to API | Defaults to `USE_MOCKS=true`; payments/notifications/loans screens not built |
 | **farm2fork-web** (Next.js admin) | Polished UI prototype, all mock data | No API client / real auth yet |
 | **farm2fork-blockchain** (Fabric/Go) | ~70% — chaincode `RecordPayment` + `RecordSupplyChainEvent` work | No backend SDK integration yet |
-| **farm2fork-ai** (FastAPI) | Empty scaffold (plan doc only) | No Python code |
+| **farm2fork-ai** (Python ML pipeline) | Dataset manifests, multi-task EfficientNet model, training/evaluation scripts, and 9 test modules exist | No FastAPI service code, generated manifests, trained checkpoint, or deployed inference API |
 
 ---
 
@@ -39,12 +39,14 @@
 
 ---
 
-## Next up (not started)
+## Agreed next slice (not started)
 
-**Slice 3 — Payment (Sprint 3 finish).**
-- Backend: real `PaymentService` — initiate payment for an order, status transitions (`pending → success/failed/refunded`), mark order `paid`, decrement stock on success, trigger blockchain payment record (async).
-  - **Open decision:** real gateway (JazzCash/Stripe keys) vs. a simulated/stubbed gateway for now.
-- Mobile: payment screen after checkout, payment status display.
+**Slice 3 — Local runtime + simulated payment.**
+
+- Runtime: Docker Compose runs the NestJS backend and local Redis. MongoDB Atlas is used through `DATABASE_URL`; MongoDB is deliberately not containerized. Flutter remains a native mobile runtime, not a Docker service.
+- Backend: replace mock `PaymentService` responses with persisted payments; enforce buyer/order ownership and one payment per order; support idempotent simulated callback settlement; atomically mark an order `paid`, decrement stock once, and create a pending blockchain transaction record.
+- Mobile: initiate one simulated payment for each farmer-grouped order and show pending/success/failed status.
+- Deferred: real JazzCash/Stripe integration, Fabric Gateway SDK/retry worker, web API integration, and automatic restocking on refunds.
 
 Then, per implementation order: **Shipments/tracking → Notifications → Loans → Community → AI predictions → Blockchain traceability screens**.
 
@@ -52,11 +54,14 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 
 ---
 
-## Environment notes
+## Engineering workflow and environment notes
 - `pnpm` on PATH via corepack shim at `~/.local/bin` (in `.zshrc`/`.zprofile`). Backend/web use **pnpm**, never commit `package-lock.json`.
 - `gh` CLI installed (Homebrew), authed as `junii03`.
 - Backend dep added this work: `qrcode`. No new mobile deps.
 - In non-interactive shells, prefix: `export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH"`.
+- Work only from `develop` or a focused `feature/...` branch. Never push directly to `main`; do not push unless explicitly requested.
+- Make small, focused commits for related files. Commit and branch names must not mention Codex.
+- Record completed work, verification performed, and remaining known gaps in this tracker.
 
 ## Verification commands
 - Backend: `pnpm run build && pnpm test` (in farm2fork-backend)
