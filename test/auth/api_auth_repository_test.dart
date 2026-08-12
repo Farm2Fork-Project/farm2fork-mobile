@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
@@ -42,10 +43,10 @@ class _FakeGateway implements FirebaseAuthGateway {
 
 class _FakeApi implements AuthApiService {
   Map<String, dynamic>? signInResponse;
-  ApiException? signInError;
+  Object? signInError;
   Map<String, dynamic>? onboardResponse;
   Map<String, dynamic>? meResponse;
-  ApiException? meError;
+  Object? meError;
   String? lastIdToken;
   String? lastOnboardPath;
   Map<String, dynamic>? lastOnboardBody;
@@ -128,10 +129,7 @@ void main() {
   });
 
   test('a 409 from /auth/firebase surfaces onboarding-required', () async {
-    api.signInError = const ApiException(
-      ApiErrorKind.unknown,
-      statusCode: 409,
-    );
+    api.signInError = const ApiException(ApiErrorKind.unknown, statusCode: 409);
 
     final outcome = await repo.signInWithEmail(
       email: 'new@example.com',
@@ -142,6 +140,25 @@ void main() {
     expect((outcome as FirebaseOnboardingRequired).email, 'new@example.com');
     expect(storage.token, isNull);
   });
+
+  test(
+    'a Dio-wrapped 409 from /auth/firebase surfaces onboarding-required',
+    () async {
+      api.signInError = DioException(
+        requestOptions: RequestOptions(path: '/auth/firebase'),
+        error: const ApiException(ApiErrorKind.unknown, statusCode: 409),
+      );
+
+      final outcome = await repo.signInWithEmail(
+        email: 'new@example.com',
+        password: 'x',
+      );
+
+      expect(outcome, isA<FirebaseOnboardingRequired>());
+      expect((outcome as FirebaseOnboardingRequired).email, 'new@example.com');
+      expect(storage.token, isNull);
+    },
+  );
 
   test('Google onboarding reuses the current Firebase token', () async {
     api.onboardResponse = _session('buyer');
@@ -163,31 +180,48 @@ void main() {
     expect(storage.token, 'jwt-123');
   });
 
-  test('email/password onboarding creates the Firebase account first', () async {
-    api.onboardResponse = _session('farmer');
+  test(
+    'email/password onboarding creates the Firebase account first',
+    () async {
+      api.onboardResponse = _session('farmer');
 
-    await repo.completeOnboarding(
-      const FarmerOnboardingRequest(
-        credential: EmailPasswordOnboardingCredential(
-          email: 'f@example.com',
-          password: 'StrongP@ss1',
+      await repo.completeOnboarding(
+        const FarmerOnboardingRequest(
+          credential: EmailPasswordOnboardingCredential(
+            email: 'f@example.com',
+            password: 'StrongP@ss1',
+          ),
+          cnic: '35202-1234567-1',
+          farmName: 'Green Acres',
         ),
-        cnic: '35202-1234567-1',
-        farmName: 'Green Acres',
-      ),
-    );
+      );
 
-    expect(gateway.registerCalls, 1);
-    expect(api.lastOnboardPath, 'farmer');
-    expect(api.lastOnboardBody!['idToken'], 'id-token');
-    expect(api.lastOnboardBody!['farmName'], 'Green Acres');
-  });
+      expect(gateway.registerCalls, 1);
+      expect(api.lastOnboardPath, 'farmer');
+      expect(api.lastOnboardBody!['idToken'], 'id-token');
+      expect(api.lastOnboardBody!['farmName'], 'Green Acres');
+    },
+  );
 
   test('restoreSession clears the token and returns null on 401', () async {
     storage.token = 'stale';
     api.meError = const ApiException(
       ApiErrorKind.unauthorized,
       statusCode: 401,
+    );
+
+    final user = await repo.restoreSession();
+
+    expect(user, isNull);
+    expect(storage.token, isNull);
+    expect(storage.clearCalls, 1);
+  });
+
+  test('restoreSession clears the token for a Dio-wrapped 401', () async {
+    storage.token = 'stale';
+    api.meError = DioException(
+      requestOptions: RequestOptions(path: '/auth/me'),
+      error: const ApiException(ApiErrorKind.unauthorized, statusCode: 401),
     );
 
     final user = await repo.restoreSession();
