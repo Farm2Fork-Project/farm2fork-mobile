@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/core/storage/token_storage.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
@@ -26,12 +27,13 @@ class ApiAuthRepository implements AuthRepository {
     try {
       final body = await _api.me();
       return _userFromJson(body);
-    } on ApiException catch (e) {
-      if (e.kind == ApiErrorKind.unauthorized) {
+    } catch (error, stackTrace) {
+      final apiError = _apiExceptionFrom(error);
+      if (apiError?.kind == ApiErrorKind.unauthorized) {
         await _tokenStorage.clear();
         return null;
       }
-      rethrow;
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
 
@@ -102,15 +104,16 @@ class ApiAuthRepository implements AuthRepository {
     try {
       final response = await _api.signInWithFirebase(idToken);
       return FirebaseSignedIn(await _persistSession(response));
-    } on ApiException catch (e) {
+    } catch (error, stackTrace) {
+      final apiError = _apiExceptionFrom(error);
       // /auth/firebase returns 409 only for ONBOARDING_REQUIRED.
-      if (e.statusCode == 409) {
+      if (apiError?.statusCode == 409) {
         return FirebaseOnboardingRequired(
           email: fallbackEmail ?? '',
           displayName: displayName,
         );
       }
-      rethrow;
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
 
@@ -134,6 +137,14 @@ class ApiAuthRepository implements AuthRepository {
     isVerified: (json['isVerified'] as bool?) ?? false,
     isActive: (json['isActive'] as bool?) ?? true,
   );
+
+  ApiException? _apiExceptionFrom(Object error) {
+    if (error is ApiException) return error;
+    if (error is DioException && error.error is ApiException) {
+      return error.error as ApiException;
+    }
+    return null;
+  }
 
   // --- Legacy mock-era API (retired with the old screens in the next slice). ---
 
