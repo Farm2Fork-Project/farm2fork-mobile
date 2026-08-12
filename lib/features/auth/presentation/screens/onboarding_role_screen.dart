@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -6,12 +7,25 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_session.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+/// Post-sign-in role picker: a new identity chooses farmer/buyer/transporter
+/// before completing the matching KYC form.
+class OnboardingRoleScreen extends ConsumerWidget {
+  const OnboardingRoleScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(onboardingSessionProvider);
+
+    // Reached without an active onboarding (e.g. deep link): back to login.
+    if (session == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) context.go('/auth/login');
+      });
+      return const Scaffold(body: SizedBox.shrink());
+    }
+
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
@@ -20,47 +34,30 @@ class SignupScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.pagePadding),
         children: [
-          SectionHeader(title: context.l10n.signUpSelectRole),
-          const SizedBox(height: AppSpacing.md),
-          _RoleCard(
-            icon: Icons.shopping_basket_rounded,
-            label: context.l10n.roleBuyer,
-            description: context.l10n.buyerRoleDescription,
-            onTap: () => context.push('/auth/signup/buyer'),
+          SectionHeader(
+            title: context.l10n.signUpSelectRole,
+            subtitle: context.l10n.onboardingProfileSubtitle,
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.md),
           _RoleCard(
             icon: Icons.agriculture_rounded,
             label: context.l10n.roleFarmer,
             description: context.l10n.farmerRoleDescription,
-            onTap: () => context.push('/auth/signup/farmer'),
+            onTap: () => context.push('/auth/onboarding/farmer'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _RoleCard(
+            icon: Icons.shopping_basket_rounded,
+            label: context.l10n.roleBuyer,
+            description: context.l10n.buyerRoleDescription,
+            onTap: () => context.push('/auth/onboarding/buyer'),
           ),
           const SizedBox(height: AppSpacing.sm),
           _RoleCard(
             icon: Icons.local_shipping_rounded,
             label: context.l10n.roleTransporter,
             description: context.l10n.transporterRoleDescription,
-            onTap: () => context.push('/auth/signup/transporter'),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                context.l10n.alreadyHaveAccount,
-                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-              ),
-              TextButton(
-                onPressed: () => context.go('/auth/login'),
-                child: Text(
-                  context.l10n.login,
-                  style: AppTextStyles.small.copyWith(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
+            onTap: () => context.push('/auth/onboarding/transporter'),
           ),
         ],
       ),

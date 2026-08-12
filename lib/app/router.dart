@@ -9,12 +9,12 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/buyer_signup_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/farmer_signup_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/buyer_onboarding_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/farmer_onboarding_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/guest_account_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/login_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/signup_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/transporter_signup_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/onboarding_role_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/transporter_onboarding_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/cart_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/checkout_screen.dart';
@@ -95,18 +95,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
-        path: '/auth/signup',
+        path: '/auth/onboarding',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, _) => const SignupScreen(),
+        builder: (_, _) => const OnboardingRoleScreen(),
         routes: [
-          GoRoute(path: 'buyer', builder: (_, _) => const BuyerSignupScreen()),
           GoRoute(
             path: 'farmer',
-            builder: (_, _) => const FarmerSignupScreen(),
+            builder: (_, _) => const FarmerOnboardingScreen(),
+          ),
+          GoRoute(
+            path: 'buyer',
+            builder: (_, _) => const BuyerOnboardingScreen(),
           ),
           GoRoute(
             path: 'transporter',
-            builder: (_, _) => const TransporterSignupScreen(),
+            builder: (_, _) => const TransporterOnboardingScreen(),
           ),
         ],
       ),

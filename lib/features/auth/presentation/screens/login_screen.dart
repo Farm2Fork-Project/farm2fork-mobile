@@ -8,7 +8,10 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_session.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/utils/onboarding_support.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_form_widgets.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -32,23 +35,55 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _submitEmail() async {
     if (!_formKey.currentState!.validate()) return;
+    final email = _emailController.text.trim();
+    await _handleOutcome(
+      () => ref
+          .read(authControllerProvider.notifier)
+          .signInWithEmail(email: email, password: _passwordController.text),
+      onboardingEmail: email,
+    );
+  }
+
+  Future<void> _submitGoogle() {
+    return _handleOutcome(
+      () => ref.read(authControllerProvider.notifier).signInWithGoogle(),
+    );
+  }
+
+  /// A returning user signed in; a new identity is routed into onboarding.
+  Future<void> _handleOutcome(
+    Future<FirebaseSignInOutcome> Function() run, {
+    String? onboardingEmail,
+  }) async {
     setState(() => _errorMessage = null);
-
-    await ref
-        .read(authControllerProvider.notifier)
-        .signIn(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
+    try {
+      final outcome = await run();
+      if (!mounted) return;
+      if (outcome is FirebaseOnboardingRequired) {
+        ref.read(onboardingSessionProvider.notifier).start(
+          OnboardingSession(
+            method: OnboardingMethod.google,
+            email: outcome.email.isNotEmpty ? outcome.email : onboardingEmail,
+            displayName: outcome.displayName,
+          ),
         );
-
-    if (!mounted) return;
-    final authState = ref.read(authControllerProvider);
-    if (authState.hasError) {
-      setState(() => _errorMessage = context.l10n.invalidCredentials);
+        context.push('/auth/onboarding');
+      }
+      // On sign-in the GoRouter redirect fires automatically.
+    } catch (error) {
+      if (!mounted) return;
+      final message = onboardingErrorMessage(context, error);
+      if (message.isNotEmpty) setState(() => _errorMessage = message);
     }
-    // On success, GoRouter redirect fires automatically
+  }
+
+  void _startEmailSignUp() {
+    ref
+        .read(onboardingSessionProvider.notifier)
+        .start(const OnboardingSession(method: OnboardingMethod.emailPassword));
+    context.push('/auth/onboarding');
   }
 
   @override
@@ -81,21 +116,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 AuthErrorBanner(message: _errorMessage!),
                 const SizedBox(height: AppSpacing.md),
               ],
+              AppButton(
+                label: context.l10n.continueWithGoogle,
+                variant: AppButtonVariant.quiet,
+                expand: true,
+                onPressed: isLoading ? null : _submitGoogle,
+              ),
+              _AuthDivider(),
               AuthTextField(
                 controller: _emailController,
-                label: context.l10n.emailOrPhone,
+                label: context.l10n.email,
                 keyboardType: TextInputType.emailAddress,
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? context.l10n.emailOrPhone
-                    : null,
+                validator: (v) => validateRequiredField(context, v),
               ),
               const SizedBox(height: AppSpacing.md),
               AuthTextField(
                 controller: _passwordController,
                 label: context.l10n.password,
                 obscureText: _obscurePassword,
-                validator: (v) =>
-                    (v == null || v.isEmpty) ? context.l10n.password : null,
+                validator: (v) => validateRequiredField(context, v),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword
@@ -107,23 +146,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       setState(() => _obscurePassword = !_obscurePassword),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {}, // stub — backend not ready
-                  child: Text(
-                    context.l10n.forgotPassword,
-                    style: AppTextStyles.small.copyWith(
-                      color: AppColors.primaryGreen,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
+              const SizedBox(height: AppSpacing.md),
               AppButton(
                 label: context.l10n.login,
-                onPressed: isLoading ? null : _submit,
+                onPressed: isLoading ? null : _submitEmail,
                 expand: true,
               ),
               const SizedBox(height: AppSpacing.md),
@@ -137,9 +163,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => context.push('/auth/signup'),
+                    onPressed: isLoading ? null : _startEmailSignUp,
                     child: Text(
-                      context.l10n.signUp,
+                      context.l10n.signUpWithEmail,
                       style: AppTextStyles.small.copyWith(
                         color: AppColors.primaryGreen,
                         fontWeight: FontWeight.w700,

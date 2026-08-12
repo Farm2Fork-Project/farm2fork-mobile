@@ -13,6 +13,7 @@ class AuthTextField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.suffixIcon,
+    this.hintText,
   });
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class AuthTextField extends StatelessWidget {
   final bool obscureText;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,8 @@ class AuthTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: AppTextStyles.small.copyWith(color: AppColors.textMuted),
+        hintText: hintText,
+        hintStyle: AppTextStyles.small.copyWith(color: AppColors.textMuted),
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

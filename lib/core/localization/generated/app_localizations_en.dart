@@ -558,6 +558,102 @@ class AppLocalizationsEn extends AppLocalizations {
       'Incorrect email or password. Please try again.';
 
   @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get signUpWithEmail => 'Sign up with email';
+
+  @override
+  String get onboardingCompleteProfile => 'Complete your profile';
+
+  @override
+  String get onboardingProfileSubtitle =>
+      'Tell us a bit about you to finish setting up.';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get fieldCnic => 'CNIC';
+
+  @override
+  String get businessName => 'Business Name';
+
+  @override
+  String get businessType => 'Business Type';
+
+  @override
+  String get selectBusinessType => 'Select business type';
+
+  @override
+  String get businessTypeIndividual => 'Individual';
+
+  @override
+  String get businessTypeRetailer => 'Retailer';
+
+  @override
+  String get businessTypeRestaurant => 'Restaurant';
+
+  @override
+  String get businessTypeWholesaler => 'Wholesaler';
+
+  @override
+  String get vehicleNumber => 'Vehicle Number';
+
+  @override
+  String get selectVehicleType => 'Select vehicle type';
+
+  @override
+  String get vehicleTypeBike => 'Bike';
+
+  @override
+  String get vehicleTypeRickshaw => 'Rickshaw';
+
+  @override
+  String get vehicleTypeVan => 'Van';
+
+  @override
+  String get vehicleTypeTruck => 'Truck';
+
+  @override
+  String get cropTypesHint => 'e.g. wheat, rice, mango';
+
+  @override
+  String get serviceAreasHint => 'e.g. Lahore, Faisalabad';
+
+  @override
+  String get validationRequired => 'This field is required';
+
+  @override
+  String get validationCnicInvalid =>
+      'Enter a valid CNIC (e.g. 35202-1234567-1)';
+
+  @override
+  String get validationEmailInvalid => 'Enter a valid email';
+
+  @override
+  String get validationPasswordShort =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get authErrorEmailInUse =>
+      'This email already has an account. Try signing in.';
+
+  @override
+  String get authErrorWeakPassword => 'Choose a stronger password.';
+
+  @override
+  String get authErrorNetwork =>
+      'No internet connection. Check your network and try again.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Please try again later.';
+
+  @override
+  String get authErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
   String get signUpSuccess => 'Account created! You are now logged in.';
 
   @override
