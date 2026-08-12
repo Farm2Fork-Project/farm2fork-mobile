@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository_provider.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/mock_auth_repository.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 

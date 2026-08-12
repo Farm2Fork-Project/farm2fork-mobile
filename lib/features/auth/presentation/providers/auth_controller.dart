@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
-import 'package:farm2fork_mobile/features/auth/data/repositories/mock_auth_repository.dart';
+import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository_provider.dart';
 
 final authControllerProvider = AsyncNotifierProvider<AuthController, AuthState>(
   AuthController.new,
@@ -36,6 +37,58 @@ class AuthController extends AsyncNotifier<AuthState> {
           .signUp(request: request);
       return AuthState(status: AuthStatus.authenticated, user: user);
     });
+  }
+
+  /// Google sign-in. On success the state becomes authenticated; when the
+  /// identity has no account yet the returned outcome is
+  /// [FirebaseOnboardingRequired] and the caller routes into onboarding.
+  Future<FirebaseSignInOutcome> signInWithGoogle() {
+    return _runFirebaseSignIn(
+      () => ref.read(authRepositoryProvider).signInWithGoogle(),
+    );
+  }
+
+  /// Email/password sign-in for a returning user (same outcome semantics).
+  Future<FirebaseSignInOutcome> signInWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _runFirebaseSignIn(
+      () => ref
+          .read(authRepositoryProvider)
+          .signInWithEmail(email: email, password: password),
+    );
+  }
+
+  /// Complete first-time onboarding, then authenticate.
+  Future<void> completeOnboarding(OnboardingRequest request) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final user = await ref
+          .read(authRepositoryProvider)
+          .completeOnboarding(request);
+      return AuthState(status: AuthStatus.authenticated, user: user);
+    });
+  }
+
+  Future<FirebaseSignInOutcome> _runFirebaseSignIn(
+    Future<FirebaseSignInOutcome> Function() action,
+  ) async {
+    state = const AsyncLoading();
+    try {
+      final outcome = await action();
+      // Onboarding-required keeps the user in the guest shell; the screen
+      // navigates to the onboarding flow off the returned outcome.
+      state = AsyncData(
+        outcome is FirebaseSignedIn
+            ? AuthState(status: AuthStatus.authenticated, user: outcome.user)
+            : const AuthState(status: AuthStatus.guest),
+      );
+      return outcome;
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {
