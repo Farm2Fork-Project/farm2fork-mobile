@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886626107303",
+    "project_id": "farm2fork-2a5b9",
+    "storage_bucket": "farm2fork-2a5b9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886626107303:android:b54e4ef35e46f436998082",
+        "android_client_info": {
+          "package_name": "com.farm2fork.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv-EKMygv7FalbcyNHbrI8BiMle1hnCs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
