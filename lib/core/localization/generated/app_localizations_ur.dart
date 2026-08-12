@@ -557,6 +557,101 @@ class AppLocalizationsUr extends AppLocalizations {
   String get invalidCredentials => 'غلط ای میل یا پاس ورڈ۔ دوبارہ کوشش کریں۔';
 
   @override
+  String get continueWithGoogle => 'گوگل کے ساتھ جاری رکھیں';
+
+  @override
+  String get signUpWithEmail => 'ای میل سے سائن اپ کریں';
+
+  @override
+  String get onboardingCompleteProfile => 'اپنی پروفائل مکمل کریں';
+
+  @override
+  String get onboardingProfileSubtitle =>
+      'سیٹ اپ مکمل کرنے کے لیے ہمیں اپنے بارے میں کچھ بتائیں۔';
+
+  @override
+  String get email => 'ای میل';
+
+  @override
+  String get fieldCnic => 'شناختی کارڈ نمبر';
+
+  @override
+  String get businessName => 'کاروبار کا نام';
+
+  @override
+  String get businessType => 'کاروبار کی قسم';
+
+  @override
+  String get selectBusinessType => 'کاروبار کی قسم منتخب کریں';
+
+  @override
+  String get businessTypeIndividual => 'انفرادی';
+
+  @override
+  String get businessTypeRetailer => 'خوردہ فروش';
+
+  @override
+  String get businessTypeRestaurant => 'ریسٹورنٹ';
+
+  @override
+  String get businessTypeWholesaler => 'تھوک فروش';
+
+  @override
+  String get vehicleNumber => 'گاڑی کا نمبر';
+
+  @override
+  String get selectVehicleType => 'گاڑی کی قسم منتخب کریں';
+
+  @override
+  String get vehicleTypeBike => 'موٹر سائیکل';
+
+  @override
+  String get vehicleTypeRickshaw => 'رکشہ';
+
+  @override
+  String get vehicleTypeVan => 'وین';
+
+  @override
+  String get vehicleTypeTruck => 'ٹرک';
+
+  @override
+  String get cropTypesHint => 'مثلاً گندم، چاول، آم';
+
+  @override
+  String get serviceAreasHint => 'مثلاً لاہور، فیصل آباد';
+
+  @override
+  String get validationRequired => 'یہ خانہ ضروری ہے';
+
+  @override
+  String get validationCnicInvalid =>
+      'درست شناختی کارڈ نمبر درج کریں (مثلاً 35202-1234567-1)';
+
+  @override
+  String get validationEmailInvalid => 'درست ای میل درج کریں';
+
+  @override
+  String get validationPasswordShort => 'پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے';
+
+  @override
+  String get authErrorEmailInUse =>
+      'اس ای میل کا اکاؤنٹ پہلے سے موجود ہے۔ سائن ان کریں۔';
+
+  @override
+  String get authErrorWeakPassword => 'زیادہ مضبوط پاس ورڈ منتخب کریں۔';
+
+  @override
+  String get authErrorNetwork =>
+      'انٹرنیٹ کنکشن نہیں ہے۔ اپنا نیٹ ورک چیک کریں۔';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'بہت زیادہ کوششیں۔ بعد میں دوبارہ کوشش کریں۔';
+
+  @override
+  String get authErrorGeneric => 'کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔';
+
+  @override
   String get signUpSuccess => 'اکاؤنٹ بن گیا! آپ لاگ ان ہو گئے ہیں۔';
 
   @override
