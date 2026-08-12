@@ -50,7 +50,10 @@ void main() {
   test('settles one payment for every successfully created order', () async {
     final repo = _RecordingPaymentsRepository();
     final container = ProviderContainer(
-      overrides: [paymentsRepositoryProvider.overrideWithValue(repo)],
+      overrides: [
+        paymentsRepositoryProvider.overrideWithValue(repo),
+        paymentSimulatorEnabledProvider.overrideWithValue(true),
+      ],
     );
     addTearDown(container.dispose);
 
