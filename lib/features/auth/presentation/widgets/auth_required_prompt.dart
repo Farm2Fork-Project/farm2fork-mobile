@@ -70,7 +70,7 @@ class AuthRequiredPrompt extends StatelessWidget {
             label: context.l10n.createAccount,
             variant: AppButtonVariant.secondary,
             expand: true,
-            onPressed: onSignup ?? () => context.push('/auth/signup'),
+            onPressed: onSignup ?? () => context.push('/auth/login'),
           ),
           if (showDismiss) ...[
             const SizedBox(height: AppSpacing.md),
@@ -118,7 +118,7 @@ Future<void> showAuthRequiredSheet(
           },
           onSignup: () {
             Navigator.pop(context);
-            context.push('/auth/signup');
+            context.push('/auth/login');
           },
           onDismiss: () => Navigator.pop(context),
         ),

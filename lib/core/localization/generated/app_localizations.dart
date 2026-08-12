@@ -1016,6 +1016,186 @@ abstract class AppLocalizations {
   /// **'Incorrect email or password. Please try again.'**
   String get invalidCredentials;
 
+  /// Google sign-in button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @signUpWithEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up with email'**
+  String get signUpWithEmail;
+
+  /// No description provided for @onboardingCompleteProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get onboardingCompleteProfile;
+
+  /// No description provided for @onboardingProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us a bit about you to finish setting up.'**
+  String get onboardingProfileSubtitle;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @fieldCnic.
+  ///
+  /// In en, this message translates to:
+  /// **'CNIC'**
+  String get fieldCnic;
+
+  /// No description provided for @businessName.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Name'**
+  String get businessName;
+
+  /// No description provided for @businessType.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Type'**
+  String get businessType;
+
+  /// No description provided for @selectBusinessType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select business type'**
+  String get selectBusinessType;
+
+  /// No description provided for @businessTypeIndividual.
+  ///
+  /// In en, this message translates to:
+  /// **'Individual'**
+  String get businessTypeIndividual;
+
+  /// No description provided for @businessTypeRetailer.
+  ///
+  /// In en, this message translates to:
+  /// **'Retailer'**
+  String get businessTypeRetailer;
+
+  /// No description provided for @businessTypeRestaurant.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant'**
+  String get businessTypeRestaurant;
+
+  /// No description provided for @businessTypeWholesaler.
+  ///
+  /// In en, this message translates to:
+  /// **'Wholesaler'**
+  String get businessTypeWholesaler;
+
+  /// No description provided for @vehicleNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Number'**
+  String get vehicleNumber;
+
+  /// No description provided for @selectVehicleType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select vehicle type'**
+  String get selectVehicleType;
+
+  /// No description provided for @vehicleTypeBike.
+  ///
+  /// In en, this message translates to:
+  /// **'Bike'**
+  String get vehicleTypeBike;
+
+  /// No description provided for @vehicleTypeRickshaw.
+  ///
+  /// In en, this message translates to:
+  /// **'Rickshaw'**
+  String get vehicleTypeRickshaw;
+
+  /// No description provided for @vehicleTypeVan.
+  ///
+  /// In en, this message translates to:
+  /// **'Van'**
+  String get vehicleTypeVan;
+
+  /// No description provided for @vehicleTypeTruck.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck'**
+  String get vehicleTypeTruck;
+
+  /// No description provided for @cropTypesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. wheat, rice, mango'**
+  String get cropTypesHint;
+
+  /// No description provided for @serviceAreasHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Lahore, Faisalabad'**
+  String get serviceAreasHint;
+
+  /// No description provided for @validationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationRequired;
+
+  /// No description provided for @validationCnicInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid CNIC (e.g. 35202-1234567-1)'**
+  String get validationCnicInvalid;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationPasswordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get validationPasswordShort;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email already has an account. Try signing in.'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a stronger password.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Check your network and try again.'**
+  String get authErrorNetwork;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again later.'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorGeneric;
+
   /// Snackbar after successful signup
   ///
   /// In en, this message translates to:
