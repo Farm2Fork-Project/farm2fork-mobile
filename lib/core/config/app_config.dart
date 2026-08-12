@@ -6,10 +6,10 @@
 /// to a Nest.js backend on the host machine (10.0.2.2 maps to host localhost).
 abstract final class AppConfig {
   /// Base URL of the Nest.js API. Override with:
-  ///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
+  ///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000/api
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:3000',
+    defaultValue: 'http://10.0.2.2:3000/api',
   );
 
   /// When true, repositories use in-memory mock data and never hit the network.
@@ -17,7 +17,7 @@ abstract final class AppConfig {
   ///   flutter run --dart-define=USE_MOCKS=true
   static const bool useMocks = bool.fromEnvironment(
     'USE_MOCKS',
-    defaultValue: true,
+    defaultValue: false,
   );
 
   /// Enables the authenticated backend payment simulator in a non-mock build.

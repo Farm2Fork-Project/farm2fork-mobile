@@ -134,14 +134,22 @@ MongoDB is the primary database. All 17 collections are listed below with their 
 
 ## **5.1 users**
 
+> ⚠ Updated 2026-08-12 (Firebase Auth migration, approved by project owner). Identity is now
+> authenticated by Firebase (Google + email/password); the backend verifies the Firebase ID token and
+> mints its own JWT (backend remains the authority for roles, sessions, and KYC). Added `firebaseUid`
+> and `authProvider`; `passwordHash` is now **optional** (legacy - Firebase-provisioned accounts have
+> none) and is retired once all clients migrate. `firebaseUid` is sensitive (never exposed/logged).
+
 | **Field**    | **Type**      | **Notes**                                                                                    |
 | ------------ | ------------- | -------------------------------------------------------------------------------------------- |
 | \_id         | ObjectId      | MongoDB primary key                                                                          |
 | email        | String        | Unique, indexed                                                                              |
-| passwordHash | String        | bcrypt hashed - never exposed to any client                                                  |
+| firebaseUid  | String        | Firebase Auth UID - unique, sparse index. Links the account to Firebase. Sensitive - never exposed to any client or logged |
+| authProvider | String (enum) | google \| password - identity provider reported by Firebase                                  |
+| passwordHash | String        | Optional/legacy. bcrypt hashed - null for Firebase-provisioned accounts. Never exposed to any client |
 | role         | String (enum) | farmer \| buyer \| transporter \| financial_partner \| admin - these exact values, no others |
 | phone        | String        |                                                                                              |
-| isVerified   | Boolean       | Default: false - email verification required                                                 |
+| isVerified   | Boolean       | Default: false - sourced from Firebase email_verified on sign-in/onboarding                   |
 | isActive     | Boolean       | Default: true - admin can deactivate                                                         |
 | fcmToken     | String        | Firebase Cloud Messaging token - never logged or exposed                                     |
 | createdAt    | Date          |                                                                                              |
@@ -640,7 +648,9 @@ Each Nest.js module is self-contained. Modules import each other's services only
 
 ## **9.3 Authentication and Guards**
 
-All endpoints except /auth/login and /auth/register require a valid JWT. Role guards are applied at the controller level. Known role combinations:
+All endpoints except the public auth endpoints require a valid JWT. Public (no JWT): /auth/firebase and /auth/firebase/onboard/{farmer,buyer,transporter} (Firebase-based, primary), plus the legacy /auth/login, /auth/register/\* and /auth/password-reset/\* (retired once clients migrate). Role guards are applied at the controller level. Known role combinations:
+
+> ⚠ 2026-08-12: Auth is being migrated to Firebase. Clients obtain a Firebase ID token (Google or email/password) and POST it to `/auth/firebase`; a first-time identity gets 409 `ONBOARDING_REQUIRED` and completes `/auth/firebase/onboard/{role}` (self-service roles only). admin/financial_partner are provisioned via an email allowlist, never self-assignable. The backend still returns its own JWT; all other endpoints are unchanged.
 
 | **Endpoint group**          | **Allowed roles**                       |
 | --------------------------- | --------------------------------------- |

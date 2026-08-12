@@ -82,7 +82,7 @@ class GuestAccountScreen extends StatelessWidget {
                         child: AppButton(
                           label: context.l10n.signUp,
                           variant: AppButtonVariant.secondary,
-                          onPressed: () => context.push('/auth/signup'),
+                          onPressed: () => context.push('/auth/login'),
                         ),
                       ),
                     ],
