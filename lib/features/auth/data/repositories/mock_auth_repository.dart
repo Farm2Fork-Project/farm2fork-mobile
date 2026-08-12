@@ -1,11 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
-
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return MockAuthRepository();
-});
 
 class MockAuthRepository implements AuthRepository {
   static const _password = 'test1234';
@@ -64,6 +60,50 @@ class MockAuthRepository implements AuthRepository {
     final user = stored.toAuthUser();
     _currentUser = user;
     return user;
+  }
+
+  @override
+  Future<FirebaseSignInOutcome> signInWithGoogle() async {
+    // Deterministic mock: a returning buyer signs straight in.
+    final user = _users['buyer@test.com']!.toAuthUser();
+    _currentUser = user;
+    return FirebaseSignedIn(user);
+  }
+
+  @override
+  Future<FirebaseSignInOutcome> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    final user = await signIn(email: email, password: password);
+    return FirebaseSignedIn(user);
+  }
+
+  @override
+  Future<AuthUser> completeOnboarding(OnboardingRequest request) async {
+    final role = switch (request.role) {
+      OnboardingRole.farmer => AppUserRole.farmer,
+      OnboardingRole.buyer => AppUserRole.buyer,
+      OnboardingRole.transporter => AppUserRole.transporter,
+    };
+    final id =
+        'mock_${AuthUser.roleToBackend(role)}_${DateTime.now().millisecondsSinceEpoch}';
+    final user = AuthUser(
+      id: id,
+      email: _emailForCredential(request.credential),
+      role: role,
+      isVerified: true,
+      isActive: true,
+    );
+    _currentUser = user;
+    return user;
+  }
+
+  String _emailForCredential(OnboardingCredential credential) {
+    return switch (credential) {
+      EmailPasswordOnboardingCredential(:final email) => email.toLowerCase(),
+      GoogleOnboardingCredential() => 'google.user@test.com',
+    };
   }
 
   @override
