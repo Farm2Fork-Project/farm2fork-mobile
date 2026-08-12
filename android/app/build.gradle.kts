@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.farm2fork.farm2fork_mobile"
+    namespace = "com.farm2fork.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.farm2fork.farm2fork_mobile"
+        applicationId = "com.farm2fork.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

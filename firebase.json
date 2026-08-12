@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Farm2Fork",
+        "supportEmail": "support.f2f@gmail.com"
+      }
+    }
+  }
+}

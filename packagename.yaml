@@ -1,0 +1,11 @@
+package_rename_config:
+  android:
+    app_name: "Farm2Fork" # Display name
+    package_name: "com.farm2fork.app" # Package name
+    override_old_package: "com.farm2fork.farm2fork_mobile" # Optional: Cleans up old folder structure
+    lang: "kotlin" # Optional: "kotlin" (default) or "java"
+
+  ios:
+    app_name: "Farm2Fork" # Display name
+    bundle_name: "Farm2Fork" # Bundle name
+    package_name: "com.farm2fork.app" # Product Bundle Identifier

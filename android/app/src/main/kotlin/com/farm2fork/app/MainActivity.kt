@@ -1,4 +1,4 @@
-package com.farm2fork.farm2fork_mobile
+package com.farm2fork.app
 
 import io.flutter.embedding.android.FlutterActivity
 
