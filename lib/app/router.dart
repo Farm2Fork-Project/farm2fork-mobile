@@ -10,6 +10,7 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/buyer_onboarding_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/email_verification_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/farmer_onboarding_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/guest_account_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/login_screen.dart';
@@ -93,6 +94,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/auth/login',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, _) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/auth/verify',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const EmailVerificationScreen(),
       ),
       GoRoute(
         path: '/auth/onboarding',

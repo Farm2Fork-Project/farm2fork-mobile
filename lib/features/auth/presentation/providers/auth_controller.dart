@@ -60,6 +60,22 @@ class AuthController extends AsyncNotifier<AuthState> {
     );
   }
 
+  /// Refreshes the Firebase user after email verification and re-exchanges the
+  /// ID token with the backend.
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession() {
+    return _runFirebaseSignIn(
+      () => ref.read(authRepositoryProvider).refreshVerifiedEmailSession(),
+    );
+  }
+
+  Future<void> resendEmailVerification() {
+    return ref.read(authRepositoryProvider).resendEmailVerification();
+  }
+
+  Future<void> sendPasswordReset({required String email}) {
+    return ref.read(authRepositoryProvider).sendPasswordReset(email: email);
+  }
+
   /// Complete first-time onboarding, then authenticate.
   Future<void> completeOnboarding(OnboardingRequest request) async {
     state = const AsyncLoading();
@@ -77,8 +93,8 @@ class AuthController extends AsyncNotifier<AuthState> {
     state = const AsyncLoading();
     try {
       final outcome = await action();
-      // Onboarding-required keeps the user in the guest shell; the screen
-      // navigates to the onboarding flow off the returned outcome.
+      // A verification/onboarding requirement keeps the user in the guest
+      // shell; the screen routes from the returned outcome.
       state = AsyncData(
         outcome is FirebaseSignedIn
             ? AuthState(status: AuthStatus.authenticated, user: outcome.user)

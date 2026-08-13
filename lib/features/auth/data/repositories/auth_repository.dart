@@ -20,6 +20,13 @@ class FirebaseOnboardingRequired extends FirebaseSignInOutcome {
   final String? displayName;
 }
 
+/// Firebase accepted the credential, but the backend will not issue a session
+/// until the account's Firebase email is verified.
+class FirebaseVerificationRequired extends FirebaseSignInOutcome {
+  const FirebaseVerificationRequired({required this.email});
+  final String email;
+}
+
 sealed class SignUpRequest {
   const SignUpRequest({
     required this.name,
@@ -89,6 +96,14 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
+  /// Re-check Firebase's current user after the user follows a verification
+  /// link, then exchange the refreshed identity token with the backend.
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession();
+
+  Future<void> sendPasswordReset({required String email});
+
+  Future<void> resendEmailVerification();
 
   /// Complete first-time onboarding for the current Firebase identity.
   Future<AuthUser> completeOnboarding(OnboardingRequest request);

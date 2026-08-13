@@ -4,10 +4,19 @@
 /// branch on [kind] to pick a localized message. The backend returns a
 /// consistent `{ statusCode, message, error }` body which is mapped here.
 class ApiException implements Exception {
-  const ApiException(this.kind, {this.statusCode, this.serverMessage});
+  const ApiException(
+    this.kind, {
+    this.statusCode,
+    this.code,
+    this.serverMessage,
+  });
 
   final ApiErrorKind kind;
   final int? statusCode;
+
+  /// Stable machine-readable backend error code, when the response provides
+  /// one. UI flows use this to distinguish verification from credentials.
+  final String? code;
 
   /// Raw backend `message`, if any. Not for direct display — the UI should map
   /// [kind] to a localized string; this is for logging/debugging only.
@@ -18,7 +27,7 @@ class ApiException implements Exception {
   @override
   String toString() =>
       'ApiException(kind: $kind, statusCode: $statusCode, '
-      'serverMessage: $serverMessage)';
+      'code: $code, serverMessage: $serverMessage)';
 }
 
 /// High-level error categories the UI can map to localized messages.

@@ -80,6 +80,19 @@ class MockAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession() async {
+    final user = _currentUser;
+    if (user == null) throw Exception('not_signed_in');
+    return FirebaseSignedIn(user);
+  }
+
+  @override
+  Future<void> resendEmailVerification() async {}
+
+  @override
+  Future<void> sendPasswordReset({required String email}) async {}
+
+  @override
   Future<AuthUser> completeOnboarding(OnboardingRequest request) async {
     final role = switch (request.role) {
       OnboardingRole.farmer => AppUserRole.farmer,
