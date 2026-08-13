@@ -60,6 +60,25 @@ class ApiAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession() async {
+    final idToken = await _gateway.refreshIdToken();
+    if (idToken == null) {
+      throw const ApiException(ApiErrorKind.unauthorized);
+    }
+    return _exchange(idToken, fallbackEmail: _gateway.currentEmail);
+  }
+
+  @override
+  Future<void> sendPasswordReset({required String email}) {
+    return _gateway.sendPasswordReset(email: email);
+  }
+
+  @override
+  Future<void> resendEmailVerification() {
+    return _gateway.sendEmailVerification();
+  }
+
+  @override
   Future<AuthUser> completeOnboarding(OnboardingRequest request) async {
     final idToken = await _idTokenForOnboarding(request.credential);
     final body = <String, dynamic>{
@@ -78,17 +97,27 @@ class ApiAuthRepository implements AuthRepository {
     await _gateway.signOut();
   }
 
-  // A new Google identity is already Firebase-signed-in, so reuse its token.
-  // A new email/password identity is created here as part of onboarding.
+  // A Google identity is already Firebase-signed-in. A first-time email user
+  // is created here; retries after verification reuse the same Firebase user.
   Future<String> _idTokenForOnboarding(OnboardingCredential credential) async {
     switch (credential) {
       case EmailPasswordOnboardingCredential(:final email, :final password):
-        return _gateway.registerWithEmailPassword(
+        final currentEmail = _gateway.currentEmail?.trim().toLowerCase();
+        if (currentEmail == email.trim().toLowerCase()) {
+          final token = await _gateway.refreshIdToken();
+          if (token == null) {
+            throw const ApiException(ApiErrorKind.unauthorized);
+          }
+          return token;
+        }
+        final token = await _gateway.registerWithEmailPassword(
           email: email,
           password: password,
         );
+        await _gateway.sendEmailVerification();
+        return token;
       case GoogleOnboardingCredential():
-        final token = await _gateway.currentIdToken();
+        final token = await _gateway.refreshIdToken();
         if (token == null) {
           throw const ApiException(ApiErrorKind.unauthorized);
         }
@@ -106,8 +135,10 @@ class ApiAuthRepository implements AuthRepository {
       return FirebaseSignedIn(await _persistSession(response));
     } catch (error, stackTrace) {
       final apiError = _apiExceptionFrom(error);
-      // /auth/firebase returns 409 only for ONBOARDING_REQUIRED.
-      if (apiError?.statusCode == 409) {
+      if (apiError?.code == 'EMAIL_VERIFICATION_REQUIRED') {
+        return FirebaseVerificationRequired(email: fallbackEmail ?? '');
+      }
+      if (apiError?.code == 'ONBOARDING_REQUIRED') {
         return FirebaseOnboardingRequired(
           email: fallbackEmail ?? '',
           displayName: displayName,
@@ -157,6 +188,9 @@ class ApiAuthRepository implements AuthRepository {
     return switch (outcome) {
       FirebaseSignedIn(:final user) => user,
       FirebaseOnboardingRequired() => throw const ApiException(
+        ApiErrorKind.unauthorized,
+      ),
+      FirebaseVerificationRequired() => throw const ApiException(
         ApiErrorKind.unauthorized,
       ),
     };

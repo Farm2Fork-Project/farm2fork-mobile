@@ -63,6 +63,16 @@ abstract class FirebaseAuthGateway {
   /// A fresh ID token for the currently signed-in Firebase user, or null.
   Future<String?> currentIdToken();
 
+  /// Reload Firebase user state (including email verification) before getting
+  /// a newly minted ID token.
+  Future<String?> refreshIdToken();
+
+  /// Ask Firebase to send the current email/password user's verification link.
+  Future<void> sendEmailVerification();
+
+  /// Ask Firebase to send a password-reset link without exposing account state.
+  Future<void> sendPasswordReset({required String email});
+
   /// Sign out of both Firebase and Google.
   Future<void> signOut();
 }
@@ -144,6 +154,40 @@ class FirebaseAuthGatewayImpl implements FirebaseAuthGateway {
     final user = _auth.currentUser;
     if (user == null) return null;
     return user.getIdToken();
+  }
+
+  @override
+  Future<String?> refreshIdToken() async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
+    try {
+      await user.reload();
+      return _auth.currentUser?.getIdToken(true);
+    } on FirebaseAuthException catch (e) {
+      throw _mapFirebaseError(e);
+    }
+  }
+
+  @override
+  Future<void> sendEmailVerification() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw const AuthGatewayException(AuthGatewayError.invalidCredentials);
+    }
+    try {
+      await user.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      throw _mapFirebaseError(e);
+    }
+  }
+
+  @override
+  Future<void> sendPasswordReset({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw _mapFirebaseError(e);
+    }
   }
 
   @override

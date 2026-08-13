@@ -37,6 +37,7 @@ class ErrorInterceptor extends Interceptor {
   ApiException _fromResponse(DioException err) {
     final status = err.response?.statusCode;
     final serverMessage = _extractMessage(err.response?.data);
+    final code = _extractCode(err.response?.data);
 
     final kind = switch (status) {
       400 || 422 => ApiErrorKind.validation,
@@ -48,7 +49,12 @@ class ErrorInterceptor extends Interceptor {
       _ => ApiErrorKind.unknown,
     };
 
-    return ApiException(kind, statusCode: status, serverMessage: serverMessage);
+    return ApiException(
+      kind,
+      statusCode: status,
+      code: code,
+      serverMessage: serverMessage,
+    );
   }
 
   /// Backend error shape: `{ statusCode, message, error }`. `message` may be a
@@ -60,6 +66,13 @@ class ErrorInterceptor extends Interceptor {
       if (message is List && message.isNotEmpty) {
         return message.map((e) => e.toString()).join(', ');
       }
+    }
+    return null;
+  }
+
+  String? _extractCode(Object? data) {
+    if (data is Map && data['code'] is String) {
+      return data['code'] as String;
     }
     return null;
   }

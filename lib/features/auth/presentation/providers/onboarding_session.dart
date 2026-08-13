@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 
 /// How the pending onboarding will obtain its Firebase identity.
 enum OnboardingMethod {
@@ -13,7 +14,12 @@ enum OnboardingMethod {
 /// The in-flight onboarding started from the login screen and carried across
 /// the role-picker and KYC screens.
 class OnboardingSession {
-  const OnboardingSession({required this.method, this.email, this.displayName});
+  const OnboardingSession({
+    required this.method,
+    this.email,
+    this.displayName,
+    this.pendingRequest,
+  });
 
   final OnboardingMethod method;
 
@@ -21,6 +27,7 @@ class OnboardingSession {
   /// email/password sign-up, where it is entered on the KYC form.
   final String? email;
   final String? displayName;
+  final OnboardingRequest? pendingRequest;
 
   bool get isEmailPassword => method == OnboardingMethod.emailPassword;
 }
@@ -31,6 +38,21 @@ class OnboardingSessionController extends Notifier<OnboardingSession?> {
   OnboardingSession? build() => null;
 
   void start(OnboardingSession session) => state = session;
+
+  void setPendingRequest(OnboardingRequest request) {
+    final session = state;
+    if (session == null) return;
+    final email = switch (request.credential) {
+      EmailPasswordOnboardingCredential(:final email) => email,
+      GoogleOnboardingCredential() => session.email,
+    };
+    state = OnboardingSession(
+      method: session.method,
+      email: email,
+      displayName: session.displayName,
+      pendingRequest: request,
+    );
+  }
 
   void clear() => state = null;
 }

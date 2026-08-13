@@ -61,14 +61,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       final outcome = await run();
       if (!mounted) return;
+      if (outcome is FirebaseVerificationRequired) {
+        ref
+            .read(onboardingSessionProvider.notifier)
+            .start(
+              OnboardingSession(
+                email: outcome.email,
+                method: OnboardingMethod.google,
+              ),
+            );
+        context.push('/auth/verify');
+        return;
+      }
       if (outcome is FirebaseOnboardingRequired) {
-        ref.read(onboardingSessionProvider.notifier).start(
-          OnboardingSession(
-            method: OnboardingMethod.google,
-            email: outcome.email.isNotEmpty ? outcome.email : onboardingEmail,
-            displayName: outcome.displayName,
-          ),
-        );
+        ref
+            .read(onboardingSessionProvider.notifier)
+            .start(
+              OnboardingSession(
+                method: OnboardingMethod.google,
+                email: outcome.email.isNotEmpty
+                    ? outcome.email
+                    : onboardingEmail,
+                displayName: outcome.displayName,
+              ),
+            );
         context.push('/auth/onboarding');
       }
       // On sign-in the GoRouter redirect fires automatically.
@@ -84,6 +100,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .read(onboardingSessionProvider.notifier)
         .start(const OnboardingSession(method: OnboardingMethod.emailPassword));
     context.push('/auth/onboarding');
+  }
+
+  Future<void> _sendPasswordReset() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      setState(() => _errorMessage = 'Enter your email address first.');
+      return;
+    }
+    setState(() => _errorMessage = null);
+    try {
+      await ref
+          .read(authControllerProvider.notifier)
+          .sendPasswordReset(email: email);
+      if (mounted) {
+        setState(
+          () => _errorMessage =
+              'If an account exists, Firebase has sent a password-reset email.',
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() => _errorMessage = onboardingErrorMessage(context, error));
+      }
+    }
   }
 
   @override
@@ -146,7 +186,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       setState(() => _obscurePassword = !_obscurePassword),
                 ),
               ),
-              const SizedBox(height: AppSpacing.md),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: isLoading ? null : _sendPasswordReset,
+                  child: const Text('Forgot password?'),
+                ),
+              ),
               AppButton(
                 label: context.l10n.login,
                 onPressed: isLoading ? null : _submitEmail,

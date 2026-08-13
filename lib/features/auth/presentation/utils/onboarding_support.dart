@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -23,9 +24,7 @@ String? validateRequiredField(BuildContext context, String? value) {
 String? validateCnicField(BuildContext context, String? value) {
   final text = value?.trim() ?? '';
   if (text.isEmpty) return context.l10n.validationRequired;
-  return _cnicRegExp.hasMatch(text)
-      ? null
-      : context.l10n.validationCnicInvalid;
+  return _cnicRegExp.hasMatch(text) ? null : context.l10n.validationCnicInvalid;
 }
 
 String? validateEmailField(BuildContext context, String? value) {
@@ -52,8 +51,7 @@ String onboardingErrorMessage(BuildContext context, Object error) {
       AuthGatewayError.emailAlreadyInUse => context.l10n.authErrorEmailInUse,
       AuthGatewayError.weakPassword => context.l10n.authErrorWeakPassword,
       AuthGatewayError.network => context.l10n.authErrorNetwork,
-      AuthGatewayError.tooManyRequests =>
-        context.l10n.authErrorTooManyRequests,
+      AuthGatewayError.tooManyRequests => context.l10n.authErrorTooManyRequests,
       AuthGatewayError.userDisabled => context.l10n.authErrorGeneric,
       AuthGatewayError.unknown => context.l10n.authErrorGeneric,
     };
@@ -65,8 +63,8 @@ String onboardingErrorMessage(BuildContext context, Object error) {
       return error.serverMessage ?? context.l10n.authErrorGeneric;
     }
     return switch (error.kind) {
-      ApiErrorKind.network || ApiErrorKind.timeout =>
-        context.l10n.authErrorNetwork,
+      ApiErrorKind.network ||
+      ApiErrorKind.timeout => context.l10n.authErrorNetwork,
       ApiErrorKind.unauthorized => context.l10n.invalidCredentials,
       _ => context.l10n.authErrorGeneric,
     };
@@ -102,13 +100,19 @@ Future<void> submitOnboarding(
   if (!formKey.currentState!.validate()) return;
   setError(null);
 
-  await ref
-      .read(authControllerProvider.notifier)
-      .completeOnboarding(buildRequest());
+  final request = buildRequest();
+
+  await ref.read(authControllerProvider.notifier).completeOnboarding(request);
 
   if (!context.mounted) return;
   final state = ref.read(authControllerProvider);
   if (state.hasError) {
+    final error = state.error;
+    if (error is ApiException && error.code == 'EMAIL_VERIFICATION_REQUIRED') {
+      ref.read(onboardingSessionProvider.notifier).setPendingRequest(request);
+      context.go('/auth/verify');
+      return;
+    }
     setError(onboardingErrorMessage(context, state.error!));
   } else {
     ref.read(onboardingSessionProvider.notifier).clear();

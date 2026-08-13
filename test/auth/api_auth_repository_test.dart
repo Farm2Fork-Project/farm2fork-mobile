@@ -14,6 +14,8 @@ class _FakeGateway implements FirebaseAuthGateway {
   String? existingIdToken = 'current-token';
   int registerCalls = 0;
   int signOutCalls = 0;
+  int verificationEmails = 0;
+  int refreshCalls = 0;
 
   @override
   String? get currentEmail => 'user@example.com';
@@ -37,6 +39,16 @@ class _FakeGateway implements FirebaseAuthGateway {
 
   @override
   Future<String?> currentIdToken() async => existingIdToken;
+  @override
+  Future<String?> refreshIdToken() async {
+    refreshCalls++;
+    return existingIdToken;
+  }
+
+  @override
+  Future<void> sendEmailVerification() async => verificationEmails++;
+  @override
+  Future<void> sendPasswordReset({required String email}) async {}
   @override
   Future<void> signOut() async => signOutCalls++;
 }
@@ -128,25 +140,58 @@ void main() {
     expect(api.lastIdToken, 'id-token');
   });
 
-  test('a 409 from /auth/firebase surfaces onboarding-required', () async {
-    api.signInError = const ApiException(ApiErrorKind.unknown, statusCode: 409);
+  test(
+    'an onboarding-required backend response surfaces onboarding-required',
+    () async {
+      api.signInError = const ApiException(
+        ApiErrorKind.unknown,
+        statusCode: 409,
+        code: 'ONBOARDING_REQUIRED',
+      );
 
-    final outcome = await repo.signInWithEmail(
-      email: 'new@example.com',
-      password: 'x',
-    );
+      final outcome = await repo.signInWithEmail(
+        email: 'new@example.com',
+        password: 'x',
+      );
 
-    expect(outcome, isA<FirebaseOnboardingRequired>());
-    expect((outcome as FirebaseOnboardingRequired).email, 'new@example.com');
-    expect(storage.token, isNull);
-  });
+      expect(outcome, isA<FirebaseOnboardingRequired>());
+      expect((outcome as FirebaseOnboardingRequired).email, 'new@example.com');
+      expect(storage.token, isNull);
+    },
+  );
 
   test(
-    'a Dio-wrapped 409 from /auth/firebase surfaces onboarding-required',
+    'a verification-required backend response is a dedicated Firebase outcome',
+    () async {
+      api.signInError = const ApiException(
+        ApiErrorKind.unauthorized,
+        statusCode: 401,
+        code: 'EMAIL_VERIFICATION_REQUIRED',
+      );
+
+      final outcome = await repo.signInWithEmail(
+        email: 'new@example.com',
+        password: 'x',
+      );
+
+      expect(outcome, isA<FirebaseVerificationRequired>());
+      expect(
+        (outcome as FirebaseVerificationRequired).email,
+        'new@example.com',
+      );
+    },
+  );
+
+  test(
+    'a Dio-wrapped onboarding-required response surfaces onboarding-required',
     () async {
       api.signInError = DioException(
         requestOptions: RequestOptions(path: '/auth/firebase'),
-        error: const ApiException(ApiErrorKind.unknown, statusCode: 409),
+        error: const ApiException(
+          ApiErrorKind.unknown,
+          statusCode: 409,
+          code: 'ONBOARDING_REQUIRED',
+        ),
       );
 
       final outcome = await repo.signInWithEmail(
@@ -197,6 +242,7 @@ void main() {
       );
 
       expect(gateway.registerCalls, 1);
+      expect(gateway.verificationEmails, 1);
       expect(api.lastOnboardPath, 'farmer');
       expect(api.lastOnboardBody!['idToken'], 'id-token');
       expect(api.lastOnboardBody!['farmName'], 'Green Acres');
