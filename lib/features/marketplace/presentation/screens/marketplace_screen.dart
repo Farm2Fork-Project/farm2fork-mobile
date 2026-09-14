@@ -6,7 +6,6 @@ import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
-import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
@@ -102,7 +101,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               AppSpacing.pagePadding,
               0,
             ),
-            child: _MarketplaceHeader(cartCount: cartCount),
+            child: const _MarketplaceHeader(),
           ),
           _SearchBar(
             controller: _searchController,
@@ -200,9 +199,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
 }
 
 class _MarketplaceHeader extends StatelessWidget {
-  const _MarketplaceHeader({required this.cartCount});
-
-  final int cartCount;
+  const _MarketplaceHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -225,12 +222,6 @@ class _MarketplaceHeader extends StatelessWidget {
         subtitle: context.l10n.searchHint,
         titleColor: AppColors.white,
         subtitleColor: AppColors.primaryGreenSoft,
-        trailing: AppBadge(
-          label: '$cartCount',
-          icon: Icons.shopping_cart_outlined,
-          backgroundColor: AppColors.accentYellowSoft,
-          foregroundColor: AppColors.primaryGreenDark,
-        ),
       ),
     );
   }
