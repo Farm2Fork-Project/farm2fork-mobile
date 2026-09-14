@@ -10,6 +10,7 @@ import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
@@ -41,16 +42,31 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final authState = ref.watch(authControllerProvider).asData?.value;
     final productAsync = ref.watch(productByIdProvider(widget.productId));
 
+    // The data case renders its own SliverAppBar (with a hero image and its
+    // own back button); loading/error/not-found have no sliver of their own,
+    // so give them a plain AppBar here instead of leaving the user stranded
+    // with no way back except the OS gesture.
+    final needsFallbackAppBar = productAsync.maybeWhen(
+      data: (product) => product == null,
+      orElse: () => true,
+    );
+
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
+      appBar: needsFallbackAppBar
+          ? AppBar(backgroundColor: AppColors.backgroundLight, elevation: 0)
+          : null,
       body: productAsync.when(
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.primaryGreen),
         ),
-        error: (e, _) => Center(child: Text(context.l10n.errorOccurred)),
+        error: (e, _) => AppErrorState(
+          onRetry: () =>
+              ref.invalidate(productByIdProvider(widget.productId)),
+        ),
         data: (product) {
           if (product == null) {
-            return Center(child: Text(context.l10n.noDataFound));
+            return AppEmptyState(message: context.l10n.noDataFound);
           }
           return _ProductDetailBody(
             product: product,

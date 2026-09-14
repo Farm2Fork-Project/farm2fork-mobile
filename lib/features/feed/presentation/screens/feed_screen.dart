@@ -6,6 +6,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/community/data/models/post.dart';
 import 'package:farm2fork_mobile/features/community/presentation/providers/community_controller.dart';
@@ -33,27 +34,9 @@ class FeedScreen extends ConsumerWidget {
           child: feedAsync.when(
             data: (posts) {
               if (posts.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.xxl),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.forum_rounded,
-                          size: 64,
-                          color: AppColors.textMuted.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          context.l10n.noDataFound,
-                          style: AppTextStyles.h3.copyWith(
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return AppEmptyState(
+                  message: context.l10n.noDataFound,
+                  icon: Icons.forum_rounded,
                 );
               }
 
@@ -72,32 +55,10 @@ class FeedScreen extends ConsumerWidget {
             loading: () => const Center(
               child: CircularProgressIndicator(color: AppColors.primaryGreen),
             ),
-            error: (error, stack) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline_rounded,
-                    color: AppColors.errorRed,
-                    size: 48,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Text(context.l10n.errorOccurred, style: AppTextStyles.body),
-                  const SizedBox(height: AppSpacing.md),
-                  ElevatedButton(
-                    onPressed: () => ref
-                        .read(communityControllerProvider.notifier)
-                        .fetchFeed(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                    ),
-                    child: Text(
-                      context.l10n.retry,
-                      style: const TextStyle(color: AppColors.white),
-                    ),
-                  ),
-                ],
-              ),
+            error: (error, stack) => AppErrorState(
+              icon: Icons.error_outline_rounded,
+              onRetry: () =>
+                  ref.read(communityControllerProvider.notifier).fetchFeed(),
             ),
           ),
         ),
