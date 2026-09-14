@@ -363,6 +363,30 @@
   "checkoutTitle": "Checkout",
   "@checkoutTitle": { "description": "Checkout screen app bar title" },
 
+  "ordersTabActive": "Active",
+  "@ordersTabActive": { "description": "Orders screen tab for in-progress orders" },
+
+  "ordersTabCompleted": "Completed",
+  "@ordersTabCompleted": { "description": "Orders screen tab for delivered/cancelled orders" },
+
+  "orderStatusPending": "Pending",
+  "@orderStatusPending": { "description": "Order status: pending" },
+
+  "orderStatusPaid": "Paid",
+  "@orderStatusPaid": { "description": "Order status: paid" },
+
+  "orderStatusProcessing": "Processing",
+  "@orderStatusProcessing": { "description": "Order status: processing" },
+
+  "orderStatusShipped": "Shipped",
+  "@orderStatusShipped": { "description": "Order status: shipped" },
+
+  "orderStatusDelivered": "Delivered",
+  "@orderStatusDelivered": { "description": "Order status: delivered" },
+
+  "orderStatusCancelled": "Cancelled",
+  "@orderStatusCancelled": { "description": "Order status: cancelled" },
+
   "shippingAddress": "Shipping Address",
   "@shippingAddress": { "description": "Shipping address section heading" },
 

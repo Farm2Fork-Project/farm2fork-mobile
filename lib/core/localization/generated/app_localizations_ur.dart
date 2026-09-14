@@ -406,6 +406,30 @@ class AppLocalizationsUr extends AppLocalizations {
   String get checkoutTitle => 'ادائیگی';
 
   @override
+  String get ordersTabActive => 'جاری';
+
+  @override
+  String get ordersTabCompleted => 'مکمل';
+
+  @override
+  String get orderStatusPending => 'زیر التواء';
+
+  @override
+  String get orderStatusPaid => 'ادا شدہ';
+
+  @override
+  String get orderStatusProcessing => 'زیر عمل';
+
+  @override
+  String get orderStatusShipped => 'بھیج دیا گیا';
+
+  @override
+  String get orderStatusDelivered => 'پہنچا دیا گیا';
+
+  @override
+  String get orderStatusCancelled => 'منسوخ شدہ';
+
+  @override
   String get shippingAddress => 'ترسیل کا پتہ';
 
   @override

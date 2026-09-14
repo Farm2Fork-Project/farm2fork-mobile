@@ -406,6 +406,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checkoutTitle => 'Checkout';
 
   @override
+  String get ordersTabActive => 'Active';
+
+  @override
+  String get ordersTabCompleted => 'Completed';
+
+  @override
+  String get orderStatusPending => 'Pending';
+
+  @override
+  String get orderStatusPaid => 'Paid';
+
+  @override
+  String get orderStatusProcessing => 'Processing';
+
+  @override
+  String get orderStatusShipped => 'Shipped';
+
+  @override
+  String get orderStatusDelivered => 'Delivered';
+
+  @override
+  String get orderStatusCancelled => 'Cancelled';
+
+  @override
   String get shippingAddress => 'Shipping Address';
 
   @override
