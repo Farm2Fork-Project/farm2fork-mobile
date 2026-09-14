@@ -317,6 +317,18 @@
   "shopNow": "Shop Now",
   "@shopNow": { "description": "CTA button on empty cart screen" },
 
+  "clearCart": "Clear cart",
+  "@clearCart": { "description": "Button to remove all items from the cart" },
+
+  "clearCartConfirmTitle": "Clear cart?",
+  "@clearCartConfirmTitle": { "description": "Confirmation dialog title before clearing the entire cart" },
+
+  "clearCartConfirmMessage": "This removes every item from your cart. This can't be undone.",
+  "@clearCartConfirmMessage": { "description": "Confirmation dialog message before clearing the entire cart" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Generic cancel button label used in confirmation dialogs" },
+
   "subtotal": "Subtotal",
   "@subtotal": { "description": "Subtotal label in cart group" },
 

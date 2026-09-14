@@ -365,6 +365,19 @@ class AppLocalizationsUr extends AppLocalizations {
   String get shopNow => 'ابھی خریداری کریں';
 
   @override
+  String get clearCart => 'کارٹ خالی کریں';
+
+  @override
+  String get clearCartConfirmTitle => 'کارٹ خالی کریں؟';
+
+  @override
+  String get clearCartConfirmMessage =>
+      'اس سے آپ کے کارٹ کی تمام اشیاء حذف ہو جائیں گی۔ یہ عمل واپس نہیں ہو سکتا۔';
+
+  @override
+  String get cancel => 'منسوخ کریں';
+
+  @override
   String get subtotal => 'ذیلی کل';
 
   @override
