@@ -166,6 +166,8 @@
   "fieldRequired": "یہ خانہ ضروری ہے",
   "removeItem": "ہٹائیں",
   "itemRemoved": "آئٹم ہٹا دیا گیا",
+  "deleteListingConfirmTitle": "لسٹنگ حذف کریں؟",
+  "deleteListingConfirmMessage": "اس سے یہ لسٹنگ مارکیٹ پلیس سے ہٹ جائے گی۔ یہ عمل واپس نہیں ہو سکتا۔",
 
   "rating": "درجہ بندی",
   "soldBy": "فروخت کنندہ",

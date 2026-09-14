@@ -516,6 +516,12 @@
   "itemRemoved": "Item removed",
   "@itemRemoved": { "description": "Snackbar message after removing a cart item" },
 
+  "deleteListingConfirmTitle": "Delete listing?",
+  "@deleteListingConfirmTitle": { "description": "Confirmation dialog title before deleting a farmer's product listing" },
+
+  "deleteListingConfirmMessage": "This removes the listing from the marketplace. This can't be undone.",
+  "@deleteListingConfirmMessage": { "description": "Confirmation dialog message before deleting a farmer's product listing" },
+
   "rating": "Rating",
   "@rating": { "description": "Label for farmer/product rating" },
 
