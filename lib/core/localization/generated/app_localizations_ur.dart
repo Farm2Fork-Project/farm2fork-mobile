@@ -97,6 +97,15 @@ class AppLocalizationsUr extends AppLocalizations {
       'مصنوعات کا QR کوڈ اسکین کریں تاکہ اصل جگہ، کسان، آرڈر کا سفر، شپمنٹ اپ ڈیٹس، اور بلاک چین ریکارڈز دیکھ سکیں۔';
 
   @override
+  String get traceScannerSimulateScan => 'اسکین سمولیٹ کریں (ٹماٹر اسکین کریں)';
+
+  @override
+  String get traceScannerDemoProductName => 'آرگینک ٹماٹر';
+
+  @override
+  String get traceScannerVerifiedLedger => 'تصدیق شدہ بلاک چین ٹریس لیجر';
+
+  @override
   String get paymentOptionsNote =>
       'ادائیگی کے لیے کیش، JazzCash، اور دیگر گیٹ ویز جیسے کئی طریقے شامل کیے جائیں گے جب provider فائنل ہو جائے گا۔';
 

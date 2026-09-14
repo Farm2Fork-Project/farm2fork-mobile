@@ -166,7 +166,7 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
                       color: AppColors.white,
                     ),
                     label: Text(
-                      'Simulate Scan (Scan Tomatoes)',
+                      context.l10n.traceScannerSimulateScan,
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w700,
                         color: AppColors.white,
@@ -211,10 +211,13 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Organic Tomatoes', style: AppTextStyles.h3),
+                    Text(
+                      context.l10n.traceScannerDemoProductName,
+                      style: AppTextStyles.h3,
+                    ),
                     const SizedBox(height: 2),
                     Text(
-                      'Verified Blockchain Trace Ledger',
+                      context.l10n.traceScannerVerifiedLedger,
                       style: AppTextStyles.small.copyWith(
                         color: AppColors.primaryGreenDark,
                         fontWeight: FontWeight.w600,
