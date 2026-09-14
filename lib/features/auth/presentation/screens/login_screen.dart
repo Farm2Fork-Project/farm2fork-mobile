@@ -160,6 +160,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 label: context.l10n.continueWithGoogle,
                 variant: AppButtonVariant.quiet,
                 expand: true,
+                isLoading: isLoading,
                 onPressed: isLoading ? null : _submitGoogle,
               ),
               _AuthDivider(),
@@ -197,6 +198,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 label: context.l10n.login,
                 onPressed: isLoading ? null : _submitEmail,
                 expand: true,
+                isLoading: isLoading,
               ),
               const SizedBox(height: AppSpacing.md),
               Row(
