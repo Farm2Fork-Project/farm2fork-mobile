@@ -219,10 +219,10 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 // Name field
                 AppTextField(
                   controller: _nameController,
-                  label: 'Produce Name', // fallback string
-                  hintText: 'e.g., Organic Tomatoes',
+                  label: context.l10n.produceName,
+                  hintText: context.l10n.produceNameHint,
                   validator: (v) => (v == null || v.trim().isEmpty)
-                      ? 'Please enter a name'
+                      ? context.l10n.fieldRequired
                       : null,
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -231,7 +231,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 DropdownButtonFormField<ProductCategory>(
                   initialValue: _category,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Category'),
+                  decoration: InputDecoration(labelText: context.l10n.category),
                   items: [
                     DropdownMenuItem(
                       value: ProductCategory.vegetables,
@@ -260,7 +260,9 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 DropdownButtonFormField<QualityGrade>(
                   initialValue: _qualityGrade,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Quality Grade'),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.qualityGrade,
+                  ),
                   items: [
                     DropdownMenuItem(
                       value: QualityGrade.a,
@@ -293,10 +295,9 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   maxLines: 4,
                   alignLabelWithHint: true,
                   label: context.l10n.description,
-                  hintText:
-                      'Describe freshness, farming practices, harvest date, etc.',
+                  hintText: context.l10n.descriptionHint,
                   validator: (v) => (v == null || v.trim().isEmpty)
-                      ? 'Please enter a description'
+                      ? context.l10n.fieldRequired
                       : null,
                 ),
               ],
@@ -331,19 +332,19 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  label: 'Price (PKR)',
-                  hintText: 'e.g., 150',
+                  label: context.l10n.priceWithCurrency,
+                  hintText: context.l10n.priceHint,
                   prefixIcon: const Icon(
                     Icons.payments_rounded,
                     color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Please enter price';
+                      return context.l10n.fieldRequired;
                     }
                     final price = double.tryParse(v);
                     if (price == null || price <= 0) {
-                      return 'Please enter a valid price';
+                      return context.l10n.pleaseEnterValidPrice;
                     }
                     return null;
                   },
@@ -356,19 +357,19 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  label: 'Quantity',
-                  hintText: 'e.g., 250',
+                  label: context.l10n.quantity,
+                  hintText: context.l10n.quantityHint,
                   prefixIcon: const Icon(
                     Icons.scale_rounded,
                     color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Please enter quantity';
+                      return context.l10n.fieldRequired;
                     }
                     final qty = double.tryParse(v);
                     if (qty == null || qty <= 0) {
-                      return 'Please enter a valid quantity';
+                      return context.l10n.pleaseEnterValidQuantity;
                     }
                     return null;
                   },
@@ -379,7 +380,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 DropdownButtonFormField<ProductUnit>(
                   initialValue: _unit,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Unit'),
+                  decoration: InputDecoration(labelText: context.l10n.unit),
                   items: [
                     DropdownMenuItem(
                       value: ProductUnit.kg,

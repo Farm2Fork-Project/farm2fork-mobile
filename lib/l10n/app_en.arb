@@ -162,6 +162,36 @@
   "listingStepPricingQuantity": "Pricing & Quantity",
   "@listingStepPricingQuantity": { "description": "Step 2 heading in create-listing wizard: price, quantity, unit" },
 
+  "produceName": "Produce Name",
+  "@produceName": { "description": "Create-listing form field: produce name label" },
+
+  "produceNameHint": "e.g., Organic Tomatoes",
+  "@produceNameHint": { "description": "Create-listing form field: produce name hint" },
+
+  "category": "Category",
+  "@category": { "description": "Create-listing form field: category dropdown label" },
+
+  "descriptionHint": "Describe freshness, farming practices, harvest date, etc.",
+  "@descriptionHint": { "description": "Create-listing form field: description hint" },
+
+  "priceWithCurrency": "Price (PKR)",
+  "@priceWithCurrency": { "description": "Create-listing form field: price label" },
+
+  "priceHint": "e.g., 150",
+  "@priceHint": { "description": "Create-listing form field: price hint" },
+
+  "pleaseEnterValidPrice": "Please enter a valid price",
+  "@pleaseEnterValidPrice": { "description": "Create-listing form validation: price must be a positive number" },
+
+  "quantityHint": "e.g., 250",
+  "@quantityHint": { "description": "Create-listing form field: quantity hint" },
+
+  "pleaseEnterValidQuantity": "Please enter a valid quantity",
+  "@pleaseEnterValidQuantity": { "description": "Create-listing form validation: quantity must be a positive number" },
+
+  "unit": "Unit",
+  "@unit": { "description": "Create-listing form field: unit dropdown label" },
+
   "feedTitle": "Farm Feed",
   "@feedTitle": { "description": "Community feed screen title" },
 
