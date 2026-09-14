@@ -887,8 +887,14 @@ abstract class AppLocalizations {
   /// Explains pending payment status
   ///
   /// In en, this message translates to:
-  /// **'Your payment was created and is waiting for confirmation.'**
+  /// **'Your payment was created and is waiting for confirmation. This screen doesn\'t update automatically — check back or refresh to see the latest status.'**
   String get paymentPendingDescription;
+
+  /// Button to re-check a pending payment's status when the real gateway isn't polled automatically
+  ///
+  /// In en, this message translates to:
+  /// **'Check payment status'**
+  String get checkPaymentStatus;
 
   /// Number of checkout orders represented by the payment flow
   ///

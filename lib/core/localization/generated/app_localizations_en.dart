@@ -466,7 +466,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentPendingDescription =>
-      'Your payment was created and is waiting for confirmation.';
+      'Your payment was created and is waiting for confirmation. This screen doesn\'t update automatically — check back or refresh to see the latest status.';
+
+  @override
+  String get checkPaymentStatus => 'Check payment status';
 
   @override
   String paymentOrdersReadyCount(int count) {

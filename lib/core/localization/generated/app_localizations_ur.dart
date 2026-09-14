@@ -466,7 +466,10 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get paymentPendingDescription =>
-      'آپ کی ادائیگی بن گئی ہے اور تصدیق کا انتظار کر رہی ہے۔';
+      'آپ کی ادائیگی بن گئی ہے اور تصدیق کا انتظار کر رہی ہے۔ یہ سکرین خودکار طور پر اپ ڈیٹ نہیں ہوتی — تازہ صورتحال دیکھنے کے لیے واپس چیک کریں یا ریفریش کریں۔';
+
+  @override
+  String get checkPaymentStatus => 'ادائیگی کی صورتحال چیک کریں';
 
   @override
   String paymentOrdersReadyCount(int count) {
