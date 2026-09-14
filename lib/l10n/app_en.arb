@@ -86,6 +86,15 @@
   "traceScannerDescription": "Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.",
   "@traceScannerDescription": { "description": "QR traceability scanner placeholder description" },
 
+  "traceScannerSimulateScan": "Simulate Scan (Scan Tomatoes)",
+  "@traceScannerSimulateScan": { "description": "Demo scan trigger button; no camera scanning is wired up yet" },
+
+  "traceScannerDemoProductName": "Organic Tomatoes",
+  "@traceScannerDemoProductName": { "description": "Product name shown for the demo trace journey" },
+
+  "traceScannerVerifiedLedger": "Verified Blockchain Trace Ledger",
+  "@traceScannerVerifiedLedger": { "description": "Subtitle confirming the trace journey is backed by the blockchain ledger" },
+
   "paymentOptionsNote": "Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.",
   "@paymentOptionsNote": { "description": "Payment provider placeholder note" },
 

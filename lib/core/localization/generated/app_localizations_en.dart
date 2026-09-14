@@ -97,6 +97,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.';
 
   @override
+  String get traceScannerSimulateScan => 'Simulate Scan (Scan Tomatoes)';
+
+  @override
+  String get traceScannerDemoProductName => 'Organic Tomatoes';
+
+  @override
+  String get traceScannerVerifiedLedger => 'Verified Blockchain Trace Ledger';
+
+  @override
   String get paymentOptionsNote =>
       'Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.';
 

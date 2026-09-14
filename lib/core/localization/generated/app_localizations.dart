@@ -272,6 +272,24 @@ abstract class AppLocalizations {
   /// **'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.'**
   String get traceScannerDescription;
 
+  /// Demo scan trigger button; no camera scanning is wired up yet
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate Scan (Scan Tomatoes)'**
+  String get traceScannerSimulateScan;
+
+  /// Product name shown for the demo trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'Organic Tomatoes'**
+  String get traceScannerDemoProductName;
+
+  /// Subtitle confirming the trace journey is backed by the blockchain ledger
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Blockchain Trace Ledger'**
+  String get traceScannerVerifiedLedger;
+
   /// Payment provider placeholder note
   ///
   /// In en, this message translates to:
