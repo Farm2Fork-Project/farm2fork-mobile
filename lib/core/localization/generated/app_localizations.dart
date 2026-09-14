@@ -1490,6 +1490,12 @@ abstract class AppLocalizations {
   /// **'Choose how you want to be notified'**
   String get notificationsSubtitle;
 
+  /// Disclosure note that notification toggles don't persist or trigger real push notifications yet
+  ///
+  /// In en, this message translates to:
+  /// **'These preferences only apply for this session for now and reset when you reopen the app — push notifications aren\'t sent yet.'**
+  String get notificationsNotYetConnectedNote;
+
   /// Order updates notification switch label
   ///
   /// In en, this message translates to:

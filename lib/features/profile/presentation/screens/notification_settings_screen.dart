@@ -79,6 +79,33 @@ class NotificationSettingsScreen extends ConsumerWidget {
                 style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
               ),
             ),
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              margin: const EdgeInsets.only(bottom: AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: AppColors.secondaryBlueSoft,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.info_outline_rounded,
+                    size: 18,
+                    color: AppColors.secondaryBlue,
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      context.l10n.notificationsNotYetConnectedNote,
+                      style: AppTextStyles.small.copyWith(
+                        color: AppColors.secondaryBlue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             AppCard(
               child: Column(
                 children: [

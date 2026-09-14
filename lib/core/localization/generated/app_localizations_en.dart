@@ -809,6 +809,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsSubtitle => 'Choose how you want to be notified';
 
   @override
+  String get notificationsNotYetConnectedNote =>
+      'These preferences only apply for this session for now and reset when you reopen the app — push notifications aren\'t sent yet.';
+
+  @override
   String get orderUpdates => 'Order Updates';
 
   @override
