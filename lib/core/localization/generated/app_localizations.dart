@@ -134,6 +134,18 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// Confirmation dialog title before signing the user out
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get logoutConfirmTitle;
+
+  /// Confirmation dialog message before signing the user out
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll need to sign in again to access your account.'**
+  String get logoutConfirmMessage;
+
   /// A general greeting
   ///
   /// In en, this message translates to:

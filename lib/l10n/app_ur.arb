@@ -5,6 +5,8 @@
   "urdu": "اردو (Urdu)",
   "login": "لاگ ان",
   "logout": "لاگ آؤٹ",
+  "logoutConfirmTitle": "لاگ آؤٹ کریں؟",
+  "logoutConfirmMessage": "اپنے اکاؤنٹ تک رسائی کے لیے آپ کو دوبارہ سائن ان کرنا ہوگا۔",
   "welcome": "خوش آمدید",
   "marketplace": "منڈی",
   "cart": "کارٹ",

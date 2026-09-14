@@ -153,11 +153,46 @@ class ProfileScreen extends ConsumerWidget {
               expand: true,
               onPressed: authState.isLoading
                   ? null
-                  : () => ref.read(authControllerProvider.notifier).signOut(),
+                  : () => _confirmLogout(context, ref),
               isLoading: authState.isLoading,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _confirmLogout(BuildContext context, WidgetRef ref) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.logoutConfirmTitle, style: AppTextStyles.h3),
+        content: Text(
+          context.l10n.logoutConfirmMessage,
+          style: AppTextStyles.body,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              context.l10n.cancel,
+              style: const TextStyle(color: AppColors.textMuted),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ref.read(authControllerProvider.notifier).signOut();
+            },
+            child: Text(
+              context.l10n.logout,
+              style: const TextStyle(
+                color: AppColors.errorRed,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
