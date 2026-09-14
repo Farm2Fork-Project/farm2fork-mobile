@@ -7,6 +7,7 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/core/utils/bidi_utils.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/shipments_controller.dart';
@@ -151,7 +152,7 @@ class _ShipmentCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                context.l10n.shipmentNumber(shipment.id),
+                context.l10n.shipmentNumber(isolateLtr(shipment.id)),
                 style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
               ),
               AppBadge(

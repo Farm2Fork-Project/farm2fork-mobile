@@ -444,6 +444,9 @@
   "orderStatusCancelled": "Cancelled",
   "@orderStatusCancelled": { "description": "Order status: cancelled" },
 
+  "orderNumber": "Order #{id}",
+  "@orderNumber": { "placeholders": { "id": { "type": "String", "example": "order-1" } } },
+
   "shippingAddress": "Shipping Address",
   "@shippingAddress": { "description": "Shipping address section heading" },
 

@@ -968,6 +968,12 @@ abstract class AppLocalizations {
   /// **'Cancelled'**
   String get orderStatusCancelled;
 
+  /// No description provided for @orderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order #{id}'**
+  String orderNumber(String id);
+
   /// Shipping address section heading
   ///
   /// In en, this message translates to:

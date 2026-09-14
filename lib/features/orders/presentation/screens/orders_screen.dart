@@ -9,6 +9,7 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/core/utils/bidi_utils.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
@@ -164,7 +165,7 @@ class _OrderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Order #${order.id}',
+                    context.l10n.orderNumber(isolateLtr(order.id)),
                     style: AppTextStyles.h3.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryGreenDark,
