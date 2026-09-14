@@ -39,9 +39,9 @@ class OrdersScreen extends ConsumerWidget {
               fontWeight: FontWeight.w700,
             ),
             unselectedLabelStyle: AppTextStyles.body,
-            tabs: const [
-              Tab(text: 'Active'), // Will localize or keep simple
-              Tab(text: 'Completed'),
+            tabs: [
+              Tab(text: context.l10n.ordersTabActive),
+              Tab(text: context.l10n.ordersTabCompleted),
             ],
           ),
         ),
@@ -144,12 +144,12 @@ class _OrderCard extends StatelessWidget {
     };
 
     final statusText = switch (order.status) {
-      OrderStatus.pending => 'Pending',
-      OrderStatus.paid => 'Paid',
-      OrderStatus.processing => 'Processing',
-      OrderStatus.shipped => 'Shipped',
-      OrderStatus.delivered => 'Delivered',
-      OrderStatus.cancelled => 'Cancelled',
+      OrderStatus.pending => context.l10n.orderStatusPending,
+      OrderStatus.paid => context.l10n.orderStatusPaid,
+      OrderStatus.processing => context.l10n.orderStatusProcessing,
+      OrderStatus.shipped => context.l10n.orderStatusShipped,
+      OrderStatus.delivered => context.l10n.orderStatusDelivered,
+      OrderStatus.cancelled => context.l10n.orderStatusCancelled,
     };
 
     return AppCard(

@@ -806,6 +806,54 @@ abstract class AppLocalizations {
   /// **'Checkout'**
   String get checkoutTitle;
 
+  /// Orders screen tab for in-progress orders
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get ordersTabActive;
+
+  /// Orders screen tab for delivered/cancelled orders
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get ordersTabCompleted;
+
+  /// Order status: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get orderStatusPending;
+
+  /// Order status: paid
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get orderStatusPaid;
+
+  /// Order status: processing
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get orderStatusProcessing;
+
+  /// Order status: shipped
+  ///
+  /// In en, this message translates to:
+  /// **'Shipped'**
+  String get orderStatusShipped;
+
+  /// Order status: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get orderStatusDelivered;
+
+  /// Order status: cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get orderStatusCancelled;
+
   /// Shipping address section heading
   ///
   /// In en, this message translates to:
