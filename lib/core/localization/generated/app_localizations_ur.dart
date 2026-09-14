@@ -64,13 +64,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navProfile => 'پروفائل';
 
   @override
-  String get navListings => 'میری فصلیں';
+  String get navListings => 'فہرستیں';
 
   @override
-  String get navCreateListing => 'پیداوار درج کریں';
+  String get navCreateListing => 'بنائیں';
 
   @override
-  String get navTrace => 'فصل کا سفر';
+  String get navTrace => 'ٹریس';
 
   @override
   String get navShipments => 'شپمنٹس';
