@@ -91,6 +91,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       style: AppTextStyles.small.copyWith(color: AppColors.white),
     ),
     backgroundColor: color,
+    duration: AppDurations.standardMessage,
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),

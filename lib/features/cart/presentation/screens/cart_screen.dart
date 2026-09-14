@@ -353,7 +353,7 @@ class _CartItemRow extends StatelessWidget {
                     style: AppTextStyles.small.copyWith(color: AppColors.white),
                   ),
                   backgroundColor: AppColors.errorRed,
-                  duration: const Duration(milliseconds: 800),
+                  duration: AppDurations.quickConfirmation,
                   behavior: SnackBarBehavior.floating,
                 ),
               );

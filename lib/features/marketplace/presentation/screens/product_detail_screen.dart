@@ -91,7 +91,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     style: AppTextStyles.small.copyWith(color: AppColors.white),
                   ),
                   backgroundColor: AppColors.primaryGreen,
-                  duration: const Duration(seconds: 1),
+                  duration: AppDurations.quickConfirmation,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.md),

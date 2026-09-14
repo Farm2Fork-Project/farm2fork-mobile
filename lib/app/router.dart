@@ -275,7 +275,10 @@ class _GuestTabShellState extends ConsumerState<GuestTabShell> {
       final status = next.asData?.value.status;
       if (status == AuthStatus.sessionExpired && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.sessionExpiredMessage)),
+          SnackBar(
+            content: Text(context.l10n.sessionExpiredMessage),
+            duration: AppDurations.standardMessage,
+          ),
         );
       }
     });
