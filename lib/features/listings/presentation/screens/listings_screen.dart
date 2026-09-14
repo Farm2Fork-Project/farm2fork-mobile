@@ -7,6 +7,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
@@ -173,38 +174,10 @@ class ListingsScreen extends ConsumerWidget {
                   if (products.isEmpty) {
                     return SliverFillRemaining(
                       hasScrollBody: false,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpacing.xxl),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.inventory_2_outlined,
-                                size: 64,
-                                color: AppColors.textMuted.withValues(
-                                  alpha: 0.5,
-                                ),
-                              ),
-                              const SizedBox(height: AppSpacing.md),
-                              Text(
-                                context.l10n.noDataFound,
-                                style: AppTextStyles.h3.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: AppSpacing.sm),
-                              Text(
-                                context.l10n.listingsDescription,
-                                style: AppTextStyles.small.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
+                      child: AppEmptyState(
+                        message: context.l10n.noDataFound,
+                        subtitle: context.l10n.listingsDescription,
+                        icon: Icons.inventory_2_outlined,
                       ),
                     );
                   }
@@ -235,38 +208,11 @@ class ListingsScreen extends ConsumerWidget {
                 ),
                 error: (error, stackTrace) => SliverFillRemaining(
                   hasScrollBody: false,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.error_outline_rounded,
-                            color: AppColors.errorRed,
-                            size: 48,
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          Text(
-                            context.l10n.errorOccurred,
-                            style: AppTextStyles.body,
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          ElevatedButton(
-                            onPressed: () => ref
-                                .read(listingsControllerProvider.notifier)
-                                .fetchListings(),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryGreen,
-                            ),
-                            child: Text(
-                              context.l10n.retry,
-                              style: const TextStyle(color: AppColors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: AppErrorState(
+                    icon: Icons.error_outline_rounded,
+                    onRetry: () => ref
+                        .read(listingsControllerProvider.notifier)
+                        .fetchListings(),
                   ),
                 ),
               ),

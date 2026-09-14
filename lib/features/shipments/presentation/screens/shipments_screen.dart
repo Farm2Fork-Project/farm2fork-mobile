@@ -6,6 +6,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/shipments_controller.dart';
@@ -33,27 +34,9 @@ class ShipmentsScreen extends ConsumerWidget {
           child: shipmentsAsync.when(
             data: (dashboard) {
               if (dashboard.available.isEmpty && dashboard.mine.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.xxl),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.local_shipping_rounded,
-                          size: 64,
-                          color: AppColors.textMuted.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          context.l10n.noDataFound,
-                          style: AppTextStyles.h3.copyWith(
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return AppEmptyState(
+                  message: context.l10n.noDataFound,
+                  icon: Icons.local_shipping_rounded,
                 );
               }
 
@@ -89,32 +72,11 @@ class ShipmentsScreen extends ConsumerWidget {
             loading: () => const Center(
               child: CircularProgressIndicator(color: AppColors.primaryGreen),
             ),
-            error: (error, stack) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline_rounded,
-                    color: AppColors.errorRed,
-                    size: 48,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Text(context.l10n.errorOccurred, style: AppTextStyles.body),
-                  const SizedBox(height: AppSpacing.md),
-                  ElevatedButton(
-                    onPressed: () => ref
-                        .read(shipmentsControllerProvider.notifier)
-                        .fetchShipments(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                    ),
-                    child: Text(
-                      context.l10n.retry,
-                      style: const TextStyle(color: AppColors.white),
-                    ),
-                  ),
-                ],
-              ),
+            error: (error, stack) => AppErrorState(
+              icon: Icons.error_outline_rounded,
+              onRetry: () => ref
+                  .read(shipmentsControllerProvider.notifier)
+                  .fetchShipments(),
             ),
           ),
         ),

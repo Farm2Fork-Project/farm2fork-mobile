@@ -6,7 +6,7 @@ import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
-import 'package:farm2fork_mobile/core/widgets/app_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
@@ -122,13 +122,15 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               loading: () => const Center(
                 child: CircularProgressIndicator(color: AppColors.primaryGreen),
               ),
-              error: (e, _) => _ErrorState(
-                message: context.l10n.errorOccurred,
+              error: (e, _) => AppErrorState(
                 onRetry: () => ref.invalidate(productsProvider),
               ),
               data: (products) {
                 if (products.isEmpty) {
-                  return _EmptyState(message: context.l10n.noDataFound);
+                  return AppEmptyState(
+                    message: context.l10n.noDataFound,
+                    icon: Icons.search_off_rounded,
+                  );
                 }
 
                 return RefreshIndicator(
@@ -356,58 +358,3 @@ class _Chip extends StatelessWidget {
   }
 }
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.search_off_rounded,
-            size: 64,
-            color: AppColors.textMuted.withValues(alpha: 0.45),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            message,
-            style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.message, required this.onRetry});
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.wifi_off_rounded,
-            size: 64,
-            color: AppColors.errorRed,
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(message, style: AppTextStyles.body),
-          const SizedBox(height: AppSpacing.lg),
-          AppButton(
-            label: context.l10n.retry,
-            icon: Icons.refresh_rounded,
-            onPressed: onRetry,
-          ),
-        ],
-      ),
-    );
-  }
-}
