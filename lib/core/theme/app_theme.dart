@@ -8,6 +8,10 @@ abstract final class AppTheme {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.backgroundLight,
+      // Urdu text has no glyphs in the platform default font; falling back
+      // to Noto Nastaliq Urdu gives it correct Nastaliq shaping everywhere
+      // in the app without touching AppTextStyles or any screen.
+      fontFamilyFallback: const ['NotoNastaliqUrdu'],
       colorScheme: const ColorScheme.light(
         primary: AppColors.primaryGreen,
         secondary: AppColors.secondaryBlue,
