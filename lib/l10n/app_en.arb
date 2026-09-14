@@ -156,6 +156,12 @@
   "createListingDescription": "Add crop details, quantity, grade, price, and harvest information for buyers.",
   "@createListingDescription": { "description": "Create produce listing placeholder description" },
 
+  "listingStepProduceDetails": "Produce Details",
+  "@listingStepProduceDetails": { "description": "Step 1 heading in create-listing wizard: name, category, grade, description" },
+
+  "listingStepPricingQuantity": "Pricing & Quantity",
+  "@listingStepPricingQuantity": { "description": "Step 2 heading in create-listing wizard: price, quantity, unit" },
+
   "feedTitle": "Farm Feed",
   "@feedTitle": { "description": "Community feed screen title" },
 

@@ -392,6 +392,18 @@ abstract class AppLocalizations {
   /// **'Add crop details, quantity, grade, price, and harvest information for buyers.'**
   String get createListingDescription;
 
+  /// Step 1 heading in create-listing wizard: name, category, grade, description
+  ///
+  /// In en, this message translates to:
+  /// **'Produce Details'**
+  String get listingStepProduceDetails;
+
+  /// Step 2 heading in create-listing wizard: price, quantity, unit
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing & Quantity'**
+  String get listingStepPricingQuantity;
+
   /// Community feed screen title
   ///
   /// In en, this message translates to:

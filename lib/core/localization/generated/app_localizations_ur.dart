@@ -170,6 +170,12 @@ class AppLocalizationsUr extends AppLocalizations {
       'خریداروں کے لیے فصل کی تفصیلات، مقدار، کوالٹی، قیمت اور کٹائی کی معلومات درج کریں۔';
 
   @override
+  String get listingStepProduceDetails => 'پیداوار کی تفصیلات';
+
+  @override
+  String get listingStepPricingQuantity => 'قیمت اور مقدار';
+
+  @override
   String get feedTitle => 'کسان چوپال';
 
   @override

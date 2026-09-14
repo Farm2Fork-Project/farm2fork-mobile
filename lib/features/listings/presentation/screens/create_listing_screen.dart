@@ -133,10 +133,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                       ),
                       Text(
                         _currentStep == 0
-                            ? context
-                                  .l10n
-                                  .personalInfo // fallback/similar step label
-                            : context.l10n.farmInfo,
+                            ? context.l10n.listingStepProduceDetails
+                            : context.l10n.listingStepPricingQuantity,
                         style: AppTextStyles.small.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColors.textMuted,
@@ -210,7 +208,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.personalInfo, // standard heading
+                  context.l10n.listingStepProduceDetails,
                   style: AppTextStyles.h3.copyWith(
                     color: AppColors.primaryGreenDark,
                   ),
@@ -324,7 +322,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.farmInfo, // fallback heading
+                  context.l10n.listingStepPricingQuantity,
                   style: AppTextStyles.h3.copyWith(
                     color: AppColors.primaryGreenDark,
                   ),
