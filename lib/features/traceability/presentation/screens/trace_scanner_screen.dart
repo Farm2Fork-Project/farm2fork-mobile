@@ -6,6 +6,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/features/traceability/data/repositories/traceability_repository.dart';
 import 'package:farm2fork_mobile/features/traceability/data/repositories/mock_traceability_repository.dart';
 
@@ -20,27 +21,38 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
   bool _isScanning = true;
   List<TraceabilityEvent> _journey = [];
   bool _isLoading = false;
+  bool _hasError = false;
 
   Future<void> _simulateScan() async {
     setState(() {
       _isLoading = true;
       _isScanning = false;
+      _hasError = false;
     });
 
-    final repo = ref.read(traceabilityRepositoryProvider);
-    final journey = await repo.fetchTraceJourney('prod_001');
+    try {
+      final repo = ref.read(traceabilityRepositoryProvider);
+      final journey = await repo.fetchTraceJourney('prod_001');
 
-    if (!mounted) return;
-    setState(() {
-      _journey = journey;
-      _isLoading = false;
-    });
+      if (!mounted) return;
+      setState(() {
+        _journey = journey;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
+    }
   }
 
   void _resetScanner() {
     setState(() {
       _isScanning = true;
       _journey = [];
+      _hasError = false;
     });
   }
 
@@ -54,7 +66,7 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
         backgroundColor: AppColors.backgroundLight,
         centerTitle: true,
         actions: [
-          if (!_isScanning)
+          if (!_isScanning && !_isLoading)
             IconButton(
               icon: const Icon(
                 Icons.refresh_rounded,
@@ -69,6 +81,8 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.primaryGreen),
               )
+            : _hasError
+            ? AppErrorState(onRetry: _simulateScan)
             : _isScanning
             ? _buildScannerMock()
             : _buildJourneyTimeline(),
