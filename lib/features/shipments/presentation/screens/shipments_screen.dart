@@ -276,7 +276,7 @@ class _ShipmentCard extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            update.status.name.toUpperCase(),
+                            _statusLabel(context, update.status),
                             style: AppTextStyles.small.copyWith(
                               fontWeight: FontWeight.w700,
                               color: AppColors.primaryGreenDark,
