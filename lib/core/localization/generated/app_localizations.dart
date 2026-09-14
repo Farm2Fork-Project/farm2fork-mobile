@@ -1058,6 +1058,60 @@ abstract class AppLocalizations {
   /// **'Incorrect email or password. Please try again.'**
   String get invalidCredentials;
 
+  /// Validation message when requesting a password reset with no email entered
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address first.'**
+  String get enterEmailFirst;
+
+  /// Confirmation shown after requesting a password reset
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists, we\'ve sent a password-reset email.'**
+  String get passwordResetSentNote;
+
+  /// Email verification screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get verifyYourEmailTitle;
+
+  /// Email verification instructions when the email address isn't known yet
+  ///
+  /// In en, this message translates to:
+  /// **'Open the verification link we sent to your email, then return here.'**
+  String get verifyYourEmailBodyGeneric;
+
+  /// Email verification instructions with the recipient address
+  ///
+  /// In en, this message translates to:
+  /// **'Open the verification link we sent to {email}, then return here.'**
+  String verifyYourEmailBody(String email);
+
+  /// Confirmation after resending the verification email
+  ///
+  /// In en, this message translates to:
+  /// **'A new verification email has been sent.'**
+  String get verificationResentNote;
+
+  /// Shown when the user says they've verified but the email is still unverified
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is not verified yet. Check your inbox, then try again.'**
+  String get verificationStillPendingNote;
+
+  /// Button confirming the user completed email verification
+  ///
+  /// In en, this message translates to:
+  /// **'I have verified my email'**
+  String get iHaveVerifiedMyEmail;
+
+  /// Button to resend the verification email
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get resendVerificationEmail;
+
   /// Google sign-in button
   ///
   /// In en, this message translates to:

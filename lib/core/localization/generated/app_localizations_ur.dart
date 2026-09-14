@@ -579,6 +579,38 @@ class AppLocalizationsUr extends AppLocalizations {
   String get invalidCredentials => 'غلط ای میل یا پاس ورڈ۔ دوبارہ کوشش کریں۔';
 
   @override
+  String get enterEmailFirst => 'پہلے اپنا ای میل ایڈریس درج کریں۔';
+
+  @override
+  String get passwordResetSentNote =>
+      'اگر اکاؤنٹ موجود ہے تو ہم نے پاس ورڈ ری سیٹ کرنے کے لیے ای میل بھیج دیا ہے۔';
+
+  @override
+  String get verifyYourEmailTitle => 'اپنی ای میل کی تصدیق کریں';
+
+  @override
+  String get verifyYourEmailBodyGeneric =>
+      'ہم نے آپ کی ای میل پر بھیجا گیا تصدیقی لنک کھولیں، پھر یہاں واپس آئیں۔';
+
+  @override
+  String verifyYourEmailBody(String email) {
+    return 'ہم نے $email پر بھیجا گیا تصدیقی لنک کھولیں، پھر یہاں واپس آئیں۔';
+  }
+
+  @override
+  String get verificationResentNote => 'ایک نیا تصدیقی ای میل بھیج دیا گیا ہے۔';
+
+  @override
+  String get verificationStillPendingNote =>
+      'آپ کی ای میل ابھی تصدیق شدہ نہیں ہے۔ اپنا ان باکس چیک کریں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get iHaveVerifiedMyEmail => 'میں نے اپنی ای میل کی تصدیق کر لی ہے';
+
+  @override
+  String get resendVerificationEmail => 'تصدیقی ای میل دوبارہ بھیجیں';
+
+  @override
   String get continueWithGoogle => 'گوگل کے ساتھ جاری رکھیں';
 
   @override

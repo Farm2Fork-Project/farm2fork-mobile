@@ -105,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _sendPasswordReset() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      setState(() => _errorMessage = 'Enter your email address first.');
+      setState(() => _errorMessage = context.l10n.enterEmailFirst);
       return;
     }
     setState(() => _errorMessage = null);
@@ -115,8 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           .sendPasswordReset(email: email);
       if (mounted) {
         setState(
-          () => _errorMessage =
-              'If an account exists, Firebase has sent a password-reset email.',
+          () => _errorMessage = context.l10n.passwordResetSentNote,
         );
       }
     } catch (error) {
@@ -191,7 +190,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: isLoading ? null : _sendPasswordReset,
-                  child: const Text('Forgot password?'),
+                  child: Text(context.l10n.forgotPassword),
                 ),
               ),
               AppButton(

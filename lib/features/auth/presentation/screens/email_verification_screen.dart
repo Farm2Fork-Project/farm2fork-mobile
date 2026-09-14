@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
@@ -35,7 +36,7 @@ class _EmailVerificationScreenState
     try {
       await ref.read(authControllerProvider.notifier).resendEmailVerification();
       if (mounted) {
-        setState(() => _message = 'A new verification email has been sent.');
+        setState(() => _message = context.l10n.verificationResentNote);
       }
     } catch (error) {
       if (mounted) {
@@ -90,8 +91,7 @@ class _EmailVerificationScreenState
     } on _EmailStillUnverified {
       if (mounted) {
         setState(
-          () => _message =
-              'Your email is not verified yet. Check your inbox, then try again.',
+          () => _message = context.l10n.verificationStillPendingNote,
         );
       }
     } catch (error) {
@@ -122,12 +122,12 @@ class _EmailVerificationScreenState
                 color: AppColors.primaryGreenDark,
               ),
               const SizedBox(height: AppSpacing.lg),
-              Text('Verify your email', style: AppTextStyles.h2),
+              Text(context.l10n.verifyYourEmailTitle, style: AppTextStyles.h2),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 email == null || email.isEmpty
-                    ? 'Open the verification link Firebase sent to your email, then return here.'
-                    : 'Open the verification link Firebase sent to $email, then return here.',
+                    ? context.l10n.verifyYourEmailBodyGeneric
+                    : context.l10n.verifyYourEmailBody(email),
                 style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -136,13 +136,13 @@ class _EmailVerificationScreenState
                 const SizedBox(height: AppSpacing.md),
               ],
               AppButton(
-                label: 'I have verified my email',
+                label: context.l10n.iHaveVerifiedMyEmail,
                 onPressed: _working ? null : _continue,
                 expand: true,
               ),
               const SizedBox(height: AppSpacing.sm),
               AppButton(
-                label: 'Resend verification email',
+                label: context.l10n.resendVerificationEmail,
                 variant: AppButtonVariant.quiet,
                 onPressed: _working ? null : _resend,
                 expand: true,

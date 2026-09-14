@@ -580,6 +580,39 @@ class AppLocalizationsEn extends AppLocalizations {
       'Incorrect email or password. Please try again.';
 
   @override
+  String get enterEmailFirst => 'Enter your email address first.';
+
+  @override
+  String get passwordResetSentNote =>
+      'If an account exists, we\'ve sent a password-reset email.';
+
+  @override
+  String get verifyYourEmailTitle => 'Verify your email';
+
+  @override
+  String get verifyYourEmailBodyGeneric =>
+      'Open the verification link we sent to your email, then return here.';
+
+  @override
+  String verifyYourEmailBody(String email) {
+    return 'Open the verification link we sent to $email, then return here.';
+  }
+
+  @override
+  String get verificationResentNote =>
+      'A new verification email has been sent.';
+
+  @override
+  String get verificationStillPendingNote =>
+      'Your email is not verified yet. Check your inbox, then try again.';
+
+  @override
+  String get iHaveVerifiedMyEmail => 'I have verified my email';
+
+  @override
+  String get resendVerificationEmail => 'Resend verification email';
+
+  @override
   String get continueWithGoogle => 'Continue with Google';
 
   @override
