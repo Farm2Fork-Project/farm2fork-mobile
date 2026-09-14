@@ -900,7 +900,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactMessageSuccess =>
-      'Your inquiry has been submitted successfully!';
+      'Message noted. Our support inbox isn\'t connected yet, so please also email support@farm2fork.pk for a reply.';
 
   @override
   String get pleaseEnterMessage => 'Please enter your message';
