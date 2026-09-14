@@ -581,6 +581,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemRemoved => 'Item removed';
 
   @override
+  String get deleteListingConfirmTitle => 'Delete listing?';
+
+  @override
+  String get deleteListingConfirmMessage =>
+      'This removes the listing from the marketplace. This can\'t be undone.';
+
+  @override
   String get rating => 'Rating';
 
   @override

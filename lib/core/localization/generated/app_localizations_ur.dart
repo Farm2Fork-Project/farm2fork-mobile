@@ -581,6 +581,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get itemRemoved => 'آئٹم ہٹا دیا گیا';
 
   @override
+  String get deleteListingConfirmTitle => 'لسٹنگ حذف کریں؟';
+
+  @override
+  String get deleteListingConfirmMessage =>
+      'اس سے یہ لسٹنگ مارکیٹ پلیس سے ہٹ جائے گی۔ یہ عمل واپس نہیں ہو سکتا۔';
+
+  @override
   String get rating => 'درجہ بندی';
 
   @override

@@ -381,16 +381,19 @@ class _ListingCard extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.l10n.removeItem, style: AppTextStyles.h3),
+        title: Text(
+          context.l10n.deleteListingConfirmTitle,
+          style: AppTextStyles.h3,
+        ),
         content: Text(
-          '${context.l10n.itemRemoved}?',
+          context.l10n.deleteListingConfirmMessage,
           style: AppTextStyles.body,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
-              context.l10n.authRequiredDismiss,
+              context.l10n.cancel,
               style: TextStyle(color: AppColors.textMuted),
             ),
           ),

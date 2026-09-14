@@ -1064,6 +1064,18 @@ abstract class AppLocalizations {
   /// **'Item removed'**
   String get itemRemoved;
 
+  /// Confirmation dialog title before deleting a farmer's product listing
+  ///
+  /// In en, this message translates to:
+  /// **'Delete listing?'**
+  String get deleteListingConfirmTitle;
+
+  /// Confirmation dialog message before deleting a farmer's product listing
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the listing from the marketplace. This can\'t be undone.'**
+  String get deleteListingConfirmMessage;
+
   /// Label for farmer/product rating
   ///
   /// In en, this message translates to:
