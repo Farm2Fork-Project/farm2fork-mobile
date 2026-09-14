@@ -494,6 +494,30 @@ abstract class AppLocalizations {
   /// **'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.'**
   String get feedDescription;
 
+  /// Comment count button label on a feed post
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 Comment} other{{count} Comments}}'**
+  String feedCommentCount(int count);
+
+  /// Title of the comments bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get feedCommentsTitle;
+
+  /// Empty state inside the comments bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet.'**
+  String get feedNoCommentsYet;
+
+  /// Hint text for the comment input field
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment...'**
+  String get feedAddCommentHint;
+
   /// Transporter shipments screen title
   ///
   /// In en, this message translates to:

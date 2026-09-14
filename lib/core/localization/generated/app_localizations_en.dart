@@ -223,6 +223,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.';
 
   @override
+  String feedCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Comments',
+      one: '1 Comment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get feedCommentsTitle => 'Comments';
+
+  @override
+  String get feedNoCommentsYet => 'No comments yet.';
+
+  @override
+  String get feedAddCommentHint => 'Add a comment...';
+
+  @override
   String get shipmentsTitle => 'Shipments';
 
   @override

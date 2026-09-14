@@ -207,6 +207,18 @@
   "feedDescription": "Share updates, ask questions, and follow trusted activity across the Farm2Fork network.",
   "@feedDescription": { "description": "Community feed placeholder description" },
 
+  "feedCommentCount": "{count, plural, =1{1 Comment} other{{count} Comments}}",
+  "@feedCommentCount": { "description": "Comment count button label on a feed post", "placeholders": { "count": { "type": "int", "example": "2" } } },
+
+  "feedCommentsTitle": "Comments",
+  "@feedCommentsTitle": { "description": "Title of the comments bottom sheet" },
+
+  "feedNoCommentsYet": "No comments yet.",
+  "@feedNoCommentsYet": { "description": "Empty state inside the comments bottom sheet" },
+
+  "feedAddCommentHint": "Add a comment...",
+  "@feedAddCommentHint": { "description": "Hint text for the comment input field" },
+
   "shipmentsTitle": "Shipments",
   "@shipmentsTitle": { "description": "Transporter shipments screen title" },
 
