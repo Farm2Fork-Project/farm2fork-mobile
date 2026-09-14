@@ -110,6 +110,10 @@
   "cartEmpty": "آپ کا کارٹ خالی ہے",
   "cartEmptySubtitle": "مارکیٹ پلیس دیکھیں اور تازہ مصنوعات شامل کریں۔",
   "shopNow": "ابھی خریداری کریں",
+  "clearCart": "کارٹ خالی کریں",
+  "clearCartConfirmTitle": "کارٹ خالی کریں؟",
+  "clearCartConfirmMessage": "اس سے آپ کے کارٹ کی تمام اشیاء حذف ہو جائیں گی۔ یہ عمل واپس نہیں ہو سکتا۔",
+  "cancel": "منسوخ کریں",
 
   "subtotal": "ذیلی کل",
   "platformFeeWithPercent": "پلیٹ فارم فیس ({percent}%)",

@@ -32,10 +32,9 @@ class CartScreen extends ConsumerWidget {
         actions: [
           if (groups.isNotEmpty)
             TextButton(
-              onPressed: () =>
-                  ref.read(cartControllerProvider.notifier).clear(),
+              onPressed: () => _confirmClearCart(context, ref),
               child: Text(
-                context.l10n.removeItem,
+                context.l10n.clearCart,
                 style: AppTextStyles.small.copyWith(
                   color: AppColors.errorRed,
                   fontWeight: FontWeight.w600,
@@ -63,6 +62,41 @@ class CartScreen extends ConsumerWidget {
                 if (groups.length > 1) _GrandTotalBanner(total: grandTotal),
               ],
             ),
+    );
+  }
+
+  void _confirmClearCart(BuildContext context, WidgetRef ref) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.clearCartConfirmTitle, style: AppTextStyles.h3),
+        content: Text(
+          context.l10n.clearCartConfirmMessage,
+          style: AppTextStyles.body,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              context.l10n.cancel,
+              style: const TextStyle(color: AppColors.textMuted),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(cartControllerProvider.notifier).clear();
+              Navigator.pop(ctx);
+            },
+            child: Text(
+              context.l10n.clearCart,
+              style: const TextStyle(
+                color: AppColors.errorRed,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

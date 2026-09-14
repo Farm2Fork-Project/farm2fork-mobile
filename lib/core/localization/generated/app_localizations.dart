@@ -734,6 +734,30 @@ abstract class AppLocalizations {
   /// **'Shop Now'**
   String get shopNow;
 
+  /// Button to remove all items from the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart'**
+  String get clearCart;
+
+  /// Confirmation dialog title before clearing the entire cart
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart?'**
+  String get clearCartConfirmTitle;
+
+  /// Confirmation dialog message before clearing the entire cart
+  ///
+  /// In en, this message translates to:
+  /// **'This removes every item from your cart. This can't be undone.'**
+  String get clearCartConfirmMessage;
+
+  /// Generic cancel button label used in confirmation dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// Subtotal label in cart group
   ///
   /// In en, this message translates to:
