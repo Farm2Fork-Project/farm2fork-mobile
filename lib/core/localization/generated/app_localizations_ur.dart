@@ -27,6 +27,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get logout => 'لاگ آؤٹ';
 
   @override
+  String get logoutConfirmTitle => 'لاگ آؤٹ کریں؟';
+
+  @override
+  String get logoutConfirmMessage =>
+      'اپنے اکاؤنٹ تک رسائی کے لیے آپ کو دوبارہ سائن ان کرنا ہوگا۔';
+
+  @override
   String get welcome => 'خوش آمدید';
 
   @override

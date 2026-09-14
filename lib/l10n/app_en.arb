@@ -17,6 +17,12 @@
   "logout": "Logout",
   "@logout": { "description": "Button or title label for logging out" },
 
+  "logoutConfirmTitle": "Log out?",
+  "@logoutConfirmTitle": { "description": "Confirmation dialog title before signing the user out" },
+
+  "logoutConfirmMessage": "You'll need to sign in again to access your account.",
+  "@logoutConfirmMessage": { "description": "Confirmation dialog message before signing the user out" },
+
   "welcome": "Welcome",
   "@welcome": { "description": "A general greeting" },
 
