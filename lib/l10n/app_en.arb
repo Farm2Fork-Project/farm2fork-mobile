@@ -769,7 +769,7 @@
   "contactAddress": "Headquarters Address",
   "@contactAddress": { "description": "Headquarters address label" },
 
-  "contactMessageSuccess": "Your inquiry has been submitted successfully!",
+  "contactMessageSuccess": "Message noted. Our support inbox isn't connected yet, so please also email support@farm2fork.pk for a reply.",
   "@contactMessageSuccess": { "description": "Contact us form success message" },
 
   "pleaseEnterMessage": "Please enter your message",

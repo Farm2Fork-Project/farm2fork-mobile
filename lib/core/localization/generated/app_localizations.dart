@@ -1667,7 +1667,7 @@ abstract class AppLocalizations {
   /// Contact us form success message
   ///
   /// In en, this message translates to:
-  /// **'Your inquiry has been submitted successfully!'**
+  /// **'Message noted. Our support inbox isn\'t connected yet, so please also email support@farm2fork.pk for a reply.'**
   String get contactMessageSuccess;
 
   /// Contact us form validation message

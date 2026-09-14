@@ -899,7 +899,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get contactMessageSuccess =>
-      'آپ کا پیغام کامیابی سے جمع کر دیا گیا ہے!';
+      'پیغام نوٹ کر لیا گیا ہے۔ ہمارا سپورٹ ان باکس ابھی منسلک نہیں ہے، اس لیے براہ کرم جواب کے لیے support@farm2fork.pk پر بھی ای میل کریں۔';
 
   @override
   String get pleaseEnterMessage => 'براہ کرم اپنا پیغام درج کریں';
