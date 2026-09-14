@@ -808,6 +808,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get notificationsSubtitle => 'منتخب کریں کہ آپ کو کیسے اطلاع دی جائے';
 
   @override
+  String get notificationsNotYetConnectedNote =>
+      'یہ ترجیحات فی الحال صرف اس سیشن کے لیے لاگو ہوتی ہیں اور ایپ دوبارہ کھولنے پر ری سیٹ ہو جاتی ہیں — پش اطلاعات ابھی نہیں بھیجی جاتیں۔';
+
+  @override
   String get orderUpdates => 'آرڈر کی اپ ڈیٹس';
 
   @override

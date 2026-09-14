@@ -239,6 +239,7 @@
   "helpInformation": "مدد اور معلومات",
   "notificationsTitle": "اطلاعات",
   "notificationsSubtitle": "منتخب کریں کہ آپ کو کیسے اطلاع دی جائے",
+  "notificationsNotYetConnectedNote": "یہ ترجیحات فی الحال صرف اس سیشن کے لیے لاگو ہوتی ہیں اور ایپ دوبارہ کھولنے پر ری سیٹ ہو جاتی ہیں — پش اطلاعات ابھی نہیں بھیجی جاتیں۔",
   "orderUpdates": "آرڈر کی اپ ڈیٹس",
   "orderUpdatesDesc": "آرڈر کی صورتحال تبدیل ہونے پر اطلاع حاصل کریں",
   "shipmentUpdates": "شپمنٹ الرٹس",
