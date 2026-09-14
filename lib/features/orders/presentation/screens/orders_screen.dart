@@ -8,6 +8,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/providers/orders_controller.dart';
@@ -210,7 +211,10 @@ class _OrderCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    _formatDate(order.createdAt),
+                    formatShortDate(
+                      order.createdAt,
+                      Localizations.localeOf(context),
+                    ),
                     style: AppTextStyles.small.copyWith(
                       color: AppColors.textMuted,
                       fontWeight: FontWeight.w500,
@@ -402,9 +406,5 @@ class _OrderCard extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day}/${dt.month}/${dt.year}';
   }
 }
