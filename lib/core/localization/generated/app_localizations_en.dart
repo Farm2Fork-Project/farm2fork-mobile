@@ -170,6 +170,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add crop details, quantity, grade, price, and harvest information for buyers.';
 
   @override
+  String get listingStepProduceDetails => 'Produce Details';
+
+  @override
+  String get listingStepPricingQuantity => 'Pricing & Quantity';
+
+  @override
   String get feedTitle => 'Farm Feed';
 
   @override

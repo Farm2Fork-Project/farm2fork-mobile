@@ -48,6 +48,8 @@
   "listingsDescription": "اپنی فصلوں، اسٹاک اور فارم کی پیداوار کا انتظام کریں۔",
   "createListingTitle": "پیداوار درج کریں",
   "createListingDescription": "خریداروں کے لیے فصل کی تفصیلات، مقدار، کوالٹی، قیمت اور کٹائی کی معلومات درج کریں۔",
+  "listingStepProduceDetails": "پیداوار کی تفصیلات",
+  "listingStepPricingQuantity": "قیمت اور مقدار",
   "feedTitle": "کسان چوپال",
   "feedDescription": "اپنی معلومات شیئر کریں، سوالات پوچھیں، اور کسانوں کے نیٹ ورک سے جڑے رہیں۔",
   "shipmentsTitle": "شپمنٹس",
