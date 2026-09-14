@@ -749,7 +749,7 @@ abstract class AppLocalizations {
   /// Confirmation dialog message before clearing the entire cart
   ///
   /// In en, this message translates to:
-  /// **'This removes every item from your cart. This can't be undone.'**
+  /// **'This removes every item from your cart. This can\'t be undone.'**
   String get clearCartConfirmMessage;
 
   /// Generic cancel button label used in confirmation dialogs
