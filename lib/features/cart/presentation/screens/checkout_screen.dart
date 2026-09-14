@@ -8,6 +8,7 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
@@ -190,25 +191,28 @@ class _AddressForm extends StatelessWidget {
 
     return Column(
       children: [
-        _Field(
+        AppTextField(
           controller: street,
           label: context.l10n.streetAddress,
           validator: required,
           enabled: enabled,
         ),
-        _Field(
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
           controller: city,
           label: context.l10n.city,
           validator: required,
           enabled: enabled,
         ),
-        _Field(
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
           controller: province,
           label: context.l10n.province,
           validator: required,
           enabled: enabled,
         ),
-        _Field(
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
           controller: zip,
           label: context.l10n.zipCode,
           keyboardType: TextInputType.number,
@@ -216,58 +220,6 @@ class _AddressForm extends StatelessWidget {
           // Optional — no validator.
         ),
       ],
-    );
-  }
-}
-
-class _Field extends StatelessWidget {
-  const _Field({
-    required this.controller,
-    required this.label,
-    this.validator,
-    this.keyboardType,
-    this.enabled = true,
-  });
-
-  final TextEditingController controller;
-  final String label;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: TextFormField(
-        controller: controller,
-        validator: validator,
-        keyboardType: keyboardType,
-        enabled: enabled,
-        style: AppTextStyles.body,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-          filled: true,
-          fillColor: AppColors.white,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
-            borderSide: const BorderSide(color: AppColors.surfaceMedium),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
-            borderSide: const BorderSide(color: AppColors.surfaceMedium),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
-            borderSide: const BorderSide(color: AppColors.primaryGreen),
-          ),
-        ),
-      ),
     );
   }
 }

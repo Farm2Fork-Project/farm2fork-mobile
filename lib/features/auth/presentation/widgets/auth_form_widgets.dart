@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 
-/// Shared text field for all auth screens.
+/// Shared text field for all auth screens. Thin alias over the app-wide
+/// [AppTextField] so the many auth call sites didn't need to change.
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
     super.key,
@@ -26,48 +28,14 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return AppTextField(
       controller: controller,
+      label: label,
       keyboardType: keyboardType,
       obscureText: obscureText,
       validator: validator,
-      style: AppTextStyles.body,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-        hintText: hintText,
-        hintStyle: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-        suffixIcon: suffixIcon,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: AppColors.surfaceMedium),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: AppColors.surfaceMedium),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(
-            color: AppColors.primaryGreen,
-            width: 1.5,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: AppColors.errorRed),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: const BorderSide(color: AppColors.errorRed, width: 1.5),
-        ),
-        filled: true,
-        fillColor: AppColors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.md,
-        ),
-      ),
+      suffixIcon: suffixIcon,
+      hintText: hintText,
     );
   }
 }

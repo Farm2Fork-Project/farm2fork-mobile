@@ -37,26 +37,28 @@ abstract final class AppTheme {
           side: const BorderSide(color: AppColors.surfaceMedium),
         ),
       ),
+      // Kept in sync with AppTextField's own decoration (core/widgets) so a
+      // raw TextFormField and the shared widget never drift apart visually.
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
+          horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.surfaceMedium),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.surfaceMedium),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(
             color: AppColors.primaryGreen,
-            width: 1.4,
+            width: 1.5,
           ),
         ),
       ),
