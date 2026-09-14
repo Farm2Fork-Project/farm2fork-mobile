@@ -6,6 +6,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/community/data/models/post.dart';
 import 'package:farm2fork_mobile/features/community/presentation/providers/community_controller.dart';
 
@@ -137,7 +138,10 @@ class _PostCard extends ConsumerWidget {
                     Text(post.authorName, style: AppTextStyles.h3),
                     const SizedBox(height: 1),
                     Text(
-                      _formatDate(post.createdAt),
+                      formatShortDate(
+                        post.createdAt,
+                        Localizations.localeOf(context),
+                      ),
                       style: AppTextStyles.small.copyWith(
                         color: AppColors.textMuted,
                       ),
@@ -227,10 +231,6 @@ class _PostCard extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       builder: (ctx) => _CommentsSheet(post: post, parentRef: ref),
     );
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day}/${dt.month}/${dt.year}';
   }
 }
 
