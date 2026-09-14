@@ -9,6 +9,7 @@ import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
@@ -435,10 +436,11 @@ class _QuantitySelector extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _QBtn(
+        AppIconCircleButton(
           icon: Icons.remove_rounded,
           onTap: onDecrement,
           enabled: quantity > 1,
+          visibleSize: 40,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
@@ -447,42 +449,12 @@ class _QuantitySelector extends StatelessWidget {
             style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
           ),
         ),
-        _QBtn(icon: Icons.add_rounded, onTap: onIncrement, enabled: true),
+        AppIconCircleButton(
+          icon: Icons.add_rounded,
+          onTap: onIncrement,
+          visibleSize: 40,
+        ),
       ],
-    );
-  }
-}
-
-class _QBtn extends StatelessWidget {
-  const _QBtn({required this.icon, required this.onTap, required this.enabled});
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: enabled ? AppColors.primaryGreenSoft : AppColors.surfaceMedium,
-          border: Border.all(
-            color: enabled
-                ? AppColors.primaryGreen.withValues(alpha: 0.5)
-                : AppColors.surfaceMedium,
-          ),
-        ),
-        child: Icon(
-          icon,
-          size: 20,
-          color: enabled
-              ? AppColors.primaryGreen
-              : AppColors.textDark.withValues(alpha: 0.3),
-        ),
-      ),
     );
   }
 }
