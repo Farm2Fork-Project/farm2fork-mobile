@@ -223,6 +223,26 @@ class AppLocalizationsUr extends AppLocalizations {
       'اپنی معلومات شیئر کریں، سوالات پوچھیں، اور کسانوں کے نیٹ ورک سے جڑے رہیں۔';
 
   @override
+  String feedCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تبصرے',
+      one: '1 تبصرہ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get feedCommentsTitle => 'تبصرے';
+
+  @override
+  String get feedNoCommentsYet => 'ابھی تک کوئی تبصرہ نہیں۔';
+
+  @override
+  String get feedAddCommentHint => 'تبصرہ شامل کریں...';
+
+  @override
   String get shipmentsTitle => 'شپمنٹس';
 
   @override

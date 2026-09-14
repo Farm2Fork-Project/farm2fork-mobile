@@ -170,7 +170,7 @@ class _PostCard extends ConsumerWidget {
                   color: AppColors.primaryGreen,
                 ),
                 label: Text(
-                  '${post.commentCount} Comments',
+                  context.l10n.feedCommentCount(post.commentCount),
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.primaryGreen,
                     fontWeight: FontWeight.bold,
@@ -246,7 +246,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Comments', style: AppTextStyles.h3),
+                Text(context.l10n.feedCommentsTitle, style: AppTextStyles.h3),
                 IconButton(
                   icon: const Icon(Icons.close_rounded),
                   onPressed: () => Navigator.pop(context),
@@ -264,7 +264,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
                       child: Padding(
                         padding: const EdgeInsets.all(AppSpacing.md),
                         child: Text(
-                          'No comments yet.',
+                          context.l10n.feedNoCommentsYet,
                           style: AppTextStyles.body.copyWith(
                             color: AppColors.textMuted,
                           ),
@@ -316,9 +316,9 @@ class _CommentsSheetState extends State<_CommentsSheet> {
                   child: TextField(
                     controller: _commentController,
                     style: AppTextStyles.body,
-                    decoration: const InputDecoration(
-                      hintText: 'Add a comment...',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      hintText: context.l10n.feedAddCommentHint,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                 ),
