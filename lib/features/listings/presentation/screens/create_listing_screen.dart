@@ -7,6 +7,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
@@ -216,13 +217,10 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Name field
-                TextFormField(
+                AppTextField(
                   controller: _nameController,
-                  style: AppTextStyles.body,
-                  decoration: InputDecoration(
-                    labelText: 'Produce Name', // fallback string
-                    hintText: 'e.g., Organic Tomatoes',
-                  ),
+                  label: 'Produce Name', // fallback string
+                  hintText: 'e.g., Organic Tomatoes',
                   validator: (v) => (v == null || v.trim().isEmpty)
                       ? 'Please enter a name'
                       : null,
@@ -290,15 +288,13 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Description field
-                TextFormField(
+                AppTextField(
                   controller: _descController,
                   maxLines: 4,
-                  style: AppTextStyles.body,
-                  decoration: InputDecoration(
-                    labelText: context.l10n.description,
-                    hintText:
-                        'Describe freshness, farming practices, harvest date, etc.',
-                  ),
+                  alignLabelWithHint: true,
+                  label: context.l10n.description,
+                  hintText:
+                      'Describe freshness, farming practices, harvest date, etc.',
                   validator: (v) => (v == null || v.trim().isEmpty)
                       ? 'Please enter a description'
                       : null,
@@ -330,19 +326,16 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Price field
-                TextFormField(
+                AppTextField(
                   controller: _priceController,
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  style: AppTextStyles.body,
-                  decoration: const InputDecoration(
-                    labelText: 'Price (PKR)',
-                    hintText: 'e.g., 150',
-                    prefixIcon: Icon(
-                      Icons.payments_rounded,
-                      color: AppColors.primaryGreen,
-                    ),
+                  label: 'Price (PKR)',
+                  hintText: 'e.g., 150',
+                  prefixIcon: const Icon(
+                    Icons.payments_rounded,
+                    color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
@@ -358,19 +351,16 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Quantity field
-                TextFormField(
+                AppTextField(
                   controller: _qtyController,
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  style: AppTextStyles.body,
-                  decoration: const InputDecoration(
-                    labelText: 'Quantity',
-                    hintText: 'e.g., 250',
-                    prefixIcon: Icon(
-                      Icons.scale_rounded,
-                      color: AppColors.primaryGreen,
-                    ),
+                  label: 'Quantity',
+                  hintText: 'e.g., 250',
+                  prefixIcon: const Icon(
+                    Icons.scale_rounded,
+                    color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {

@@ -5,6 +5,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
@@ -110,15 +111,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     const SizedBox(height: AppSpacing.md),
 
                     // Message field
-                    TextFormField(
+                    AppTextField(
                       controller: _messageController,
-                      style: AppTextStyles.body,
                       maxLines: 5,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.contactMessage,
-                        hintText: context.l10n.contactMessageHint,
-                        alignLabelWithHint: true,
-                      ),
+                      alignLabelWithHint: true,
+                      label: context.l10n.contactMessage,
+                      hintText: context.l10n.contactMessageHint,
                       validator: (v) => (v == null || v.trim().isEmpty)
                           ? context.l10n.pleaseEnterMessage
                           : null,
