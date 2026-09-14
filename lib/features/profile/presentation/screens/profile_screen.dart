@@ -154,6 +154,7 @@ class ProfileScreen extends ConsumerWidget {
               onPressed: authState.isLoading
                   ? null
                   : () => ref.read(authControllerProvider.notifier).signOut(),
+              isLoading: authState.isLoading,
             ),
           ],
         ),
