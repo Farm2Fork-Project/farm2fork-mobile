@@ -20,8 +20,7 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final card = AnimatedContainer(
-      duration: const Duration(milliseconds: 160),
+    final card = Container(
       padding: padding,
       decoration: BoxDecoration(
         color: backgroundColor,
