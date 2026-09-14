@@ -176,6 +176,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get listingStepPricingQuantity => 'Pricing & Quantity';
 
   @override
+  String get produceName => 'Produce Name';
+
+  @override
+  String get produceNameHint => 'e.g., Organic Tomatoes';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get descriptionHint =>
+      'Describe freshness, farming practices, harvest date, etc.';
+
+  @override
+  String get priceWithCurrency => 'Price (PKR)';
+
+  @override
+  String get priceHint => 'e.g., 150';
+
+  @override
+  String get pleaseEnterValidPrice => 'Please enter a valid price';
+
+  @override
+  String get quantityHint => 'e.g., 250';
+
+  @override
+  String get pleaseEnterValidQuantity => 'Please enter a valid quantity';
+
+  @override
+  String get unit => 'Unit';
+
+  @override
   String get feedTitle => 'Farm Feed';
 
   @override

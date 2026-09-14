@@ -404,6 +404,66 @@ abstract class AppLocalizations {
   /// **'Pricing & Quantity'**
   String get listingStepPricingQuantity;
 
+  /// Create-listing form field: produce name label
+  ///
+  /// In en, this message translates to:
+  /// **'Produce Name'**
+  String get produceName;
+
+  /// Create-listing form field: produce name hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Organic Tomatoes'**
+  String get produceNameHint;
+
+  /// Create-listing form field: category dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// Create-listing form field: description hint
+  ///
+  /// In en, this message translates to:
+  /// **'Describe freshness, farming practices, harvest date, etc.'**
+  String get descriptionHint;
+
+  /// Create-listing form field: price label
+  ///
+  /// In en, this message translates to:
+  /// **'Price (PKR)'**
+  String get priceWithCurrency;
+
+  /// Create-listing form field: price hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 150'**
+  String get priceHint;
+
+  /// Create-listing form validation: price must be a positive number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid price'**
+  String get pleaseEnterValidPrice;
+
+  /// Create-listing form field: quantity hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 250'**
+  String get quantityHint;
+
+  /// Create-listing form validation: quantity must be a positive number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid quantity'**
+  String get pleaseEnterValidQuantity;
+
+  /// Create-listing form field: unit dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get unit;
+
   /// Community feed screen title
   ///
   /// In en, this message translates to:

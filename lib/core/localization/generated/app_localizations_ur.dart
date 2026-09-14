@@ -176,6 +176,37 @@ class AppLocalizationsUr extends AppLocalizations {
   String get listingStepPricingQuantity => 'قیمت اور مقدار';
 
   @override
+  String get produceName => 'پیداوار کا نام';
+
+  @override
+  String get produceNameHint => 'مثلاً، نامیاتی ٹماٹر';
+
+  @override
+  String get category => 'قسم';
+
+  @override
+  String get descriptionHint =>
+      'تازگی، کاشتکاری کے طریقے، کٹائی کی تاریخ وغیرہ بیان کریں۔';
+
+  @override
+  String get priceWithCurrency => 'قیمت (روپے)';
+
+  @override
+  String get priceHint => 'مثلاً، 150';
+
+  @override
+  String get pleaseEnterValidPrice => 'براہ کرم درست قیمت درج کریں';
+
+  @override
+  String get quantityHint => 'مثلاً، 250';
+
+  @override
+  String get pleaseEnterValidQuantity => 'براہ کرم درست مقدار درج کریں';
+
+  @override
+  String get unit => 'اکائی';
+
+  @override
   String get feedTitle => 'کسان چوپال';
 
   @override
