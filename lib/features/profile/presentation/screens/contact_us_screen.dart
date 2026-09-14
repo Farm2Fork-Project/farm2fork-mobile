@@ -41,6 +41,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         SnackBar(
           content: Text(context.l10n.contactMessageSuccess),
           backgroundColor: AppColors.success,
+          duration: AppDurations.standardMessage,
         ),
       );
     });
