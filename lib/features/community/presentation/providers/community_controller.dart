@@ -16,7 +16,7 @@ class CommunityController extends AsyncNotifier<List<Post>> {
   }
 
   Future<void> fetchFeed() async {
-    state = const AsyncLoading();
+    if (!state.hasValue) state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       return ref.read(communityRepositoryProvider).getFeed();
     });
