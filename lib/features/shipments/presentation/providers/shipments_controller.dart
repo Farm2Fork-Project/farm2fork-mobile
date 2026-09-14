@@ -27,7 +27,7 @@ class ShipmentsController extends AsyncNotifier<ShipmentDashboard> {
   }
 
   Future<void> fetchShipments() async {
-    state = const AsyncLoading();
+    if (!state.hasValue) state = const AsyncLoading();
     state = await AsyncValue.guard(_load);
   }
 

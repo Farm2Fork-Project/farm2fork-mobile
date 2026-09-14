@@ -22,7 +22,7 @@ class ListingsController extends AsyncNotifier<List<Product>> {
   }
 
   Future<void> fetchListings() async {
-    state = const AsyncLoading();
+    if (!state.hasValue) state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final authState = ref.read(authControllerProvider).asData?.value;
       if (authState == null || authState.user == null) return [];
