@@ -150,6 +150,7 @@
   "orderStatusShipped": "بھیج دیا گیا",
   "orderStatusDelivered": "پہنچا دیا گیا",
   "orderStatusCancelled": "منسوخ شدہ",
+  "orderNumber": "آرڈر #{id}",
   "shippingAddress": "ترسیل کا پتہ",
   "streetAddress": "گلی کا پتہ",
   "city": "شہر",

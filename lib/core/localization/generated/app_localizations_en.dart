@@ -497,6 +497,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orderStatusCancelled => 'Cancelled';
 
   @override
+  String orderNumber(String id) {
+    return 'Order #$id';
+  }
+
+  @override
   String get shippingAddress => 'Shipping Address';
 
   @override

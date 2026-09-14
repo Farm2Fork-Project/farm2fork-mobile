@@ -497,6 +497,11 @@ class AppLocalizationsUr extends AppLocalizations {
   String get orderStatusCancelled => 'منسوخ شدہ';
 
   @override
+  String orderNumber(String id) {
+    return 'آرڈر #$id';
+  }
+
+  @override
   String get shippingAddress => 'ترسیل کا پتہ';
 
   @override

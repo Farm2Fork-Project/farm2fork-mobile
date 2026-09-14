@@ -7,6 +7,7 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/core/utils/bidi_utils.dart';
 import 'package:farm2fork_mobile/features/traceability/data/repositories/traceability_repository.dart';
 import 'package:farm2fork_mobile/features/traceability/data/repositories/mock_traceability_repository.dart';
 
@@ -350,7 +351,7 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
                                   const SizedBox(width: 6),
                                   Expanded(
                                     child: Text(
-                                      event.txHash,
+                                      isolateLtr(event.txHash),
                                       style: AppTextStyles.small.copyWith(
                                         fontFamily: 'Courier',
                                         fontSize: 10.5,
