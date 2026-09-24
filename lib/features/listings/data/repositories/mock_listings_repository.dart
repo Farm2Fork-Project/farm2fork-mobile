@@ -1,11 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/listings/data/models/new_listing.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/mock/mock_products.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/farmer_summary.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'listings_repository.dart';
-
-final listingsRepositoryProvider = Provider<ListingsRepository>((ref) {
-  return MockListingsRepository();
-});
 
 class MockListingsRepository implements ListingsRepository {
   @override
@@ -21,8 +18,35 @@ class MockListingsRepository implements ListingsRepository {
   }
 
   @override
-  Future<Product> createListing(Product product) async {
+  Future<Product> createListing(String farmerId, NewListing listing) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
+    final normalizedFarmerId = farmerId.replaceAll('mock_', '');
+    final existingFarmer = mockProducts
+        .where((p) => p.farmerId == normalizedFarmerId)
+        .map((p) => p.farmer)
+        .firstOrNull;
+    final product = Product(
+      id: 'prod_${DateTime.now().millisecondsSinceEpoch}',
+      farmerId: normalizedFarmerId,
+      name: listing.name,
+      category: listing.category,
+      description: listing.description,
+      price: listing.price,
+      quantity: listing.quantity,
+      unit: listing.unit,
+      images: const [],
+      qualityGrade: listing.qualityGrade,
+      status: ProductStatus.active,
+      // Reuse the mock farmer's own summary instead of inventing one.
+      farmer:
+          existingFarmer ??
+          FarmerSummary(
+            id: normalizedFarmerId,
+            name: '',
+            farmName: '',
+            farmLocationAddress: '',
+          ),
+    );
     mockProducts.insert(0, product);
     return product;
   }

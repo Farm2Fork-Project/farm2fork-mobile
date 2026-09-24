@@ -3,6 +3,7 @@ import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository_provider.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,12 @@ class ShipmentTrackingScreen extends ConsumerWidget {
         backgroundColor: AppColors.backgroundLight,
       ),
       body: shipmentAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(child: Text(context.l10n.errorOccurred)),
+        loading: () => const Center(
+          child: CircularProgressIndicator(color: AppColors.primaryGreen),
+        ),
+        error: (_, _) => AppErrorState(
+          onRetry: () => ref.invalidate(shipmentTrackingProvider(shipmentId)),
+        ),
         data: (shipment) => ListView(
           padding: const EdgeInsets.all(AppSpacing.pagePadding),
           children: [

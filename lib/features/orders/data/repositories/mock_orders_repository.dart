@@ -128,6 +128,7 @@ class MockOrdersRepository implements OrdersRepository {
         .toList();
     final totalAmount = orderItems.fold(0.0, (sum, i) => sum + i.subtotal);
     final feeAmount = totalAmount * (feePercent / 100);
+    const deliveryFee = _mockDeliveryFee;
     final now = DateTime.now();
     final order = Order(
       id: 'ord_${now.microsecondsSinceEpoch}',
@@ -137,7 +138,9 @@ class MockOrdersRepository implements OrdersRepository {
       totalAmount: totalAmount,
       platformFeePercent: feePercent,
       platformFeeAmount: feeAmount,
-      grandTotal: totalAmount + feeAmount,
+      deliveryFee: deliveryFee,
+      deliveryDistanceKm: 12,
+      grandTotal: totalAmount + feeAmount + deliveryFee,
       shippingAddress: shippingAddress,
       status: OrderStatus.pending,
       createdAt: now,
@@ -145,6 +148,26 @@ class MockOrdersRepository implements OrdersRepository {
     );
     _orders.insert(0, order);
     return order;
+  }
+
+  static const _mockDeliveryFee = 450.0;
+
+  @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    final total = items.fold(0.0, (sum, line) => sum + 100.0 * line.quantity);
+    final fee = total * 0.05;
+    return OrderQuote(
+      totalAmount: total,
+      platformFeePercent: 5,
+      platformFeeAmount: fee,
+      deliveryFee: _mockDeliveryFee,
+      deliveryDistanceKm: 12,
+      grandTotal: total + fee + _mockDeliveryFee,
+    );
   }
 
   @override

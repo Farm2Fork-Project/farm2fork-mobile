@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
@@ -7,6 +8,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_settings_tile.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/utils/auth_role_l10n.dart';
@@ -74,6 +76,46 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.lg),
             ],
 
+            if (user != null) ...[
+              SectionHeader(
+                title: context.l10n.myAccount,
+                titleColor: AppColors.primaryGreenDark,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              AppCard(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    AppSettingsTile(
+                      title: context.l10n.notificationsTitle,
+                      icon: Icons.notifications_rounded,
+                      onTap: () =>
+                          context.push(AppNavConfig.notificationsRoute),
+                    ),
+                    if (user.role == AppUserRole.farmer) ...[
+                      const Divider(color: AppColors.surfaceMedium, height: 1),
+                      AppSettingsTile(
+                        title: context.l10n.loansTitle,
+                        icon: Icons.account_balance_rounded,
+                        onTap: () =>
+                            context.push(AppNavConfig.farmerLoansRoute),
+                      ),
+                    ],
+                    if (user.role == AppUserRole.buyer) ...[
+                      const Divider(color: AppColors.surfaceMedium, height: 1),
+                      AppSettingsTile(
+                        title: context.l10n.feedTitle,
+                        icon: Icons.forum_rounded,
+                        onTap: () =>
+                            context.push(AppNavConfig.buyerCommunityRoute),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+
             // App Settings section
             SectionHeader(
               title: context.l10n.appSettings,
@@ -84,13 +126,13 @@ class ProfileScreen extends ConsumerWidget {
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.notificationSettings,
                     icon: Icons.notifications_none_rounded,
                     onTap: () => context.push('/settings/notifications'),
                   ),
                   const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.languageDisplay,
                     icon: Icons.language_rounded,
                     onTap: () => context.push('/settings/language-display'),
@@ -110,31 +152,31 @@ class ProfileScreen extends ConsumerWidget {
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.contactUs,
                     icon: Icons.chat_bubble_outline_rounded,
                     onTap: () => context.push('/settings/contact-us'),
                   ),
                   const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.faqs,
                     icon: Icons.help_outline_rounded,
                     onTap: () => context.push('/settings/faqs'),
                   ),
                   const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.aboutUs,
                     icon: Icons.info_outline_rounded,
                     onTap: () => context.push('/settings/about'),
                   ),
                   const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.privacyPolicy,
                     icon: Icons.security_rounded,
                     onTap: () => context.push('/settings/privacy'),
                   ),
                   const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _SettingsTile(
+                  AppSettingsTile(
                     title: context.l10n.termsConditions,
                     icon: Icons.description_outlined,
                     onTap: () => context.push('/settings/terms'),
@@ -152,54 +194,47 @@ class ProfileScreen extends ConsumerWidget {
               expand: true,
               onPressed: authState.isLoading
                   ? null
-                  : () => ref.read(authControllerProvider.notifier).signOut(),
+                  : () => _confirmLogout(context, ref),
+              isLoading: authState.isLoading,
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class _SettingsTile extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _SettingsTile({
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: 2,
-      ),
-      leading: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-          color: AppColors.primaryGreenSoft,
-          shape: BoxShape.circle,
+  void _confirmLogout(BuildContext context, WidgetRef ref) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.logoutConfirmTitle, style: AppTextStyles.h3),
+        content: Text(
+          context.l10n.logoutConfirmMessage,
+          style: AppTextStyles.body,
         ),
-        child: Icon(
-          icon,
-          color: AppColors.primaryGreenDark,
-          size: 20,
-        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              context.l10n.cancel,
+              style: const TextStyle(color: AppColors.textMuted),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ref.read(authControllerProvider.notifier).signOut();
+            },
+            child: Text(
+              context.l10n.logout,
+              style: const TextStyle(
+                color: AppColors.errorRed,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
-      title: Text(
-        title,
-        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
-      ),
-      trailing: const Icon(
-        Icons.chevron_right_rounded,
-        color: AppColors.textMuted,
-      ),
-      onTap: onTap,
     );
   }
 }

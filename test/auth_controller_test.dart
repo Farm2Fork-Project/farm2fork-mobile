@@ -1,4 +1,7 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:farm2fork_mobile/features/notifications/data/notifications_repository.dart';
+import 'package:farm2fork_mobile/features/notifications/push/push_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
@@ -115,23 +118,26 @@ void main() {
       expect(container.read(authControllerProvider).hasError, isTrue);
     });
 
-    test('signInWithGoogle authenticates and returns a signed-in outcome', () async {
-      final container = ProviderContainer(
-        overrides: [
-          authRepositoryProvider.overrideWithValue(MockAuthRepository()),
-        ],
-      );
-      addTearDown(container.dispose);
+    test(
+      'signInWithGoogle authenticates and returns a signed-in outcome',
+      () async {
+        final container = ProviderContainer(
+          overrides: [
+            authRepositoryProvider.overrideWithValue(MockAuthRepository()),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      await container.read(authControllerProvider.future);
-      final outcome = await container
-          .read(authControllerProvider.notifier)
-          .signInWithGoogle();
+        await container.read(authControllerProvider.future);
+        final outcome = await container
+            .read(authControllerProvider.notifier)
+            .signInWithGoogle();
 
-      expect(outcome, isA<FirebaseSignedIn>());
-      final state = container.read(authControllerProvider).value!;
-      expect(state.status, AuthStatus.authenticated);
-    });
+        expect(outcome, isA<FirebaseSignedIn>());
+        final state = container.read(authControllerProvider).value!;
+        expect(state.status, AuthStatus.authenticated);
+      },
+    );
 
     test('completeOnboarding authenticates with the chosen role', () async {
       final container = ProviderContainer(
@@ -142,23 +148,32 @@ void main() {
       addTearDown(container.dispose);
 
       await container.read(authControllerProvider.future);
-      await container.read(authControllerProvider.notifier).completeOnboarding(
-        const FarmerOnboardingRequest(
-          credential: GoogleOnboardingCredential(),
-          cnic: '35202-1234567-1',
-          farmName: 'Green Acres',
-        ),
-      );
+      await container
+          .read(authControllerProvider.notifier)
+          .completeOnboarding(
+            const FarmerOnboardingRequest(
+              credential: GoogleOnboardingCredential(),
+              cnic: '35202-1234567-1',
+              farmName: 'Green Acres',
+              farmAddress: 'Chak 5, Canal Road',
+              farmCity: 'Multan',
+              farmProvince: 'Punjab',
+              farmPin: GeoPoint(30.1968, 71.4782),
+            ),
+          );
 
       final state = container.read(authControllerProvider).value!;
       expect(state.status, AuthStatus.authenticated);
       expect(state.role, AppUserRole.farmer);
     });
 
-    test('signOut sets status to unauthenticated', () async {
+    test('signOut unregisters push for this device, then signs out', () async {
+      final notifications = _RecordingNotifications();
       final container = ProviderContainer(
         overrides: [
           authRepositoryProvider.overrideWithValue(MockAuthRepository()),
+          notificationsRepositoryProvider.overrideWithValue(notifications),
+          pushServiceProvider.overrideWithValue(NoopPushService()),
         ],
       );
       addTearDown(container.dispose);
@@ -172,6 +187,14 @@ void main() {
       final state = container.read(authControllerProvider).value!;
       expect(state.status, AuthStatus.unauthenticated);
       expect(state.isAuthenticated, isFalse);
+      expect(notifications.cleared, isTrue);
     });
   });
+}
+
+class _RecordingNotifications extends MockNotificationsRepository {
+  bool cleared = false;
+
+  @override
+  Future<void> clearDeviceToken() async => cleared = true;
 }

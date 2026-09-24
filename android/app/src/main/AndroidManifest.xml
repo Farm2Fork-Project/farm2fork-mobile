@@ -1,4 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Release builds need this too; only the debug manifest had it. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Foreground-only location: transporters share it while online in the
+         app, farmers and buyers use it to pin a location. No background
+         location is requested. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Android 13+ runtime permission for delivery and order notifications. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:label="Farm2Fork"
         android:name="${applicationName}"
@@ -30,6 +40,16 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Google Maps SDK for Android key, injected from MAPS_API_KEY at
+             build time (see app/build.gradle.kts). -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
+        <!-- FCM messages without an explicit channel use this one; the app
+             creates it on start. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="farm2fork_default" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
@@ -37,6 +57,11 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- Opening Google Maps directions (url_launcher). -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

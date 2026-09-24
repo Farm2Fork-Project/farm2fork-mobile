@@ -87,6 +87,7 @@ class OnboardingScaffold extends StatelessWidget {
                 label: context.l10n.createAccount,
                 expand: true,
                 onPressed: submitting ? null : onSubmit,
+                isLoading: submitting,
               ),
               const SizedBox(height: AppSpacing.md),
             ],

@@ -17,3 +17,7 @@ String formatCompactNumber(num amount, Locale locale) {
     decimalDigits: hasDecimals ? 1 : 0,
   ).format(amount);
 }
+
+String formatShortDate(DateTime date, Locale locale) {
+  return DateFormat.yMd(locale.toLanguageTag()).format(date);
+}

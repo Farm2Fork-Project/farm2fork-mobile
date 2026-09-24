@@ -8,6 +8,9 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/core/utils/bidi_utils.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/providers/orders_controller.dart';
@@ -37,9 +40,9 @@ class OrdersScreen extends ConsumerWidget {
               fontWeight: FontWeight.w700,
             ),
             unselectedLabelStyle: AppTextStyles.body,
-            tabs: const [
-              Tab(text: 'Active'), // Will localize or keep simple
-              Tab(text: 'Completed'),
+            tabs: [
+              Tab(text: context.l10n.ordersTabActive),
+              Tab(text: context.l10n.ordersTabCompleted),
             ],
           ),
         ),
@@ -47,27 +50,9 @@ class OrdersScreen extends ConsumerWidget {
           child: ordersAsync.when(
             data: (orders) {
               if (orders.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.xxl),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.receipt_long_rounded,
-                          size: 64,
-                          color: AppColors.textMuted.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          context.l10n.noDataFound,
-                          style: AppTextStyles.h3.copyWith(
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return AppEmptyState(
+                  message: context.l10n.noDataFound,
+                  icon: Icons.receipt_long_rounded,
                 );
               }
 
@@ -99,32 +84,10 @@ class OrdersScreen extends ConsumerWidget {
             loading: () => const Center(
               child: CircularProgressIndicator(color: AppColors.primaryGreen),
             ),
-            error: (error, stack) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline_rounded,
-                    color: AppColors.errorRed,
-                    size: 48,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Text(context.l10n.errorOccurred, style: AppTextStyles.body),
-                  const SizedBox(height: AppSpacing.md),
-                  ElevatedButton(
-                    onPressed: () => ref
-                        .read(ordersControllerProvider.notifier)
-                        .fetchOrders(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                    ),
-                    child: Text(
-                      context.l10n.retry,
-                      style: const TextStyle(color: AppColors.white),
-                    ),
-                  ),
-                ],
-              ),
+            error: (error, stack) => AppErrorState(
+              icon: Icons.error_outline_rounded,
+              onRetry: () =>
+                  ref.read(ordersControllerProvider.notifier).fetchOrders(),
             ),
           ),
         ),
@@ -182,12 +145,12 @@ class _OrderCard extends StatelessWidget {
     };
 
     final statusText = switch (order.status) {
-      OrderStatus.pending => 'Pending',
-      OrderStatus.paid => 'Paid',
-      OrderStatus.processing => 'Processing',
-      OrderStatus.shipped => 'Shipped',
-      OrderStatus.delivered => 'Delivered',
-      OrderStatus.cancelled => 'Cancelled',
+      OrderStatus.pending => context.l10n.orderStatusPending,
+      OrderStatus.paid => context.l10n.orderStatusPaid,
+      OrderStatus.processing => context.l10n.orderStatusProcessing,
+      OrderStatus.shipped => context.l10n.orderStatusShipped,
+      OrderStatus.delivered => context.l10n.orderStatusDelivered,
+      OrderStatus.cancelled => context.l10n.orderStatusCancelled,
     };
 
     return AppCard(
@@ -202,7 +165,7 @@ class _OrderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Order #${order.id}',
+                    context.l10n.orderNumber(isolateLtr(order.id)),
                     style: AppTextStyles.h3.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryGreenDark,
@@ -210,7 +173,10 @@ class _OrderCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    _formatDate(order.createdAt),
+                    formatShortDate(
+                      order.createdAt,
+                      Localizations.localeOf(context),
+                    ),
                     style: AppTextStyles.small.copyWith(
                       color: AppColors.textMuted,
                       fontWeight: FontWeight.w500,
@@ -402,9 +368,5 @@ class _OrderCard extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day}/${dt.month}/${dt.year}';
   }
 }

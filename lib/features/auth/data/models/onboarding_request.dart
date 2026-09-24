@@ -1,3 +1,5 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+
 /// Self-service roles a user can choose at onboarding. admin and
 /// financial_partner are provisioned by the backend (allowlist), never here.
 enum OnboardingRole { farmer, buyer, transporter }
@@ -56,7 +58,10 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     required super.cnic,
     super.phone,
     required this.farmName,
-    this.farmLocationAddress,
+    required this.farmAddress,
+    required this.farmCity,
+    required this.farmProvince,
+    required this.farmPin,
     this.cropTypes = const [],
     this.landSizeAcres,
     this.bankName,
@@ -65,7 +70,17 @@ class FarmerOnboardingRequest extends OnboardingRequest {
   });
 
   final String farmName;
-  final String? farmLocationAddress;
+
+  /// Pickup location - all three are required by the backend, because
+  /// transporters only see orders from farms with a complete location.
+  final String farmAddress;
+  final String farmCity;
+
+  /// Backend wire value, e.g. "Punjab".
+  final String farmProvince;
+
+  /// Map pin of the farm: delivery fees are priced from it.
+  final GeoPoint farmPin;
   final List<String> cropTypes;
   final double? landSizeAcres;
   final String? bankName;
@@ -77,13 +92,16 @@ class FarmerOnboardingRequest extends OnboardingRequest {
 
   @override
   Map<String, dynamic> toProfileJson() {
-    final hasBank =
-        (bankName ?? bankAccountNumber ?? bankAccountTitle) != null;
+    final hasBank = (bankName ?? bankAccountNumber ?? bankAccountTitle) != null;
     return {
       'farmName': farmName,
       'cnic': cnic,
-      if (farmLocationAddress != null && farmLocationAddress!.isNotEmpty)
-        'farmLocation': {'address': farmLocationAddress},
+      'farmLocation': {
+        'address': farmAddress,
+        'city': farmCity,
+        'province': farmProvince,
+        ...farmPin.toJson(),
+      },
       if (cropTypes.isNotEmpty) 'cropTypes': cropTypes,
       if (landSizeAcres != null) 'landSizeAcres': landSizeAcres,
       if (hasBank)

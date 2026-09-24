@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
@@ -238,6 +239,10 @@ void main() {
           ),
           cnic: '35202-1234567-1',
           farmName: 'Green Acres',
+          farmAddress: 'Chak 5, Canal Road',
+          farmCity: 'Multan',
+          farmProvince: 'Punjab',
+          farmPin: GeoPoint(30.1968, 71.4782),
         ),
       );
 
@@ -246,6 +251,14 @@ void main() {
       expect(api.lastOnboardPath, 'farmer');
       expect(api.lastOnboardBody!['idToken'], 'id-token');
       expect(api.lastOnboardBody!['farmName'], 'Green Acres');
+      // Transporters need all three parts to collect this farm's orders.
+      expect(api.lastOnboardBody!['farmLocation'], {
+        'address': 'Chak 5, Canal Road',
+        'city': 'Multan',
+        'province': 'Punjab',
+        'lat': 30.1968,
+        'lng': 71.4782,
+      });
     },
   );
 

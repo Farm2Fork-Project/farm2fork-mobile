@@ -27,6 +27,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get logoutConfirmTitle => 'Log out?';
+
+  @override
+  String get logoutConfirmMessage =>
+      'You\'ll need to sign in again to access your account.';
+
+  @override
   String get welcome => 'Welcome';
 
   @override
@@ -66,7 +73,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navTrace => 'Trace';
 
   @override
-  String get navShipments => 'Shipments';
+  String get navShipments => 'History';
 
   @override
   String get navLoans => 'Loans';
@@ -90,11 +97,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featureComingSoon => 'Coming soon';
 
   @override
-  String get traceScannerTitle => 'Scan & Trace';
+  String get traceScannerTitle => 'Trace produce';
 
   @override
   String get traceScannerDescription =>
-      'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.';
+      'Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.';
 
   @override
   String get paymentOptionsNote =>
@@ -170,11 +177,68 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add crop details, quantity, grade, price, and harvest information for buyers.';
 
   @override
+  String get listingStepProduceDetails => 'Produce Details';
+
+  @override
+  String get listingStepPricingQuantity => 'Pricing & Quantity';
+
+  @override
+  String get produceName => 'Produce Name';
+
+  @override
+  String get produceNameHint => 'e.g., Organic Tomatoes';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get descriptionHint =>
+      'Describe freshness, farming practices, harvest date, etc.';
+
+  @override
+  String get priceWithCurrency => 'Price (PKR)';
+
+  @override
+  String get priceHint => 'e.g., 150';
+
+  @override
+  String get pleaseEnterValidPrice => 'Please enter a valid price';
+
+  @override
+  String get quantityHint => 'e.g., 250';
+
+  @override
+  String get pleaseEnterValidQuantity => 'Please enter a valid quantity';
+
+  @override
+  String get unit => 'Unit';
+
+  @override
   String get feedTitle => 'Farm Feed';
 
   @override
   String get feedDescription =>
       'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.';
+
+  @override
+  String feedCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Comments',
+      one: '1 Comment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get feedCommentsTitle => 'Comments';
+
+  @override
+  String get feedNoCommentsYet => 'No comments yet.';
+
+  @override
+  String get feedAddCommentHint => 'Add a comment...';
 
   @override
   String get shipmentsTitle => 'Shipments';
@@ -365,6 +429,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shopNow => 'Shop Now';
 
   @override
+  String get clearCart => 'Clear cart';
+
+  @override
+  String get clearCartConfirmTitle => 'Clear cart?';
+
+  @override
+  String get clearCartConfirmMessage =>
+      'This removes every item from your cart. This can\'t be undone.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String get subtotal => 'Subtotal';
 
   @override
@@ -385,6 +462,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkoutTitle => 'Checkout';
+
+  @override
+  String get ordersTabActive => 'Active';
+
+  @override
+  String get ordersTabCompleted => 'Completed';
+
+  @override
+  String get orderStatusPending => 'Pending';
+
+  @override
+  String get orderStatusPaid => 'Paid';
+
+  @override
+  String get orderStatusProcessing => 'Processing';
+
+  @override
+  String get orderStatusShipped => 'Shipped';
+
+  @override
+  String get orderStatusDelivered => 'Delivered';
+
+  @override
+  String get orderStatusCancelled => 'Cancelled';
+
+  @override
+  String orderNumber(String id) {
+    return 'Order #$id';
+  }
 
   @override
   String get shippingAddress => 'Shipping Address';
@@ -447,7 +553,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentPendingDescription =>
-      'Your payment was created and is waiting for confirmation.';
+      'Your payment was created and is waiting for confirmation. This screen doesn\'t update automatically — check back or refresh to see the latest status.';
+
+  @override
+  String get checkPaymentStatus => 'Check payment status';
 
   @override
   String paymentOrdersReadyCount(int count) {
@@ -504,6 +613,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemRemoved => 'Item removed';
 
   @override
+  String get deleteListingConfirmTitle => 'Delete listing?';
+
+  @override
+  String get deleteListingConfirmMessage =>
+      'This removes the listing from the marketplace. This can\'t be undone.';
+
+  @override
   String get rating => 'Rating';
 
   @override
@@ -556,6 +672,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get invalidCredentials =>
       'Incorrect email or password. Please try again.';
+
+  @override
+  String get enterEmailFirst => 'Enter your email address first.';
+
+  @override
+  String get passwordResetSentNote =>
+      'If an account exists, we\'ve sent a password-reset email.';
+
+  @override
+  String get verifyYourEmailTitle => 'Verify your email';
+
+  @override
+  String get verifyYourEmailBodyGeneric =>
+      'Open the verification link we sent to your email, then return here.';
+
+  @override
+  String verifyYourEmailBody(String email) {
+    return 'Open the verification link we sent to $email, then return here.';
+  }
+
+  @override
+  String get verificationResentNote =>
+      'A new verification email has been sent.';
+
+  @override
+  String get verificationStillPendingNote =>
+      'Your email is not verified yet. Check your inbox, then try again.';
+
+  @override
+  String get iHaveVerifiedMyEmail => 'I have verified my email';
+
+  @override
+  String get resendVerificationEmail => 'Resend verification email';
 
   @override
   String get continueWithGoogle => 'Continue with Google';
@@ -790,6 +939,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsSubtitle => 'Choose how you want to be notified';
 
   @override
+  String get notificationsNotYetConnectedNote =>
+      'Push notifications for orders, deliveries and loans are on for this device. These per-topic switches only apply for this session for now; to stop all notifications, turn them off in your phone\'s settings.';
+
+  @override
   String get orderUpdates => 'Order Updates';
 
   @override
@@ -877,7 +1030,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactMessageSuccess =>
-      'Your inquiry has been submitted successfully!';
+      'Message noted. Our support inbox isn\'t connected yet, so please also email support@farm2fork.pk for a reply.';
 
   @override
   String get pleaseEnterMessage => 'Please enter your message';
@@ -945,4 +1098,758 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsConditionsContent =>
       'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.';
+
+  @override
+  String get traceInputLabel => 'Product ID or QR link';
+
+  @override
+  String get traceInputHint => '6a2fe77bb77795516febc287';
+
+  @override
+  String get traceInvalidInput =>
+      'That isn\'t a Farm2Fork product ID or QR link. Product IDs are 24 characters long.';
+
+  @override
+  String get traceSearchButton => 'Trace product';
+
+  @override
+  String get traceCameraComingSoon =>
+      'Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.';
+
+  @override
+  String get traceLoading => 'Loading journey…';
+
+  @override
+  String get traceLoadFailed =>
+      'Couldn\'t load the journey. Check your connection and try again.';
+
+  @override
+  String get traceNotFoundTitle => 'No product found for this code';
+
+  @override
+  String get traceNotFoundDesc =>
+      'Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.';
+
+  @override
+  String get traceSearchAnother => 'Trace another product';
+
+  @override
+  String get traceOriginVerified => 'Origin verified on ledger';
+
+  @override
+  String get traceOriginVerifiedDesc =>
+      'The farmer\'s listing is committed to the Hyperledger Fabric ledger and can\'t be altered.';
+
+  @override
+  String get traceOriginPending => 'Origin awaiting ledger confirmation';
+
+  @override
+  String get traceOriginPendingDesc =>
+      'The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.';
+
+  @override
+  String get traceOriginMissing => 'No ledger record for this listing';
+
+  @override
+  String get traceOriginMissingDesc =>
+      'This listing was created before ledger recording was enabled, so its origin can\'t be verified on-chain.';
+
+  @override
+  String get traceSourceFarm => 'Source farm';
+
+  @override
+  String get traceFarmUnknown => 'Farm details not provided';
+
+  @override
+  String get traceQualityGrade => 'Quality grade';
+
+  @override
+  String traceGradeValue(String grade) {
+    return 'Grade $grade';
+  }
+
+  @override
+  String get traceGradeNone => 'Not graded';
+
+  @override
+  String get traceListedOn => 'Listed on';
+
+  @override
+  String get traceProductId => 'Product ID';
+
+  @override
+  String get traceStatusActive => 'Available on the marketplace';
+
+  @override
+  String get traceStatusSoldOut => 'Sold out';
+
+  @override
+  String get traceStatusInactive => 'No longer listed';
+
+  @override
+  String get traceJourneyTitle => 'Supply chain journey';
+
+  @override
+  String traceLedgerProgress(int confirmed, int total) {
+    return '$confirmed of $total recorded on ledger';
+  }
+
+  @override
+  String get traceJourneyEmpty =>
+      'Only the listing so far. Sales and deliveries will appear here as they happen.';
+
+  @override
+  String get traceEventListed => 'Listed on marketplace';
+
+  @override
+  String get traceEventPaymentConfirmed => 'Payment confirmed';
+
+  @override
+  String get traceEventShipmentAssigned => 'Transporter assigned';
+
+  @override
+  String get traceEventShipmentPickedUp => 'Picked up from farm';
+
+  @override
+  String get traceEventShipmentInTransit => 'In transit';
+
+  @override
+  String get traceEventShipmentDelivered => 'Delivered';
+
+  @override
+  String get traceEventShipmentFailed => 'Delivery failed';
+
+  @override
+  String get traceRoleFarmer => 'Farmer';
+
+  @override
+  String get traceRoleBuyer => 'Buyer';
+
+  @override
+  String get traceRoleTransporter => 'Transporter';
+
+  @override
+  String traceReferenceSale(String reference) {
+    return 'Sale #$reference';
+  }
+
+  @override
+  String traceReferenceDelivery(String reference) {
+    return 'Delivery #$reference';
+  }
+
+  @override
+  String get traceLedgerConfirmed => 'Recorded on ledger';
+
+  @override
+  String get traceLedgerPending => 'Awaiting ledger confirmation';
+
+  @override
+  String get traceLedgerFailed => 'Ledger recording failed';
+
+  @override
+  String traceLedgerBlock(int block) {
+    return 'Block $block';
+  }
+
+  @override
+  String get productViewJourney => 'View product journey';
+
+  @override
+  String get listingViewJourney => 'View journey';
+
+  @override
+  String get listingHide => 'Hide from marketplace';
+
+  @override
+  String get listingShow => 'Show on marketplace';
+
+  @override
+  String get listingDelete => 'Delete listing';
+
+  @override
+  String get listingPublished => 'Listing published';
+
+  @override
+  String get listingPublishFailed =>
+      'Couldn\'t publish the listing. Your details are kept - check your connection and try again.';
+
+  @override
+  String get timeAm => 'AM';
+
+  @override
+  String get timePm => 'PM';
+
+  @override
+  String get aiPriceTitle => 'Fair price suggestion';
+
+  @override
+  String get aiSuggestPrice => 'Suggest a price';
+
+  @override
+  String aiPriceRange(String min, String max, String unit) {
+    return 'Rs $min – $max per $unit';
+  }
+
+  @override
+  String get aiPriceRuleBased =>
+      'Rule-based estimate from reference ranges, season and grade — not live market data.';
+
+  @override
+  String aiUsePrice(String price) {
+    return 'Use Rs $price';
+  }
+
+  @override
+  String get aiPriceNoRule => 'No price rule covers this unit or category yet.';
+
+  @override
+  String get aiQualityTitle => 'Photo quality check';
+
+  @override
+  String get aiPreviewModel =>
+      'Preview model: the grading model isn\'t trained yet, so its grades are not reliable.';
+
+  @override
+  String get aiCropLabel => 'Crop in the photo';
+
+  @override
+  String get aiNeedCrop => 'Select the crop in the photo.';
+
+  @override
+  String get aiTakePhoto => 'Take a photo';
+
+  @override
+  String get aiChoosePhoto => 'Choose from gallery';
+
+  @override
+  String aiGradeResult(String grade, int confidence) {
+    return 'Grade $grade · $confidence% confidence';
+  }
+
+  @override
+  String get aiPreviewResult =>
+      'Preview only — don\'t rely on this grade until the model is trained.';
+
+  @override
+  String get aiCropNotTrained =>
+      'The model has no training data for this crop yet.';
+
+  @override
+  String get aiLowConfidence => 'Low confidence — check the grade yourself.';
+
+  @override
+  String aiUseGrade(String grade) {
+    return 'Use grade $grade';
+  }
+
+  @override
+  String get aiGradeD =>
+      'Below listing grades (D). Consider selling for processing.';
+
+  @override
+  String get aiUnavailable =>
+      'The AI service isn\'t reachable right now. You can still publish your listing.';
+
+  @override
+  String get aiTooManyRequests =>
+      'Too many requests. Please wait a minute and try again.';
+
+  @override
+  String get aiInvalidPhoto =>
+      'That photo couldn\'t be used. Try a clear JPEG or PNG under 8 MB.';
+
+  @override
+  String get aiFailed => 'Something went wrong. Please try again.';
+
+  @override
+  String get cropWheat => 'Wheat';
+
+  @override
+  String get cropRice => 'Rice';
+
+  @override
+  String get cropMango => 'Mango';
+
+  @override
+  String get cropMaize => 'Maize';
+
+  @override
+  String get cropCotton => 'Cotton';
+
+  @override
+  String get cropSugarcane => 'Sugarcane';
+
+  @override
+  String get ledgerConfirmed => 'On ledger';
+
+  @override
+  String get ledgerPending => 'Ledger pending';
+
+  @override
+  String get ledgerFailed => 'Ledger failed';
+
+  @override
+  String get ledgerMissing => 'No ledger record';
+
+  @override
+  String get farmStreet => 'Street / village';
+
+  @override
+  String get farmStreetHint => 'e.g. Chak 5, Canal Road';
+
+  @override
+  String get farmCity => 'City / district';
+
+  @override
+  String get farmProvince => 'Province';
+
+  @override
+  String get farmProvinceHint => 'Select province';
+
+  @override
+  String get provincePunjab => 'Punjab';
+
+  @override
+  String get provinceSindh => 'Sindh';
+
+  @override
+  String get provinceKpk => 'Khyber Pakhtunkhwa';
+
+  @override
+  String get provinceBalochistan => 'Balochistan';
+
+  @override
+  String get provinceGilgitBaltistan => 'Gilgit-Baltistan';
+
+  @override
+  String get provinceAjk => 'Azad Jammu and Kashmir';
+
+  @override
+  String get provinceIslamabad => 'Islamabad Capital Territory';
+
+  @override
+  String get farmLocationPromptTitle => 'Add your farm\'s pickup location';
+
+  @override
+  String get farmLocationPromptBody =>
+      'Transporters can\'t see or collect your orders until your farm\'s street, city and province are saved.';
+
+  @override
+  String get farmLocationSave => 'Save location';
+
+  @override
+  String get farmLocationSaveFailed =>
+      'Couldn\'t save the location. Check your connection and try again.';
+
+  @override
+  String get pickFarmLocationTitle => 'Pin your farm';
+
+  @override
+  String get pickFarmLocationHint =>
+      'Move the map so the pin sits on your farm gate. Transporters will navigate to this exact spot.';
+
+  @override
+  String get pickDropoffTitle => 'Pin the drop-off';
+
+  @override
+  String get pickDropoffHint =>
+      'Move the map so the pin sits where the order should be delivered. The delivery fee is based on this spot.';
+
+  @override
+  String get useMyLocation => 'Use my current location';
+
+  @override
+  String get confirmLocation => 'Confirm this spot';
+
+  @override
+  String get locationOutsidePakistan =>
+      'Please choose a location inside Pakistan.';
+
+  @override
+  String get locationServiceDisabled =>
+      'Location is turned off on this phone. Turn it on to continue.';
+
+  @override
+  String get locationPermissionDenied =>
+      'Farm2Fork needs location permission for this.';
+
+  @override
+  String get locationPermissionDeniedForever =>
+      'Location permission is blocked. Allow it in Settings to continue.';
+
+  @override
+  String get locationUnavailable =>
+      'Couldn\'t get your location. Move to open sky and try again.';
+
+  @override
+  String get openSettings => 'Settings';
+
+  @override
+  String get pinFarmOnMap => 'Pin farm on map';
+
+  @override
+  String get pinDropoffOnMap => 'Pin drop-off on map';
+
+  @override
+  String get pinSet => 'Location pinned';
+
+  @override
+  String get pinOpenMap => 'Open map';
+
+  @override
+  String get pinChange => 'Change';
+
+  @override
+  String get pinRequired => 'Pin the location on the map';
+
+  @override
+  String get deliveryFeePinFirst => 'Pin the drop-off to see the delivery fee.';
+
+  @override
+  String get deliveryFeeCalculating => 'Calculating delivery fee…';
+
+  @override
+  String get deliveryFeeUnavailable =>
+      'Delivery can\'t be priced for this farm yet, so it can\'t be ordered right now.';
+
+  @override
+  String deliveryFeeWithDistance(String km) {
+    return 'Delivery ($km km)';
+  }
+
+  @override
+  String get navDeliveries => 'Deliveries';
+
+  @override
+  String get deliveriesTitle => 'Deliveries';
+
+  @override
+  String get deliveryHistoryTitle => 'Delivery history';
+
+  @override
+  String get noDeliveriesYet =>
+      'No deliveries yet. Accepted deliveries will appear here.';
+
+  @override
+  String get youAreOnline => 'You\'re online';
+
+  @override
+  String get youAreOffline => 'You\'re offline';
+
+  @override
+  String onlineSubtitle(String km) {
+    return 'You\'ll be offered paid orders from farms within $km km. Keep the app open so your location stays current.';
+  }
+
+  @override
+  String get offlineSubtitle =>
+      'Go online to receive delivery offers near you.';
+
+  @override
+  String get locationStaleWarning =>
+      'Your location is out of date, so you may miss offers. Open the app to refresh it.';
+
+  @override
+  String get offlineHint =>
+      'You\'re offline. Turn on the switch above to start receiving deliveries.';
+
+  @override
+  String noOffersNearby(String km) {
+    return 'No deliveries within $km km right now. We\'ll notify you when one comes up.';
+  }
+
+  @override
+  String get offersNearYou => 'Deliveries near you';
+
+  @override
+  String offerRoute(String farm, String from, String to) {
+    return '$farm ($from) → $to';
+  }
+
+  @override
+  String offerDistances(String toPickup, String trip) {
+    return '$toPickup km to pickup · $trip km trip';
+  }
+
+  @override
+  String get viewOnMap => 'Map';
+
+  @override
+  String get acceptDelivery => 'Accept';
+
+  @override
+  String get declineDelivery => 'Decline';
+
+  @override
+  String get offerNoLongerAvailable =>
+      'This delivery is no longer available — someone else may have accepted it, or you\'re out of range.';
+
+  @override
+  String get dispatchActionFailed =>
+      'That didn\'t work. Check your connection and try again.';
+
+  @override
+  String get dropoffApproximateNote =>
+      'The drop-off is shown approximately (within about 1 km). You\'ll see the exact address after accepting.';
+
+  @override
+  String get activeDeliveryTitle => 'Your current delivery';
+
+  @override
+  String youEarn(String amount) {
+    return 'You earn $amount';
+  }
+
+  @override
+  String get navigateToPickup => 'Navigate to pickup';
+
+  @override
+  String get navigateToDropoff => 'Navigate to drop-off';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get noNotificationsYet => 'No notifications yet.';
+
+  @override
+  String get myAccount => 'My account';
+
+  @override
+  String get newPost => 'New post';
+
+  @override
+  String get communityEmpty => 'No posts yet. Start the conversation!';
+
+  @override
+  String get communityActionFailed => 'That didn\'t work. Please try again.';
+
+  @override
+  String get communityRoleFarmer => 'Farmer';
+
+  @override
+  String get communityRoleBuyer => 'Buyer';
+
+  @override
+  String get communityRoleTeam => 'Farm2Fork team';
+
+  @override
+  String get postTitleLabel => 'Title';
+
+  @override
+  String get postContentLabel => 'What would you like to share?';
+
+  @override
+  String get postTagsLabel => 'Tags (optional)';
+
+  @override
+  String get postTagsHint => 'e.g. wheat, sowing';
+
+  @override
+  String postTooManyTags(int max) {
+    return 'Use at most $max tags';
+  }
+
+  @override
+  String postPhotosLabel(int max) {
+    return 'Photos (up to $max)';
+  }
+
+  @override
+  String get takePhoto => 'Camera';
+
+  @override
+  String get chooseFromGallery => 'Gallery';
+
+  @override
+  String get publishPost => 'Publish';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get removePostConfirm => 'Remove this post for everyone?';
+
+  @override
+  String get removeCommentConfirm => 'Remove this comment?';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get loanStatusPending => 'Submitted';
+
+  @override
+  String get loanStatusUnderReview => 'Under review';
+
+  @override
+  String get loanStatusApproved => 'Approved';
+
+  @override
+  String get loanStatusRejected => 'Not approved';
+
+  @override
+  String get loanStatusRepaid => 'Repaid';
+
+  @override
+  String get loansFarmerIntroTitle => 'Microfinance for your farm';
+
+  @override
+  String get loansFarmerIntroBody =>
+      'Apply for seeds, fertiliser or equipment. A financial partner reviews your farm and Farm2Fork sales history, then approves a monthly repayment plan or explains why not.';
+
+  @override
+  String get loanApply => 'Apply for a loan';
+
+  @override
+  String get loanOneAtATime =>
+      'You can have one application in progress or being repaid at a time.';
+
+  @override
+  String get loansNone => 'No applications yet.';
+
+  @override
+  String loanTermsSummary(int months, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months months',
+      one: '1 month',
+    );
+    return '$_temp0 · applied $date';
+  }
+
+  @override
+  String loanReviewerNote(String note) {
+    return 'Reviewer: $note';
+  }
+
+  @override
+  String loanRepaidProgress(String paid, String total) {
+    return 'Repaid $paid of $total';
+  }
+
+  @override
+  String loanInstalment(int n, String amount) {
+    return 'Instalment $n: $amount';
+  }
+
+  @override
+  String loanDueOn(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String loanPaidOn(String date) {
+    return 'Paid $date';
+  }
+
+  @override
+  String get loanMarkPaid => 'Mark paid';
+
+  @override
+  String get loanAmountLabel => 'Amount (Rs)';
+
+  @override
+  String loanAmountRange(String min, String max) {
+    return 'Between Rs $min and Rs $max';
+  }
+
+  @override
+  String get loanDurationLabel => 'Repay over';
+
+  @override
+  String loanMonths(int months) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get loanPurposeLabel => 'What is the loan for?';
+
+  @override
+  String get loanPurposeHint =>
+      'e.g. seeds and fertiliser for the wheat season';
+
+  @override
+  String get loanDocumentsLabel => 'Documents';
+
+  @override
+  String get loanDocumentsHint =>
+      'Photos of your CNIC and land papers speed up the review. Only reviewers can see them.';
+
+  @override
+  String get loanSubmit => 'Submit application';
+
+  @override
+  String get loanSubmitted =>
+      'Application submitted. We\'ll notify you when it\'s reviewed.';
+
+  @override
+  String get loanSubmitFailed =>
+      'Couldn\'t submit. Check the amount and your connection, then try again.';
+
+  @override
+  String get loanFilterAll => 'All';
+
+  @override
+  String get loanQueueEmpty => 'No applications here.';
+
+  @override
+  String get loanReviewTitle => 'Loan application';
+
+  @override
+  String loanLandSize(String acres) {
+    return 'Land: $acres acres';
+  }
+
+  @override
+  String loanCrops(String crops) {
+    return 'Crops: $crops';
+  }
+
+  @override
+  String loanSalesHistory(int count, String revenue) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count delivered orders · $revenue',
+      one: '1 delivered order · $revenue',
+      zero: 'No delivered orders yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String loanDocumentN(int n) {
+    return 'Document $n';
+  }
+
+  @override
+  String get loanDocumentsExpire =>
+      'Links expire after about 10 minutes; reopen the application for new ones.';
+
+  @override
+  String get loanStartReview => 'Start review';
+
+  @override
+  String get loanApprove => 'Approve';
+
+  @override
+  String get loanReject => 'Reject';
+
+  @override
+  String get loanRejectTitle => 'Reason for rejection';
+
+  @override
+  String get loanRejectHint => 'The farmer will see this';
+
+  @override
+  String get loanActionFailed => 'That didn\'t work. Refresh and try again.';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:farm2fork_mobile/app/app.dart';
+import 'package:farm2fork_mobile/features/notifications/push/push_service.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/cart_pricing_config.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/farmer_summary.dart';
@@ -57,6 +58,8 @@ void main() {
       ProviderScope(
         overrides: [
           marketplaceRepositoryProvider.overrideWithValue(_InstantRepository()),
+          // Firebase isn't initialised in widget tests.
+          pushServiceProvider.overrideWithValue(NoopPushService()),
         ],
         child: const Farm2ForkApp(),
       ),

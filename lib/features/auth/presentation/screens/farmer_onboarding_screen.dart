@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
+import 'package:farm2fork_mobile/core/maps/location_pin_field.dart';
+import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -26,7 +31,10 @@ class _FarmerOnboardingScreenState
   final _cnic = TextEditingController();
   final _phone = TextEditingController();
   final _farmName = TextEditingController();
-  final _farmLocation = TextEditingController();
+  final _farmAddress = TextEditingController();
+  final _farmCity = TextEditingController();
+  PakistanProvince? _farmProvince;
+  GeoPoint? _farmPin;
   final _cropTypes = TextEditingController();
   final _landSize = TextEditingController();
   String? _error;
@@ -39,7 +47,8 @@ class _FarmerOnboardingScreenState
       _cnic,
       _phone,
       _farmName,
-      _farmLocation,
+      _farmAddress,
+      _farmCity,
       _cropTypes,
       _landSize,
     ]) {
@@ -62,9 +71,11 @@ class _FarmerOnboardingScreenState
         cnic: _cnic.text.trim(),
         phone: _phone.text.trim().isEmpty ? null : _phone.text.trim(),
         farmName: _farmName.text.trim(),
-        farmLocationAddress: _farmLocation.text.trim().isEmpty
-            ? null
-            : _farmLocation.text.trim(),
+        farmAddress: _farmAddress.text.trim(),
+        farmCity: _farmCity.text.trim(),
+        // Validated as required by the form before this builder runs.
+        farmProvince: _farmProvince!.wire,
+        farmPin: _farmPin!,
         cropTypes: splitCommaList(_cropTypes.text),
         landSizeAcres: double.tryParse(_landSize.text.trim()),
       ),
@@ -101,9 +112,29 @@ class _FarmerOnboardingScreenState
           validator: (v) => validateRequiredField(context, v),
         ),
         const SizedBox(height: AppSpacing.md),
+        // Pickup location: required so transporters can collect orders.
         AuthTextField(
-          controller: _farmLocation,
-          label: context.l10n.farmLocation,
+          controller: _farmAddress,
+          label: context.l10n.farmStreet,
+          hintText: context.l10n.farmStreetHint,
+          validator: (v) => validateRequiredField(context, v),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        AuthTextField(
+          controller: _farmCity,
+          label: context.l10n.farmCity,
+          validator: (v) => validateRequiredField(context, v),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        ProvinceDropdown(
+          value: _farmProvince,
+          onChanged: (value) => setState(() => _farmProvince = value),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        LocationPinField(
+          purpose: LocationPickerPurpose.farm,
+          initialValue: _farmPin,
+          onChanged: (pin) => setState(() => _farmPin = pin),
         ),
         const SizedBox(height: AppSpacing.md),
         AuthTextField(

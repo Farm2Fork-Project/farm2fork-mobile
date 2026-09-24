@@ -21,3 +21,14 @@ abstract final class AppElevation {
   static const double cardBlur = 18;
   static const double cardOffset = 6;
 }
+
+abstract final class AppDurations {
+  /// Lightweight, frequent confirmations (added to cart, item removed)
+  /// that shouldn't linger and block the next interaction.
+  static const Duration quickConfirmation = Duration(milliseconds: 1500);
+
+  /// Messages the user needs a real moment to read (form success,
+  /// order results, session/auth notices). Matches SnackBar's own
+  /// default, made explicit so every call site agrees on it.
+  static const Duration standardMessage = Duration(seconds: 4);
+}

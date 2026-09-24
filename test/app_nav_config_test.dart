@@ -35,15 +35,34 @@ void main() {
       );
     });
 
-    test('transporter navigation focuses on shipments and QR scan', () {
+    test('transporter navigation opens on nearby deliveries', () {
       final tabs = AppNavConfig.forRole(AppUserRole.transporter);
 
       expect(tabs.map((tab) => tab.destination).toList(), [
+        AppNavDestination.deliveries,
         AppNavDestination.shipments,
         AppNavDestination.trace,
-        AppNavDestination.orders,
         AppNavDestination.profile,
       ]);
+    });
+
+    test('shared routes are scoped to the roles that use them', () {
+      bool can(AppUserRole role, String location) =>
+          AppNavConfig.canAccessRouteForRole(role: role, location: location);
+
+      expect(can(AppUserRole.farmer, AppNavConfig.farmerLoansRoute), isTrue);
+      expect(can(AppUserRole.buyer, AppNavConfig.farmerLoansRoute), isFalse);
+      expect(can(AppUserRole.buyer, AppNavConfig.postRoute('p1')), isTrue);
+      expect(can(AppUserRole.transporter, AppNavConfig.newPostRoute), isFalse);
+      for (final role in [
+        AppUserRole.farmer,
+        AppUserRole.buyer,
+        AppUserRole.transporter,
+        AppUserRole.financialPartner,
+      ]) {
+        expect(can(role, AppNavConfig.notificationsRoute), isTrue);
+        expect(can(role, '/pick-location'), isTrue);
+      }
     });
 
     test('home routes are role-scoped for separate tab shells', () {
@@ -57,7 +76,7 @@ void main() {
       );
       expect(
         AppNavConfig.homeRouteForRole(AppUserRole.transporter),
-        '/transporter/shipments',
+        '/transporter/deliveries',
       );
       expect(
         AppNavConfig.homeRouteForRole(AppUserRole.financialPartner),

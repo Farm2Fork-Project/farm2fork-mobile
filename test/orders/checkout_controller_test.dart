@@ -70,6 +70,12 @@ class _RecordingOrdersRepo implements OrdersRepository {
   }) async => const [];
 
   @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) => throw UnimplementedError();
+
+  @override
   Future<Order> updateOrderStatus(String orderId, OrderStatus status) async =>
       throw UnimplementedError();
 }
@@ -112,6 +118,12 @@ class _PartialFailRepo implements OrdersRepository {
     required String userId,
     required AppUserRole role,
   }) async => const [];
+
+  @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) => throw UnimplementedError();
 
   @override
   Future<Order> updateOrderStatus(String orderId, OrderStatus status) async =>
