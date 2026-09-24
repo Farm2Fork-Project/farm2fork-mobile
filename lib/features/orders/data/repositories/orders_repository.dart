@@ -18,5 +18,12 @@ abstract class OrdersRepository {
     required OrderAddress shippingAddress,
   });
 
+  /// Prices one farmer's cart (items, platform fee and the fixed delivery
+  /// fee from the farm pin to the drop-off pin) without placing it.
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  });
+
   Future<Order> updateOrderStatus(String orderId, OrderStatus status);
 }

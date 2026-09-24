@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:dio/dio.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
@@ -20,7 +21,8 @@ class _StubApi extends ShipmentsApiService {
   Map<String, dynamic>? statusBody;
 
   @override
-  Future<List<Map<String, dynamic>>> getAvailableDeliveries() async => available;
+  Future<List<Map<String, dynamic>>> getAvailableDeliveries() async =>
+      available;
 
   @override
   Future<List<Map<String, dynamic>>> getMyShipments() async => shipments;
@@ -89,6 +91,15 @@ void main() {
           'deliveryProvince': 'Punjab',
           'itemCount': 2,
           'createdAt': '2026-08-11T00:00:00.000Z',
+          'deliveryFee': 1270,
+          'deliveryDistanceKm': 44.6,
+          'distanceToPickupKm': 4.1,
+          'pickup': {'lat': 31.42, 'lng': 73.08},
+          'dropoffArea': {'lat': 31.52, 'lng': 74.36},
+          'farmName': 'Green Farm',
+          'items': [
+            {'productName': 'Kinnow', 'quantity': 200},
+          ],
         },
       ],
     );
@@ -96,19 +107,27 @@ void main() {
     final deliveries = await ApiShipmentsRepository(api).getAvailable();
 
     expect(deliveries, hasLength(1));
-    expect(deliveries.single.orderId, 'order-1');
-    expect(deliveries.single.itemCount, 2);
+    final offer = deliveries.single;
+    expect(offer.orderId, 'order-1');
+    expect(offer.itemCount, 2);
+    expect(offer.deliveryFee, 1270);
+    expect(offer.pickup, const GeoPoint(31.42, 73.08));
+    expect(offer.dropoffArea, const GeoPoint(31.52, 74.36));
+    expect(offer.items.single.quantity, 200);
   });
 
-  test('claims only the selected order and maps the assigned shipment', () async {
-    final api = _StubApi(shipment: _shipmentDto);
+  test(
+    'claims only the selected order and maps the assigned shipment',
+    () async {
+      final api = _StubApi(shipment: _shipmentDto);
 
-    final shipment = await ApiShipmentsRepository(api).claim('order-1');
+      final shipment = await ApiShipmentsRepository(api).claim('order-1');
 
-    expect(api.claimedOrderId, 'order-1');
-    expect(shipment.id, 'shipment-1');
-    expect(shipment.status, ShipmentStatus.assigned);
-  });
+      expect(api.claimedOrderId, 'order-1');
+      expect(shipment.id, 'shipment-1');
+      expect(shipment.status, ShipmentStatus.assigned);
+    },
+  );
 
   test('rejects a shipment response without a backend id', () async {
     final malformed = Map<String, dynamic>.from(_shipmentDto)..remove('id');

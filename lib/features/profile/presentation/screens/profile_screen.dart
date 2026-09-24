@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
@@ -69,6 +70,46 @@ class ProfileScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+
+            if (user != null) ...[
+              SectionHeader(
+                title: context.l10n.myAccount,
+                titleColor: AppColors.primaryGreenDark,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              AppCard(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    AppSettingsTile(
+                      title: context.l10n.notificationsTitle,
+                      icon: Icons.notifications_rounded,
+                      onTap: () =>
+                          context.push(AppNavConfig.notificationsRoute),
+                    ),
+                    if (user.role == AppUserRole.farmer) ...[
+                      const Divider(color: AppColors.surfaceMedium, height: 1),
+                      AppSettingsTile(
+                        title: context.l10n.loansTitle,
+                        icon: Icons.account_balance_rounded,
+                        onTap: () =>
+                            context.push(AppNavConfig.farmerLoansRoute),
+                      ),
+                    ],
+                    if (user.role == AppUserRole.buyer) ...[
+                      const Divider(color: AppColors.surfaceMedium, height: 1),
+                      AppSettingsTile(
+                        title: context.l10n.feedTitle,
+                        icon: Icons.forum_rounded,
+                        onTap: () =>
+                            context.push(AppNavConfig.buyerCommunityRoute),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -197,4 +238,3 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 }
-

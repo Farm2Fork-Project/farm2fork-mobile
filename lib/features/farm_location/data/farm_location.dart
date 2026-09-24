@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:farm2fork_mobile/core/config/app_config.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/core/network/network_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,30 +26,35 @@ enum PakistanProvince {
   }
 }
 
-/// A farm's pickup location. Transporters only see and claim orders from
-/// farms whose street/village, city and province are all set.
+/// A farm's pickup location. Buyers can only check out (the delivery fee is
+/// priced from the pin) and transporters can only be matched once the
+/// street/village, city, province and map pin are all set.
 class FarmLocation {
-  const FarmLocation({this.address, this.city, this.province});
+  const FarmLocation({this.address, this.city, this.province, this.pin});
 
   final String? address;
   final String? city;
   final PakistanProvince? province;
+  final GeoPoint? pin;
 
   bool get complete =>
       (address?.trim().isNotEmpty ?? false) &&
       (city?.trim().isNotEmpty ?? false) &&
-      province != null;
+      province != null &&
+      pin != null;
 
   Map<String, dynamic> toJson() => {
     'address': address?.trim(),
     'city': city?.trim(),
     'province': province?.wire,
+    if (pin != null) ...pin!.toJson(),
   };
 
   static FarmLocation fromJson(Map<String, dynamic> json) => FarmLocation(
     address: json['address'] as String?,
     city: json['city'] as String?,
     province: PakistanProvince.fromWire(json['province'] as String?),
+    pin: GeoPoint.tryParse(json),
   );
 }
 
@@ -88,6 +94,7 @@ class MockFarmLocationRepository implements FarmLocationRepository {
     address: 'Chak 5, Canal Road',
     city: 'Multan',
     province: PakistanProvince.punjab,
+    pin: GeoPoint(30.1968, 71.4782),
   );
 
   @override

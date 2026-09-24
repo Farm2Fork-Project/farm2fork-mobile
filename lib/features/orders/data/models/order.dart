@@ -12,6 +12,10 @@ abstract class OrderAddress with _$OrderAddress {
     required String city,
     required String province,
     String? zip,
+    // Drop-off pin; required for new orders (the delivery fee is priced
+    // from it), absent on legacy ones.
+    double? lat,
+    double? lng,
   }) = _OrderAddress;
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) =>
@@ -44,6 +48,9 @@ abstract class Order with _$Order {
     required double totalAmount,
     required double platformFeePercent,
     required double platformFeeAmount,
+    // Fixed delivery price frozen at checkout (0 on legacy orders).
+    @Default(0) double deliveryFee,
+    double? deliveryDistanceKm,
     required double grandTotal,
     required OrderAddress shippingAddress,
     required OrderStatus status,
@@ -54,4 +61,23 @@ abstract class Order with _$Order {
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+}
+
+/// Server price for one farmer's cart, shown before the order is placed.
+class OrderQuote {
+  const OrderQuote({
+    required this.totalAmount,
+    required this.platformFeePercent,
+    required this.platformFeeAmount,
+    required this.deliveryFee,
+    required this.deliveryDistanceKm,
+    required this.grandTotal,
+  });
+
+  final double totalAmount;
+  final double platformFeePercent;
+  final double platformFeeAmount;
+  final double deliveryFee;
+  final double deliveryDistanceKm;
+  final double grandTotal;
 }

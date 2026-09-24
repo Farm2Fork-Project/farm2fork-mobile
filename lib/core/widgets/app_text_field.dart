@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
     this.obscureText = false,
     this.enabled = true,
     this.maxLines = 1,
+    this.maxLength,
     this.alignLabelWithHint = false,
     this.validator,
     this.suffixIcon,
@@ -29,6 +30,7 @@ class AppTextField extends StatelessWidget {
   final bool obscureText;
   final bool enabled;
   final int maxLines;
+  final int? maxLength;
   final bool alignLabelWithHint;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
@@ -42,6 +44,7 @@ class AppTextField extends StatelessWidget {
       obscureText: obscureText,
       enabled: enabled,
       maxLines: obscureText ? 1 : maxLines,
+      maxLength: maxLength,
       validator: validator,
       style: AppTextStyles.body,
       decoration: InputDecoration(

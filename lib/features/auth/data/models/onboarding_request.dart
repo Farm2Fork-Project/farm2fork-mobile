@@ -1,3 +1,5 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+
 /// Self-service roles a user can choose at onboarding. admin and
 /// financial_partner are provisioned by the backend (allowlist), never here.
 enum OnboardingRole { farmer, buyer, transporter }
@@ -59,6 +61,7 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     required this.farmAddress,
     required this.farmCity,
     required this.farmProvince,
+    required this.farmPin,
     this.cropTypes = const [],
     this.landSizeAcres,
     this.bankName,
@@ -75,6 +78,9 @@ class FarmerOnboardingRequest extends OnboardingRequest {
 
   /// Backend wire value, e.g. "Punjab".
   final String farmProvince;
+
+  /// Map pin of the farm: delivery fees are priced from it.
+  final GeoPoint farmPin;
   final List<String> cropTypes;
   final double? landSizeAcres;
   final String? bankName;
@@ -94,6 +100,7 @@ class FarmerOnboardingRequest extends OnboardingRequest {
         'address': farmAddress,
         'city': farmCity,
         'province': farmProvince,
+        ...farmPin.toJson(),
       },
       if (cropTypes.isNotEmpty) 'cropTypes': cropTypes,
       if (landSizeAcres != null) 'landSizeAcres': landSizeAcres,

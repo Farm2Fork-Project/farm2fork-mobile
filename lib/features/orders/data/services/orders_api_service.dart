@@ -29,6 +29,24 @@ class OrdersApiService {
     );
   }
 
+  /// POST /orders/quote — same body as createOrder; nothing is saved.
+  Future<Map<String, dynamic>> quoteOrder({
+    required List<({String productId, int quantity})> items,
+    required Map<String, dynamic> shippingAddress,
+  }) {
+    return _unwrap(
+      () => _dio.post<Map<String, dynamic>>(
+        '/orders/quote',
+        data: {
+          'items': items
+              .map((i) => {'productId': i.productId, 'quantity': i.quantity})
+              .toList(),
+          'shippingAddress': shippingAddress,
+        },
+      ),
+    );
+  }
+
   /// GET /orders — caller's own orders (backend scopes by role).
   Future<Map<String, dynamic>> fetchOrders({
     String? status,

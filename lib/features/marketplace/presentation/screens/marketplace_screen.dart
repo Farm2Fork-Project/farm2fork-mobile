@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
@@ -43,6 +44,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
       appBar: AppBar(
         title: Text(context.l10n.marketplace, style: AppTextStyles.h3),
         actions: [
+          const NotificationBell(),
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: [
@@ -357,4 +359,3 @@ class _Chip extends StatelessWidget {
     );
   }
 }
-

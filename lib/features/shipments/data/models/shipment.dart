@@ -20,6 +20,9 @@ abstract class ShipmentAddress with _$ShipmentAddress {
     required String city,
     required String province,
     String? zip,
+    // Map pin for navigation (absent on legacy shipments).
+    double? lat,
+    double? lng,
   }) = _ShipmentAddress;
 
   factory ShipmentAddress.fromJson(Map<String, dynamic> json) =>
@@ -51,6 +54,8 @@ abstract class Shipment with _$Shipment {
     required List<ShipmentStatusUpdate> statusHistory,
     required DateTime estimatedDelivery,
     DateTime? actualDelivery,
+    // Fixed fee the transporter earns (PKR); absent on legacy shipments.
+    double? deliveryFee,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Shipment;
