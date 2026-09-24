@@ -9,9 +9,9 @@ import 'package:farm2fork_mobile/features/marketplace/data/models/product_catego
 ///  * `category` is a free-form string on the backend but a 4-value enum on the
 ///    client. Unknown categories fall back to [ProductCategory.vegetables] (the
 ///    UI groups under "All" regardless, so this never hides a product).
-///  * the listing endpoint returns only `farmerId`, not embedded farmer detail.
-///    A minimal [FarmerSummary] is synthesised from the id; rich farmer info
-///    awaits a profiles endpoint (tracked separately).
+///  * the backend embeds only public farm identity (`farmer`: farm name, city,
+///    province) - no personal name, rating or sales, so those stay empty/zero
+///    and the UI hides them.
 abstract final class ProductDtoMapper {
   /// Adapts a backend product DTO into the client [Product] model.
   static Product fromDto(Map<String, dynamic> dto) {
@@ -30,19 +30,35 @@ abstract final class ProductDtoMapper {
       qrCode: dto['qrCode'] as String?,
       initialBlockchainRecordId: dto['initialBlockchainRecordId'] as String?,
       status: statusFromWire(dto['status'] as String?),
-      farmer: _farmerStub(farmerId),
+      originLedgerStatus: dto['originLedgerStatus'] as String?,
+      farmer: _farmer(farmerId, dto['farmer']),
     );
   }
 
-  /// Placeholder farmer until the listing endpoint embeds farmer detail or a
-  /// profiles endpoint is wired. Carries the real id so detail screens can
-  /// later fetch the full profile.
-  static FarmerSummary _farmerStub(String farmerId) => FarmerSummary(
-    id: farmerId,
-    name: '',
-    farmName: '',
-    farmLocationAddress: '',
-  );
+  /// Public farm identity embedded by the backend; an empty summary (never
+  /// invented values) when the farmer has no profile.
+  static FarmerSummary _farmer(String farmerId, Object? farmer) {
+    // The backend embeds only public farm identity (farm name, city,
+    // province) - never a personal name, rating or sales it doesn't have.
+    if (farmer is! Map) {
+      return FarmerSummary(
+        id: farmerId,
+        name: '',
+        farmName: '',
+        farmLocationAddress: '',
+      );
+    }
+    final place = [
+      farmer['city'],
+      farmer['province'],
+    ].whereType<String>().where((part) => part.isNotEmpty).join(', ');
+    return FarmerSummary(
+      id: farmerId,
+      name: '',
+      farmName: (farmer['farmName'] as String?) ?? '',
+      farmLocationAddress: place,
+    );
+  }
 
   static ProductCategory categoryFromWire(String? value) {
     switch (value?.toLowerCase()) {

@@ -47,6 +47,10 @@ abstract class Product with _$Product {
     String? initialBlockchainRecordId,
     @Default(ProductStatus.active) ProductStatus status,
 
+    /// Ledger state of the listing's first provenance record
+    /// (pending | confirmed | failed | missing); null when unknown (mocks).
+    String? originLedgerStatus,
+
     /// Embedded farmer info — avoids a second network call in list views.
     required FarmerSummary farmer,
   }) = _Product;

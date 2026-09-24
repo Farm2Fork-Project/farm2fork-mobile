@@ -1277,4 +1277,117 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get timePm => 'بعد دوپہر';
+
+  @override
+  String get aiPriceTitle => 'مناسب قیمت کی تجویز';
+
+  @override
+  String get aiSuggestPrice => 'قیمت تجویز کریں';
+
+  @override
+  String aiPriceRange(String min, String max, String unit) {
+    return '$min – $max روپے فی $unit';
+  }
+
+  @override
+  String get aiPriceRuleBased =>
+      'حوالہ جاتی حدود، موسم اور گریڈ پر مبنی اندازہ — یہ لائیو منڈی کا ڈیٹا نہیں ہے۔';
+
+  @override
+  String aiUsePrice(String price) {
+    return '$price روپے استعمال کریں';
+  }
+
+  @override
+  String get aiPriceNoRule =>
+      'اس اکائی یا زمرے کے لیے ابھی کوئی قیمت کا اصول موجود نہیں۔';
+
+  @override
+  String get aiQualityTitle => 'تصویر سے معیار کی جانچ';
+
+  @override
+  String get aiPreviewModel =>
+      'پیش نظارہ ماڈل: گریڈنگ ماڈل ابھی تربیت یافتہ نہیں، اس لیے اس کے گریڈ قابلِ اعتماد نہیں۔';
+
+  @override
+  String get aiCropLabel => 'تصویر میں فصل';
+
+  @override
+  String get aiNeedCrop => 'تصویر میں موجود فصل منتخب کریں۔';
+
+  @override
+  String get aiTakePhoto => 'تصویر کھینچیں';
+
+  @override
+  String get aiChoosePhoto => 'گیلری سے منتخب کریں';
+
+  @override
+  String aiGradeResult(String grade, int confidence) {
+    return 'گریڈ $grade · $confidence% اعتماد';
+  }
+
+  @override
+  String get aiPreviewResult =>
+      'صرف پیش نظارہ — ماڈل کی تربیت مکمل ہونے تک اس گریڈ پر انحصار نہ کریں۔';
+
+  @override
+  String get aiCropNotTrained =>
+      'ماڈل کے پاس ابھی اس فصل کا تربیتی ڈیٹا نہیں ہے۔';
+
+  @override
+  String get aiLowConfidence => 'کم اعتماد — گریڈ خود بھی جانچ لیں۔';
+
+  @override
+  String aiUseGrade(String grade) {
+    return 'گریڈ $grade استعمال کریں';
+  }
+
+  @override
+  String get aiGradeD =>
+      'لسٹنگ گریڈ سے کم (D)۔ پراسیسنگ کے لیے فروخت پر غور کریں۔';
+
+  @override
+  String get aiUnavailable =>
+      'اے آئی سروس ابھی دستیاب نہیں ہے۔ آپ پھر بھی اپنی لسٹنگ شائع کر سکتے ہیں۔';
+
+  @override
+  String get aiTooManyRequests =>
+      'بہت زیادہ درخواستیں۔ ایک منٹ انتظار کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get aiInvalidPhoto =>
+      'یہ تصویر استعمال نہیں ہو سکی۔ 8 MB سے کم واضح JPEG یا PNG آزمائیں۔';
+
+  @override
+  String get aiFailed => 'کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get cropWheat => 'گندم';
+
+  @override
+  String get cropRice => 'چاول';
+
+  @override
+  String get cropMango => 'آم';
+
+  @override
+  String get cropMaize => 'مکئی';
+
+  @override
+  String get cropCotton => 'کپاس';
+
+  @override
+  String get cropSugarcane => 'گنا';
+
+  @override
+  String get ledgerConfirmed => 'لیجر پر درج';
+
+  @override
+  String get ledgerPending => 'لیجر زیرِ التوا';
+
+  @override
+  String get ledgerFailed => 'لیجر ناکام';
+
+  @override
+  String get ledgerMissing => 'کوئی لیجر ریکارڈ نہیں';
 }

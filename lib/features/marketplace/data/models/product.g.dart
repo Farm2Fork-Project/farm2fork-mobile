@@ -26,6 +26,7 @@ _Product _$ProductFromJson(Map<String, dynamic> json) => _Product(
   status:
       $enumDecodeNullable(_$ProductStatusEnumMap, json['status']) ??
       ProductStatus.active,
+  originLedgerStatus: json['originLedgerStatus'] as String?,
   farmer: FarmerSummary.fromJson(json['farmer'] as Map<String, dynamic>),
 );
 
@@ -43,6 +44,7 @@ Map<String, dynamic> _$ProductToJson(_Product instance) => <String, dynamic>{
   'qrCode': instance.qrCode,
   'initialBlockchainRecordId': instance.initialBlockchainRecordId,
   'status': _$ProductStatusEnumMap[instance.status]!,
+  'originLedgerStatus': instance.originLedgerStatus,
   'farmer': instance.farmer,
 };
 

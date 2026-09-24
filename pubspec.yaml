@@ -51,6 +51,7 @@ dependencies:
   intl: ^0.20.2
   persistent_bottom_nav_bar_v2: ^6.3.2
   package_rename: ^1.10.1
+  image_picker: ^1.2.3
 
 dev_dependencies:
   flutter_test:

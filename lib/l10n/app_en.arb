@@ -1108,5 +1108,101 @@
   "@timeAm": {"description": "Before-noon marker for 12-hour times (intl's Urdu data only has 'a')"},
 
   "timePm": "PM",
-  "@timePm": {"description": "After-noon marker for 12-hour times (intl's Urdu data only has 'p')"}
+  "@timePm": {"description": "After-noon marker for 12-hour times (intl's Urdu data only has 'p')"},
+
+  "aiPriceTitle": "Fair price suggestion",
+  "@aiPriceTitle": {"description": "AI price helper title"},
+
+  "aiSuggestPrice": "Suggest a price",
+  "@aiSuggestPrice": {"description": "Button: ask for a price suggestion"},
+
+  "aiPriceRange": "Rs {min} – {max} per {unit}",
+  "@aiPriceRange": {"description": "Suggested price range", "placeholders": {"min": {"type": "String", "example": "154"}, "max": {"type": "String", "example": "352"}, "unit": {"type": "String", "example": "kg"}}},
+
+  "aiPriceRuleBased": "Rule-based estimate from reference ranges, season and grade — not live market data.",
+  "@aiPriceRuleBased": {"description": "Caveat: price is rule-based"},
+
+  "aiUsePrice": "Use Rs {price}",
+  "@aiUsePrice": {"description": "Button applying the suggested price", "placeholders": {"price": {"type": "String", "example": "253"}}},
+
+  "aiPriceNoRule": "No price rule covers this unit or category yet.",
+  "@aiPriceNoRule": {"description": "No rule for this unit/category"},
+
+  "aiQualityTitle": "Photo quality check",
+  "@aiQualityTitle": {"description": "AI quality check title"},
+
+  "aiPreviewModel": "Preview model: the grading model isn't trained yet, so its grades are not reliable.",
+  "@aiPreviewModel": {"description": "Warning: untrained model"},
+
+  "aiCropLabel": "Crop in the photo",
+  "@aiCropLabel": {"description": "Crop selector label"},
+
+  "aiNeedCrop": "Select the crop in the photo.",
+  "@aiNeedCrop": {"description": "Validation: crop required"},
+
+  "aiTakePhoto": "Take a photo",
+  "@aiTakePhoto": {"description": "Button: camera"},
+
+  "aiChoosePhoto": "Choose from gallery",
+  "@aiChoosePhoto": {"description": "Button: gallery"},
+
+  "aiGradeResult": "Grade {grade} · {confidence}% confidence",
+  "@aiGradeResult": {"description": "Quality result", "placeholders": {"grade": {"type": "String", "example": "B"}, "confidence": {"type": "int", "example": "82"}}},
+
+  "aiPreviewResult": "Preview only — don't rely on this grade until the model is trained.",
+  "@aiPreviewResult": {"description": "Result caveat: untrained"},
+
+  "aiCropNotTrained": "The model has no training data for this crop yet.",
+  "@aiCropNotTrained": {"description": "Result caveat: crop not trained"},
+
+  "aiLowConfidence": "Low confidence — check the grade yourself.",
+  "@aiLowConfidence": {"description": "Result caveat: low confidence"},
+
+  "aiUseGrade": "Use grade {grade}",
+  "@aiUseGrade": {"description": "Button applying the suggested grade", "placeholders": {"grade": {"type": "String", "example": "B"}}},
+
+  "aiGradeD": "Below listing grades (D). Consider selling for processing.",
+  "@aiGradeD": {"description": "Result: grade D"},
+
+  "aiUnavailable": "The AI service isn't reachable right now. You can still publish your listing.",
+  "@aiUnavailable": {"description": "AI service down"},
+
+  "aiTooManyRequests": "Too many requests. Please wait a minute and try again.",
+  "@aiTooManyRequests": {"description": "Rate limited"},
+
+  "aiInvalidPhoto": "That photo couldn't be used. Try a clear JPEG or PNG under 8 MB.",
+  "@aiInvalidPhoto": {"description": "Photo rejected"},
+
+  "aiFailed": "Something went wrong. Please try again.",
+  "@aiFailed": {"description": "Generic AI failure"},
+
+  "cropWheat": "Wheat",
+  "@cropWheat": {"description": "Crop name"},
+
+  "cropRice": "Rice",
+  "@cropRice": {"description": "Crop name"},
+
+  "cropMango": "Mango",
+  "@cropMango": {"description": "Crop name"},
+
+  "cropMaize": "Maize",
+  "@cropMaize": {"description": "Crop name"},
+
+  "cropCotton": "Cotton",
+  "@cropCotton": {"description": "Crop name"},
+
+  "cropSugarcane": "Sugarcane",
+  "@cropSugarcane": {"description": "Crop name"},
+
+  "ledgerConfirmed": "On ledger",
+  "@ledgerConfirmed": {"description": "Listing ledger badge: confirmed"},
+
+  "ledgerPending": "Ledger pending",
+  "@ledgerPending": {"description": "Listing ledger badge: pending"},
+
+  "ledgerFailed": "Ledger failed",
+  "@ledgerFailed": {"description": "Listing ledger badge: failed"},
+
+  "ledgerMissing": "No ledger record",
+  "@ledgerMissing": {"description": "Listing ledger badge: none"}
 }

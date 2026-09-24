@@ -194,6 +194,10 @@ class _ListingCard extends ConsumerWidget {
                     ),
                   ],
                 ),
+                if (product.originLedgerStatus != null) ...[
+                  const SizedBox(height: 4),
+                  _LedgerBadge(status: product.originLedgerStatus!),
+                ],
                 const SizedBox(height: 4),
                 Text(
                   formattedPrice,
@@ -415,6 +419,50 @@ class _SummaryMetric extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Ledger state of the listing's `listed` provenance record.
+class _LedgerBadge extends StatelessWidget {
+  const _LedgerBadge({required this.status});
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final (label, icon, background, foreground) = switch (status) {
+      'confirmed' => (
+        l10n.ledgerConfirmed,
+        Icons.verified_user_rounded,
+        AppColors.primaryGreenSoft,
+        AppColors.primaryGreenDark,
+      ),
+      'failed' => (
+        l10n.ledgerFailed,
+        Icons.error_outline_rounded,
+        AppColors.white,
+        AppColors.errorRed,
+      ),
+      'missing' => (
+        l10n.ledgerMissing,
+        Icons.remove_circle_outline_rounded,
+        AppColors.surfaceLight,
+        AppColors.textMuted,
+      ),
+      _ => (
+        l10n.ledgerPending,
+        Icons.hourglass_top_rounded,
+        AppColors.accentYellowSoft,
+        AppColors.textDark,
+      ),
+    };
+    return AppBadge(
+      label: label,
+      icon: icon,
+      backgroundColor: background,
+      foregroundColor: foreground,
     );
   }
 }
