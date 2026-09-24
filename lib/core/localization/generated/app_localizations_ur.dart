@@ -1390,4 +1390,54 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get ledgerMissing => 'کوئی لیجر ریکارڈ نہیں';
+
+  @override
+  String get farmStreet => 'گلی / گاؤں';
+
+  @override
+  String get farmStreetHint => 'مثلاً چک 5، نہر روڈ';
+
+  @override
+  String get farmCity => 'شہر / ضلع';
+
+  @override
+  String get farmProvince => 'صوبہ';
+
+  @override
+  String get farmProvinceHint => 'صوبہ منتخب کریں';
+
+  @override
+  String get provincePunjab => 'پنجاب';
+
+  @override
+  String get provinceSindh => 'سندھ';
+
+  @override
+  String get provinceKpk => 'خیبر پختونخوا';
+
+  @override
+  String get provinceBalochistan => 'بلوچستان';
+
+  @override
+  String get provinceGilgitBaltistan => 'گلگت بلتستان';
+
+  @override
+  String get provinceAjk => 'آزاد جموں و کشمیر';
+
+  @override
+  String get provinceIslamabad => 'اسلام آباد';
+
+  @override
+  String get farmLocationPromptTitle => 'اپنے فارم کا پک اپ پتہ شامل کریں';
+
+  @override
+  String get farmLocationPromptBody =>
+      'جب تک آپ کے فارم کی گلی، شہر اور صوبہ محفوظ نہیں ہوتے، ٹرانسپورٹر آپ کے آرڈر نہ دیکھ سکتے ہیں نہ اٹھا سکتے ہیں۔';
+
+  @override
+  String get farmLocationSave => 'پتہ محفوظ کریں';
+
+  @override
+  String get farmLocationSaveFailed =>
+      'پتہ محفوظ نہیں ہو سکا۔ اپنا کنکشن چیک کر کے دوبارہ کوشش کریں۔';
 }

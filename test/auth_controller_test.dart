@@ -147,6 +147,9 @@ void main() {
           credential: GoogleOnboardingCredential(),
           cnic: '35202-1234567-1',
           farmName: 'Green Acres',
+          farmAddress: 'Chak 5, Canal Road',
+          farmCity: 'Multan',
+          farmProvince: 'Punjab',
         ),
       );
 

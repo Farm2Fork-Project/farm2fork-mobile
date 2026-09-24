@@ -10,6 +10,7 @@ import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_prompt.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
@@ -50,6 +51,8 @@ class ListingsScreen extends ConsumerWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
+              // Only while the pickup location is incomplete.
+              const SliverToBoxAdapter(child: FarmLocationPrompt()),
               // Summary of the farmer's real listings. (This used to show a
               // hardcoded "Hassan Organic Farm / 4.8 / 312 sales" to every
               // farmer; there is no farmer-profile endpoint yet, so only

@@ -1391,4 +1391,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ledgerMissing => 'No ledger record';
+
+  @override
+  String get farmStreet => 'Street / village';
+
+  @override
+  String get farmStreetHint => 'e.g. Chak 5, Canal Road';
+
+  @override
+  String get farmCity => 'City / district';
+
+  @override
+  String get farmProvince => 'Province';
+
+  @override
+  String get farmProvinceHint => 'Select province';
+
+  @override
+  String get provincePunjab => 'Punjab';
+
+  @override
+  String get provinceSindh => 'Sindh';
+
+  @override
+  String get provinceKpk => 'Khyber Pakhtunkhwa';
+
+  @override
+  String get provinceBalochistan => 'Balochistan';
+
+  @override
+  String get provinceGilgitBaltistan => 'Gilgit-Baltistan';
+
+  @override
+  String get provinceAjk => 'Azad Jammu and Kashmir';
+
+  @override
+  String get provinceIslamabad => 'Islamabad Capital Territory';
+
+  @override
+  String get farmLocationPromptTitle => 'Add your farm\'s pickup location';
+
+  @override
+  String get farmLocationPromptBody =>
+      'Transporters can\'t see or collect your orders until your farm\'s street, city and province are saved.';
+
+  @override
+  String get farmLocationSave => 'Save location';
+
+  @override
+  String get farmLocationSaveFailed =>
+      'Couldn\'t save the location. Check your connection and try again.';
 }
