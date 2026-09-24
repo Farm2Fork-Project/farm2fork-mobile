@@ -11,6 +11,7 @@ import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_prompt.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
@@ -28,6 +29,7 @@ class ListingsScreen extends ConsumerWidget {
         elevation: 0,
         backgroundColor: AppColors.backgroundLight,
         centerTitle: true,
+        actions: const [NotificationBell()],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/farmer/create-listing'),

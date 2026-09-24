@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
@@ -36,6 +37,12 @@ import 'package:farm2fork_mobile/features/profile/presentation/screens/privacy_p
 import 'package:farm2fork_mobile/features/profile/presentation/screens/terms_conditions_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/faq_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipments_screen.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/deliveries_screen.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:farm2fork_mobile/features/loans/presentation/screens/farmer_loans_screen.dart';
+import 'package:farm2fork_mobile/features/loans/presentation/screens/loan_review_screen.dart';
+import 'package:farm2fork_mobile/features/community/presentation/screens/create_post_screen.dart';
+import 'package:farm2fork_mobile/features/community/presentation/screens/post_detail_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipment_tracking_screen.dart';
 import 'package:farm2fork_mobile/features/traceability/presentation/screens/trace_scanner_screen.dart';
 
@@ -153,6 +160,47 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ShipmentTrackingScreen(shipmentId: state.pathParameters['id']!),
       ),
       GoRoute(
+        path: AppNavConfig.notificationsRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppNavConfig.farmerLoansRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FarmerLoansScreen(),
+      ),
+      GoRoute(
+        path: '/finance/loans/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            LoanReviewScreen(loanId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: AppNavConfig.buyerCommunityRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FeedScreen(),
+      ),
+      GoRoute(
+        path: AppNavConfig.newPostRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const CreatePostScreen(),
+      ),
+      GoRoute(
+        path: '/community/posts/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            PostDetailScreen(postId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: LocationPickerScreen.route,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) => LocationPickerScreen(
+          args:
+              state.extra as LocationPickerArgs? ??
+              const LocationPickerArgs(purpose: LocationPickerPurpose.dropoff),
+        ),
+      ),
+      GoRoute(
         path: '/settings/notifications',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, _) => const NotificationSettingsScreen(),
@@ -256,6 +304,7 @@ Widget _screenFor(AppNavDestination destination) {
     AppNavDestination.trace => const TraceScannerScreen(),
     AppNavDestination.cart => const CartScreen(),
     AppNavDestination.orders => const OrdersScreen(),
+    AppNavDestination.deliveries => const DeliveriesScreen(),
     AppNavDestination.shipments => const ShipmentsScreen(),
     AppNavDestination.loans => const LoansScreen(),
     AppNavDestination.feed => const FeedScreen(),

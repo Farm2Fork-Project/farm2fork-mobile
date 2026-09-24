@@ -73,7 +73,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navTrace => 'ٹریس';
 
   @override
-  String get navShipments => 'شپمنٹس';
+  String get navShipments => 'تاریخچہ';
 
   @override
   String get navLoans => 'قرضے';
@@ -938,7 +938,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get notificationsNotYetConnectedNote =>
-      'یہ ترجیحات فی الحال صرف اس سیشن کے لیے لاگو ہوتی ہیں اور ایپ دوبارہ کھولنے پر ری سیٹ ہو جاتی ہیں — پش اطلاعات ابھی نہیں بھیجی جاتیں۔';
+      'اس ڈیوائس پر آرڈرز، ڈلیوریوں اور قرضوں کی پش اطلاعات آن ہیں۔ یہ موضوع وار سوئچ فی الحال صرف اس سیشن کے لیے ہیں؛ تمام اطلاعات بند کرنے کے لیے انہیں فون کی سیٹنگز میں بند کریں۔';
 
   @override
   String get orderUpdates => 'آرڈر کی اپ ڈیٹس';
@@ -1440,4 +1440,398 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get farmLocationSaveFailed =>
       'پتہ محفوظ نہیں ہو سکا۔ اپنا کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get pickFarmLocationTitle => 'اپنا فارم نقشے پر لگائیں';
+
+  @override
+  String get pickFarmLocationHint =>
+      'نقشہ اس طرح ہلائیں کہ پن آپ کے فارم کے گیٹ پر ہو۔ ٹرانسپورٹر اسی جگہ پر آئیں گے۔';
+
+  @override
+  String get pickDropoffTitle => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+
+  @override
+  String get pickDropoffHint =>
+      'نقشہ اس طرح ہلائیں کہ پن اس جگہ ہو جہاں آرڈر پہنچانا ہے۔ ڈلیوری فیس اسی جگہ سے طے ہوتی ہے۔';
+
+  @override
+  String get useMyLocation => 'میری موجودہ لوکیشن استعمال کریں';
+
+  @override
+  String get confirmLocation => 'یہ جگہ تصدیق کریں';
+
+  @override
+  String get locationOutsidePakistan =>
+      'براہ کرم پاکستان کے اندر کوئی جگہ منتخب کریں۔';
+
+  @override
+  String get locationServiceDisabled =>
+      'اس فون پر لوکیشن بند ہے۔ جاری رکھنے کے لیے اسے آن کریں۔';
+
+  @override
+  String get locationPermissionDenied =>
+      'اس کے لیے Farm2Fork کو لوکیشن کی اجازت چاہیے۔';
+
+  @override
+  String get locationPermissionDeniedForever =>
+      'لوکیشن کی اجازت بند ہے۔ جاری رکھنے کے لیے سیٹنگز میں اجازت دیں۔';
+
+  @override
+  String get locationUnavailable =>
+      'آپ کی لوکیشن نہیں مل سکی۔ کھلی جگہ پر جا کر دوبارہ کوشش کریں۔';
+
+  @override
+  String get openSettings => 'سیٹنگز';
+
+  @override
+  String get pinFarmOnMap => 'فارم نقشے پر لگائیں';
+
+  @override
+  String get pinDropoffOnMap => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+
+  @override
+  String get pinSet => 'لوکیشن لگ گئی';
+
+  @override
+  String get pinOpenMap => 'نقشہ کھولیں';
+
+  @override
+  String get pinChange => 'تبدیل کریں';
+
+  @override
+  String get pinRequired => 'لوکیشن نقشے پر لگائیں';
+
+  @override
+  String get deliveryFeePinFirst =>
+      'ڈلیوری فیس دیکھنے کے لیے ڈلیوری کی جگہ نقشے پر لگائیں۔';
+
+  @override
+  String get deliveryFeeCalculating => 'ڈلیوری فیس کا حساب ہو رہا ہے…';
+
+  @override
+  String get deliveryFeeUnavailable =>
+      'اس فارم کے لیے ابھی ڈلیوری فیس طے نہیں ہو سکتی، اس لیے ابھی آرڈر نہیں ہو سکتا۔';
+
+  @override
+  String deliveryFeeWithDistance(String km) {
+    return 'ڈلیوری ($km کلومیٹر)';
+  }
+
+  @override
+  String get navDeliveries => 'ڈلیوریاں';
+
+  @override
+  String get deliveriesTitle => 'ڈلیوریاں';
+
+  @override
+  String get deliveryHistoryTitle => 'ڈلیوری کی تاریخچہ';
+
+  @override
+  String get noDeliveriesYet =>
+      'ابھی کوئی ڈلیوری نہیں۔ قبول کی گئی ڈلیوریاں یہاں نظر آئیں گی۔';
+
+  @override
+  String get youAreOnline => 'آپ آن لائن ہیں';
+
+  @override
+  String get youAreOffline => 'آپ آف لائن ہیں';
+
+  @override
+  String onlineSubtitle(String km) {
+    return 'آپ کو $km کلومیٹر کے اندر فارموں کے ادا شدہ آرڈر پیش کیے جائیں گے۔ ایپ کھلی رکھیں تاکہ آپ کی لوکیشن تازہ رہے۔';
+  }
+
+  @override
+  String get offlineSubtitle =>
+      'اپنے قریب ڈلیوری کی پیشکشیں حاصل کرنے کے لیے آن لائن ہوں۔';
+
+  @override
+  String get locationStaleWarning =>
+      'آپ کی لوکیشن پرانی ہے، اس لیے پیشکشیں رہ سکتی ہیں۔ تازہ کرنے کے لیے ایپ کھولیں۔';
+
+  @override
+  String get offlineHint =>
+      'آپ آف لائن ہیں۔ ڈلیوریاں حاصل کرنے کے لیے اوپر والا سوئچ آن کریں۔';
+
+  @override
+  String noOffersNearby(String km) {
+    return 'ابھی $km کلومیٹر کے اندر کوئی ڈلیوری نہیں۔ نئی ڈلیوری آنے پر ہم آپ کو اطلاع دیں گے۔';
+  }
+
+  @override
+  String get offersNearYou => 'آپ کے قریب ڈلیوریاں';
+
+  @override
+  String offerRoute(String farm, String from, String to) {
+    return '$farm ($from) ← $to';
+  }
+
+  @override
+  String offerDistances(String toPickup, String trip) {
+    return 'پک اپ تک $toPickup کلومیٹر · سفر $trip کلومیٹر';
+  }
+
+  @override
+  String get viewOnMap => 'نقشہ';
+
+  @override
+  String get acceptDelivery => 'قبول کریں';
+
+  @override
+  String get declineDelivery => 'رد کریں';
+
+  @override
+  String get offerNoLongerAvailable =>
+      'یہ ڈلیوری اب دستیاب نہیں — شاید کسی اور نے قبول کر لی ہے یا آپ حد سے باہر ہیں۔';
+
+  @override
+  String get dispatchActionFailed =>
+      'یہ کام نہیں ہو سکا۔ کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get dropoffApproximateNote =>
+      'ڈلیوری کی جگہ تقریباً دکھائی گئی ہے (تقریباً 1 کلومیٹر کے اندر)۔ قبول کرنے کے بعد مکمل پتہ نظر آئے گا۔';
+
+  @override
+  String get activeDeliveryTitle => 'آپ کی موجودہ ڈلیوری';
+
+  @override
+  String youEarn(String amount) {
+    return 'آپ کی آمدنی $amount';
+  }
+
+  @override
+  String get navigateToPickup => 'پک اپ تک راستہ';
+
+  @override
+  String get navigateToDropoff => 'ڈلیوری کی جگہ تک راستہ';
+
+  @override
+  String get markAllRead => 'سب پڑھ لیے';
+
+  @override
+  String get noNotificationsYet => 'ابھی کوئی اطلاع نہیں۔';
+
+  @override
+  String get myAccount => 'میرا اکاؤنٹ';
+
+  @override
+  String get newPost => 'نئی پوسٹ';
+
+  @override
+  String get communityEmpty => 'ابھی کوئی پوسٹ نہیں۔ بات چیت شروع کریں!';
+
+  @override
+  String get communityActionFailed =>
+      'یہ کام نہیں ہو سکا۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get communityRoleFarmer => 'کسان';
+
+  @override
+  String get communityRoleBuyer => 'خریدار';
+
+  @override
+  String get communityRoleTeam => 'Farm2Fork ٹیم';
+
+  @override
+  String get postTitleLabel => 'عنوان';
+
+  @override
+  String get postContentLabel => 'آپ کیا شیئر کرنا چاہتے ہیں؟';
+
+  @override
+  String get postTagsLabel => 'ٹیگز (اختیاری)';
+
+  @override
+  String get postTagsHint => 'مثلاً گندم، بوائی';
+
+  @override
+  String postTooManyTags(int max) {
+    return 'زیادہ سے زیادہ $max ٹیگز استعمال کریں';
+  }
+
+  @override
+  String postPhotosLabel(int max) {
+    return 'تصاویر ($max تک)';
+  }
+
+  @override
+  String get takePhoto => 'کیمرہ';
+
+  @override
+  String get chooseFromGallery => 'گیلری';
+
+  @override
+  String get publishPost => 'شائع کریں';
+
+  @override
+  String get remove => 'ہٹائیں';
+
+  @override
+  String get removePostConfirm => 'یہ پوسٹ سب کے لیے ہٹا دیں؟';
+
+  @override
+  String get removeCommentConfirm => 'یہ تبصرہ ہٹا دیں؟';
+
+  @override
+  String get send => 'بھیجیں';
+
+  @override
+  String get loanStatusPending => 'جمع شدہ';
+
+  @override
+  String get loanStatusUnderReview => 'زیر جائزہ';
+
+  @override
+  String get loanStatusApproved => 'منظور';
+
+  @override
+  String get loanStatusRejected => 'منظور نہیں ہوا';
+
+  @override
+  String get loanStatusRepaid => 'ادا شدہ';
+
+  @override
+  String get loansFarmerIntroTitle => 'آپ کے فارم کے لیے مائیکرو فنانس';
+
+  @override
+  String get loansFarmerIntroBody =>
+      'بیج، کھاد یا آلات کے لیے درخواست دیں۔ ایک مالیاتی پارٹنر آپ کے فارم اور Farm2Fork پر فروخت کی تاریخ دیکھ کر ماہانہ ادائیگی کا منصوبہ منظور کرتا ہے یا وجہ بتاتا ہے۔';
+
+  @override
+  String get loanApply => 'قرض کے لیے درخواست دیں';
+
+  @override
+  String get loanOneAtATime =>
+      'ایک وقت میں صرف ایک درخواست زیر عمل یا زیر ادائیگی ہو سکتی ہے۔';
+
+  @override
+  String get loansNone => 'ابھی کوئی درخواست نہیں۔';
+
+  @override
+  String loanTermsSummary(int months, String date) {
+    return '$months ماہ · درخواست $date';
+  }
+
+  @override
+  String loanReviewerNote(String note) {
+    return 'جائزہ کار: $note';
+  }
+
+  @override
+  String loanRepaidProgress(String paid, String total) {
+    return '$total میں سے $paid ادا';
+  }
+
+  @override
+  String loanInstalment(int n, String amount) {
+    return 'قسط $n: $amount';
+  }
+
+  @override
+  String loanDueOn(String date) {
+    return 'واجب الادا $date';
+  }
+
+  @override
+  String loanPaidOn(String date) {
+    return 'ادا کی $date';
+  }
+
+  @override
+  String get loanMarkPaid => 'ادا شدہ';
+
+  @override
+  String get loanAmountLabel => 'رقم (روپے)';
+
+  @override
+  String loanAmountRange(String min, String max) {
+    return '$min سے $max روپے کے درمیان';
+  }
+
+  @override
+  String get loanDurationLabel => 'ادائیگی کی مدت';
+
+  @override
+  String loanMonths(int months) {
+    return '$months ماہ';
+  }
+
+  @override
+  String get loanPurposeLabel => 'قرض کس لیے ہے؟';
+
+  @override
+  String get loanPurposeHint => 'مثلاً گندم کے سیزن کے لیے بیج اور کھاد';
+
+  @override
+  String get loanDocumentsLabel => 'دستاویزات';
+
+  @override
+  String get loanDocumentsHint =>
+      'شناختی کارڈ اور زمین کے کاغذات کی تصاویر سے جائزہ جلد ہوتا ہے۔ انہیں صرف جائزہ کار دیکھ سکتے ہیں۔';
+
+  @override
+  String get loanSubmit => 'درخواست جمع کریں';
+
+  @override
+  String get loanSubmitted =>
+      'درخواست جمع ہو گئی۔ جائزے پر ہم آپ کو اطلاع دیں گے۔';
+
+  @override
+  String get loanSubmitFailed =>
+      'جمع نہیں ہو سکی۔ رقم اور کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get loanFilterAll => 'سب';
+
+  @override
+  String get loanQueueEmpty => 'یہاں کوئی درخواست نہیں۔';
+
+  @override
+  String get loanReviewTitle => 'قرض کی درخواست';
+
+  @override
+  String loanLandSize(String acres) {
+    return 'زمین: $acres ایکڑ';
+  }
+
+  @override
+  String loanCrops(String crops) {
+    return 'فصلیں: $crops';
+  }
+
+  @override
+  String loanSalesHistory(int count, String revenue) {
+    return '$count مکمل آرڈر · $revenue';
+  }
+
+  @override
+  String loanDocumentN(int n) {
+    return 'دستاویز $n';
+  }
+
+  @override
+  String get loanDocumentsExpire =>
+      'لنکس تقریباً 10 منٹ بعد ختم ہو جاتے ہیں؛ نئے لنکس کے لیے درخواست دوبارہ کھولیں۔';
+
+  @override
+  String get loanStartReview => 'جائزہ شروع کریں';
+
+  @override
+  String get loanApprove => 'منظور کریں';
+
+  @override
+  String get loanReject => 'مسترد کریں';
+
+  @override
+  String get loanRejectTitle => 'مسترد کرنے کی وجہ';
+
+  @override
+  String get loanRejectHint => 'کسان یہ وجہ دیکھے گا';
+
+  @override
+  String get loanActionFailed =>
+      'یہ کام نہیں ہو سکا۔ ریفریش کر کے دوبارہ کوشش کریں۔';
 }

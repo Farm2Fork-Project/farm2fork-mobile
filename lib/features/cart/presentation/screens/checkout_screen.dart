@@ -14,9 +14,16 @@ import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/checkout_controller.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
+import 'package:farm2fork_mobile/core/maps/location_pin_field.dart';
+import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
+import 'package:farm2fork_mobile/features/orders/data/repositories/orders_repository_provider.dart';
 
-/// Buyer checkout: enter a shipping address, review the per-farmer summary, and
+/// Buyer checkout: enter a shipping address and pin the drop-off on the map,
+/// review the per-farmer summary with its server-quoted delivery fee, and
 /// place one order per farmer group (One-Order-One-Farmer §6.1).
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key, this.farmerId});
@@ -33,27 +40,62 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
   final _street = TextEditingController();
   final _city = TextEditingController();
-  final _province = TextEditingController();
   final _zip = TextEditingController();
+  PakistanProvince? _province;
+  GeoPoint? _dropoff;
+
+  /// Server quote per farmer group, refreshed whenever the pin changes.
+  final Map<String, AsyncValue<OrderQuote>> _quotes = {};
+  int _quoteGeneration = 0;
 
   @override
   void dispose() {
     _street.dispose();
     _city.dispose();
-    _province.dispose();
     _zip.dispose();
     super.dispose();
+  }
+
+  OrderAddress _address() => OrderAddress(
+    street: _street.text.trim(),
+    city: _city.text.trim(),
+    province: _province?.wire ?? '',
+    zip: _zip.text.trim().isEmpty ? null : _zip.text.trim(),
+    lat: _dropoff?.lat,
+    lng: _dropoff?.lng,
+  );
+
+  Future<void> _refreshQuotes(List<FarmerCartGroup> groups) async {
+    if (_dropoff == null) return;
+    final generation = ++_quoteGeneration;
+    final repo = ref.read(ordersRepositoryProvider);
+    setState(() {
+      for (final group in groups) {
+        _quotes[group.farmerId] = const AsyncLoading();
+      }
+    });
+    await Future.wait(
+      groups.map((group) async {
+        final result = await AsyncValue.guard(
+          () => repo.quoteOrder(
+            items: [
+              for (final item in group.items)
+                (productId: item.product.id, quantity: item.quantity),
+            ],
+            shippingAddress: _address(),
+          ),
+        );
+        // A newer pin superseded this request.
+        if (!mounted || generation != _quoteGeneration) return;
+        setState(() => _quotes[group.farmerId] = result);
+      }),
+    );
   }
 
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
-    final address = OrderAddress(
-      street: _street.text.trim(),
-      city: _city.text.trim(),
-      province: _province.text.trim(),
-      zip: _zip.text.trim().isEmpty ? null : _zip.text.trim(),
-    );
+    final address = _address();
 
     final result = await ref
         .read(checkoutControllerProvider.notifier)
@@ -136,8 +178,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               street: _street,
                               city: _city,
                               province: _province,
+                              onProvinceChanged: (value) =>
+                                  setState(() => _province = value),
                               zip: _zip,
                               enabled: !isSubmitting,
+                            ),
+                            const SizedBox(height: AppSpacing.md),
+                            LocationPinField(
+                              purpose: LocationPickerPurpose.dropoff,
+                              initialValue: _dropoff,
+                              onChanged: (pin) {
+                                setState(() => _dropoff = pin);
+                                _refreshQuotes(groups);
+                              },
                             ),
                             const SizedBox(height: AppSpacing.xl),
                             SectionHeader(title: context.l10n.orderSummary),
@@ -150,7 +203,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             for (final group in groups) ...[
-                              _OrderGroupCard(group: group, locale: locale),
+                              _OrderGroupCard(
+                                group: group,
+                                locale: locale,
+                                quote: _quotes[group.farmerId],
+                              ),
                               const SizedBox(height: AppSpacing.md),
                             ],
                           ],
@@ -175,13 +232,15 @@ class _AddressForm extends StatelessWidget {
     required this.street,
     required this.city,
     required this.province,
+    required this.onProvinceChanged,
     required this.zip,
     required this.enabled,
   });
 
   final TextEditingController street;
   final TextEditingController city;
-  final TextEditingController province;
+  final PakistanProvince? province;
+  final ValueChanged<PakistanProvince?> onProvinceChanged;
   final TextEditingController zip;
   final bool enabled;
 
@@ -206,11 +265,9 @@ class _AddressForm extends StatelessWidget {
           enabled: enabled,
         ),
         const SizedBox(height: AppSpacing.md),
-        AppTextField(
-          controller: province,
-          label: context.l10n.province,
-          validator: required,
-          enabled: enabled,
+        ProvinceDropdown(
+          value: province,
+          onChanged: enabled ? onProvinceChanged : (_) {},
         ),
         const SizedBox(height: AppSpacing.md),
         AppTextField(
@@ -226,10 +283,17 @@ class _AddressForm extends StatelessWidget {
 }
 
 class _OrderGroupCard extends StatelessWidget {
-  const _OrderGroupCard({required this.group, required this.locale});
+  const _OrderGroupCard({
+    required this.group,
+    required this.locale,
+    required this.quote,
+  });
 
   final FarmerCartGroup group;
   final Locale locale;
+
+  /// Null until the drop-off is pinned.
+  final AsyncValue<OrderQuote>? quote;
 
   @override
   Widget build(BuildContext context) {
@@ -277,16 +341,49 @@ class _OrderGroupCard extends StatelessWidget {
               formatCurrencyAmount(group.platformFee, locale),
             ),
           ),
+          ..._deliveryRows(context),
           const SizedBox(height: AppSpacing.xs),
           _Row(
             label: context.l10n.grandTotal,
             value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.grandTotal, locale),
+              formatCurrencyAmount(
+                quote?.asData?.value.grandTotal ?? group.grandTotal,
+                locale,
+              ),
             ),
             emphasize: true,
           ),
         ],
       ),
+    );
+  }
+}
+
+extension on _OrderGroupCard {
+  List<Widget> _deliveryRows(BuildContext context) {
+    final note = AppTextStyles.small.copyWith(color: AppColors.textMuted);
+    final q = quote;
+    if (q == null) {
+      return [Text(context.l10n.deliveryFeePinFirst, style: note)];
+    }
+    return q.when(
+      loading: () => [Text(context.l10n.deliveryFeeCalculating, style: note)],
+      error: (_, _) => [
+        Text(
+          context.l10n.deliveryFeeUnavailable,
+          style: AppTextStyles.small.copyWith(color: AppColors.errorRed),
+        ),
+      ],
+      data: (value) => [
+        _Row(
+          label: context.l10n.deliveryFeeWithDistance(
+            value.deliveryDistanceKm.toStringAsFixed(1),
+          ),
+          value: context.l10n.currencyAmount(
+            formatCurrencyAmount(value.deliveryFee, locale),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -313,9 +410,10 @@ class _Row extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs / 2),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: style),
+          Expanded(child: Text(label, style: style)),
+          const SizedBox(width: AppSpacing.sm),
           Text(value, style: style),
         ],
       ),

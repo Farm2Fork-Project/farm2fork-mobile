@@ -73,7 +73,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navTrace => 'Trace';
 
   @override
-  String get navShipments => 'Shipments';
+  String get navShipments => 'History';
 
   @override
   String get navLoans => 'Loans';
@@ -940,7 +940,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsNotYetConnectedNote =>
-      'These preferences only apply for this session for now and reset when you reopen the app — push notifications aren\'t sent yet.';
+      'Push notifications for orders, deliveries and loans are on for this device. These per-topic switches only apply for this session for now; to stop all notifications, turn them off in your phone\'s settings.';
 
   @override
   String get orderUpdates => 'Order Updates';
@@ -1441,4 +1441,415 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get farmLocationSaveFailed =>
       'Couldn\'t save the location. Check your connection and try again.';
+
+  @override
+  String get pickFarmLocationTitle => 'Pin your farm';
+
+  @override
+  String get pickFarmLocationHint =>
+      'Move the map so the pin sits on your farm gate. Transporters will navigate to this exact spot.';
+
+  @override
+  String get pickDropoffTitle => 'Pin the drop-off';
+
+  @override
+  String get pickDropoffHint =>
+      'Move the map so the pin sits where the order should be delivered. The delivery fee is based on this spot.';
+
+  @override
+  String get useMyLocation => 'Use my current location';
+
+  @override
+  String get confirmLocation => 'Confirm this spot';
+
+  @override
+  String get locationOutsidePakistan =>
+      'Please choose a location inside Pakistan.';
+
+  @override
+  String get locationServiceDisabled =>
+      'Location is turned off on this phone. Turn it on to continue.';
+
+  @override
+  String get locationPermissionDenied =>
+      'Farm2Fork needs location permission for this.';
+
+  @override
+  String get locationPermissionDeniedForever =>
+      'Location permission is blocked. Allow it in Settings to continue.';
+
+  @override
+  String get locationUnavailable =>
+      'Couldn\'t get your location. Move to open sky and try again.';
+
+  @override
+  String get openSettings => 'Settings';
+
+  @override
+  String get pinFarmOnMap => 'Pin farm on map';
+
+  @override
+  String get pinDropoffOnMap => 'Pin drop-off on map';
+
+  @override
+  String get pinSet => 'Location pinned';
+
+  @override
+  String get pinOpenMap => 'Open map';
+
+  @override
+  String get pinChange => 'Change';
+
+  @override
+  String get pinRequired => 'Pin the location on the map';
+
+  @override
+  String get deliveryFeePinFirst => 'Pin the drop-off to see the delivery fee.';
+
+  @override
+  String get deliveryFeeCalculating => 'Calculating delivery fee…';
+
+  @override
+  String get deliveryFeeUnavailable =>
+      'Delivery can\'t be priced for this farm yet, so it can\'t be ordered right now.';
+
+  @override
+  String deliveryFeeWithDistance(String km) {
+    return 'Delivery ($km km)';
+  }
+
+  @override
+  String get navDeliveries => 'Deliveries';
+
+  @override
+  String get deliveriesTitle => 'Deliveries';
+
+  @override
+  String get deliveryHistoryTitle => 'Delivery history';
+
+  @override
+  String get noDeliveriesYet =>
+      'No deliveries yet. Accepted deliveries will appear here.';
+
+  @override
+  String get youAreOnline => 'You\'re online';
+
+  @override
+  String get youAreOffline => 'You\'re offline';
+
+  @override
+  String onlineSubtitle(String km) {
+    return 'You\'ll be offered paid orders from farms within $km km. Keep the app open so your location stays current.';
+  }
+
+  @override
+  String get offlineSubtitle =>
+      'Go online to receive delivery offers near you.';
+
+  @override
+  String get locationStaleWarning =>
+      'Your location is out of date, so you may miss offers. Open the app to refresh it.';
+
+  @override
+  String get offlineHint =>
+      'You\'re offline. Turn on the switch above to start receiving deliveries.';
+
+  @override
+  String noOffersNearby(String km) {
+    return 'No deliveries within $km km right now. We\'ll notify you when one comes up.';
+  }
+
+  @override
+  String get offersNearYou => 'Deliveries near you';
+
+  @override
+  String offerRoute(String farm, String from, String to) {
+    return '$farm ($from) → $to';
+  }
+
+  @override
+  String offerDistances(String toPickup, String trip) {
+    return '$toPickup km to pickup · $trip km trip';
+  }
+
+  @override
+  String get viewOnMap => 'Map';
+
+  @override
+  String get acceptDelivery => 'Accept';
+
+  @override
+  String get declineDelivery => 'Decline';
+
+  @override
+  String get offerNoLongerAvailable =>
+      'This delivery is no longer available — someone else may have accepted it, or you\'re out of range.';
+
+  @override
+  String get dispatchActionFailed =>
+      'That didn\'t work. Check your connection and try again.';
+
+  @override
+  String get dropoffApproximateNote =>
+      'The drop-off is shown approximately (within about 1 km). You\'ll see the exact address after accepting.';
+
+  @override
+  String get activeDeliveryTitle => 'Your current delivery';
+
+  @override
+  String youEarn(String amount) {
+    return 'You earn $amount';
+  }
+
+  @override
+  String get navigateToPickup => 'Navigate to pickup';
+
+  @override
+  String get navigateToDropoff => 'Navigate to drop-off';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get noNotificationsYet => 'No notifications yet.';
+
+  @override
+  String get myAccount => 'My account';
+
+  @override
+  String get newPost => 'New post';
+
+  @override
+  String get communityEmpty => 'No posts yet. Start the conversation!';
+
+  @override
+  String get communityActionFailed => 'That didn\'t work. Please try again.';
+
+  @override
+  String get communityRoleFarmer => 'Farmer';
+
+  @override
+  String get communityRoleBuyer => 'Buyer';
+
+  @override
+  String get communityRoleTeam => 'Farm2Fork team';
+
+  @override
+  String get postTitleLabel => 'Title';
+
+  @override
+  String get postContentLabel => 'What would you like to share?';
+
+  @override
+  String get postTagsLabel => 'Tags (optional)';
+
+  @override
+  String get postTagsHint => 'e.g. wheat, sowing';
+
+  @override
+  String postTooManyTags(int max) {
+    return 'Use at most $max tags';
+  }
+
+  @override
+  String postPhotosLabel(int max) {
+    return 'Photos (up to $max)';
+  }
+
+  @override
+  String get takePhoto => 'Camera';
+
+  @override
+  String get chooseFromGallery => 'Gallery';
+
+  @override
+  String get publishPost => 'Publish';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get removePostConfirm => 'Remove this post for everyone?';
+
+  @override
+  String get removeCommentConfirm => 'Remove this comment?';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get loanStatusPending => 'Submitted';
+
+  @override
+  String get loanStatusUnderReview => 'Under review';
+
+  @override
+  String get loanStatusApproved => 'Approved';
+
+  @override
+  String get loanStatusRejected => 'Not approved';
+
+  @override
+  String get loanStatusRepaid => 'Repaid';
+
+  @override
+  String get loansFarmerIntroTitle => 'Microfinance for your farm';
+
+  @override
+  String get loansFarmerIntroBody =>
+      'Apply for seeds, fertiliser or equipment. A financial partner reviews your farm and Farm2Fork sales history, then approves a monthly repayment plan or explains why not.';
+
+  @override
+  String get loanApply => 'Apply for a loan';
+
+  @override
+  String get loanOneAtATime =>
+      'You can have one application in progress or being repaid at a time.';
+
+  @override
+  String get loansNone => 'No applications yet.';
+
+  @override
+  String loanTermsSummary(int months, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months months',
+      one: '1 month',
+    );
+    return '$_temp0 · applied $date';
+  }
+
+  @override
+  String loanReviewerNote(String note) {
+    return 'Reviewer: $note';
+  }
+
+  @override
+  String loanRepaidProgress(String paid, String total) {
+    return 'Repaid $paid of $total';
+  }
+
+  @override
+  String loanInstalment(int n, String amount) {
+    return 'Instalment $n: $amount';
+  }
+
+  @override
+  String loanDueOn(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String loanPaidOn(String date) {
+    return 'Paid $date';
+  }
+
+  @override
+  String get loanMarkPaid => 'Mark paid';
+
+  @override
+  String get loanAmountLabel => 'Amount (Rs)';
+
+  @override
+  String loanAmountRange(String min, String max) {
+    return 'Between Rs $min and Rs $max';
+  }
+
+  @override
+  String get loanDurationLabel => 'Repay over';
+
+  @override
+  String loanMonths(int months) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get loanPurposeLabel => 'What is the loan for?';
+
+  @override
+  String get loanPurposeHint =>
+      'e.g. seeds and fertiliser for the wheat season';
+
+  @override
+  String get loanDocumentsLabel => 'Documents';
+
+  @override
+  String get loanDocumentsHint =>
+      'Photos of your CNIC and land papers speed up the review. Only reviewers can see them.';
+
+  @override
+  String get loanSubmit => 'Submit application';
+
+  @override
+  String get loanSubmitted =>
+      'Application submitted. We\'ll notify you when it\'s reviewed.';
+
+  @override
+  String get loanSubmitFailed =>
+      'Couldn\'t submit. Check the amount and your connection, then try again.';
+
+  @override
+  String get loanFilterAll => 'All';
+
+  @override
+  String get loanQueueEmpty => 'No applications here.';
+
+  @override
+  String get loanReviewTitle => 'Loan application';
+
+  @override
+  String loanLandSize(String acres) {
+    return 'Land: $acres acres';
+  }
+
+  @override
+  String loanCrops(String crops) {
+    return 'Crops: $crops';
+  }
+
+  @override
+  String loanSalesHistory(int count, String revenue) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count delivered orders · $revenue',
+      one: '1 delivered order · $revenue',
+      zero: 'No delivered orders yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String loanDocumentN(int n) {
+    return 'Document $n';
+  }
+
+  @override
+  String get loanDocumentsExpire =>
+      'Links expire after about 10 minutes; reopen the application for new ones.';
+
+  @override
+  String get loanStartReview => 'Start review';
+
+  @override
+  String get loanApprove => 'Approve';
+
+  @override
+  String get loanReject => 'Reject';
+
+  @override
+  String get loanRejectTitle => 'Reason for rejection';
+
+  @override
+  String get loanRejectHint => 'The farmer will see this';
+
+  @override
+  String get loanActionFailed => 'That didn\'t work. Refresh and try again.';
 }

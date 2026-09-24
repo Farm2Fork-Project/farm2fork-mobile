@@ -227,7 +227,7 @@ abstract class AppLocalizations {
   /// Bottom navigation label for shipments
   ///
   /// In en, this message translates to:
-  /// **'Shipments'**
+  /// **'History'**
   String get navShipments;
 
   /// Bottom navigation label for loans
@@ -1715,7 +1715,7 @@ abstract class AppLocalizations {
   /// Disclosure note that notification toggles don't persist or trigger real push notifications yet
   ///
   /// In en, this message translates to:
-  /// **'These preferences only apply for this session for now and reset when you reopen the app — push notifications aren\'t sent yet.'**
+  /// **'Push notifications for orders, deliveries and loans are on for this device. These per-topic switches only apply for this session for now; to stop all notifications, turn them off in your phone\'s settings.'**
   String get notificationsNotYetConnectedNote;
 
   /// Order updates notification switch label
@@ -2623,6 +2623,666 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t save the location. Check your connection and try again.'**
   String get farmLocationSaveFailed;
+
+  /// Picker title
+  ///
+  /// In en, this message translates to:
+  /// **'Pin your farm'**
+  String get pickFarmLocationTitle;
+
+  /// pickFarmLocationHint
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits on your farm gate. Transporters will navigate to this exact spot.'**
+  String get pickFarmLocationHint;
+
+  /// pickDropoffTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the drop-off'**
+  String get pickDropoffTitle;
+
+  /// pickDropoffHint
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits where the order should be delivered. The delivery fee is based on this spot.'**
+  String get pickDropoffHint;
+
+  /// useMyLocation
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get useMyLocation;
+
+  /// confirmLocation
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm this spot'**
+  String get confirmLocation;
+
+  /// locationOutsidePakistan
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a location inside Pakistan.'**
+  String get locationOutsidePakistan;
+
+  /// locationServiceDisabled
+  ///
+  /// In en, this message translates to:
+  /// **'Location is turned off on this phone. Turn it on to continue.'**
+  String get locationServiceDisabled;
+
+  /// locationPermissionDenied
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork needs location permission for this.'**
+  String get locationPermissionDenied;
+
+  /// locationPermissionDeniedForever
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is blocked. Allow it in Settings to continue.'**
+  String get locationPermissionDeniedForever;
+
+  /// locationUnavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location. Move to open sky and try again.'**
+  String get locationUnavailable;
+
+  /// openSettings
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get openSettings;
+
+  /// pinFarmOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Pin farm on map'**
+  String get pinFarmOnMap;
+
+  /// pinDropoffOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Pin drop-off on map'**
+  String get pinDropoffOnMap;
+
+  /// pinSet
+  ///
+  /// In en, this message translates to:
+  /// **'Location pinned'**
+  String get pinSet;
+
+  /// pinOpenMap
+  ///
+  /// In en, this message translates to:
+  /// **'Open map'**
+  String get pinOpenMap;
+
+  /// pinChange
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get pinChange;
+
+  /// pinRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the location on the map'**
+  String get pinRequired;
+
+  /// deliveryFeePinFirst
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the drop-off to see the delivery fee.'**
+  String get deliveryFeePinFirst;
+
+  /// deliveryFeeCalculating
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating delivery fee…'**
+  String get deliveryFeeCalculating;
+
+  /// deliveryFeeUnavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery can\'t be priced for this farm yet, so it can\'t be ordered right now.'**
+  String get deliveryFeeUnavailable;
+
+  /// deliveryFeeWithDistance
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery ({km} km)'**
+  String deliveryFeeWithDistance(String km);
+
+  /// Transporter tab
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries'**
+  String get navDeliveries;
+
+  /// deliveriesTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries'**
+  String get deliveriesTitle;
+
+  /// deliveryHistoryTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery history'**
+  String get deliveryHistoryTitle;
+
+  /// noDeliveriesYet
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries yet. Accepted deliveries will appear here.'**
+  String get noDeliveriesYet;
+
+  /// youAreOnline
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re online'**
+  String get youAreOnline;
+
+  /// youAreOffline
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline'**
+  String get youAreOffline;
+
+  /// onlineSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be offered paid orders from farms within {km} km. Keep the app open so your location stays current.'**
+  String onlineSubtitle(String km);
+
+  /// offlineSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Go online to receive delivery offers near you.'**
+  String get offlineSubtitle;
+
+  /// locationStaleWarning
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is out of date, so you may miss offers. Open the app to refresh it.'**
+  String get locationStaleWarning;
+
+  /// offlineHint
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Turn on the switch above to start receiving deliveries.'**
+  String get offlineHint;
+
+  /// noOffersNearby
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries within {km} km right now. We\'ll notify you when one comes up.'**
+  String noOffersNearby(String km);
+
+  /// offersNearYou
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries near you'**
+  String get offersNearYou;
+
+  /// Offer route line
+  ///
+  /// In en, this message translates to:
+  /// **'{farm} ({from}) → {to}'**
+  String offerRoute(String farm, String from, String to);
+
+  /// offerDistances
+  ///
+  /// In en, this message translates to:
+  /// **'{toPickup} km to pickup · {trip} km trip'**
+  String offerDistances(String toPickup, String trip);
+
+  /// viewOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get viewOnMap;
+
+  /// acceptDelivery
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get acceptDelivery;
+
+  /// declineDelivery
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get declineDelivery;
+
+  /// offerNoLongerAvailable
+  ///
+  /// In en, this message translates to:
+  /// **'This delivery is no longer available — someone else may have accepted it, or you\'re out of range.'**
+  String get offerNoLongerAvailable;
+
+  /// dispatchActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Check your connection and try again.'**
+  String get dispatchActionFailed;
+
+  /// dropoffApproximateNote
+  ///
+  /// In en, this message translates to:
+  /// **'The drop-off is shown approximately (within about 1 km). You\'ll see the exact address after accepting.'**
+  String get dropoffApproximateNote;
+
+  /// activeDeliveryTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your current delivery'**
+  String get activeDeliveryTitle;
+
+  /// youEarn
+  ///
+  /// In en, this message translates to:
+  /// **'You earn {amount}'**
+  String youEarn(String amount);
+
+  /// navigateToPickup
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to pickup'**
+  String get navigateToPickup;
+
+  /// navigateToDropoff
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to drop-off'**
+  String get navigateToDropoff;
+
+  /// markAllRead
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// noNotificationsYet
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet.'**
+  String get noNotificationsYet;
+
+  /// myAccount
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get myAccount;
+
+  /// newPost
+  ///
+  /// In en, this message translates to:
+  /// **'New post'**
+  String get newPost;
+
+  /// communityEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet. Start the conversation!'**
+  String get communityEmpty;
+
+  /// communityActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Please try again.'**
+  String get communityActionFailed;
+
+  /// communityRoleFarmer
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get communityRoleFarmer;
+
+  /// communityRoleBuyer
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get communityRoleBuyer;
+
+  /// communityRoleTeam
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork team'**
+  String get communityRoleTeam;
+
+  /// postTitleLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get postTitleLabel;
+
+  /// postContentLabel
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to share?'**
+  String get postContentLabel;
+
+  /// postTagsLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Tags (optional)'**
+  String get postTagsLabel;
+
+  /// postTagsHint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. wheat, sowing'**
+  String get postTagsHint;
+
+  /// postTooManyTags
+  ///
+  /// In en, this message translates to:
+  /// **'Use at most {max} tags'**
+  String postTooManyTags(int max);
+
+  /// postPhotosLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Photos (up to {max})'**
+  String postPhotosLabel(int max);
+
+  /// takePhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get takePhoto;
+
+  /// chooseFromGallery
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get chooseFromGallery;
+
+  /// publishPost
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get publishPost;
+
+  /// remove
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// removePostConfirm
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this post for everyone?'**
+  String get removePostConfirm;
+
+  /// removeCommentConfirm
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this comment?'**
+  String get removeCommentConfirm;
+
+  /// send
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// loanStatusPending
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get loanStatusPending;
+
+  /// loanStatusUnderReview
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get loanStatusUnderReview;
+
+  /// loanStatusApproved
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get loanStatusApproved;
+
+  /// loanStatusRejected
+  ///
+  /// In en, this message translates to:
+  /// **'Not approved'**
+  String get loanStatusRejected;
+
+  /// loanStatusRepaid
+  ///
+  /// In en, this message translates to:
+  /// **'Repaid'**
+  String get loanStatusRepaid;
+
+  /// loansFarmerIntroTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Microfinance for your farm'**
+  String get loansFarmerIntroTitle;
+
+  /// loansFarmerIntroBody
+  ///
+  /// In en, this message translates to:
+  /// **'Apply for seeds, fertiliser or equipment. A financial partner reviews your farm and Farm2Fork sales history, then approves a monthly repayment plan or explains why not.'**
+  String get loansFarmerIntroBody;
+
+  /// loanApply
+  ///
+  /// In en, this message translates to:
+  /// **'Apply for a loan'**
+  String get loanApply;
+
+  /// loanOneAtATime
+  ///
+  /// In en, this message translates to:
+  /// **'You can have one application in progress or being repaid at a time.'**
+  String get loanOneAtATime;
+
+  /// loansNone
+  ///
+  /// In en, this message translates to:
+  /// **'No applications yet.'**
+  String get loansNone;
+
+  /// loanTermsSummary
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 month} other{{months} months}} · applied {date}'**
+  String loanTermsSummary(int months, String date);
+
+  /// loanReviewerNote
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewer: {note}'**
+  String loanReviewerNote(String note);
+
+  /// loanRepaidProgress
+  ///
+  /// In en, this message translates to:
+  /// **'Repaid {paid} of {total}'**
+  String loanRepaidProgress(String paid, String total);
+
+  /// loanInstalment
+  ///
+  /// In en, this message translates to:
+  /// **'Instalment {n}: {amount}'**
+  String loanInstalment(int n, String amount);
+
+  /// loanDueOn
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String loanDueOn(String date);
+
+  /// loanPaidOn
+  ///
+  /// In en, this message translates to:
+  /// **'Paid {date}'**
+  String loanPaidOn(String date);
+
+  /// loanMarkPaid
+  ///
+  /// In en, this message translates to:
+  /// **'Mark paid'**
+  String get loanMarkPaid;
+
+  /// loanAmountLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (Rs)'**
+  String get loanAmountLabel;
+
+  /// loanAmountRange
+  ///
+  /// In en, this message translates to:
+  /// **'Between Rs {min} and Rs {max}'**
+  String loanAmountRange(String min, String max);
+
+  /// loanDurationLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Repay over'**
+  String get loanDurationLabel;
+
+  /// loanMonths
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 month} other{{months} months}}'**
+  String loanMonths(int months);
+
+  /// loanPurposeLabel
+  ///
+  /// In en, this message translates to:
+  /// **'What is the loan for?'**
+  String get loanPurposeLabel;
+
+  /// loanPurposeHint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. seeds and fertiliser for the wheat season'**
+  String get loanPurposeHint;
+
+  /// loanDocumentsLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get loanDocumentsLabel;
+
+  /// loanDocumentsHint
+  ///
+  /// In en, this message translates to:
+  /// **'Photos of your CNIC and land papers speed up the review. Only reviewers can see them.'**
+  String get loanDocumentsHint;
+
+  /// loanSubmit
+  ///
+  /// In en, this message translates to:
+  /// **'Submit application'**
+  String get loanSubmit;
+
+  /// loanSubmitted
+  ///
+  /// In en, this message translates to:
+  /// **'Application submitted. We\'ll notify you when it\'s reviewed.'**
+  String get loanSubmitted;
+
+  /// loanSubmitFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t submit. Check the amount and your connection, then try again.'**
+  String get loanSubmitFailed;
+
+  /// loanFilterAll
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get loanFilterAll;
+
+  /// loanQueueEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No applications here.'**
+  String get loanQueueEmpty;
+
+  /// loanReviewTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Loan application'**
+  String get loanReviewTitle;
+
+  /// loanLandSize
+  ///
+  /// In en, this message translates to:
+  /// **'Land: {acres} acres'**
+  String loanLandSize(String acres);
+
+  /// loanCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Crops: {crops}'**
+  String loanCrops(String crops);
+
+  /// loanSalesHistory
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No delivered orders yet} =1{1 delivered order · {revenue}} other{{count} delivered orders · {revenue}}}'**
+  String loanSalesHistory(int count, String revenue);
+
+  /// loanDocumentN
+  ///
+  /// In en, this message translates to:
+  /// **'Document {n}'**
+  String loanDocumentN(int n);
+
+  /// loanDocumentsExpire
+  ///
+  /// In en, this message translates to:
+  /// **'Links expire after about 10 minutes; reopen the application for new ones.'**
+  String get loanDocumentsExpire;
+
+  /// loanStartReview
+  ///
+  /// In en, this message translates to:
+  /// **'Start review'**
+  String get loanStartReview;
+
+  /// loanApprove
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get loanApprove;
+
+  /// loanReject
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get loanReject;
+
+  /// loanRejectTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for rejection'**
+  String get loanRejectTitle;
+
+  /// loanRejectHint
+  ///
+  /// In en, this message translates to:
+  /// **'The farmer will see this'**
+  String get loanRejectHint;
+
+  /// loanActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Refresh and try again.'**
+  String get loanActionFailed;
 }
 
 class _AppLocalizationsDelegate

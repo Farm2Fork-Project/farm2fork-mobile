@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
+import 'package:farm2fork_mobile/core/maps/location_pin_field.dart';
 import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
 import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +34,7 @@ class _FarmerOnboardingScreenState
   final _farmAddress = TextEditingController();
   final _farmCity = TextEditingController();
   PakistanProvince? _farmProvince;
+  GeoPoint? _farmPin;
   final _cropTypes = TextEditingController();
   final _landSize = TextEditingController();
   String? _error;
@@ -71,6 +75,7 @@ class _FarmerOnboardingScreenState
         farmCity: _farmCity.text.trim(),
         // Validated as required by the form before this builder runs.
         farmProvince: _farmProvince!.wire,
+        farmPin: _farmPin!,
         cropTypes: splitCommaList(_cropTypes.text),
         landSizeAcres: double.tryParse(_landSize.text.trim()),
       ),
@@ -124,6 +129,12 @@ class _FarmerOnboardingScreenState
         ProvinceDropdown(
           value: _farmProvince,
           onChanged: (value) => setState(() => _farmProvince = value),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        LocationPinField(
+          purpose: LocationPickerPurpose.farm,
+          initialValue: _farmPin,
+          onChanged: (pin) => setState(() => _farmPin = pin),
         ),
         const SizedBox(height: AppSpacing.md),
         AuthTextField(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
+import 'package:farm2fork_mobile/core/maps/location_pin_field.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
@@ -45,6 +48,7 @@ class _FarmLocationFormState extends ConsumerState<_FarmLocationForm> {
   late final _address = TextEditingController(text: widget.initial.address);
   late final _city = TextEditingController(text: widget.initial.city);
   late PakistanProvince? _province = widget.initial.province;
+  late GeoPoint? _pin = widget.initial.pin;
   bool _saving = false;
   bool _failed = false;
 
@@ -69,6 +73,7 @@ class _FarmLocationFormState extends ConsumerState<_FarmLocationForm> {
               address: _address.text,
               city: _city.text,
               province: _province,
+              pin: _pin,
             ),
           );
       ref.invalidate(farmLocationProvider);
@@ -131,6 +136,12 @@ class _FarmLocationFormState extends ConsumerState<_FarmLocationForm> {
             ProvinceDropdown(
               value: _province,
               onChanged: (value) => setState(() => _province = value),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            LocationPinField(
+              purpose: LocationPickerPurpose.farm,
+              initialValue: _pin,
+              onChanged: (pin) => setState(() => _pin = pin),
             ),
             if (_failed) ...[
               const SizedBox(height: AppSpacing.sm),

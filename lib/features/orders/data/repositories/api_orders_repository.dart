@@ -20,15 +20,38 @@ class ApiOrdersRepository implements OrdersRepository {
   }) async {
     final json = await _api.createOrder(
       items: items,
-      shippingAddress: {
-        'street': shippingAddress.street,
-        'city': shippingAddress.city,
-        'province': shippingAddress.province,
-        if (shippingAddress.zip != null) 'zip': shippingAddress.zip,
-      },
+      shippingAddress: _addressToDto(shippingAddress),
     );
     return _orderFromDto(json);
   }
+
+  @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async {
+    final dto = await _api.quoteOrder(
+      items: items,
+      shippingAddress: _addressToDto(shippingAddress),
+    );
+    return OrderQuote(
+      totalAmount: _toDouble(dto['totalAmount']),
+      platformFeePercent: _toDouble(dto['platformFeePercent']),
+      platformFeeAmount: _toDouble(dto['platformFeeAmount']),
+      deliveryFee: _toDouble(dto['deliveryFee']),
+      deliveryDistanceKm: _toDouble(dto['deliveryDistanceKm']),
+      grandTotal: _toDouble(dto['grandTotal']),
+    );
+  }
+
+  Map<String, dynamic> _addressToDto(OrderAddress address) => {
+    'street': address.street,
+    'city': address.city,
+    'province': address.province,
+    if (address.zip != null) 'zip': address.zip,
+    if (address.lat != null) 'lat': address.lat,
+    if (address.lng != null) 'lng': address.lng,
+  };
 
   @override
   Future<List<Order>> getOrdersByUser({
@@ -65,6 +88,8 @@ class ApiOrdersRepository implements OrdersRepository {
       totalAmount: _toDouble(dto['totalAmount']),
       platformFeePercent: _toDouble(dto['platformFeePercent']),
       platformFeeAmount: _toDouble(dto['platformFeeAmount']),
+      deliveryFee: _toDouble(dto['deliveryFee']),
+      deliveryDistanceKm: (dto['deliveryDistanceKm'] as num?)?.toDouble(),
       grandTotal: _toDouble(dto['grandTotal']),
       shippingAddress: _address(dto['shippingAddress']),
       status: _statusFromString(dto['status'] as String?),
@@ -103,6 +128,8 @@ class ApiOrdersRepository implements OrdersRepository {
       city: (map['city'] as String?) ?? '',
       province: (map['province'] as String?) ?? '',
       zip: map['zip'] as String?,
+      lat: (map['lat'] as num?)?.toDouble(),
+      lng: (map['lng'] as num?)?.toDouble(),
     );
   }
 

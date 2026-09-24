@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +11,21 @@ import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipment_tracking_screen.dart';
 
 class _TrackingRepository extends ShipmentsRepository {
+  @override
+  Future<TransporterStatus> getStatus() => throw UnimplementedError();
+
+  @override
+  Future<TransporterStatus> setAvailability({
+    required bool online,
+    GeoPoint? location,
+  }) => throw UnimplementedError();
+
+  @override
+  Future<void> reportLocation(GeoPoint location) => throw UnimplementedError();
+
+  @override
+  Future<void> decline(String orderId) => throw UnimplementedError();
+
   @override
   Future<Shipment> getById(String shipmentId) async => Shipment(
     id: shipmentId,
