@@ -9,6 +9,8 @@ import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
+import 'package:farm2fork_mobile/features/ai/presentation/widgets/price_suggestion_card.dart';
+import 'package:farm2fork_mobile/features/ai/presentation/widgets/quality_check_card.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
@@ -285,6 +287,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
 
                 // Quality Grade select
                 DropdownButtonFormField<QualityGrade>(
+                  // Keyed so an AI-applied grade shows immediately.
+                  key: ValueKey(_qualityGrade),
                   initialValue: _qualityGrade,
                   style: AppTextStyles.body,
                   decoration: InputDecoration(
@@ -313,6 +317,17 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   onChanged: (val) {
                     if (val != null) setState(() => _qualityGrade = val);
                   },
+                ),
+                const SizedBox(height: AppSpacing.md),
+
+                // AI photo quality check (suggests a grade)
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _nameController,
+                  builder: (context, name, _) => QualityCheckCard(
+                    productName: name.text,
+                    onApplyGrade: (grade) =>
+                        setState(() => _qualityGrade = grade),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
 
@@ -375,6 +390,19 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                     }
                     return null;
                   },
+                ),
+                const SizedBox(height: AppSpacing.md),
+
+                // AI fair-price suggestion (rule-based, labelled as such)
+                PriceSuggestionCard(
+                  productName: _nameController.text,
+                  category: _category,
+                  unit: _unit,
+                  grade: _qualityGrade,
+                  unitLabel: _unitLabel(context, _unit),
+                  onApply: (price) => setState(
+                    () => _priceController.text = price.toStringAsFixed(0),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
 
@@ -441,4 +469,12 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
       ),
     );
   }
+
+  String _unitLabel(BuildContext context, ProductUnit unit) => switch (unit) {
+    ProductUnit.kg => context.l10n.unitKg,
+    ProductUnit.ton => context.l10n.unitTon,
+    ProductUnit.dozen => context.l10n.unitDozen,
+    ProductUnit.piece => context.l10n.unitPiece,
+    ProductUnit.litre => context.l10n.unitLitre,
+  };
 }

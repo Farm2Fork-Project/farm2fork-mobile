@@ -242,10 +242,8 @@ class _ProductDetailBody extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
 
                 // ── Farmer Card ────────────────────────────────────────
-                // The live API has no farmer detail yet (only farmerId), so
-                // an empty stub would render as "?", "0.0" and "0 sales".
-                // Hide it until a profiles endpoint exists; the product
-                // journey below shows the real farm name and city.
+                // Hidden when the farmer has no profile at all, instead of
+                // rendering "?" and an empty name.
                 if (product.farmer.name.isNotEmpty ||
                     product.farmer.farmName.isNotEmpty) ...[
                   _FarmerCard(product: product),
@@ -360,6 +358,10 @@ class _FarmerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final farmer = product.farmer;
+    final title = farmer.name.isNotEmpty ? farmer.name : farmer.farmName;
+    // The live API has no ratings or sales history yet; show them only when
+    // present (mock data) rather than as "0.0" and "0 sales".
+    final hasStats = farmer.rating > 0 || farmer.totalSales > 0;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,7 +374,7 @@ class _FarmerCard extends StatelessWidget {
                 radius: 24,
                 backgroundColor: AppColors.primaryGreenSoft,
                 child: Text(
-                  farmer.name.isNotEmpty ? farmer.name[0].toUpperCase() : '?',
+                  title.isNotEmpty ? title[0].toUpperCase() : '?',
                   style: AppTextStyles.h2.copyWith(
                     color: AppColors.primaryGreen,
                   ),
@@ -384,73 +386,81 @@ class _FarmerCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      farmer.name,
+                      title,
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    if (farmer.name.isNotEmpty && farmer.farmName.isNotEmpty)
+                      Text(
+                        farmer.farmName,
+                        style: AppTextStyles.small.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              // Rating - only when the backend actually has one.
+              if (hasStats)
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 16,
+                      color: AppColors.accentYellow,
+                    ),
+                    const SizedBox(width: 2),
                     Text(
-                      farmer.farmName,
+                      farmer.rating.toStringAsFixed(1),
                       style: AppTextStyles.small.copyWith(
-                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
-              ),
-              // Rating
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star_rounded,
-                    size: 16,
-                    color: AppColors.accentYellow,
-                  ),
-                  const SizedBox(width: 2),
-                  Text(
-                    farmer.rating.toStringAsFixed(1),
-                    style: AppTextStyles.small.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              const Icon(
-                Icons.location_on_outlined,
-                size: 14,
-                color: AppColors.secondaryBlue,
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  farmer.farmLocationAddress,
+          if (farmer.farmLocationAddress.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              children: [
+                const Icon(
+                  Icons.location_on_outlined,
+                  size: 14,
+                  color: AppColors.secondaryBlue,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    farmer.farmLocationAddress,
+                    style: AppTextStyles.small.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          if (hasStats) ...[
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                const Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 14,
+                  color: AppColors.primaryGreen,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  context.l10n.totalSales(farmer.totalSales),
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.textMuted,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              const Icon(
-                Icons.shopping_bag_outlined,
-                size: 14,
-                color: AppColors.primaryGreen,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                context.l10n.totalSales(farmer.totalSales),
-                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ],
       ),
     );

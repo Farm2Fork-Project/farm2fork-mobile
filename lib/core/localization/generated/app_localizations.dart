@@ -2335,6 +2335,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PM'**
   String get timePm;
+
+  /// AI price helper title
+  ///
+  /// In en, this message translates to:
+  /// **'Fair price suggestion'**
+  String get aiPriceTitle;
+
+  /// Button: ask for a price suggestion
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a price'**
+  String get aiSuggestPrice;
+
+  /// Suggested price range
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {min} – {max} per {unit}'**
+  String aiPriceRange(String min, String max, String unit);
+
+  /// Caveat: price is rule-based
+  ///
+  /// In en, this message translates to:
+  /// **'Rule-based estimate from reference ranges, season and grade — not live market data.'**
+  String get aiPriceRuleBased;
+
+  /// Button applying the suggested price
+  ///
+  /// In en, this message translates to:
+  /// **'Use Rs {price}'**
+  String aiUsePrice(String price);
+
+  /// No rule for this unit/category
+  ///
+  /// In en, this message translates to:
+  /// **'No price rule covers this unit or category yet.'**
+  String get aiPriceNoRule;
+
+  /// AI quality check title
+  ///
+  /// In en, this message translates to:
+  /// **'Photo quality check'**
+  String get aiQualityTitle;
+
+  /// Warning: untrained model
+  ///
+  /// In en, this message translates to:
+  /// **'Preview model: the grading model isn\'t trained yet, so its grades are not reliable.'**
+  String get aiPreviewModel;
+
+  /// Crop selector label
+  ///
+  /// In en, this message translates to:
+  /// **'Crop in the photo'**
+  String get aiCropLabel;
+
+  /// Validation: crop required
+  ///
+  /// In en, this message translates to:
+  /// **'Select the crop in the photo.'**
+  String get aiNeedCrop;
+
+  /// Button: camera
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get aiTakePhoto;
+
+  /// Button: gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get aiChoosePhoto;
+
+  /// Quality result
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade} · {confidence}% confidence'**
+  String aiGradeResult(String grade, int confidence);
+
+  /// Result caveat: untrained
+  ///
+  /// In en, this message translates to:
+  /// **'Preview only — don\'t rely on this grade until the model is trained.'**
+  String get aiPreviewResult;
+
+  /// Result caveat: crop not trained
+  ///
+  /// In en, this message translates to:
+  /// **'The model has no training data for this crop yet.'**
+  String get aiCropNotTrained;
+
+  /// Result caveat: low confidence
+  ///
+  /// In en, this message translates to:
+  /// **'Low confidence — check the grade yourself.'**
+  String get aiLowConfidence;
+
+  /// Button applying the suggested grade
+  ///
+  /// In en, this message translates to:
+  /// **'Use grade {grade}'**
+  String aiUseGrade(String grade);
+
+  /// Result: grade D
+  ///
+  /// In en, this message translates to:
+  /// **'Below listing grades (D). Consider selling for processing.'**
+  String get aiGradeD;
+
+  /// AI service down
+  ///
+  /// In en, this message translates to:
+  /// **'The AI service isn\'t reachable right now. You can still publish your listing.'**
+  String get aiUnavailable;
+
+  /// Rate limited
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Please wait a minute and try again.'**
+  String get aiTooManyRequests;
+
+  /// Photo rejected
+  ///
+  /// In en, this message translates to:
+  /// **'That photo couldn\'t be used. Try a clear JPEG or PNG under 8 MB.'**
+  String get aiInvalidPhoto;
+
+  /// Generic AI failure
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get aiFailed;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Wheat'**
+  String get cropWheat;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Rice'**
+  String get cropRice;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Mango'**
+  String get cropMango;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Maize'**
+  String get cropMaize;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Cotton'**
+  String get cropCotton;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Sugarcane'**
+  String get cropSugarcane;
+
+  /// Listing ledger badge: confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'On ledger'**
+  String get ledgerConfirmed;
+
+  /// Listing ledger badge: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger pending'**
+  String get ledgerPending;
+
+  /// Listing ledger badge: failed
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger failed'**
+  String get ledgerFailed;
+
+  /// Listing ledger badge: none
+  ///
+  /// In en, this message translates to:
+  /// **'No ledger record'**
+  String get ledgerMissing;
 }
 
 class _AppLocalizationsDelegate

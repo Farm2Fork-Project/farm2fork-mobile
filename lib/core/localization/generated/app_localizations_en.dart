@@ -1279,4 +1279,116 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timePm => 'PM';
+
+  @override
+  String get aiPriceTitle => 'Fair price suggestion';
+
+  @override
+  String get aiSuggestPrice => 'Suggest a price';
+
+  @override
+  String aiPriceRange(String min, String max, String unit) {
+    return 'Rs $min – $max per $unit';
+  }
+
+  @override
+  String get aiPriceRuleBased =>
+      'Rule-based estimate from reference ranges, season and grade — not live market data.';
+
+  @override
+  String aiUsePrice(String price) {
+    return 'Use Rs $price';
+  }
+
+  @override
+  String get aiPriceNoRule => 'No price rule covers this unit or category yet.';
+
+  @override
+  String get aiQualityTitle => 'Photo quality check';
+
+  @override
+  String get aiPreviewModel =>
+      'Preview model: the grading model isn\'t trained yet, so its grades are not reliable.';
+
+  @override
+  String get aiCropLabel => 'Crop in the photo';
+
+  @override
+  String get aiNeedCrop => 'Select the crop in the photo.';
+
+  @override
+  String get aiTakePhoto => 'Take a photo';
+
+  @override
+  String get aiChoosePhoto => 'Choose from gallery';
+
+  @override
+  String aiGradeResult(String grade, int confidence) {
+    return 'Grade $grade · $confidence% confidence';
+  }
+
+  @override
+  String get aiPreviewResult =>
+      'Preview only — don\'t rely on this grade until the model is trained.';
+
+  @override
+  String get aiCropNotTrained =>
+      'The model has no training data for this crop yet.';
+
+  @override
+  String get aiLowConfidence => 'Low confidence — check the grade yourself.';
+
+  @override
+  String aiUseGrade(String grade) {
+    return 'Use grade $grade';
+  }
+
+  @override
+  String get aiGradeD =>
+      'Below listing grades (D). Consider selling for processing.';
+
+  @override
+  String get aiUnavailable =>
+      'The AI service isn\'t reachable right now. You can still publish your listing.';
+
+  @override
+  String get aiTooManyRequests =>
+      'Too many requests. Please wait a minute and try again.';
+
+  @override
+  String get aiInvalidPhoto =>
+      'That photo couldn\'t be used. Try a clear JPEG or PNG under 8 MB.';
+
+  @override
+  String get aiFailed => 'Something went wrong. Please try again.';
+
+  @override
+  String get cropWheat => 'Wheat';
+
+  @override
+  String get cropRice => 'Rice';
+
+  @override
+  String get cropMango => 'Mango';
+
+  @override
+  String get cropMaize => 'Maize';
+
+  @override
+  String get cropCotton => 'Cotton';
+
+  @override
+  String get cropSugarcane => 'Sugarcane';
+
+  @override
+  String get ledgerConfirmed => 'On ledger';
+
+  @override
+  String get ledgerPending => 'Ledger pending';
+
+  @override
+  String get ledgerFailed => 'Ledger failed';
+
+  @override
+  String get ledgerMissing => 'No ledger record';
 }

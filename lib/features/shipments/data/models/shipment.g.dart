@@ -42,8 +42,8 @@ Map<String, dynamic> _$ShipmentStatusUpdateToJson(
 
 const _$ShipmentStatusEnumMap = {
   ShipmentStatus.assigned: 'assigned',
-  ShipmentStatus.pickedUp: 'pickedUp',
-  ShipmentStatus.inTransit: 'inTransit',
+  ShipmentStatus.pickedUp: 'picked_up',
+  ShipmentStatus.inTransit: 'in_transit',
   ShipmentStatus.delivered: 'delivered',
   ShipmentStatus.failed: 'failed',
 };
