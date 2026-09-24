@@ -128,6 +128,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/trace/products/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            TraceScannerScreen(initialProductId: state.pathParameters['id']),
+      ),
+      GoRoute(
         path: '/checkout',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, state) =>

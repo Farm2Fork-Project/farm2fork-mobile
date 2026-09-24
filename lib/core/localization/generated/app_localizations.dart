@@ -275,32 +275,14 @@ abstract class AppLocalizations {
   /// QR traceability scanner screen title
   ///
   /// In en, this message translates to:
-  /// **'Scan & Trace'**
+  /// **'Trace produce'**
   String get traceScannerTitle;
 
   /// QR traceability scanner placeholder description
   ///
   /// In en, this message translates to:
-  /// **'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.'**
+  /// **'Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.'**
   String get traceScannerDescription;
-
-  /// Demo scan trigger button; no camera scanning is wired up yet
-  ///
-  /// In en, this message translates to:
-  /// **'Simulate Scan (Scan Tomatoes)'**
-  String get traceScannerSimulateScan;
-
-  /// Product name shown for the demo trace journey
-  ///
-  /// In en, this message translates to:
-  /// **'Organic Tomatoes'**
-  String get traceScannerDemoProductName;
-
-  /// Subtitle confirming the trace journey is backed by the blockchain ledger
-  ///
-  /// In en, this message translates to:
-  /// **'Verified Blockchain Trace Ledger'**
-  String get traceScannerVerifiedLedger;
 
   /// Payment provider placeholder note
   ///
@@ -2029,6 +2011,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.'**
   String get termsConditionsContent;
+
+  /// Trace lookup input label
+  ///
+  /// In en, this message translates to:
+  /// **'Product ID or QR link'**
+  String get traceInputLabel;
+
+  /// Example product id shown as input hint (not translated: ids are Latin)
+  ///
+  /// In en, this message translates to:
+  /// **'6a2fe77bb77795516febc287'**
+  String get traceInputHint;
+
+  /// Validation message for a malformed trace lookup
+  ///
+  /// In en, this message translates to:
+  /// **'That isn\'t a Farm2Fork product ID or QR link. Product IDs are 24 characters long.'**
+  String get traceInvalidInput;
+
+  /// Trace lookup submit button
+  ///
+  /// In en, this message translates to:
+  /// **'Trace product'**
+  String get traceSearchButton;
+
+  /// Honest note that camera QR scanning is not built yet
+  ///
+  /// In en, this message translates to:
+  /// **'Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.'**
+  String get traceCameraComingSoon;
+
+  /// Loading message while fetching a product trace
+  ///
+  /// In en, this message translates to:
+  /// **'Loading journey…'**
+  String get traceLoading;
+
+  /// Error message when the trace request fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the journey. Check your connection and try again.'**
+  String get traceLoadFailed;
+
+  /// Title when a traced product does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'No product found for this code'**
+  String get traceNotFoundTitle;
+
+  /// Explanation when a traced product does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.'**
+  String get traceNotFoundDesc;
+
+  /// Action to start a new trace lookup
+  ///
+  /// In en, this message translates to:
+  /// **'Trace another product'**
+  String get traceSearchAnother;
+
+  /// Banner title when the listing event is committed on Fabric
+  ///
+  /// In en, this message translates to:
+  /// **'Origin verified on ledger'**
+  String get traceOriginVerified;
+
+  /// Banner body for a verified origin
+  ///
+  /// In en, this message translates to:
+  /// **'The farmer\'s listing is committed to the Hyperledger Fabric ledger and can\'t be altered.'**
+  String get traceOriginVerifiedDesc;
+
+  /// Banner title when the listing event is queued but not committed
+  ///
+  /// In en, this message translates to:
+  /// **'Origin awaiting ledger confirmation'**
+  String get traceOriginPending;
+
+  /// Banner body for a pending origin
+  ///
+  /// In en, this message translates to:
+  /// **'The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.'**
+  String get traceOriginPendingDesc;
+
+  /// Banner title when a listing has no ledger event
+  ///
+  /// In en, this message translates to:
+  /// **'No ledger record for this listing'**
+  String get traceOriginMissing;
+
+  /// Banner body when a listing has no ledger event
+  ///
+  /// In en, this message translates to:
+  /// **'This listing was created before ledger recording was enabled, so its origin can\'t be verified on-chain.'**
+  String get traceOriginMissingDesc;
+
+  /// Label for the farm a product came from
+  ///
+  /// In en, this message translates to:
+  /// **'Source farm'**
+  String get traceSourceFarm;
+
+  /// Shown when the farm profile is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Farm details not provided'**
+  String get traceFarmUnknown;
+
+  /// Label for a product's quality grade
+  ///
+  /// In en, this message translates to:
+  /// **'Quality grade'**
+  String get traceQualityGrade;
+
+  /// Quality grade value
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade}'**
+  String traceGradeValue(String grade);
+
+  /// Shown when a product has no grade
+  ///
+  /// In en, this message translates to:
+  /// **'Not graded'**
+  String get traceGradeNone;
+
+  /// Label for when a product was listed
+  ///
+  /// In en, this message translates to:
+  /// **'Listed on'**
+  String get traceListedOn;
+
+  /// Label for a product id
+  ///
+  /// In en, this message translates to:
+  /// **'Product ID'**
+  String get traceProductId;
+
+  /// Listing status: active
+  ///
+  /// In en, this message translates to:
+  /// **'Available on the marketplace'**
+  String get traceStatusActive;
+
+  /// Listing status: sold out
+  ///
+  /// In en, this message translates to:
+  /// **'Sold out'**
+  String get traceStatusSoldOut;
+
+  /// Listing status: inactive
+  ///
+  /// In en, this message translates to:
+  /// **'No longer listed'**
+  String get traceStatusInactive;
+
+  /// Section title for the trace timeline
+  ///
+  /// In en, this message translates to:
+  /// **'Supply chain journey'**
+  String get traceJourneyTitle;
+
+  /// How many journey events are committed on the ledger
+  ///
+  /// In en, this message translates to:
+  /// **'{confirmed} of {total} recorded on ledger'**
+  String traceLedgerProgress(int confirmed, int total);
+
+  /// Shown when a product has no journey events yet
+  ///
+  /// In en, this message translates to:
+  /// **'Only the listing so far. Sales and deliveries will appear here as they happen.'**
+  String get traceJourneyEmpty;
+
+  /// Trace event: product listed
+  ///
+  /// In en, this message translates to:
+  /// **'Listed on marketplace'**
+  String get traceEventListed;
+
+  /// Trace event: payment confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed'**
+  String get traceEventPaymentConfirmed;
+
+  /// Trace event: shipment assigned
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter assigned'**
+  String get traceEventShipmentAssigned;
+
+  /// Trace event: picked up
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up from farm'**
+  String get traceEventShipmentPickedUp;
+
+  /// Trace event: in transit
+  ///
+  /// In en, this message translates to:
+  /// **'In transit'**
+  String get traceEventShipmentInTransit;
+
+  /// Trace event: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get traceEventShipmentDelivered;
+
+  /// Trace event: delivery failed
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery failed'**
+  String get traceEventShipmentFailed;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get traceRoleFarmer;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get traceRoleBuyer;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get traceRoleTransporter;
+
+  /// Short reference grouping one sale
+  ///
+  /// In en, this message translates to:
+  /// **'Sale #{reference}'**
+  String traceReferenceSale(String reference);
+
+  /// Short reference grouping one delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery #{reference}'**
+  String traceReferenceDelivery(String reference);
+
+  /// Ledger state: committed on Fabric
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded on ledger'**
+  String get traceLedgerConfirmed;
+
+  /// Ledger state: queued, not yet committed
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting ledger confirmation'**
+  String get traceLedgerPending;
+
+  /// Ledger state: recording failed
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger recording failed'**
+  String get traceLedgerFailed;
+
+  /// Fabric block number
+  ///
+  /// In en, this message translates to:
+  /// **'Block {block}'**
+  String traceLedgerBlock(int block);
+
+  /// Product detail action opening the trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'View product journey'**
+  String get productViewJourney;
+
+  /// Listing card action opening the trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'View journey'**
+  String get listingViewJourney;
+
+  /// Listing card action: deactivate listing
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from marketplace'**
+  String get listingHide;
+
+  /// Listing card action: reactivate listing
+  ///
+  /// In en, this message translates to:
+  /// **'Show on marketplace'**
+  String get listingShow;
+
+  /// Listing card action: delete
+  ///
+  /// In en, this message translates to:
+  /// **'Delete listing'**
+  String get listingDelete;
+
+  /// Snackbar after a listing is created
+  ///
+  /// In en, this message translates to:
+  /// **'Listing published'**
+  String get listingPublished;
+
+  /// Snackbar when creating a listing fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t publish the listing. Your details are kept - check your connection and try again.'**
+  String get listingPublishFailed;
+
+  /// Before-noon marker for 12-hour times (intl's Urdu data only has 'a')
+  ///
+  /// In en, this message translates to:
+  /// **'AM'**
+  String get timeAm;
+
+  /// After-noon marker for 12-hour times (intl's Urdu data only has 'p')
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get timePm;
 }
 
 class _AppLocalizationsDelegate

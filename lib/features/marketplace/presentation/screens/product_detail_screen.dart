@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -241,8 +242,15 @@ class _ProductDetailBody extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
 
                 // ── Farmer Card ────────────────────────────────────────
-                _FarmerCard(product: product),
-                const SizedBox(height: AppSpacing.xl),
+                // The live API has no farmer detail yet (only farmerId), so
+                // an empty stub would render as "?", "0.0" and "0 sales".
+                // Hide it until a profiles endpoint exists; the product
+                // journey below shows the real farm name and city.
+                if (product.farmer.name.isNotEmpty ||
+                    product.farmer.farmName.isNotEmpty) ...[
+                  _FarmerCard(product: product),
+                  const SizedBox(height: AppSpacing.xl),
+                ],
 
                 // ── Quantity Selector ──────────────────────────────────
                 if (isAvailable) ...[
@@ -271,6 +279,18 @@ class _ProductDetailBody extends StatelessWidget {
                   ),
                 ] else
                   _OutOfStockBanner(),
+                const SizedBox(height: AppSpacing.md),
+
+                // ── Provenance ─────────────────────────────────────────
+                AppButton(
+                  label: context.l10n.productViewJourney,
+                  icon: Icons.timeline_rounded,
+                  variant: AppButtonVariant.secondary,
+                  expand: true,
+                  onPressed: () => context.push(
+                    AppNavConfig.traceRouteForProduct(product.id),
+                  ),
+                ),
                 const SizedBox(height: AppSpacing.xxl),
               ],
             ),

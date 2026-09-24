@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -80,7 +81,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
     final price = double.tryParse(_priceController.text) ?? 0.0;
     final quantity = double.tryParse(_qtyController.text) ?? 0.0;
 
-    await ref
+    final published = await ref
         .read(listingsControllerProvider.notifier)
         .addListing(
           name: _nameController.text.trim(),
@@ -93,7 +94,33 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
         );
 
     if (!mounted) return;
-    context.pop(); // return to ListingsScreen
+    final messenger = ScaffoldMessenger.of(context);
+    if (!published) {
+      // Keep the form so nothing the farmer typed is lost.
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.listingPublishFailed),
+          backgroundColor: AppColors.errorRed,
+          duration: AppDurations.standardMessage,
+        ),
+      );
+      return;
+    }
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.listingPublished),
+        backgroundColor: AppColors.success,
+        duration: AppDurations.standardMessage,
+      ),
+    );
+    // Reached either by push from My Listings or as its own bottom-nav tab.
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(
+        AppNavConfig.routeFor(AppUserRole.farmer, AppNavDestination.listings),
+      );
+    }
   }
 
   @override
