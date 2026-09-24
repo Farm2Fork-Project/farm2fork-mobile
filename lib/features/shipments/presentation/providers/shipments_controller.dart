@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
-import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository_provider.dart';
 
 final shipmentsControllerProvider =
@@ -9,10 +8,11 @@ final shipmentsControllerProvider =
       ShipmentsController.new,
     );
 
+/// The transporter's own deliveries, newest first. Offers live in
+/// DispatchController.
 class ShipmentDashboard {
-  const ShipmentDashboard({required this.available, required this.mine});
+  const ShipmentDashboard({required this.mine});
 
-  final List<AvailableDelivery> available;
   final List<Shipment> mine;
 }
 
@@ -21,13 +21,13 @@ class ShipmentsController extends AsyncNotifier<ShipmentDashboard> {
   Future<ShipmentDashboard> build() async {
     final authState = ref.watch(authControllerProvider).asData?.value;
     if (authState == null || authState.user == null) {
-      return const ShipmentDashboard(available: [], mine: []);
+      return const ShipmentDashboard(mine: []);
     }
     return _load();
   }
 
   Future<void> fetchShipments() async {
-    state = const AsyncLoading();
+    if (!state.hasValue) state = const AsyncLoading();
     state = await AsyncValue.guard(_load);
   }
 
@@ -52,16 +52,10 @@ class ShipmentsController extends AsyncNotifier<ShipmentDashboard> {
   Future<ShipmentDashboard> _load() async {
     final authState = ref.read(authControllerProvider).asData?.value;
     if (authState?.user == null) {
-      return const ShipmentDashboard(available: [], mine: []);
+      return const ShipmentDashboard(mine: []);
     }
-    final repository = ref.read(shipmentsRepositoryProvider);
-    final results = await Future.wait([
-      repository.getAvailable(),
-      repository.getMine(),
-    ]);
     return ShipmentDashboard(
-      available: results[0] as List<AvailableDelivery>,
-      mine: results[1] as List<Shipment>,
+      mine: await ref.read(shipmentsRepositoryProvider).getMine(),
     );
   }
 }

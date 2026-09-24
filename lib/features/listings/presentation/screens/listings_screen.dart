@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_prompt.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
@@ -24,6 +29,7 @@ class ListingsScreen extends ConsumerWidget {
         elevation: 0,
         backgroundColor: AppColors.backgroundLight,
         centerTitle: true,
+        actions: const [NotificationBell()],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/farmer/create-listing'),
@@ -47,122 +53,20 @@ class ListingsScreen extends ConsumerWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              // Dashboard summary header
+              // Only while the pickup location is incomplete.
+              const SliverToBoxAdapter(child: FarmLocationPrompt()),
+              // Summary of the farmer's real listings. (This used to show a
+              // hardcoded "Hassan Organic Farm / 4.8 / 312 sales" to every
+              // farmer; there is no farmer-profile endpoint yet, so only
+              // numbers derived from their own listings are shown.)
               SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.pagePadding,
                   vertical: AppSpacing.md,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: AppCard(
-                    backgroundColor: AppColors.primaryGreenDark,
-                    borderColor: AppColors.primaryGreenDark,
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 28,
-                              backgroundColor: AppColors.primaryGreenSoft,
-                              child: const Icon(
-                                Icons.agriculture_rounded,
-                                color: AppColors.primaryGreenDark,
-                                size: 30,
-                              ),
-                            ),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Hassan Organic Farm',
-                                    style: AppTextStyles.h3.copyWith(
-                                      color: AppColors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(height: AppSpacing.xs),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColors.accentYellow,
-                                        size: 14,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        'Multan, Punjab',
-                                        style: AppTextStyles.small.copyWith(
-                                          color: AppColors.primaryGreenSoft,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.lg),
-                        const Divider(color: AppColors.primaryGreen, height: 1),
-                        const SizedBox(height: AppSpacing.md),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  context.l10n.rating,
-                                  style: AppTextStyles.small.copyWith(
-                                    color: AppColors.primaryGreenSoft,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.accentYellow,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '4.8',
-                                      style: AppTextStyles.body.copyWith(
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Sales', // fallback if totalSales is dynamic
-                                  style: AppTextStyles.small.copyWith(
-                                    color: AppColors.primaryGreenSoft,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  context.l10n.totalSales(312),
-                                  style: AppTextStyles.body.copyWith(
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  child: _ListingsSummary(
+                    listings: listingsAsync.asData?.value,
                   ),
                 ),
               ),
@@ -173,38 +77,10 @@ class ListingsScreen extends ConsumerWidget {
                   if (products.isEmpty) {
                     return SliverFillRemaining(
                       hasScrollBody: false,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpacing.xxl),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.inventory_2_outlined,
-                                size: 64,
-                                color: AppColors.textMuted.withValues(
-                                  alpha: 0.5,
-                                ),
-                              ),
-                              const SizedBox(height: AppSpacing.md),
-                              Text(
-                                context.l10n.noDataFound,
-                                style: AppTextStyles.h3.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: AppSpacing.sm),
-                              Text(
-                                context.l10n.listingsDescription,
-                                style: AppTextStyles.small.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
+                      child: AppEmptyState(
+                        message: context.l10n.noDataFound,
+                        subtitle: context.l10n.listingsDescription,
+                        icon: Icons.inventory_2_outlined,
                       ),
                     );
                   }
@@ -235,38 +111,11 @@ class ListingsScreen extends ConsumerWidget {
                 ),
                 error: (error, stackTrace) => SliverFillRemaining(
                   hasScrollBody: false,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.error_outline_rounded,
-                            color: AppColors.errorRed,
-                            size: 48,
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          Text(
-                            context.l10n.errorOccurred,
-                            style: AppTextStyles.body,
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          ElevatedButton(
-                            onPressed: () => ref
-                                .read(listingsControllerProvider.notifier)
-                                .fetchListings(),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryGreen,
-                            ),
-                            child: Text(
-                              context.l10n.retry,
-                              style: const TextStyle(color: AppColors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: AppErrorState(
+                    icon: Icons.error_outline_rounded,
+                    onRetry: () => ref
+                        .read(listingsControllerProvider.notifier)
+                        .fetchListings(),
                   ),
                 ),
               ),
@@ -350,6 +199,10 @@ class _ListingCard extends ConsumerWidget {
                     ),
                   ],
                 ),
+                if (product.originLedgerStatus != null) ...[
+                  const SizedBox(height: 4),
+                  _LedgerBadge(status: product.originLedgerStatus!),
+                ],
                 const SizedBox(height: 4),
                 Text(
                   formattedPrice,
@@ -366,11 +219,15 @@ class _ListingCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // Wrap, not Row: on narrow phones the 48dp actions drop
+                // below the status instead of overflowing or shrinking.
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     // Status row
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           width: 8,
@@ -391,31 +248,43 @@ class _ListingCard extends ConsumerWidget {
                       ],
                     ),
 
-                    // Actions
+                    // Actions - 48dp targets with labels: this is a
+                    // farmer task screen (design-language doc).
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          constraints: const BoxConstraints(),
-                          padding: const EdgeInsets.all(4),
+                          tooltip: context.l10n.listingViewJourney,
+                          icon: const Icon(
+                            Icons.timeline_rounded,
+                            color: AppColors.primaryGreen,
+                            size: 22,
+                          ),
+                          onPressed: () => context.push(
+                            AppNavConfig.traceRouteForProduct(product.id),
+                          ),
+                        ),
+                        IconButton(
+                          tooltip: product.status == ProductStatus.active
+                              ? context.l10n.listingHide
+                              : context.l10n.listingShow,
                           icon: Icon(
                             product.status == ProductStatus.active
                                 ? Icons.visibility_rounded
                                 : Icons.visibility_off_rounded,
                             color: AppColors.secondaryBlue,
-                            size: 20,
+                            size: 22,
                           ),
                           onPressed: () => ref
                               .read(listingsControllerProvider.notifier)
                               .toggleStatus(product.id, product.status),
                         ),
-                        const SizedBox(width: AppSpacing.sm),
                         IconButton(
-                          constraints: const BoxConstraints(),
-                          padding: const EdgeInsets.all(4),
+                          tooltip: context.l10n.listingDelete,
                           icon: const Icon(
                             Icons.delete_outline_rounded,
                             color: AppColors.errorRed,
-                            size: 20,
+                            size: 22,
                           ),
                           onPressed: () => _confirmDelete(context, ref),
                         ),
@@ -435,16 +304,19 @@ class _ListingCard extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.l10n.removeItem, style: AppTextStyles.h3),
+        title: Text(
+          context.l10n.deleteListingConfirmTitle,
+          style: AppTextStyles.h3,
+        ),
         content: Text(
-          '${context.l10n.itemRemoved}?',
+          context.l10n.deleteListingConfirmMessage,
           style: AppTextStyles.body,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
-              context.l10n.authRequiredDismiss,
+              context.l10n.cancel,
               style: TextStyle(color: AppColors.textMuted),
             ),
           ),
@@ -484,5 +356,118 @@ class _ListingCard extends ConsumerWidget {
       QualityGrade.b => context.l10n.gradeB,
       QualityGrade.c => context.l10n.gradeC,
     };
+  }
+}
+
+class _ListingsSummary extends StatelessWidget {
+  const _ListingsSummary({required this.listings});
+
+  /// Null while loading or on error: counts show a dash, never a guess.
+  final List<Product>? listings;
+
+  @override
+  Widget build(BuildContext context) {
+    int? count(ProductStatus status) =>
+        listings?.where((p) => p.status == status).length;
+
+    return AppCard(
+      backgroundColor: AppColors.primaryGreenDark,
+      borderColor: AppColors.primaryGreenDark,
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Row(
+        children: [
+          Expanded(
+            child: _SummaryMetric(
+              label: context.l10n.productStatusActive,
+              value: count(ProductStatus.active),
+            ),
+          ),
+          Expanded(
+            child: _SummaryMetric(
+              label: context.l10n.productStatusSoldOut,
+              value: count(ProductStatus.soldOut),
+            ),
+          ),
+          Expanded(
+            child: _SummaryMetric(
+              label: context.l10n.productStatusInactive,
+              value: count(ProductStatus.inactive),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SummaryMetric extends StatelessWidget {
+  const _SummaryMetric({required this.label, required this.value});
+
+  final String label;
+  final int? value;
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          value == null ? '–' : formatCompactNumber(value!, locale),
+          style: AppTextStyles.h2.copyWith(color: AppColors.white),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          label,
+          style: AppTextStyles.small.copyWith(
+            color: AppColors.primaryGreenSoft,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Ledger state of the listing's `listed` provenance record.
+class _LedgerBadge extends StatelessWidget {
+  const _LedgerBadge({required this.status});
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final (label, icon, background, foreground) = switch (status) {
+      'confirmed' => (
+        l10n.ledgerConfirmed,
+        Icons.verified_user_rounded,
+        AppColors.primaryGreenSoft,
+        AppColors.primaryGreenDark,
+      ),
+      'failed' => (
+        l10n.ledgerFailed,
+        Icons.error_outline_rounded,
+        AppColors.white,
+        AppColors.errorRed,
+      ),
+      'missing' => (
+        l10n.ledgerMissing,
+        Icons.remove_circle_outline_rounded,
+        AppColors.surfaceLight,
+        AppColors.textMuted,
+      ),
+      _ => (
+        l10n.ledgerPending,
+        Icons.hourglass_top_rounded,
+        AppColors.accentYellowSoft,
+        AppColors.textDark,
+      ),
+    };
+    return AppBadge(
+      label: label,
+      icon: icon,
+      backgroundColor: background,
+      foregroundColor: foreground,
+    );
   }
 }

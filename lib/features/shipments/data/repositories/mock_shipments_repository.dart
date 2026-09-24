@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'shipments_repository.dart';
@@ -12,8 +13,18 @@ class MockShipmentsRepository extends ShipmentsRepository {
       deliveryProvince: 'Punjab',
       itemCount: 2,
       createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+      deliveryFee: 3180,
+      deliveryDistanceKm: 120.4,
+      distanceToPickupKm: 4.2,
+      pickup: const GeoPoint(31.418, 73.079),
+      dropoffArea: const GeoPoint(31.52, 74.36),
+      farmName: 'Green Valley Farm',
+      items: const [OfferItem(productName: 'Kinnow', quantity: 200)],
     ),
   ];
+
+  bool _online = false;
+  GeoPoint? _lastLocation;
 
   final List<Shipment> _shipments = [
     Shipment(
@@ -93,11 +104,46 @@ class MockShipmentsRepository extends ShipmentsRepository {
     ),
   ];
 
+  Shipment? get _active => _shipments
+      .where(
+        (s) =>
+            s.status != ShipmentStatus.delivered &&
+            s.status != ShipmentStatus.failed,
+      )
+      .firstOrNull;
+
   @override
   Future<List<AvailableDelivery>> getAvailable() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
+    if (!_online || _active != null) return const [];
     return List.unmodifiable(_available);
   }
+
+  @override
+  Future<TransporterStatus> getStatus() async => TransporterStatus(
+    online: _online,
+    locationFresh: _lastLocation != null,
+    radiusKm: 25,
+    activeShipmentId: _active?.id,
+  );
+
+  @override
+  Future<TransporterStatus> setAvailability({
+    required bool online,
+    GeoPoint? location,
+  }) async {
+    _online = online;
+    _lastLocation = location ?? _lastLocation;
+    return getStatus();
+  }
+
+  @override
+  Future<void> reportLocation(GeoPoint location) async =>
+      _lastLocation = location;
+
+  @override
+  Future<void> decline(String orderId) async =>
+      _available.removeWhere((item) => item.orderId == orderId);
 
   @override
   Future<List<Shipment>> getMine() async {
@@ -107,14 +153,18 @@ class MockShipmentsRepository extends ShipmentsRepository {
 
   @override
   Future<Shipment> getById(String shipmentId) async {
-    final shipment = _shipments.where((item) => item.id == shipmentId).firstOrNull;
+    final shipment = _shipments
+        .where((item) => item.id == shipmentId)
+        .firstOrNull;
     if (shipment == null) throw Exception('Shipment not found');
     return shipment;
   }
 
   @override
   Future<Shipment> claim(String orderId) async {
-    final available = _available.where((item) => item.orderId == orderId).firstOrNull;
+    final available = _available
+        .where((item) => item.orderId == orderId)
+        .firstOrNull;
     if (available == null) throw Exception('Delivery is no longer available');
     final now = DateTime.now();
     final shipment = Shipment(

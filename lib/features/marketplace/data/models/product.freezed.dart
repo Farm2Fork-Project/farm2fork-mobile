@@ -17,7 +17,9 @@ mixin _$Product {
 
 @JsonKey(name: '_id') String get id; String get farmerId; String get name; ProductCategory get category; String get description;/// Price in PKR per unit.
  double get price; double get quantity;/// Unit enum matching the backend schema.
- ProductUnit get unit; List<String> get images; QualityGrade get qualityGrade; String? get qrCode; String? get initialBlockchainRecordId; ProductStatus get status;/// Embedded farmer info — avoids a second network call in list views.
+ ProductUnit get unit; List<String> get images; QualityGrade get qualityGrade; String? get qrCode; String? get initialBlockchainRecordId; ProductStatus get status;/// Ledger state of the listing's first provenance record
+/// (pending | confirmed | failed | missing); null when unknown (mocks).
+ String? get originLedgerStatus;/// Embedded farmer info — avoids a second network call in list views.
  FarmerSummary get farmer;
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
@@ -31,16 +33,16 @@ $ProductCopyWith<Product> get copyWith => _$ProductCopyWithImpl<Product>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Product&&(identical(other.id, id) || other.id == id)&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.name, name) || other.name == name)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.price, price) || other.price == price)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unit, unit) || other.unit == unit)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.qualityGrade, qualityGrade) || other.qualityGrade == qualityGrade)&&(identical(other.qrCode, qrCode) || other.qrCode == qrCode)&&(identical(other.initialBlockchainRecordId, initialBlockchainRecordId) || other.initialBlockchainRecordId == initialBlockchainRecordId)&&(identical(other.status, status) || other.status == status)&&(identical(other.farmer, farmer) || other.farmer == farmer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Product&&(identical(other.id, id) || other.id == id)&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.name, name) || other.name == name)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.price, price) || other.price == price)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unit, unit) || other.unit == unit)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.qualityGrade, qualityGrade) || other.qualityGrade == qualityGrade)&&(identical(other.qrCode, qrCode) || other.qrCode == qrCode)&&(identical(other.initialBlockchainRecordId, initialBlockchainRecordId) || other.initialBlockchainRecordId == initialBlockchainRecordId)&&(identical(other.status, status) || other.status == status)&&(identical(other.originLedgerStatus, originLedgerStatus) || other.originLedgerStatus == originLedgerStatus)&&(identical(other.farmer, farmer) || other.farmer == farmer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,farmerId,name,category,description,price,quantity,unit,const DeepCollectionEquality().hash(images),qualityGrade,qrCode,initialBlockchainRecordId,status,farmer);
+int get hashCode => Object.hash(runtimeType,id,farmerId,name,category,description,price,quantity,unit,const DeepCollectionEquality().hash(images),qualityGrade,qrCode,initialBlockchainRecordId,status,originLedgerStatus,farmer);
 
 @override
 String toString() {
-  return 'Product(id: $id, farmerId: $farmerId, name: $name, category: $category, description: $description, price: $price, quantity: $quantity, unit: $unit, images: $images, qualityGrade: $qualityGrade, qrCode: $qrCode, initialBlockchainRecordId: $initialBlockchainRecordId, status: $status, farmer: $farmer)';
+  return 'Product(id: $id, farmerId: $farmerId, name: $name, category: $category, description: $description, price: $price, quantity: $quantity, unit: $unit, images: $images, qualityGrade: $qualityGrade, qrCode: $qrCode, initialBlockchainRecordId: $initialBlockchainRecordId, status: $status, originLedgerStatus: $originLedgerStatus, farmer: $farmer)';
 }
 
 
@@ -51,7 +53,7 @@ abstract mixin class $ProductCopyWith<$Res>  {
   factory $ProductCopyWith(Product value, $Res Function(Product) _then) = _$ProductCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: '_id') String id, String farmerId, String name, ProductCategory category, String description, double price, double quantity, ProductUnit unit, List<String> images, QualityGrade qualityGrade, String? qrCode, String? initialBlockchainRecordId, ProductStatus status, FarmerSummary farmer
+@JsonKey(name: '_id') String id, String farmerId, String name, ProductCategory category, String description, double price, double quantity, ProductUnit unit, List<String> images, QualityGrade qualityGrade, String? qrCode, String? initialBlockchainRecordId, ProductStatus status, String? originLedgerStatus, FarmerSummary farmer
 });
 
 
@@ -68,7 +70,7 @@ class _$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? farmerId = null,Object? name = null,Object? category = null,Object? description = null,Object? price = null,Object? quantity = null,Object? unit = null,Object? images = null,Object? qualityGrade = null,Object? qrCode = freezed,Object? initialBlockchainRecordId = freezed,Object? status = null,Object? farmer = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? farmerId = null,Object? name = null,Object? category = null,Object? description = null,Object? price = null,Object? quantity = null,Object? unit = null,Object? images = null,Object? qualityGrade = null,Object? qrCode = freezed,Object? initialBlockchainRecordId = freezed,Object? status = null,Object? originLedgerStatus = freezed,Object? farmer = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,farmerId: null == farmerId ? _self.farmerId : farmerId // ignore: cast_nullable_to_non_nullable
@@ -83,7 +85,8 @@ as List<String>,qualityGrade: null == qualityGrade ? _self.qualityGrade : qualit
 as QualityGrade,qrCode: freezed == qrCode ? _self.qrCode : qrCode // ignore: cast_nullable_to_non_nullable
 as String?,initialBlockchainRecordId: freezed == initialBlockchainRecordId ? _self.initialBlockchainRecordId : initialBlockchainRecordId // ignore: cast_nullable_to_non_nullable
 as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as ProductStatus,farmer: null == farmer ? _self.farmer : farmer // ignore: cast_nullable_to_non_nullable
+as ProductStatus,originLedgerStatus: freezed == originLedgerStatus ? _self.originLedgerStatus : originLedgerStatus // ignore: cast_nullable_to_non_nullable
+as String?,farmer: null == farmer ? _self.farmer : farmer // ignore: cast_nullable_to_non_nullable
 as FarmerSummary,
   ));
 }
@@ -178,10 +181,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  FarmerSummary farmer)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  String? originLedgerStatus,  FarmerSummary farmer)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Product() when $default != null:
-return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.farmer);case _:
+return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.originLedgerStatus,_that.farmer);case _:
   return orElse();
 
 }
@@ -199,10 +202,10 @@ return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.descript
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  FarmerSummary farmer)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  String? originLedgerStatus,  FarmerSummary farmer)  $default,) {final _that = this;
 switch (_that) {
 case _Product():
-return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.farmer);case _:
+return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.originLedgerStatus,_that.farmer);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +222,10 @@ return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.descript
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  FarmerSummary farmer)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: '_id')  String id,  String farmerId,  String name,  ProductCategory category,  String description,  double price,  double quantity,  ProductUnit unit,  List<String> images,  QualityGrade qualityGrade,  String? qrCode,  String? initialBlockchainRecordId,  ProductStatus status,  String? originLedgerStatus,  FarmerSummary farmer)?  $default,) {final _that = this;
 switch (_that) {
 case _Product() when $default != null:
-return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.farmer);case _:
+return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.description,_that.price,_that.quantity,_that.unit,_that.images,_that.qualityGrade,_that.qrCode,_that.initialBlockchainRecordId,_that.status,_that.originLedgerStatus,_that.farmer);case _:
   return null;
 
 }
@@ -234,7 +237,7 @@ return $default(_that.id,_that.farmerId,_that.name,_that.category,_that.descript
 @JsonSerializable()
 
 class _Product implements Product {
-  const _Product({@JsonKey(name: '_id') required this.id, required this.farmerId, required this.name, required this.category, required this.description, required this.price, required this.quantity, required this.unit, final  List<String> images = const [], this.qualityGrade = QualityGrade.a, this.qrCode, this.initialBlockchainRecordId, this.status = ProductStatus.active, required this.farmer}): _images = images;
+  const _Product({@JsonKey(name: '_id') required this.id, required this.farmerId, required this.name, required this.category, required this.description, required this.price, required this.quantity, required this.unit, final  List<String> images = const [], this.qualityGrade = QualityGrade.a, this.qrCode, this.initialBlockchainRecordId, this.status = ProductStatus.active, this.originLedgerStatus, required this.farmer}): _images = images;
   factory _Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
 @override@JsonKey(name: '_id') final  String id;
@@ -258,6 +261,9 @@ class _Product implements Product {
 @override final  String? qrCode;
 @override final  String? initialBlockchainRecordId;
 @override@JsonKey() final  ProductStatus status;
+/// Ledger state of the listing's first provenance record
+/// (pending | confirmed | failed | missing); null when unknown (mocks).
+@override final  String? originLedgerStatus;
 /// Embedded farmer info — avoids a second network call in list views.
 @override final  FarmerSummary farmer;
 
@@ -274,16 +280,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Product&&(identical(other.id, id) || other.id == id)&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.name, name) || other.name == name)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.price, price) || other.price == price)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unit, unit) || other.unit == unit)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.qualityGrade, qualityGrade) || other.qualityGrade == qualityGrade)&&(identical(other.qrCode, qrCode) || other.qrCode == qrCode)&&(identical(other.initialBlockchainRecordId, initialBlockchainRecordId) || other.initialBlockchainRecordId == initialBlockchainRecordId)&&(identical(other.status, status) || other.status == status)&&(identical(other.farmer, farmer) || other.farmer == farmer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Product&&(identical(other.id, id) || other.id == id)&&(identical(other.farmerId, farmerId) || other.farmerId == farmerId)&&(identical(other.name, name) || other.name == name)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.price, price) || other.price == price)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unit, unit) || other.unit == unit)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.qualityGrade, qualityGrade) || other.qualityGrade == qualityGrade)&&(identical(other.qrCode, qrCode) || other.qrCode == qrCode)&&(identical(other.initialBlockchainRecordId, initialBlockchainRecordId) || other.initialBlockchainRecordId == initialBlockchainRecordId)&&(identical(other.status, status) || other.status == status)&&(identical(other.originLedgerStatus, originLedgerStatus) || other.originLedgerStatus == originLedgerStatus)&&(identical(other.farmer, farmer) || other.farmer == farmer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,farmerId,name,category,description,price,quantity,unit,const DeepCollectionEquality().hash(_images),qualityGrade,qrCode,initialBlockchainRecordId,status,farmer);
+int get hashCode => Object.hash(runtimeType,id,farmerId,name,category,description,price,quantity,unit,const DeepCollectionEquality().hash(_images),qualityGrade,qrCode,initialBlockchainRecordId,status,originLedgerStatus,farmer);
 
 @override
 String toString() {
-  return 'Product(id: $id, farmerId: $farmerId, name: $name, category: $category, description: $description, price: $price, quantity: $quantity, unit: $unit, images: $images, qualityGrade: $qualityGrade, qrCode: $qrCode, initialBlockchainRecordId: $initialBlockchainRecordId, status: $status, farmer: $farmer)';
+  return 'Product(id: $id, farmerId: $farmerId, name: $name, category: $category, description: $description, price: $price, quantity: $quantity, unit: $unit, images: $images, qualityGrade: $qualityGrade, qrCode: $qrCode, initialBlockchainRecordId: $initialBlockchainRecordId, status: $status, originLedgerStatus: $originLedgerStatus, farmer: $farmer)';
 }
 
 
@@ -294,7 +300,7 @@ abstract mixin class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   factory _$ProductCopyWith(_Product value, $Res Function(_Product) _then) = __$ProductCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: '_id') String id, String farmerId, String name, ProductCategory category, String description, double price, double quantity, ProductUnit unit, List<String> images, QualityGrade qualityGrade, String? qrCode, String? initialBlockchainRecordId, ProductStatus status, FarmerSummary farmer
+@JsonKey(name: '_id') String id, String farmerId, String name, ProductCategory category, String description, double price, double quantity, ProductUnit unit, List<String> images, QualityGrade qualityGrade, String? qrCode, String? initialBlockchainRecordId, ProductStatus status, String? originLedgerStatus, FarmerSummary farmer
 });
 
 
@@ -311,7 +317,7 @@ class __$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? farmerId = null,Object? name = null,Object? category = null,Object? description = null,Object? price = null,Object? quantity = null,Object? unit = null,Object? images = null,Object? qualityGrade = null,Object? qrCode = freezed,Object? initialBlockchainRecordId = freezed,Object? status = null,Object? farmer = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? farmerId = null,Object? name = null,Object? category = null,Object? description = null,Object? price = null,Object? quantity = null,Object? unit = null,Object? images = null,Object? qualityGrade = null,Object? qrCode = freezed,Object? initialBlockchainRecordId = freezed,Object? status = null,Object? originLedgerStatus = freezed,Object? farmer = null,}) {
   return _then(_Product(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,farmerId: null == farmerId ? _self.farmerId : farmerId // ignore: cast_nullable_to_non_nullable
@@ -326,7 +332,8 @@ as List<String>,qualityGrade: null == qualityGrade ? _self.qualityGrade : qualit
 as QualityGrade,qrCode: freezed == qrCode ? _self.qrCode : qrCode // ignore: cast_nullable_to_non_nullable
 as String?,initialBlockchainRecordId: freezed == initialBlockchainRecordId ? _self.initialBlockchainRecordId : initialBlockchainRecordId // ignore: cast_nullable_to_non_nullable
 as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as ProductStatus,farmer: null == farmer ? _self.farmer : farmer // ignore: cast_nullable_to_non_nullable
+as ProductStatus,originLedgerStatus: freezed == originLedgerStatus ? _self.originLedgerStatus : originLedgerStatus // ignore: cast_nullable_to_non_nullable
+as String?,farmer: null == farmer ? _self.farmer : farmer // ignore: cast_nullable_to_non_nullable
 as FarmerSummary,
   ));
 }

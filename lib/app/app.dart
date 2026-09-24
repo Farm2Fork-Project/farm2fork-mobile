@@ -7,6 +7,7 @@ import 'package:farm2fork_mobile/core/localization/locale_controller.dart';
 import 'package:farm2fork_mobile/core/theme/app_theme.dart';
 
 import 'package:farm2fork_mobile/core/theme/font_size_controller.dart';
+import 'package:farm2fork_mobile/features/notifications/push/push_binding.dart';
 
 class Farm2ForkApp extends ConsumerWidget {
   const Farm2ForkApp({super.key});
@@ -31,11 +32,14 @@ class Farm2ForkApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           builder: (context, routerChild) {
             final scale = ref.watch(fontSizeControllerProvider);
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(scale),
+            return PushBinding(
+              router: router,
+              child: MediaQuery(
+                data: MediaQuery.of(
+                  context,
+                ).copyWith(textScaler: TextScaler.linear(scale)),
+                child: routerChild!,
               ),
-              child: routerChild!,
             );
           },
         );

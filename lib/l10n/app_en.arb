@@ -17,6 +17,12 @@
   "logout": "Logout",
   "@logout": { "description": "Button or title label for logging out" },
 
+  "logoutConfirmTitle": "Log out?",
+  "@logoutConfirmTitle": { "description": "Confirmation dialog title before signing the user out" },
+
+  "logoutConfirmMessage": "You'll need to sign in again to access your account.",
+  "@logoutConfirmMessage": { "description": "Confirmation dialog message before signing the user out" },
+
   "welcome": "Welcome",
   "@welcome": { "description": "A general greeting" },
 
@@ -56,7 +62,7 @@
   "navTrace": "Trace",
   "@navTrace": { "description": "Bottom navigation label for QR traceability" },
 
-  "navShipments": "Shipments",
+  "navShipments": "History",
   "@navShipments": { "description": "Bottom navigation label for shipments" },
 
   "navLoans": "Loans",
@@ -80,10 +86,10 @@
   "featureComingSoon": "Coming soon",
   "@featureComingSoon": { "description": "Placeholder title for future screens" },
 
-  "traceScannerTitle": "Scan & Trace",
+  "traceScannerTitle": "Trace produce",
   "@traceScannerTitle": { "description": "QR traceability scanner screen title" },
 
-  "traceScannerDescription": "Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.",
+  "traceScannerDescription": "Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.",
   "@traceScannerDescription": { "description": "QR traceability scanner placeholder description" },
 
   "paymentOptionsNote": "Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.",
@@ -156,11 +162,59 @@
   "createListingDescription": "Add crop details, quantity, grade, price, and harvest information for buyers.",
   "@createListingDescription": { "description": "Create produce listing placeholder description" },
 
+  "listingStepProduceDetails": "Produce Details",
+  "@listingStepProduceDetails": { "description": "Step 1 heading in create-listing wizard: name, category, grade, description" },
+
+  "listingStepPricingQuantity": "Pricing & Quantity",
+  "@listingStepPricingQuantity": { "description": "Step 2 heading in create-listing wizard: price, quantity, unit" },
+
+  "produceName": "Produce Name",
+  "@produceName": { "description": "Create-listing form field: produce name label" },
+
+  "produceNameHint": "e.g., Organic Tomatoes",
+  "@produceNameHint": { "description": "Create-listing form field: produce name hint" },
+
+  "category": "Category",
+  "@category": { "description": "Create-listing form field: category dropdown label" },
+
+  "descriptionHint": "Describe freshness, farming practices, harvest date, etc.",
+  "@descriptionHint": { "description": "Create-listing form field: description hint" },
+
+  "priceWithCurrency": "Price (PKR)",
+  "@priceWithCurrency": { "description": "Create-listing form field: price label" },
+
+  "priceHint": "e.g., 150",
+  "@priceHint": { "description": "Create-listing form field: price hint" },
+
+  "pleaseEnterValidPrice": "Please enter a valid price",
+  "@pleaseEnterValidPrice": { "description": "Create-listing form validation: price must be a positive number" },
+
+  "quantityHint": "e.g., 250",
+  "@quantityHint": { "description": "Create-listing form field: quantity hint" },
+
+  "pleaseEnterValidQuantity": "Please enter a valid quantity",
+  "@pleaseEnterValidQuantity": { "description": "Create-listing form validation: quantity must be a positive number" },
+
+  "unit": "Unit",
+  "@unit": { "description": "Create-listing form field: unit dropdown label" },
+
   "feedTitle": "Farm Feed",
   "@feedTitle": { "description": "Community feed screen title" },
 
   "feedDescription": "Share updates, ask questions, and follow trusted activity across the Farm2Fork network.",
   "@feedDescription": { "description": "Community feed placeholder description" },
+
+  "feedCommentCount": "{count, plural, =1{1 Comment} other{{count} Comments}}",
+  "@feedCommentCount": { "description": "Comment count button label on a feed post", "placeholders": { "count": { "type": "int", "example": "2" } } },
+
+  "feedCommentsTitle": "Comments",
+  "@feedCommentsTitle": { "description": "Title of the comments bottom sheet" },
+
+  "feedNoCommentsYet": "No comments yet.",
+  "@feedNoCommentsYet": { "description": "Empty state inside the comments bottom sheet" },
+
+  "feedAddCommentHint": "Add a comment...",
+  "@feedAddCommentHint": { "description": "Hint text for the comment input field" },
 
   "shipmentsTitle": "Shipments",
   "@shipmentsTitle": { "description": "Transporter shipments screen title" },
@@ -317,6 +371,18 @@
   "shopNow": "Shop Now",
   "@shopNow": { "description": "CTA button on empty cart screen" },
 
+  "clearCart": "Clear cart",
+  "@clearCart": { "description": "Button to remove all items from the cart" },
+
+  "clearCartConfirmTitle": "Clear cart?",
+  "@clearCartConfirmTitle": { "description": "Confirmation dialog title before clearing the entire cart" },
+
+  "clearCartConfirmMessage": "This removes every item from your cart. This can't be undone.",
+  "@clearCartConfirmMessage": { "description": "Confirmation dialog message before clearing the entire cart" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Generic cancel button label used in confirmation dialogs" },
+
   "subtotal": "Subtotal",
   "@subtotal": { "description": "Subtotal label in cart group" },
 
@@ -344,6 +410,33 @@
 
   "checkoutTitle": "Checkout",
   "@checkoutTitle": { "description": "Checkout screen app bar title" },
+
+  "ordersTabActive": "Active",
+  "@ordersTabActive": { "description": "Orders screen tab for in-progress orders" },
+
+  "ordersTabCompleted": "Completed",
+  "@ordersTabCompleted": { "description": "Orders screen tab for delivered/cancelled orders" },
+
+  "orderStatusPending": "Pending",
+  "@orderStatusPending": { "description": "Order status: pending" },
+
+  "orderStatusPaid": "Paid",
+  "@orderStatusPaid": { "description": "Order status: paid" },
+
+  "orderStatusProcessing": "Processing",
+  "@orderStatusProcessing": { "description": "Order status: processing" },
+
+  "orderStatusShipped": "Shipped",
+  "@orderStatusShipped": { "description": "Order status: shipped" },
+
+  "orderStatusDelivered": "Delivered",
+  "@orderStatusDelivered": { "description": "Order status: delivered" },
+
+  "orderStatusCancelled": "Cancelled",
+  "@orderStatusCancelled": { "description": "Order status: cancelled" },
+
+  "orderNumber": "Order #{id}",
+  "@orderNumber": { "placeholders": { "id": { "type": "String", "example": "order-1" } } },
 
   "shippingAddress": "Shipping Address",
   "@shippingAddress": { "description": "Shipping address section heading" },
@@ -399,8 +492,11 @@
   "paymentPending": "Payment pending",
   "@paymentPending": { "description": "Payment awaits gateway confirmation" },
 
-  "paymentPendingDescription": "Your payment was created and is waiting for confirmation.",
+  "paymentPendingDescription": "Your payment was created and is waiting for confirmation. This screen doesn't update automatically — check back or refresh to see the latest status.",
   "@paymentPendingDescription": { "description": "Explains pending payment status" },
+
+  "checkPaymentStatus": "Check payment status",
+  "@checkPaymentStatus": { "description": "Button to re-check a pending payment's status when the real gateway isn't polled automatically" },
 
   "paymentOrdersReadyCount": "{count, plural, =1{1 order is ready for payment} other{{count} orders are ready for payment}}",
   "@paymentOrdersReadyCount": {
@@ -440,6 +536,12 @@
 
   "itemRemoved": "Item removed",
   "@itemRemoved": { "description": "Snackbar message after removing a cart item" },
+
+  "deleteListingConfirmTitle": "Delete listing?",
+  "@deleteListingConfirmTitle": { "description": "Confirmation dialog title before deleting a farmer's product listing" },
+
+  "deleteListingConfirmMessage": "This removes the listing from the marketplace. This can't be undone.",
+  "@deleteListingConfirmMessage": { "description": "Confirmation dialog message before deleting a farmer's product listing" },
 
   "rating": "Rating",
   "@rating": { "description": "Label for farmer/product rating" },
@@ -496,6 +598,38 @@
 
   "invalidCredentials": "Incorrect email or password. Please try again.",
   "@invalidCredentials": { "description": "Login error message" },
+
+  "enterEmailFirst": "Enter your email address first.",
+  "@enterEmailFirst": { "description": "Validation message when requesting a password reset with no email entered" },
+
+  "passwordResetSentNote": "If an account exists, we've sent a password-reset email.",
+  "@passwordResetSentNote": { "description": "Confirmation shown after requesting a password reset" },
+
+  "verifyYourEmailTitle": "Verify your email",
+  "@verifyYourEmailTitle": { "description": "Email verification screen title" },
+
+  "verifyYourEmailBodyGeneric": "Open the verification link we sent to your email, then return here.",
+  "@verifyYourEmailBodyGeneric": { "description": "Email verification instructions when the email address isn't known yet" },
+
+  "verifyYourEmailBody": "Open the verification link we sent to {email}, then return here.",
+  "@verifyYourEmailBody": {
+    "description": "Email verification instructions with the recipient address",
+    "placeholders": {
+      "email": { "type": "String", "example": "farmer@example.com" }
+    }
+  },
+
+  "verificationResentNote": "A new verification email has been sent.",
+  "@verificationResentNote": { "description": "Confirmation after resending the verification email" },
+
+  "verificationStillPendingNote": "Your email is not verified yet. Check your inbox, then try again.",
+  "@verificationStillPendingNote": { "description": "Shown when the user says they've verified but the email is still unverified" },
+
+  "iHaveVerifiedMyEmail": "I have verified my email",
+  "@iHaveVerifiedMyEmail": { "description": "Button confirming the user completed email verification" },
+
+  "resendVerificationEmail": "Resend verification email",
+  "@resendVerificationEmail": { "description": "Button to resend the verification email" },
 
   "continueWithGoogle": "Continue with Google",
   "@continueWithGoogle": { "description": "Google sign-in button" },
@@ -664,6 +798,9 @@
   "notificationsSubtitle": "Choose how you want to be notified",
   "@notificationsSubtitle": { "description": "Notifications settings page subtitle" },
 
+  "notificationsNotYetConnectedNote": "Push notifications for orders, deliveries and loans are on for this device. These per-topic switches only apply for this session for now; to stop all notifications, turn them off in your phone's settings.",
+  "@notificationsNotYetConnectedNote": { "description": "Disclosure note that notification toggles don't persist or trigger real push notifications yet" },
+
   "orderUpdates": "Order Updates",
   "@orderUpdates": { "description": "Order updates notification switch label" },
 
@@ -748,7 +885,7 @@
   "contactAddress": "Headquarters Address",
   "@contactAddress": { "description": "Headquarters address label" },
 
-  "contactMessageSuccess": "Your inquiry has been submitted successfully!",
+  "contactMessageSuccess": "Message noted. Our support inbox isn't connected yet, so please also email support@farm2fork.pk for a reply.",
   "@contactMessageSuccess": { "description": "Contact us form success message" },
 
   "pleaseEnterMessage": "Please enter your message",
@@ -809,5 +946,515 @@
   "@termsConditionsTitle": { "description": "Terms & Conditions page title" },
 
   "termsConditionsContent": "By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.",
-  "@termsConditionsContent": { "description": "Terms & conditions page content" }
+  "@termsConditionsContent": { "description": "Terms & conditions page content" },
+
+  "traceInputLabel": "Product ID or QR link",
+  "@traceInputLabel": {"description": "Trace lookup input label"},
+
+  "traceInputHint": "6a2fe77bb77795516febc287",
+  "@traceInputHint": {"description": "Example product id shown as input hint (not translated: ids are Latin)"},
+
+  "traceInvalidInput": "That isn't a Farm2Fork product ID or QR link. Product IDs are 24 characters long.",
+  "@traceInvalidInput": {"description": "Validation message for a malformed trace lookup"},
+
+  "traceSearchButton": "Trace product",
+  "@traceSearchButton": {"description": "Trace lookup submit button"},
+
+  "traceCameraComingSoon": "Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.",
+  "@traceCameraComingSoon": {"description": "Honest note that camera QR scanning is not built yet"},
+
+  "traceLoading": "Loading journey…",
+  "@traceLoading": {"description": "Loading message while fetching a product trace"},
+
+  "traceLoadFailed": "Couldn't load the journey. Check your connection and try again.",
+  "@traceLoadFailed": {"description": "Error message when the trace request fails"},
+
+  "traceNotFoundTitle": "No product found for this code",
+  "@traceNotFoundTitle": {"description": "Title when a traced product does not exist"},
+
+  "traceNotFoundDesc": "Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.",
+  "@traceNotFoundDesc": {"description": "Explanation when a traced product does not exist"},
+
+  "traceSearchAnother": "Trace another product",
+  "@traceSearchAnother": {"description": "Action to start a new trace lookup"},
+
+  "traceOriginVerified": "Origin verified on ledger",
+  "@traceOriginVerified": {"description": "Banner title when the listing event is committed on Fabric"},
+
+  "traceOriginVerifiedDesc": "The farmer's listing is committed to the Hyperledger Fabric ledger and can't be altered.",
+  "@traceOriginVerifiedDesc": {"description": "Banner body for a verified origin"},
+
+  "traceOriginPending": "Origin awaiting ledger confirmation",
+  "@traceOriginPending": {"description": "Banner title when the listing event is queued but not committed"},
+
+  "traceOriginPendingDesc": "The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.",
+  "@traceOriginPendingDesc": {"description": "Banner body for a pending origin"},
+
+  "traceOriginMissing": "No ledger record for this listing",
+  "@traceOriginMissing": {"description": "Banner title when a listing has no ledger event"},
+
+  "traceOriginMissingDesc": "This listing was created before ledger recording was enabled, so its origin can't be verified on-chain.",
+  "@traceOriginMissingDesc": {"description": "Banner body when a listing has no ledger event"},
+
+  "traceSourceFarm": "Source farm",
+  "@traceSourceFarm": {"description": "Label for the farm a product came from"},
+
+  "traceFarmUnknown": "Farm details not provided",
+  "@traceFarmUnknown": {"description": "Shown when the farm profile is missing"},
+
+  "traceQualityGrade": "Quality grade",
+  "@traceQualityGrade": {"description": "Label for a product's quality grade"},
+
+  "traceGradeValue": "Grade {grade}",
+  "@traceGradeValue": {"description": "Quality grade value", "placeholders": {"grade": {"type": "String", "example": "A"}}},
+
+  "traceGradeNone": "Not graded",
+  "@traceGradeNone": {"description": "Shown when a product has no grade"},
+
+  "traceListedOn": "Listed on",
+  "@traceListedOn": {"description": "Label for when a product was listed"},
+
+  "traceProductId": "Product ID",
+  "@traceProductId": {"description": "Label for a product id"},
+
+  "traceStatusActive": "Available on the marketplace",
+  "@traceStatusActive": {"description": "Listing status: active"},
+
+  "traceStatusSoldOut": "Sold out",
+  "@traceStatusSoldOut": {"description": "Listing status: sold out"},
+
+  "traceStatusInactive": "No longer listed",
+  "@traceStatusInactive": {"description": "Listing status: inactive"},
+
+  "traceJourneyTitle": "Supply chain journey",
+  "@traceJourneyTitle": {"description": "Section title for the trace timeline"},
+
+  "traceLedgerProgress": "{confirmed} of {total} recorded on ledger",
+  "@traceLedgerProgress": {"description": "How many journey events are committed on the ledger", "placeholders": {"confirmed": {"type": "int", "example": "3"}, "total": {"type": "int", "example": "4"}}},
+
+  "traceJourneyEmpty": "Only the listing so far. Sales and deliveries will appear here as they happen.",
+  "@traceJourneyEmpty": {"description": "Shown when a product has no journey events yet"},
+
+  "traceEventListed": "Listed on marketplace",
+  "@traceEventListed": {"description": "Trace event: product listed"},
+
+  "traceEventPaymentConfirmed": "Payment confirmed",
+  "@traceEventPaymentConfirmed": {"description": "Trace event: payment confirmed"},
+
+  "traceEventShipmentAssigned": "Transporter assigned",
+  "@traceEventShipmentAssigned": {"description": "Trace event: shipment assigned"},
+
+  "traceEventShipmentPickedUp": "Picked up from farm",
+  "@traceEventShipmentPickedUp": {"description": "Trace event: picked up"},
+
+  "traceEventShipmentInTransit": "In transit",
+  "@traceEventShipmentInTransit": {"description": "Trace event: in transit"},
+
+  "traceEventShipmentDelivered": "Delivered",
+  "@traceEventShipmentDelivered": {"description": "Trace event: delivered"},
+
+  "traceEventShipmentFailed": "Delivery failed",
+  "@traceEventShipmentFailed": {"description": "Trace event: delivery failed"},
+
+  "traceRoleFarmer": "Farmer",
+  "@traceRoleFarmer": {"description": "Role badge on a trace event"},
+
+  "traceRoleBuyer": "Buyer",
+  "@traceRoleBuyer": {"description": "Role badge on a trace event"},
+
+  "traceRoleTransporter": "Transporter",
+  "@traceRoleTransporter": {"description": "Role badge on a trace event"},
+
+  "traceReferenceSale": "Sale #{reference}",
+  "@traceReferenceSale": {"description": "Short reference grouping one sale", "placeholders": {"reference": {"type": "String", "example": "874368"}}},
+
+  "traceReferenceDelivery": "Delivery #{reference}",
+  "@traceReferenceDelivery": {"description": "Short reference grouping one delivery", "placeholders": {"reference": {"type": "String", "example": "874377"}}},
+
+  "traceLedgerConfirmed": "Recorded on ledger",
+  "@traceLedgerConfirmed": {"description": "Ledger state: committed on Fabric"},
+
+  "traceLedgerPending": "Awaiting ledger confirmation",
+  "@traceLedgerPending": {"description": "Ledger state: queued, not yet committed"},
+
+  "traceLedgerFailed": "Ledger recording failed",
+  "@traceLedgerFailed": {"description": "Ledger state: recording failed"},
+
+  "traceLedgerBlock": "Block {block}",
+  "@traceLedgerBlock": {"description": "Fabric block number", "placeholders": {"block": {"type": "int", "example": "42"}}},
+
+  "productViewJourney": "View product journey",
+  "@productViewJourney": {"description": "Product detail action opening the trace journey"},
+
+  "listingViewJourney": "View journey",
+  "@listingViewJourney": {"description": "Listing card action opening the trace journey"},
+
+  "listingHide": "Hide from marketplace",
+  "@listingHide": {"description": "Listing card action: deactivate listing"},
+
+  "listingShow": "Show on marketplace",
+  "@listingShow": {"description": "Listing card action: reactivate listing"},
+
+  "listingDelete": "Delete listing",
+  "@listingDelete": {"description": "Listing card action: delete"},
+
+  "listingPublished": "Listing published",
+  "@listingPublished": {"description": "Snackbar after a listing is created"},
+
+  "listingPublishFailed": "Couldn't publish the listing. Your details are kept - check your connection and try again.",
+  "@listingPublishFailed": {"description": "Snackbar when creating a listing fails"},
+
+  "timeAm": "AM",
+  "@timeAm": {"description": "Before-noon marker for 12-hour times (intl's Urdu data only has 'a')"},
+
+  "timePm": "PM",
+  "@timePm": {"description": "After-noon marker for 12-hour times (intl's Urdu data only has 'p')"},
+
+  "aiPriceTitle": "Fair price suggestion",
+  "@aiPriceTitle": {"description": "AI price helper title"},
+
+  "aiSuggestPrice": "Suggest a price",
+  "@aiSuggestPrice": {"description": "Button: ask for a price suggestion"},
+
+  "aiPriceRange": "Rs {min} – {max} per {unit}",
+  "@aiPriceRange": {"description": "Suggested price range", "placeholders": {"min": {"type": "String", "example": "154"}, "max": {"type": "String", "example": "352"}, "unit": {"type": "String", "example": "kg"}}},
+
+  "aiPriceRuleBased": "Rule-based estimate from reference ranges, season and grade — not live market data.",
+  "@aiPriceRuleBased": {"description": "Caveat: price is rule-based"},
+
+  "aiUsePrice": "Use Rs {price}",
+  "@aiUsePrice": {"description": "Button applying the suggested price", "placeholders": {"price": {"type": "String", "example": "253"}}},
+
+  "aiPriceNoRule": "No price rule covers this unit or category yet.",
+  "@aiPriceNoRule": {"description": "No rule for this unit/category"},
+
+  "aiQualityTitle": "Photo quality check",
+  "@aiQualityTitle": {"description": "AI quality check title"},
+
+  "aiPreviewModel": "Preview model: the grading model isn't trained yet, so its grades are not reliable.",
+  "@aiPreviewModel": {"description": "Warning: untrained model"},
+
+  "aiCropLabel": "Crop in the photo",
+  "@aiCropLabel": {"description": "Crop selector label"},
+
+  "aiNeedCrop": "Select the crop in the photo.",
+  "@aiNeedCrop": {"description": "Validation: crop required"},
+
+  "aiTakePhoto": "Take a photo",
+  "@aiTakePhoto": {"description": "Button: camera"},
+
+  "aiChoosePhoto": "Choose from gallery",
+  "@aiChoosePhoto": {"description": "Button: gallery"},
+
+  "aiGradeResult": "Grade {grade} · {confidence}% confidence",
+  "@aiGradeResult": {"description": "Quality result", "placeholders": {"grade": {"type": "String", "example": "B"}, "confidence": {"type": "int", "example": "82"}}},
+
+  "aiPreviewResult": "Preview only — don't rely on this grade until the model is trained.",
+  "@aiPreviewResult": {"description": "Result caveat: untrained"},
+
+  "aiCropNotTrained": "The model has no training data for this crop yet.",
+  "@aiCropNotTrained": {"description": "Result caveat: crop not trained"},
+
+  "aiLowConfidence": "Low confidence — check the grade yourself.",
+  "@aiLowConfidence": {"description": "Result caveat: low confidence"},
+
+  "aiUseGrade": "Use grade {grade}",
+  "@aiUseGrade": {"description": "Button applying the suggested grade", "placeholders": {"grade": {"type": "String", "example": "B"}}},
+
+  "aiGradeD": "Below listing grades (D). Consider selling for processing.",
+  "@aiGradeD": {"description": "Result: grade D"},
+
+  "aiUnavailable": "The AI service isn't reachable right now. You can still publish your listing.",
+  "@aiUnavailable": {"description": "AI service down"},
+
+  "aiTooManyRequests": "Too many requests. Please wait a minute and try again.",
+  "@aiTooManyRequests": {"description": "Rate limited"},
+
+  "aiInvalidPhoto": "That photo couldn't be used. Try a clear JPEG or PNG under 8 MB.",
+  "@aiInvalidPhoto": {"description": "Photo rejected"},
+
+  "aiFailed": "Something went wrong. Please try again.",
+  "@aiFailed": {"description": "Generic AI failure"},
+
+  "cropWheat": "Wheat",
+  "@cropWheat": {"description": "Crop name"},
+
+  "cropRice": "Rice",
+  "@cropRice": {"description": "Crop name"},
+
+  "cropMango": "Mango",
+  "@cropMango": {"description": "Crop name"},
+
+  "cropMaize": "Maize",
+  "@cropMaize": {"description": "Crop name"},
+
+  "cropCotton": "Cotton",
+  "@cropCotton": {"description": "Crop name"},
+
+  "cropSugarcane": "Sugarcane",
+  "@cropSugarcane": {"description": "Crop name"},
+
+  "ledgerConfirmed": "On ledger",
+  "@ledgerConfirmed": {"description": "Listing ledger badge: confirmed"},
+
+  "ledgerPending": "Ledger pending",
+  "@ledgerPending": {"description": "Listing ledger badge: pending"},
+
+  "ledgerFailed": "Ledger failed",
+  "@ledgerFailed": {"description": "Listing ledger badge: failed"},
+
+  "ledgerMissing": "No ledger record",
+  "@ledgerMissing": {"description": "Listing ledger badge: none"},
+  "farmStreet": "Street / village",
+  "@farmStreet": { "description": "Farm street or village" },
+  "farmStreetHint": "e.g. Chak 5, Canal Road",
+  "@farmStreetHint": { "description": "Street hint" },
+  "farmCity": "City / district",
+  "@farmCity": { "description": "Farm city" },
+  "farmProvince": "Province",
+  "@farmProvince": { "description": "Farm province" },
+  "farmProvinceHint": "Select province",
+  "@farmProvinceHint": { "description": "Province hint" },
+  "provincePunjab": "Punjab",
+  "@provincePunjab": { "description": "Province" },
+  "provinceSindh": "Sindh",
+  "@provinceSindh": { "description": "Province" },
+  "provinceKpk": "Khyber Pakhtunkhwa",
+  "@provinceKpk": { "description": "Province" },
+  "provinceBalochistan": "Balochistan",
+  "@provinceBalochistan": { "description": "Province" },
+  "provinceGilgitBaltistan": "Gilgit-Baltistan",
+  "@provinceGilgitBaltistan": { "description": "Province" },
+  "provinceAjk": "Azad Jammu and Kashmir",
+  "@provinceAjk": { "description": "Province" },
+  "provinceIslamabad": "Islamabad Capital Territory",
+  "@provinceIslamabad": { "description": "Province" },
+  "farmLocationPromptTitle": "Add your farm's pickup location",
+  "@farmLocationPromptTitle": { "description": "Prompt title shown while farm location is incomplete" },
+  "farmLocationPromptBody": "Transporters can't see or collect your orders until your farm's street, city and province are saved.",
+  "@farmLocationPromptBody": { "description": "Prompt body" },
+  "farmLocationSave": "Save location",
+  "@farmLocationSave": { "description": "Save button" },
+  "farmLocationSaveFailed": "Couldn't save the location. Check your connection and try again.",
+  "@farmLocationSaveFailed": { "description": "Save failure" },
+  "pickFarmLocationTitle": "Pin your farm",
+  "@pickFarmLocationTitle": {"description": "Picker title"},
+  "pickFarmLocationHint": "Move the map so the pin sits on your farm gate. Transporters will navigate to this exact spot.",
+  "@pickFarmLocationHint": {"description": "pickFarmLocationHint"},
+  "pickDropoffTitle": "Pin the drop-off",
+  "@pickDropoffTitle": {"description": "pickDropoffTitle"},
+  "pickDropoffHint": "Move the map so the pin sits where the order should be delivered. The delivery fee is based on this spot.",
+  "@pickDropoffHint": {"description": "pickDropoffHint"},
+  "useMyLocation": "Use my current location",
+  "@useMyLocation": {"description": "useMyLocation"},
+  "confirmLocation": "Confirm this spot",
+  "@confirmLocation": {"description": "confirmLocation"},
+  "locationOutsidePakistan": "Please choose a location inside Pakistan.",
+  "@locationOutsidePakistan": {"description": "locationOutsidePakistan"},
+  "locationServiceDisabled": "Location is turned off on this phone. Turn it on to continue.",
+  "@locationServiceDisabled": {"description": "locationServiceDisabled"},
+  "locationPermissionDenied": "Farm2Fork needs location permission for this.",
+  "@locationPermissionDenied": {"description": "locationPermissionDenied"},
+  "locationPermissionDeniedForever": "Location permission is blocked. Allow it in Settings to continue.",
+  "@locationPermissionDeniedForever": {"description": "locationPermissionDeniedForever"},
+  "locationUnavailable": "Couldn't get your location. Move to open sky and try again.",
+  "@locationUnavailable": {"description": "locationUnavailable"},
+  "openSettings": "Settings",
+  "@openSettings": {"description": "openSettings"},
+  "pinFarmOnMap": "Pin farm on map",
+  "@pinFarmOnMap": {"description": "pinFarmOnMap"},
+  "pinDropoffOnMap": "Pin drop-off on map",
+  "@pinDropoffOnMap": {"description": "pinDropoffOnMap"},
+  "pinSet": "Location pinned",
+  "@pinSet": {"description": "pinSet"},
+  "pinOpenMap": "Open map",
+  "@pinOpenMap": {"description": "pinOpenMap"},
+  "pinChange": "Change",
+  "@pinChange": {"description": "pinChange"},
+  "pinRequired": "Pin the location on the map",
+  "@pinRequired": {"description": "pinRequired"},
+  "deliveryFeePinFirst": "Pin the drop-off to see the delivery fee.",
+  "@deliveryFeePinFirst": {"description": "deliveryFeePinFirst"},
+  "deliveryFeeCalculating": "Calculating delivery fee…",
+  "@deliveryFeeCalculating": {"description": "deliveryFeeCalculating"},
+  "deliveryFeeUnavailable": "Delivery can't be priced for this farm yet, so it can't be ordered right now.",
+  "@deliveryFeeUnavailable": {"description": "deliveryFeeUnavailable"},
+  "deliveryFeeWithDistance": "Delivery ({km} km)",
+  "@deliveryFeeWithDistance": {"description": "deliveryFeeWithDistance", "placeholders": {"km": {"type": "String"}}},
+  "navDeliveries": "Deliveries",
+  "@navDeliveries": {"description": "Transporter tab"},
+  "deliveriesTitle": "Deliveries",
+  "@deliveriesTitle": {"description": "deliveriesTitle"},
+  "deliveryHistoryTitle": "Delivery history",
+  "@deliveryHistoryTitle": {"description": "deliveryHistoryTitle"},
+  "noDeliveriesYet": "No deliveries yet. Accepted deliveries will appear here.",
+  "@noDeliveriesYet": {"description": "noDeliveriesYet"},
+  "youAreOnline": "You're online",
+  "@youAreOnline": {"description": "youAreOnline"},
+  "youAreOffline": "You're offline",
+  "@youAreOffline": {"description": "youAreOffline"},
+  "onlineSubtitle": "You'll be offered paid orders from farms within {km} km. Keep the app open so your location stays current.",
+  "@onlineSubtitle": {"description": "onlineSubtitle", "placeholders": {"km": {"type": "String"}}},
+  "offlineSubtitle": "Go online to receive delivery offers near you.",
+  "@offlineSubtitle": {"description": "offlineSubtitle"},
+  "locationStaleWarning": "Your location is out of date, so you may miss offers. Open the app to refresh it.",
+  "@locationStaleWarning": {"description": "locationStaleWarning"},
+  "offlineHint": "You're offline. Turn on the switch above to start receiving deliveries.",
+  "@offlineHint": {"description": "offlineHint"},
+  "noOffersNearby": "No deliveries within {km} km right now. We'll notify you when one comes up.",
+  "@noOffersNearby": {"description": "noOffersNearby", "placeholders": {"km": {"type": "String"}}},
+  "offersNearYou": "Deliveries near you",
+  "@offersNearYou": {"description": "offersNearYou"},
+  "offerRoute": "{farm} ({from}) → {to}",
+  "@offerRoute": {"description": "Offer route line", "placeholders": {"farm": {"type": "String"}, "from": {"type": "String"}, "to": {"type": "String"}}},
+  "offerDistances": "{toPickup} km to pickup · {trip} km trip",
+  "@offerDistances": {"description": "offerDistances", "placeholders": {"toPickup": {"type": "String"}, "trip": {"type": "String"}}},
+  "viewOnMap": "Map",
+  "@viewOnMap": {"description": "viewOnMap"},
+  "acceptDelivery": "Accept",
+  "@acceptDelivery": {"description": "acceptDelivery"},
+  "declineDelivery": "Decline",
+  "@declineDelivery": {"description": "declineDelivery"},
+  "offerNoLongerAvailable": "This delivery is no longer available — someone else may have accepted it, or you're out of range.",
+  "@offerNoLongerAvailable": {"description": "offerNoLongerAvailable"},
+  "dispatchActionFailed": "That didn't work. Check your connection and try again.",
+  "@dispatchActionFailed": {"description": "dispatchActionFailed"},
+  "dropoffApproximateNote": "The drop-off is shown approximately (within about 1 km). You'll see the exact address after accepting.",
+  "@dropoffApproximateNote": {"description": "dropoffApproximateNote"},
+  "activeDeliveryTitle": "Your current delivery",
+  "@activeDeliveryTitle": {"description": "activeDeliveryTitle"},
+  "youEarn": "You earn {amount}",
+  "@youEarn": {"description": "youEarn", "placeholders": {"amount": {"type": "String"}}},
+  "navigateToPickup": "Navigate to pickup",
+  "@navigateToPickup": {"description": "navigateToPickup"},
+  "navigateToDropoff": "Navigate to drop-off",
+  "@navigateToDropoff": {"description": "navigateToDropoff"},
+  "markAllRead": "Mark all read",
+  "@markAllRead": {"description": "markAllRead"},
+  "noNotificationsYet": "No notifications yet.",
+  "@noNotificationsYet": {"description": "noNotificationsYet"},
+  "myAccount": "My account",
+  "@myAccount": {"description": "myAccount"},
+  "newPost": "New post",
+  "@newPost": {"description": "newPost"},
+  "communityEmpty": "No posts yet. Start the conversation!",
+  "@communityEmpty": {"description": "communityEmpty"},
+  "communityActionFailed": "That didn't work. Please try again.",
+  "@communityActionFailed": {"description": "communityActionFailed"},
+  "communityRoleFarmer": "Farmer",
+  "@communityRoleFarmer": {"description": "communityRoleFarmer"},
+  "communityRoleBuyer": "Buyer",
+  "@communityRoleBuyer": {"description": "communityRoleBuyer"},
+  "communityRoleTeam": "Farm2Fork team",
+  "@communityRoleTeam": {"description": "communityRoleTeam"},
+  "postTitleLabel": "Title",
+  "@postTitleLabel": {"description": "postTitleLabel"},
+  "postContentLabel": "What would you like to share?",
+  "@postContentLabel": {"description": "postContentLabel"},
+  "postTagsLabel": "Tags (optional)",
+  "@postTagsLabel": {"description": "postTagsLabel"},
+  "postTagsHint": "e.g. wheat, sowing",
+  "@postTagsHint": {"description": "postTagsHint"},
+  "postTooManyTags": "Use at most {max} tags",
+  "@postTooManyTags": {"description": "postTooManyTags", "placeholders": {"max": {"type": "int"}}},
+  "postPhotosLabel": "Photos (up to {max})",
+  "@postPhotosLabel": {"description": "postPhotosLabel", "placeholders": {"max": {"type": "int"}}},
+  "takePhoto": "Camera",
+  "@takePhoto": {"description": "takePhoto"},
+  "chooseFromGallery": "Gallery",
+  "@chooseFromGallery": {"description": "chooseFromGallery"},
+  "publishPost": "Publish",
+  "@publishPost": {"description": "publishPost"},
+  "remove": "Remove",
+  "@remove": {"description": "remove"},
+  "removePostConfirm": "Remove this post for everyone?",
+  "@removePostConfirm": {"description": "removePostConfirm"},
+  "removeCommentConfirm": "Remove this comment?",
+  "@removeCommentConfirm": {"description": "removeCommentConfirm"},
+  "send": "Send",
+  "@send": {"description": "send"},
+  "loanStatusPending": "Submitted",
+  "@loanStatusPending": {"description": "loanStatusPending"},
+  "loanStatusUnderReview": "Under review",
+  "@loanStatusUnderReview": {"description": "loanStatusUnderReview"},
+  "loanStatusApproved": "Approved",
+  "@loanStatusApproved": {"description": "loanStatusApproved"},
+  "loanStatusRejected": "Not approved",
+  "@loanStatusRejected": {"description": "loanStatusRejected"},
+  "loanStatusRepaid": "Repaid",
+  "@loanStatusRepaid": {"description": "loanStatusRepaid"},
+  "loansFarmerIntroTitle": "Microfinance for your farm",
+  "@loansFarmerIntroTitle": {"description": "loansFarmerIntroTitle"},
+  "loansFarmerIntroBody": "Apply for seeds, fertiliser or equipment. A financial partner reviews your farm and Farm2Fork sales history, then approves a monthly repayment plan or explains why not.",
+  "@loansFarmerIntroBody": {"description": "loansFarmerIntroBody"},
+  "loanApply": "Apply for a loan",
+  "@loanApply": {"description": "loanApply"},
+  "loanOneAtATime": "You can have one application in progress or being repaid at a time.",
+  "@loanOneAtATime": {"description": "loanOneAtATime"},
+  "loansNone": "No applications yet.",
+  "@loansNone": {"description": "loansNone"},
+  "loanTermsSummary": "{months, plural, =1{1 month} other{{months} months}} · applied {date}",
+  "@loanTermsSummary": {"description": "loanTermsSummary", "placeholders": {"months": {"type": "int"}, "date": {"type": "String"}}},
+  "loanReviewerNote": "Reviewer: {note}",
+  "@loanReviewerNote": {"description": "loanReviewerNote", "placeholders": {"note": {"type": "String"}}},
+  "loanRepaidProgress": "Repaid {paid} of {total}",
+  "@loanRepaidProgress": {"description": "loanRepaidProgress", "placeholders": {"paid": {"type": "String"}, "total": {"type": "String"}}},
+  "loanInstalment": "Instalment {n}: {amount}",
+  "@loanInstalment": {"description": "loanInstalment", "placeholders": {"n": {"type": "int"}, "amount": {"type": "String"}}},
+  "loanDueOn": "Due {date}",
+  "@loanDueOn": {"description": "loanDueOn", "placeholders": {"date": {"type": "String"}}},
+  "loanPaidOn": "Paid {date}",
+  "@loanPaidOn": {"description": "loanPaidOn", "placeholders": {"date": {"type": "String"}}},
+  "loanMarkPaid": "Mark paid",
+  "@loanMarkPaid": {"description": "loanMarkPaid"},
+  "loanAmountLabel": "Amount (Rs)",
+  "@loanAmountLabel": {"description": "loanAmountLabel"},
+  "loanAmountRange": "Between Rs {min} and Rs {max}",
+  "@loanAmountRange": {"description": "loanAmountRange", "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "loanDurationLabel": "Repay over",
+  "@loanDurationLabel": {"description": "loanDurationLabel"},
+  "loanMonths": "{months, plural, =1{1 month} other{{months} months}}",
+  "@loanMonths": {"description": "loanMonths", "placeholders": {"months": {"type": "int"}}},
+  "loanPurposeLabel": "What is the loan for?",
+  "@loanPurposeLabel": {"description": "loanPurposeLabel"},
+  "loanPurposeHint": "e.g. seeds and fertiliser for the wheat season",
+  "@loanPurposeHint": {"description": "loanPurposeHint"},
+  "loanDocumentsLabel": "Documents",
+  "@loanDocumentsLabel": {"description": "loanDocumentsLabel"},
+  "loanDocumentsHint": "Photos of your CNIC and land papers speed up the review. Only reviewers can see them.",
+  "@loanDocumentsHint": {"description": "loanDocumentsHint"},
+  "loanSubmit": "Submit application",
+  "@loanSubmit": {"description": "loanSubmit"},
+  "loanSubmitted": "Application submitted. We'll notify you when it's reviewed.",
+  "@loanSubmitted": {"description": "loanSubmitted"},
+  "loanSubmitFailed": "Couldn't submit. Check the amount and your connection, then try again.",
+  "@loanSubmitFailed": {"description": "loanSubmitFailed"},
+  "loanFilterAll": "All",
+  "@loanFilterAll": {"description": "loanFilterAll"},
+  "loanQueueEmpty": "No applications here.",
+  "@loanQueueEmpty": {"description": "loanQueueEmpty"},
+  "loanReviewTitle": "Loan application",
+  "@loanReviewTitle": {"description": "loanReviewTitle"},
+  "loanLandSize": "Land: {acres} acres",
+  "@loanLandSize": {"description": "loanLandSize", "placeholders": {"acres": {"type": "String"}}},
+  "loanCrops": "Crops: {crops}",
+  "@loanCrops": {"description": "loanCrops", "placeholders": {"crops": {"type": "String"}}},
+  "loanSalesHistory": "{count, plural, =0{No delivered orders yet} =1{1 delivered order · {revenue}} other{{count} delivered orders · {revenue}}}",
+  "@loanSalesHistory": {"description": "loanSalesHistory", "placeholders": {"count": {"type": "int"}, "revenue": {"type": "String"}}},
+  "loanDocumentN": "Document {n}",
+  "@loanDocumentN": {"description": "loanDocumentN", "placeholders": {"n": {"type": "int"}}},
+  "loanDocumentsExpire": "Links expire after about 10 minutes; reopen the application for new ones.",
+  "@loanDocumentsExpire": {"description": "loanDocumentsExpire"},
+  "loanStartReview": "Start review",
+  "@loanStartReview": {"description": "loanStartReview"},
+  "loanApprove": "Approve",
+  "@loanApprove": {"description": "loanApprove"},
+  "loanReject": "Reject",
+  "@loanReject": {"description": "loanReject"},
+  "loanRejectTitle": "Reason for rejection",
+  "@loanRejectTitle": {"description": "loanRejectTitle"},
+  "loanRejectHint": "The farmer will see this",
+  "@loanRejectHint": {"description": "loanRejectHint"},
+  "loanActionFailed": "That didn't work. Refresh and try again.",
+  "@loanActionFailed": {"description": "loanActionFailed"}
 }

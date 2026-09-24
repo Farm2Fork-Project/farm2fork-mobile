@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
-import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
-import 'package:farm2fork_mobile/core/widgets/app_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
@@ -44,6 +44,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
       appBar: AppBar(
         title: Text(context.l10n.marketplace, style: AppTextStyles.h3),
         actions: [
+          const NotificationBell(),
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: [
@@ -102,7 +103,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               AppSpacing.pagePadding,
               0,
             ),
-            child: _MarketplaceHeader(cartCount: cartCount),
+            child: const _MarketplaceHeader(),
           ),
           _SearchBar(
             controller: _searchController,
@@ -123,13 +124,15 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               loading: () => const Center(
                 child: CircularProgressIndicator(color: AppColors.primaryGreen),
               ),
-              error: (e, _) => _ErrorState(
-                message: context.l10n.errorOccurred,
+              error: (e, _) => AppErrorState(
                 onRetry: () => ref.invalidate(productsProvider),
               ),
               data: (products) {
                 if (products.isEmpty) {
-                  return _EmptyState(message: context.l10n.noDataFound);
+                  return AppEmptyState(
+                    message: context.l10n.noDataFound,
+                    icon: Icons.search_off_rounded,
+                  );
                 }
 
                 return RefreshIndicator(
@@ -174,7 +177,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                                     ),
                                   ),
                                   backgroundColor: AppColors.primaryGreen,
-                                  duration: const Duration(seconds: 1),
+                                  duration: AppDurations.quickConfirmation,
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
@@ -200,9 +203,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
 }
 
 class _MarketplaceHeader extends StatelessWidget {
-  const _MarketplaceHeader({required this.cartCount});
-
-  final int cartCount;
+  const _MarketplaceHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -225,12 +226,6 @@ class _MarketplaceHeader extends StatelessWidget {
         subtitle: context.l10n.searchHint,
         titleColor: AppColors.white,
         subtitleColor: AppColors.primaryGreenSoft,
-        trailing: AppBadge(
-          label: '$cartCount',
-          icon: Icons.shopping_cart_outlined,
-          backgroundColor: AppColors.accentYellowSoft,
-          foregroundColor: AppColors.primaryGreenDark,
-        ),
       ),
     );
   }
@@ -360,62 +355,6 @@ class _Chip extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.search_off_rounded,
-            size: 64,
-            color: AppColors.textMuted.withValues(alpha: 0.45),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            message,
-            style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.message, required this.onRetry});
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.wifi_off_rounded,
-            size: 64,
-            color: AppColors.errorRed,
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(message, style: AppTextStyles.body),
-          const SizedBox(height: AppSpacing.lg),
-          AppButton(
-            label: context.l10n.retry,
-            icon: Icons.refresh_rounded,
-            onPressed: onRetry,
-          ),
-        ],
       ),
     );
   }

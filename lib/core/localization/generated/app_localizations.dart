@@ -134,6 +134,18 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// Confirmation dialog title before signing the user out
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get logoutConfirmTitle;
+
+  /// Confirmation dialog message before signing the user out
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll need to sign in again to access your account.'**
+  String get logoutConfirmMessage;
+
   /// A general greeting
   ///
   /// In en, this message translates to:
@@ -215,7 +227,7 @@ abstract class AppLocalizations {
   /// Bottom navigation label for shipments
   ///
   /// In en, this message translates to:
-  /// **'Shipments'**
+  /// **'History'**
   String get navShipments;
 
   /// Bottom navigation label for loans
@@ -263,13 +275,13 @@ abstract class AppLocalizations {
   /// QR traceability scanner screen title
   ///
   /// In en, this message translates to:
-  /// **'Scan & Trace'**
+  /// **'Trace produce'**
   String get traceScannerTitle;
 
   /// QR traceability scanner placeholder description
   ///
   /// In en, this message translates to:
-  /// **'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.'**
+  /// **'Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.'**
   String get traceScannerDescription;
 
   /// Payment provider placeholder note
@@ -392,6 +404,78 @@ abstract class AppLocalizations {
   /// **'Add crop details, quantity, grade, price, and harvest information for buyers.'**
   String get createListingDescription;
 
+  /// Step 1 heading in create-listing wizard: name, category, grade, description
+  ///
+  /// In en, this message translates to:
+  /// **'Produce Details'**
+  String get listingStepProduceDetails;
+
+  /// Step 2 heading in create-listing wizard: price, quantity, unit
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing & Quantity'**
+  String get listingStepPricingQuantity;
+
+  /// Create-listing form field: produce name label
+  ///
+  /// In en, this message translates to:
+  /// **'Produce Name'**
+  String get produceName;
+
+  /// Create-listing form field: produce name hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Organic Tomatoes'**
+  String get produceNameHint;
+
+  /// Create-listing form field: category dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// Create-listing form field: description hint
+  ///
+  /// In en, this message translates to:
+  /// **'Describe freshness, farming practices, harvest date, etc.'**
+  String get descriptionHint;
+
+  /// Create-listing form field: price label
+  ///
+  /// In en, this message translates to:
+  /// **'Price (PKR)'**
+  String get priceWithCurrency;
+
+  /// Create-listing form field: price hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 150'**
+  String get priceHint;
+
+  /// Create-listing form validation: price must be a positive number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid price'**
+  String get pleaseEnterValidPrice;
+
+  /// Create-listing form field: quantity hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 250'**
+  String get quantityHint;
+
+  /// Create-listing form validation: quantity must be a positive number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid quantity'**
+  String get pleaseEnterValidQuantity;
+
+  /// Create-listing form field: unit dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get unit;
+
   /// Community feed screen title
   ///
   /// In en, this message translates to:
@@ -403,6 +487,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share updates, ask questions, and follow trusted activity across the Farm2Fork network.'**
   String get feedDescription;
+
+  /// Comment count button label on a feed post
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 Comment} other{{count} Comments}}'**
+  String feedCommentCount(int count);
+
+  /// Title of the comments bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get feedCommentsTitle;
+
+  /// Empty state inside the comments bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet.'**
+  String get feedNoCommentsYet;
+
+  /// Hint text for the comment input field
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment...'**
+  String get feedAddCommentHint;
 
   /// Transporter shipments screen title
   ///
@@ -734,6 +842,30 @@ abstract class AppLocalizations {
   /// **'Shop Now'**
   String get shopNow;
 
+  /// Button to remove all items from the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart'**
+  String get clearCart;
+
+  /// Confirmation dialog title before clearing the entire cart
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart?'**
+  String get clearCartConfirmTitle;
+
+  /// Confirmation dialog message before clearing the entire cart
+  ///
+  /// In en, this message translates to:
+  /// **'This removes every item from your cart. This can\'t be undone.'**
+  String get clearCartConfirmMessage;
+
+  /// Generic cancel button label used in confirmation dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// Subtotal label in cart group
   ///
   /// In en, this message translates to:
@@ -769,6 +901,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checkout'**
   String get checkoutTitle;
+
+  /// Orders screen tab for in-progress orders
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get ordersTabActive;
+
+  /// Orders screen tab for delivered/cancelled orders
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get ordersTabCompleted;
+
+  /// Order status: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get orderStatusPending;
+
+  /// Order status: paid
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get orderStatusPaid;
+
+  /// Order status: processing
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get orderStatusProcessing;
+
+  /// Order status: shipped
+  ///
+  /// In en, this message translates to:
+  /// **'Shipped'**
+  String get orderStatusShipped;
+
+  /// Order status: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get orderStatusDelivered;
+
+  /// Order status: cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get orderStatusCancelled;
+
+  /// No description provided for @orderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order #{id}'**
+  String orderNumber(String id);
 
   /// Shipping address section heading
   ///
@@ -851,8 +1037,14 @@ abstract class AppLocalizations {
   /// Explains pending payment status
   ///
   /// In en, this message translates to:
-  /// **'Your payment was created and is waiting for confirmation.'**
+  /// **'Your payment was created and is waiting for confirmation. This screen doesn\'t update automatically — check back or refresh to see the latest status.'**
   String get paymentPendingDescription;
+
+  /// Button to re-check a pending payment's status when the real gateway isn't polled automatically
+  ///
+  /// In en, this message translates to:
+  /// **'Check payment status'**
+  String get checkPaymentStatus;
 
   /// Number of checkout orders represented by the payment flow
   ///
@@ -913,6 +1105,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Item removed'**
   String get itemRemoved;
+
+  /// Confirmation dialog title before deleting a farmer's product listing
+  ///
+  /// In en, this message translates to:
+  /// **'Delete listing?'**
+  String get deleteListingConfirmTitle;
+
+  /// Confirmation dialog message before deleting a farmer's product listing
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the listing from the marketplace. This can\'t be undone.'**
+  String get deleteListingConfirmMessage;
 
   /// Label for farmer/product rating
   ///
@@ -1015,6 +1219,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Incorrect email or password. Please try again.'**
   String get invalidCredentials;
+
+  /// Validation message when requesting a password reset with no email entered
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address first.'**
+  String get enterEmailFirst;
+
+  /// Confirmation shown after requesting a password reset
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists, we\'ve sent a password-reset email.'**
+  String get passwordResetSentNote;
+
+  /// Email verification screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get verifyYourEmailTitle;
+
+  /// Email verification instructions when the email address isn't known yet
+  ///
+  /// In en, this message translates to:
+  /// **'Open the verification link we sent to your email, then return here.'**
+  String get verifyYourEmailBodyGeneric;
+
+  /// Email verification instructions with the recipient address
+  ///
+  /// In en, this message translates to:
+  /// **'Open the verification link we sent to {email}, then return here.'**
+  String verifyYourEmailBody(String email);
+
+  /// Confirmation after resending the verification email
+  ///
+  /// In en, this message translates to:
+  /// **'A new verification email has been sent.'**
+  String get verificationResentNote;
+
+  /// Shown when the user says they've verified but the email is still unverified
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is not verified yet. Check your inbox, then try again.'**
+  String get verificationStillPendingNote;
+
+  /// Button confirming the user completed email verification
+  ///
+  /// In en, this message translates to:
+  /// **'I have verified my email'**
+  String get iHaveVerifiedMyEmail;
+
+  /// Button to resend the verification email
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get resendVerificationEmail;
 
   /// Google sign-in button
   ///
@@ -1454,6 +1712,12 @@ abstract class AppLocalizations {
   /// **'Choose how you want to be notified'**
   String get notificationsSubtitle;
 
+  /// Disclosure note that notification toggles don't persist or trigger real push notifications yet
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications for orders, deliveries and loans are on for this device. These per-topic switches only apply for this session for now; to stop all notifications, turn them off in your phone\'s settings.'**
+  String get notificationsNotYetConnectedNote;
+
   /// Order updates notification switch label
   ///
   /// In en, this message translates to:
@@ -1625,7 +1889,7 @@ abstract class AppLocalizations {
   /// Contact us form success message
   ///
   /// In en, this message translates to:
-  /// **'Your inquiry has been submitted successfully!'**
+  /// **'Message noted. Our support inbox isn\'t connected yet, so please also email support@farm2fork.pk for a reply.'**
   String get contactMessageSuccess;
 
   /// Contact us form validation message
@@ -1747,6 +2011,1278 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.'**
   String get termsConditionsContent;
+
+  /// Trace lookup input label
+  ///
+  /// In en, this message translates to:
+  /// **'Product ID or QR link'**
+  String get traceInputLabel;
+
+  /// Example product id shown as input hint (not translated: ids are Latin)
+  ///
+  /// In en, this message translates to:
+  /// **'6a2fe77bb77795516febc287'**
+  String get traceInputHint;
+
+  /// Validation message for a malformed trace lookup
+  ///
+  /// In en, this message translates to:
+  /// **'That isn\'t a Farm2Fork product ID or QR link. Product IDs are 24 characters long.'**
+  String get traceInvalidInput;
+
+  /// Trace lookup submit button
+  ///
+  /// In en, this message translates to:
+  /// **'Trace product'**
+  String get traceSearchButton;
+
+  /// Honest note that camera QR scanning is not built yet
+  ///
+  /// In en, this message translates to:
+  /// **'Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.'**
+  String get traceCameraComingSoon;
+
+  /// Loading message while fetching a product trace
+  ///
+  /// In en, this message translates to:
+  /// **'Loading journey…'**
+  String get traceLoading;
+
+  /// Error message when the trace request fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the journey. Check your connection and try again.'**
+  String get traceLoadFailed;
+
+  /// Title when a traced product does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'No product found for this code'**
+  String get traceNotFoundTitle;
+
+  /// Explanation when a traced product does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.'**
+  String get traceNotFoundDesc;
+
+  /// Action to start a new trace lookup
+  ///
+  /// In en, this message translates to:
+  /// **'Trace another product'**
+  String get traceSearchAnother;
+
+  /// Banner title when the listing event is committed on Fabric
+  ///
+  /// In en, this message translates to:
+  /// **'Origin verified on ledger'**
+  String get traceOriginVerified;
+
+  /// Banner body for a verified origin
+  ///
+  /// In en, this message translates to:
+  /// **'The farmer\'s listing is committed to the Hyperledger Fabric ledger and can\'t be altered.'**
+  String get traceOriginVerifiedDesc;
+
+  /// Banner title when the listing event is queued but not committed
+  ///
+  /// In en, this message translates to:
+  /// **'Origin awaiting ledger confirmation'**
+  String get traceOriginPending;
+
+  /// Banner body for a pending origin
+  ///
+  /// In en, this message translates to:
+  /// **'The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.'**
+  String get traceOriginPendingDesc;
+
+  /// Banner title when a listing has no ledger event
+  ///
+  /// In en, this message translates to:
+  /// **'No ledger record for this listing'**
+  String get traceOriginMissing;
+
+  /// Banner body when a listing has no ledger event
+  ///
+  /// In en, this message translates to:
+  /// **'This listing was created before ledger recording was enabled, so its origin can\'t be verified on-chain.'**
+  String get traceOriginMissingDesc;
+
+  /// Label for the farm a product came from
+  ///
+  /// In en, this message translates to:
+  /// **'Source farm'**
+  String get traceSourceFarm;
+
+  /// Shown when the farm profile is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Farm details not provided'**
+  String get traceFarmUnknown;
+
+  /// Label for a product's quality grade
+  ///
+  /// In en, this message translates to:
+  /// **'Quality grade'**
+  String get traceQualityGrade;
+
+  /// Quality grade value
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade}'**
+  String traceGradeValue(String grade);
+
+  /// Shown when a product has no grade
+  ///
+  /// In en, this message translates to:
+  /// **'Not graded'**
+  String get traceGradeNone;
+
+  /// Label for when a product was listed
+  ///
+  /// In en, this message translates to:
+  /// **'Listed on'**
+  String get traceListedOn;
+
+  /// Label for a product id
+  ///
+  /// In en, this message translates to:
+  /// **'Product ID'**
+  String get traceProductId;
+
+  /// Listing status: active
+  ///
+  /// In en, this message translates to:
+  /// **'Available on the marketplace'**
+  String get traceStatusActive;
+
+  /// Listing status: sold out
+  ///
+  /// In en, this message translates to:
+  /// **'Sold out'**
+  String get traceStatusSoldOut;
+
+  /// Listing status: inactive
+  ///
+  /// In en, this message translates to:
+  /// **'No longer listed'**
+  String get traceStatusInactive;
+
+  /// Section title for the trace timeline
+  ///
+  /// In en, this message translates to:
+  /// **'Supply chain journey'**
+  String get traceJourneyTitle;
+
+  /// How many journey events are committed on the ledger
+  ///
+  /// In en, this message translates to:
+  /// **'{confirmed} of {total} recorded on ledger'**
+  String traceLedgerProgress(int confirmed, int total);
+
+  /// Shown when a product has no journey events yet
+  ///
+  /// In en, this message translates to:
+  /// **'Only the listing so far. Sales and deliveries will appear here as they happen.'**
+  String get traceJourneyEmpty;
+
+  /// Trace event: product listed
+  ///
+  /// In en, this message translates to:
+  /// **'Listed on marketplace'**
+  String get traceEventListed;
+
+  /// Trace event: payment confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed'**
+  String get traceEventPaymentConfirmed;
+
+  /// Trace event: shipment assigned
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter assigned'**
+  String get traceEventShipmentAssigned;
+
+  /// Trace event: picked up
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up from farm'**
+  String get traceEventShipmentPickedUp;
+
+  /// Trace event: in transit
+  ///
+  /// In en, this message translates to:
+  /// **'In transit'**
+  String get traceEventShipmentInTransit;
+
+  /// Trace event: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get traceEventShipmentDelivered;
+
+  /// Trace event: delivery failed
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery failed'**
+  String get traceEventShipmentFailed;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get traceRoleFarmer;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get traceRoleBuyer;
+
+  /// Role badge on a trace event
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get traceRoleTransporter;
+
+  /// Short reference grouping one sale
+  ///
+  /// In en, this message translates to:
+  /// **'Sale #{reference}'**
+  String traceReferenceSale(String reference);
+
+  /// Short reference grouping one delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery #{reference}'**
+  String traceReferenceDelivery(String reference);
+
+  /// Ledger state: committed on Fabric
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded on ledger'**
+  String get traceLedgerConfirmed;
+
+  /// Ledger state: queued, not yet committed
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting ledger confirmation'**
+  String get traceLedgerPending;
+
+  /// Ledger state: recording failed
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger recording failed'**
+  String get traceLedgerFailed;
+
+  /// Fabric block number
+  ///
+  /// In en, this message translates to:
+  /// **'Block {block}'**
+  String traceLedgerBlock(int block);
+
+  /// Product detail action opening the trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'View product journey'**
+  String get productViewJourney;
+
+  /// Listing card action opening the trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'View journey'**
+  String get listingViewJourney;
+
+  /// Listing card action: deactivate listing
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from marketplace'**
+  String get listingHide;
+
+  /// Listing card action: reactivate listing
+  ///
+  /// In en, this message translates to:
+  /// **'Show on marketplace'**
+  String get listingShow;
+
+  /// Listing card action: delete
+  ///
+  /// In en, this message translates to:
+  /// **'Delete listing'**
+  String get listingDelete;
+
+  /// Snackbar after a listing is created
+  ///
+  /// In en, this message translates to:
+  /// **'Listing published'**
+  String get listingPublished;
+
+  /// Snackbar when creating a listing fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t publish the listing. Your details are kept - check your connection and try again.'**
+  String get listingPublishFailed;
+
+  /// Before-noon marker for 12-hour times (intl's Urdu data only has 'a')
+  ///
+  /// In en, this message translates to:
+  /// **'AM'**
+  String get timeAm;
+
+  /// After-noon marker for 12-hour times (intl's Urdu data only has 'p')
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get timePm;
+
+  /// AI price helper title
+  ///
+  /// In en, this message translates to:
+  /// **'Fair price suggestion'**
+  String get aiPriceTitle;
+
+  /// Button: ask for a price suggestion
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a price'**
+  String get aiSuggestPrice;
+
+  /// Suggested price range
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {min} – {max} per {unit}'**
+  String aiPriceRange(String min, String max, String unit);
+
+  /// Caveat: price is rule-based
+  ///
+  /// In en, this message translates to:
+  /// **'Rule-based estimate from reference ranges, season and grade — not live market data.'**
+  String get aiPriceRuleBased;
+
+  /// Button applying the suggested price
+  ///
+  /// In en, this message translates to:
+  /// **'Use Rs {price}'**
+  String aiUsePrice(String price);
+
+  /// No rule for this unit/category
+  ///
+  /// In en, this message translates to:
+  /// **'No price rule covers this unit or category yet.'**
+  String get aiPriceNoRule;
+
+  /// AI quality check title
+  ///
+  /// In en, this message translates to:
+  /// **'Photo quality check'**
+  String get aiQualityTitle;
+
+  /// Warning: untrained model
+  ///
+  /// In en, this message translates to:
+  /// **'Preview model: the grading model isn\'t trained yet, so its grades are not reliable.'**
+  String get aiPreviewModel;
+
+  /// Crop selector label
+  ///
+  /// In en, this message translates to:
+  /// **'Crop in the photo'**
+  String get aiCropLabel;
+
+  /// Validation: crop required
+  ///
+  /// In en, this message translates to:
+  /// **'Select the crop in the photo.'**
+  String get aiNeedCrop;
+
+  /// Button: camera
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get aiTakePhoto;
+
+  /// Button: gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get aiChoosePhoto;
+
+  /// Quality result
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade} · {confidence}% confidence'**
+  String aiGradeResult(String grade, int confidence);
+
+  /// Result caveat: untrained
+  ///
+  /// In en, this message translates to:
+  /// **'Preview only — don\'t rely on this grade until the model is trained.'**
+  String get aiPreviewResult;
+
+  /// Result caveat: crop not trained
+  ///
+  /// In en, this message translates to:
+  /// **'The model has no training data for this crop yet.'**
+  String get aiCropNotTrained;
+
+  /// Result caveat: low confidence
+  ///
+  /// In en, this message translates to:
+  /// **'Low confidence — check the grade yourself.'**
+  String get aiLowConfidence;
+
+  /// Button applying the suggested grade
+  ///
+  /// In en, this message translates to:
+  /// **'Use grade {grade}'**
+  String aiUseGrade(String grade);
+
+  /// Result: grade D
+  ///
+  /// In en, this message translates to:
+  /// **'Below listing grades (D). Consider selling for processing.'**
+  String get aiGradeD;
+
+  /// AI service down
+  ///
+  /// In en, this message translates to:
+  /// **'The AI service isn\'t reachable right now. You can still publish your listing.'**
+  String get aiUnavailable;
+
+  /// Rate limited
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Please wait a minute and try again.'**
+  String get aiTooManyRequests;
+
+  /// Photo rejected
+  ///
+  /// In en, this message translates to:
+  /// **'That photo couldn\'t be used. Try a clear JPEG or PNG under 8 MB.'**
+  String get aiInvalidPhoto;
+
+  /// Generic AI failure
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get aiFailed;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Wheat'**
+  String get cropWheat;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Rice'**
+  String get cropRice;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Mango'**
+  String get cropMango;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Maize'**
+  String get cropMaize;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Cotton'**
+  String get cropCotton;
+
+  /// Crop name
+  ///
+  /// In en, this message translates to:
+  /// **'Sugarcane'**
+  String get cropSugarcane;
+
+  /// Listing ledger badge: confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'On ledger'**
+  String get ledgerConfirmed;
+
+  /// Listing ledger badge: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger pending'**
+  String get ledgerPending;
+
+  /// Listing ledger badge: failed
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger failed'**
+  String get ledgerFailed;
+
+  /// Listing ledger badge: none
+  ///
+  /// In en, this message translates to:
+  /// **'No ledger record'**
+  String get ledgerMissing;
+
+  /// Farm street or village
+  ///
+  /// In en, this message translates to:
+  /// **'Street / village'**
+  String get farmStreet;
+
+  /// Street hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Chak 5, Canal Road'**
+  String get farmStreetHint;
+
+  /// Farm city
+  ///
+  /// In en, this message translates to:
+  /// **'City / district'**
+  String get farmCity;
+
+  /// Farm province
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get farmProvince;
+
+  /// Province hint
+  ///
+  /// In en, this message translates to:
+  /// **'Select province'**
+  String get farmProvinceHint;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Punjab'**
+  String get provincePunjab;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Sindh'**
+  String get provinceSindh;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Khyber Pakhtunkhwa'**
+  String get provinceKpk;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Balochistan'**
+  String get provinceBalochistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Gilgit-Baltistan'**
+  String get provinceGilgitBaltistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Azad Jammu and Kashmir'**
+  String get provinceAjk;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Islamabad Capital Territory'**
+  String get provinceIslamabad;
+
+  /// Prompt title shown while farm location is incomplete
+  ///
+  /// In en, this message translates to:
+  /// **'Add your farm\'s pickup location'**
+  String get farmLocationPromptTitle;
+
+  /// Prompt body
+  ///
+  /// In en, this message translates to:
+  /// **'Transporters can\'t see or collect your orders until your farm\'s street, city and province are saved.'**
+  String get farmLocationPromptBody;
+
+  /// Save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save location'**
+  String get farmLocationSave;
+
+  /// Save failure
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the location. Check your connection and try again.'**
+  String get farmLocationSaveFailed;
+
+  /// Picker title
+  ///
+  /// In en, this message translates to:
+  /// **'Pin your farm'**
+  String get pickFarmLocationTitle;
+
+  /// pickFarmLocationHint
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits on your farm gate. Transporters will navigate to this exact spot.'**
+  String get pickFarmLocationHint;
+
+  /// pickDropoffTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the drop-off'**
+  String get pickDropoffTitle;
+
+  /// pickDropoffHint
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits where the order should be delivered. The delivery fee is based on this spot.'**
+  String get pickDropoffHint;
+
+  /// useMyLocation
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get useMyLocation;
+
+  /// confirmLocation
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm this spot'**
+  String get confirmLocation;
+
+  /// locationOutsidePakistan
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a location inside Pakistan.'**
+  String get locationOutsidePakistan;
+
+  /// locationServiceDisabled
+  ///
+  /// In en, this message translates to:
+  /// **'Location is turned off on this phone. Turn it on to continue.'**
+  String get locationServiceDisabled;
+
+  /// locationPermissionDenied
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork needs location permission for this.'**
+  String get locationPermissionDenied;
+
+  /// locationPermissionDeniedForever
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is blocked. Allow it in Settings to continue.'**
+  String get locationPermissionDeniedForever;
+
+  /// locationUnavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location. Move to open sky and try again.'**
+  String get locationUnavailable;
+
+  /// openSettings
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get openSettings;
+
+  /// pinFarmOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Pin farm on map'**
+  String get pinFarmOnMap;
+
+  /// pinDropoffOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Pin drop-off on map'**
+  String get pinDropoffOnMap;
+
+  /// pinSet
+  ///
+  /// In en, this message translates to:
+  /// **'Location pinned'**
+  String get pinSet;
+
+  /// pinOpenMap
+  ///
+  /// In en, this message translates to:
+  /// **'Open map'**
+  String get pinOpenMap;
+
+  /// pinChange
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get pinChange;
+
+  /// pinRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the location on the map'**
+  String get pinRequired;
+
+  /// deliveryFeePinFirst
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the drop-off to see the delivery fee.'**
+  String get deliveryFeePinFirst;
+
+  /// deliveryFeeCalculating
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating delivery fee…'**
+  String get deliveryFeeCalculating;
+
+  /// deliveryFeeUnavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery can\'t be priced for this farm yet, so it can\'t be ordered right now.'**
+  String get deliveryFeeUnavailable;
+
+  /// deliveryFeeWithDistance
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery ({km} km)'**
+  String deliveryFeeWithDistance(String km);
+
+  /// Transporter tab
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries'**
+  String get navDeliveries;
+
+  /// deliveriesTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries'**
+  String get deliveriesTitle;
+
+  /// deliveryHistoryTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery history'**
+  String get deliveryHistoryTitle;
+
+  /// noDeliveriesYet
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries yet. Accepted deliveries will appear here.'**
+  String get noDeliveriesYet;
+
+  /// youAreOnline
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re online'**
+  String get youAreOnline;
+
+  /// youAreOffline
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline'**
+  String get youAreOffline;
+
+  /// onlineSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be offered paid orders from farms within {km} km. Keep the app open so your location stays current.'**
+  String onlineSubtitle(String km);
+
+  /// offlineSubtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Go online to receive delivery offers near you.'**
+  String get offlineSubtitle;
+
+  /// locationStaleWarning
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is out of date, so you may miss offers. Open the app to refresh it.'**
+  String get locationStaleWarning;
+
+  /// offlineHint
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Turn on the switch above to start receiving deliveries.'**
+  String get offlineHint;
+
+  /// noOffersNearby
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries within {km} km right now. We\'ll notify you when one comes up.'**
+  String noOffersNearby(String km);
+
+  /// offersNearYou
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries near you'**
+  String get offersNearYou;
+
+  /// Offer route line
+  ///
+  /// In en, this message translates to:
+  /// **'{farm} ({from}) → {to}'**
+  String offerRoute(String farm, String from, String to);
+
+  /// offerDistances
+  ///
+  /// In en, this message translates to:
+  /// **'{toPickup} km to pickup · {trip} km trip'**
+  String offerDistances(String toPickup, String trip);
+
+  /// viewOnMap
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get viewOnMap;
+
+  /// acceptDelivery
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get acceptDelivery;
+
+  /// declineDelivery
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get declineDelivery;
+
+  /// offerNoLongerAvailable
+  ///
+  /// In en, this message translates to:
+  /// **'This delivery is no longer available — someone else may have accepted it, or you\'re out of range.'**
+  String get offerNoLongerAvailable;
+
+  /// dispatchActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Check your connection and try again.'**
+  String get dispatchActionFailed;
+
+  /// dropoffApproximateNote
+  ///
+  /// In en, this message translates to:
+  /// **'The drop-off is shown approximately (within about 1 km). You\'ll see the exact address after accepting.'**
+  String get dropoffApproximateNote;
+
+  /// activeDeliveryTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your current delivery'**
+  String get activeDeliveryTitle;
+
+  /// youEarn
+  ///
+  /// In en, this message translates to:
+  /// **'You earn {amount}'**
+  String youEarn(String amount);
+
+  /// navigateToPickup
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to pickup'**
+  String get navigateToPickup;
+
+  /// navigateToDropoff
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to drop-off'**
+  String get navigateToDropoff;
+
+  /// markAllRead
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// noNotificationsYet
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet.'**
+  String get noNotificationsYet;
+
+  /// myAccount
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get myAccount;
+
+  /// newPost
+  ///
+  /// In en, this message translates to:
+  /// **'New post'**
+  String get newPost;
+
+  /// communityEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet. Start the conversation!'**
+  String get communityEmpty;
+
+  /// communityActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Please try again.'**
+  String get communityActionFailed;
+
+  /// communityRoleFarmer
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get communityRoleFarmer;
+
+  /// communityRoleBuyer
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get communityRoleBuyer;
+
+  /// communityRoleTeam
+  ///
+  /// In en, this message translates to:
+  /// **'Farm2Fork team'**
+  String get communityRoleTeam;
+
+  /// postTitleLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get postTitleLabel;
+
+  /// postContentLabel
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to share?'**
+  String get postContentLabel;
+
+  /// postTagsLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Tags (optional)'**
+  String get postTagsLabel;
+
+  /// postTagsHint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. wheat, sowing'**
+  String get postTagsHint;
+
+  /// postTooManyTags
+  ///
+  /// In en, this message translates to:
+  /// **'Use at most {max} tags'**
+  String postTooManyTags(int max);
+
+  /// postPhotosLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Photos (up to {max})'**
+  String postPhotosLabel(int max);
+
+  /// takePhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get takePhoto;
+
+  /// chooseFromGallery
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get chooseFromGallery;
+
+  /// publishPost
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get publishPost;
+
+  /// remove
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// removePostConfirm
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this post for everyone?'**
+  String get removePostConfirm;
+
+  /// removeCommentConfirm
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this comment?'**
+  String get removeCommentConfirm;
+
+  /// send
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// loanStatusPending
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get loanStatusPending;
+
+  /// loanStatusUnderReview
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get loanStatusUnderReview;
+
+  /// loanStatusApproved
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get loanStatusApproved;
+
+  /// loanStatusRejected
+  ///
+  /// In en, this message translates to:
+  /// **'Not approved'**
+  String get loanStatusRejected;
+
+  /// loanStatusRepaid
+  ///
+  /// In en, this message translates to:
+  /// **'Repaid'**
+  String get loanStatusRepaid;
+
+  /// loansFarmerIntroTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Microfinance for your farm'**
+  String get loansFarmerIntroTitle;
+
+  /// loansFarmerIntroBody
+  ///
+  /// In en, this message translates to:
+  /// **'Apply for seeds, fertiliser or equipment. A financial partner reviews your farm and Farm2Fork sales history, then approves a monthly repayment plan or explains why not.'**
+  String get loansFarmerIntroBody;
+
+  /// loanApply
+  ///
+  /// In en, this message translates to:
+  /// **'Apply for a loan'**
+  String get loanApply;
+
+  /// loanOneAtATime
+  ///
+  /// In en, this message translates to:
+  /// **'You can have one application in progress or being repaid at a time.'**
+  String get loanOneAtATime;
+
+  /// loansNone
+  ///
+  /// In en, this message translates to:
+  /// **'No applications yet.'**
+  String get loansNone;
+
+  /// loanTermsSummary
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 month} other{{months} months}} · applied {date}'**
+  String loanTermsSummary(int months, String date);
+
+  /// loanReviewerNote
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewer: {note}'**
+  String loanReviewerNote(String note);
+
+  /// loanRepaidProgress
+  ///
+  /// In en, this message translates to:
+  /// **'Repaid {paid} of {total}'**
+  String loanRepaidProgress(String paid, String total);
+
+  /// loanInstalment
+  ///
+  /// In en, this message translates to:
+  /// **'Instalment {n}: {amount}'**
+  String loanInstalment(int n, String amount);
+
+  /// loanDueOn
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String loanDueOn(String date);
+
+  /// loanPaidOn
+  ///
+  /// In en, this message translates to:
+  /// **'Paid {date}'**
+  String loanPaidOn(String date);
+
+  /// loanMarkPaid
+  ///
+  /// In en, this message translates to:
+  /// **'Mark paid'**
+  String get loanMarkPaid;
+
+  /// loanAmountLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (Rs)'**
+  String get loanAmountLabel;
+
+  /// loanAmountRange
+  ///
+  /// In en, this message translates to:
+  /// **'Between Rs {min} and Rs {max}'**
+  String loanAmountRange(String min, String max);
+
+  /// loanDurationLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Repay over'**
+  String get loanDurationLabel;
+
+  /// loanMonths
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 month} other{{months} months}}'**
+  String loanMonths(int months);
+
+  /// loanPurposeLabel
+  ///
+  /// In en, this message translates to:
+  /// **'What is the loan for?'**
+  String get loanPurposeLabel;
+
+  /// loanPurposeHint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. seeds and fertiliser for the wheat season'**
+  String get loanPurposeHint;
+
+  /// loanDocumentsLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get loanDocumentsLabel;
+
+  /// loanDocumentsHint
+  ///
+  /// In en, this message translates to:
+  /// **'Photos of your CNIC and land papers speed up the review. Only reviewers can see them.'**
+  String get loanDocumentsHint;
+
+  /// loanSubmit
+  ///
+  /// In en, this message translates to:
+  /// **'Submit application'**
+  String get loanSubmit;
+
+  /// loanSubmitted
+  ///
+  /// In en, this message translates to:
+  /// **'Application submitted. We\'ll notify you when it\'s reviewed.'**
+  String get loanSubmitted;
+
+  /// loanSubmitFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t submit. Check the amount and your connection, then try again.'**
+  String get loanSubmitFailed;
+
+  /// loanFilterAll
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get loanFilterAll;
+
+  /// loanQueueEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No applications here.'**
+  String get loanQueueEmpty;
+
+  /// loanReviewTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Loan application'**
+  String get loanReviewTitle;
+
+  /// loanLandSize
+  ///
+  /// In en, this message translates to:
+  /// **'Land: {acres} acres'**
+  String loanLandSize(String acres);
+
+  /// loanCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Crops: {crops}'**
+  String loanCrops(String crops);
+
+  /// loanSalesHistory
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No delivered orders yet} =1{1 delivered order · {revenue}} other{{count} delivered orders · {revenue}}}'**
+  String loanSalesHistory(int count, String revenue);
+
+  /// loanDocumentN
+  ///
+  /// In en, this message translates to:
+  /// **'Document {n}'**
+  String loanDocumentN(int n);
+
+  /// loanDocumentsExpire
+  ///
+  /// In en, this message translates to:
+  /// **'Links expire after about 10 minutes; reopen the application for new ones.'**
+  String get loanDocumentsExpire;
+
+  /// loanStartReview
+  ///
+  /// In en, this message translates to:
+  /// **'Start review'**
+  String get loanStartReview;
+
+  /// loanApprove
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get loanApprove;
+
+  /// loanReject
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get loanReject;
+
+  /// loanRejectTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for rejection'**
+  String get loanRejectTitle;
+
+  /// loanRejectHint
+  ///
+  /// In en, this message translates to:
+  /// **'The farmer will see this'**
+  String get loanRejectHint;
+
+  /// loanActionFailed
+  ///
+  /// In en, this message translates to:
+  /// **'That didn\'t work. Refresh and try again.'**
+  String get loanActionFailed;
 }
 
 class _AppLocalizationsDelegate

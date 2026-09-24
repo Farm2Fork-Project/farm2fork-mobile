@@ -27,6 +27,7 @@ class PaymentScreen extends ConsumerWidget {
     final simulatorEnabled = ref.watch(paymentSimulatorEnabledProvider);
     final isLoading = paymentState.isLoading;
     final completed = result != null;
+    final isPending = result == null || result.pendingOrderIds.isNotEmpty;
     final title = _title(context, result);
     final description = _description(context, result);
     final color = _color(result);
@@ -42,58 +43,84 @@ class PaymentScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AppCard(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.account_balance_wallet_rounded,
-                      color: color,
-                      size: 36,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: AppCard(
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.account_balance_wallet_rounded,
+                          color: color,
+                          size: 36,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          title,
+                          style: AppTextStyles.h3,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          description,
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        Text(
+                          context.l10n.paymentOrdersReadyCount(
+                            orderIds.length,
+                          ),
+                          style: AppTextStyles.small.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(
-                      title,
-                      style: AppTextStyles.h3,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      description,
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.textMuted,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    Text(
-                      context.l10n.paymentOrdersReadyCount(orderIds.length),
-                      style: AppTextStyles.small.copyWith(
-                        color: AppColors.textMuted,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              const Spacer(),
-              AppButton(
-                expand: true,
-                label: isLoading
-                    ? context.l10n.loading
-                    : simulatorEnabled && !completed
-                    ? context.l10n.completeTestPayment
-                    : context.l10n.viewOrders,
-                onPressed: isLoading
-                    ? null
-                    : simulatorEnabled && !completed
-                    ? () => _completePayment(context, ref)
-                    : () => context.go(
-                        AppNavConfig.routeFor(
-                          AppUserRole.buyer,
-                          AppNavDestination.orders,
+              if (isPending && !simulatorEnabled) ...[
+                AppButton(
+                  expand: true,
+                  isLoading: isLoading,
+                  label: context.l10n.checkPaymentStatus,
+                  icon: Icons.refresh_rounded,
+                  onPressed: isLoading
+                      ? null
+                      : () => _completePayment(context, ref),
+                ),
+                TextButton(
+                  onPressed: isLoading
+                      ? null
+                      : () => context.go(
+                          AppNavConfig.routeFor(
+                            AppUserRole.buyer,
+                            AppNavDestination.orders,
+                          ),
                         ),
-                      ),
-              ),
+                  child: Text(context.l10n.viewOrders),
+                ),
+              ] else
+                AppButton(
+                  expand: true,
+                  isLoading: isLoading,
+                  label: simulatorEnabled && !completed
+                      ? context.l10n.completeTestPayment
+                      : context.l10n.viewOrders,
+                  onPressed: isLoading
+                      ? null
+                      : simulatorEnabled && !completed
+                      ? () => _completePayment(context, ref)
+                      : () => context.go(
+                          AppNavConfig.routeFor(
+                            AppUserRole.buyer,
+                            AppNavDestination.orders,
+                          ),
+                        ),
+                ),
             ],
           ),
         ),

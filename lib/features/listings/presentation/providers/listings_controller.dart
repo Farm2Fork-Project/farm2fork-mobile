@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
-import 'package:farm2fork_mobile/features/listings/data/repositories/mock_listings_repository.dart';
-import 'package:farm2fork_mobile/features/marketplace/data/models/farmer_summary.dart';
+import 'package:farm2fork_mobile/features/listings/data/models/new_listing.dart';
+import 'package:farm2fork_mobile/features/listings/data/repositories/listings_repository_provider.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 
@@ -22,7 +22,7 @@ class ListingsController extends AsyncNotifier<List<Product>> {
   }
 
   Future<void> fetchListings() async {
-    state = const AsyncLoading();
+    if (!state.hasValue) state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final authState = ref.read(authControllerProvider).asData?.value;
       if (authState == null || authState.user == null) return [];
@@ -32,7 +32,10 @@ class ListingsController extends AsyncNotifier<List<Product>> {
     });
   }
 
-  Future<void> addListing({
+  /// Publishes a listing. Returns whether it succeeded; on failure the
+  /// previously loaded listings are kept (not replaced by an error state), so
+  /// the create screen can keep the farmer's form and explain what happened.
+  Future<bool> addListing({
     required String name,
     required ProductCategory category,
     required String description,
@@ -41,45 +44,32 @@ class ListingsController extends AsyncNotifier<List<Product>> {
     required ProductUnit unit,
     required QualityGrade qualityGrade,
   }) async {
+    final authState = ref.read(authControllerProvider).asData?.value;
+    if (authState == null || authState.user == null) return false;
+
+    final previous = state;
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) {
-        throw Exception('Unauthorized');
-      }
-
+    try {
       final repository = ref.read(listingsRepositoryProvider);
-      final rawFarmerId = authState.user!.id;
-      final farmerId = rawFarmerId.replaceAll('mock_', '');
-
-      // Create a farmer summary from auth profile or default
-      final farmerSummary = FarmerSummary(
-        id: farmerId,
-        name: 'Ali Hassan', // default mock farmer name
-        farmName: 'Hassan Organic Farm',
-        farmLocationAddress: 'Multan, Punjab',
-        rating: 4.8,
-        totalSales: 312,
+      final farmerId = authState.user!.id;
+      await repository.createListing(
+        farmerId,
+        NewListing(
+          name: name,
+          category: category,
+          description: description,
+          price: price,
+          quantity: quantity,
+          unit: unit,
+          qualityGrade: qualityGrade,
+        ),
       );
-
-      final newProduct = Product(
-        id: 'prod_${DateTime.now().millisecondsSinceEpoch}',
-        farmerId: farmerId,
-        name: name,
-        category: category,
-        description: description,
-        price: price,
-        quantity: quantity,
-        unit: unit,
-        images: [],
-        qualityGrade: qualityGrade,
-        status: ProductStatus.active,
-        farmer: farmerSummary,
-      );
-
-      await repository.createListing(newProduct);
-      return repository.getFarmerListings(rawFarmerId);
-    });
+      state = AsyncData(await repository.getFarmerListings(farmerId));
+      return true;
+    } catch (_) {
+      state = previous;
+      return false;
+    }
   }
 
   Future<void> toggleStatus(

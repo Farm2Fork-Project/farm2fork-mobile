@@ -1,4 +1,5 @@
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository.dart';
@@ -14,6 +15,28 @@ class ApiShipmentsRepository extends ShipmentsRepository {
     final data = await _api.getAvailableDeliveries();
     return data.map(_availableFromDto).toList(growable: false);
   }
+
+  @override
+  Future<TransporterStatus> getStatus() async =>
+      _statusFromDto(await _api.getStatus());
+
+  @override
+  Future<TransporterStatus> setAvailability({
+    required bool online,
+    GeoPoint? location,
+  }) async => _statusFromDto(
+    await _api.setAvailability({
+      'online': online,
+      if (location != null) 'location': location.toJson(),
+    }),
+  );
+
+  @override
+  Future<void> reportLocation(GeoPoint location) =>
+      _api.reportLocation(location.toJson());
+
+  @override
+  Future<void> decline(String orderId) => _api.decline(orderId);
 
   @override
   Future<List<Shipment>> getMine() async {
@@ -47,6 +70,7 @@ class ApiShipmentsRepository extends ShipmentsRepository {
   }
 
   AvailableDelivery _availableFromDto(Map<String, dynamic> dto) {
+    final items = dto['items'];
     return AvailableDelivery(
       orderId: _requiredString(dto, 'orderId'),
       pickupCity: _requiredString(dto, 'pickupCity'),
@@ -55,7 +79,41 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       deliveryProvince: _requiredString(dto, 'deliveryProvince'),
       itemCount: _number(dto['itemCount']).toInt(),
       createdAt: _date(dto['createdAt']),
+      deliveryFee: _number(dto['deliveryFee']),
+      deliveryDistanceKm: _number(dto['deliveryDistanceKm']),
+      distanceToPickupKm: _number(dto['distanceToPickupKm']),
+      pickup: _point(dto['pickup']),
+      dropoffArea: _point(dto['dropoffArea']),
+      farmName: dto['farmName'] as String?,
+      items: items is List
+          ? items
+                .whereType<Map>()
+                .map(
+                  (item) => OfferItem(
+                    productName: (item['productName'] as String?) ?? '',
+                    quantity: _number(item['quantity']),
+                  ),
+                )
+                .toList(growable: false)
+          : const [],
     );
+  }
+
+  TransporterStatus _statusFromDto(Map<String, dynamic> dto) =>
+      TransporterStatus(
+        online: dto['online'] == true,
+        locationFresh: dto['locationFresh'] == true,
+        radiusKm: _number(dto['radiusKm']),
+        lastLocationAt: dto['lastLocationAt'] == null
+            ? null
+            : _date(dto['lastLocationAt']),
+        activeShipmentId: dto['activeShipmentId'] as String?,
+      );
+
+  GeoPoint _point(Object? value) {
+    final point = GeoPoint.tryParse(value);
+    if (point == null) throw const ApiException(ApiErrorKind.unknown);
+    return point;
   }
 
   Shipment _shipmentFromDto(Map<String, dynamic> dto) {
@@ -73,6 +131,7 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       actualDelivery: dto['actualDelivery'] == null
           ? null
           : _date(dto['actualDelivery']),
+      deliveryFee: (dto['deliveryFee'] as num?)?.toDouble(),
       createdAt: _date(dto['createdAt']),
       updatedAt: _date(dto['updatedAt']),
     );
@@ -86,6 +145,8 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       city: _requiredString(dto, 'city'),
       province: _requiredString(dto, 'province'),
       zip: dto['zip'] as String?,
+      lat: (dto['lat'] as num?)?.toDouble(),
+      lng: (dto['lng'] as num?)?.toDouble(),
     );
   }
 

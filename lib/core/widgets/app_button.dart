@@ -13,6 +13,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.variant = AppButtonVariant.primary,
     this.expand = false,
+    this.isLoading = false,
   });
 
   final String label;
@@ -20,6 +21,11 @@ class AppButton extends StatelessWidget {
   final IconData? icon;
   final AppButtonVariant variant;
   final bool expand;
+
+  /// Shows a spinner in place of the icon/label and disables taps, while
+  /// keeping the button's normal (not greyed-out) colors -- for an async
+  /// action that's already in flight, as opposed to one that's unavailable.
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +52,48 @@ class AppButton extends StatelessWidget {
       ),
     };
 
-    final content = Row(
-      mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (icon != null) ...[
-          Icon(icon, size: 18),
-          const SizedBox(width: AppSpacing.sm),
-        ],
-        Flexible(
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
+    final content = isLoading
+        ? SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.4,
+              color: foreground,
+            ),
+          )
+        : Row(
+            mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                Icon(icon, size: 18),
+                const SizedBox(width: AppSpacing.sm),
+              ],
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          );
 
     return SizedBox(
       width: expand ? double.infinity : null,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: background,
           foregroundColor: foreground,
-          disabledBackgroundColor: AppColors.surfaceMedium,
-          disabledForegroundColor: AppColors.textMuted,
+          disabledBackgroundColor: isLoading
+              ? background
+              : AppColors.surfaceMedium,
+          disabledForegroundColor: isLoading
+              ? foreground
+              : AppColors.textMuted,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.md,

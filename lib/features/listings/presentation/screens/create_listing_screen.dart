@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
+import 'package:farm2fork_mobile/features/ai/presentation/widgets/price_suggestion_card.dart';
+import 'package:farm2fork_mobile/features/ai/presentation/widgets/quality_check_card.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/providers/listings_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
@@ -79,7 +83,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
     final price = double.tryParse(_priceController.text) ?? 0.0;
     final quantity = double.tryParse(_qtyController.text) ?? 0.0;
 
-    await ref
+    final published = await ref
         .read(listingsControllerProvider.notifier)
         .addListing(
           name: _nameController.text.trim(),
@@ -92,7 +96,33 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
         );
 
     if (!mounted) return;
-    context.pop(); // return to ListingsScreen
+    final messenger = ScaffoldMessenger.of(context);
+    if (!published) {
+      // Keep the form so nothing the farmer typed is lost.
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.listingPublishFailed),
+          backgroundColor: AppColors.errorRed,
+          duration: AppDurations.standardMessage,
+        ),
+      );
+      return;
+    }
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.listingPublished),
+        backgroundColor: AppColors.success,
+        duration: AppDurations.standardMessage,
+      ),
+    );
+    // Reached either by push from My Listings or as its own bottom-nav tab.
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(
+        AppNavConfig.routeFor(AppUserRole.farmer, AppNavDestination.listings),
+      );
+    }
   }
 
   @override
@@ -133,10 +163,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                       ),
                       Text(
                         _currentStep == 0
-                            ? context
-                                  .l10n
-                                  .personalInfo // fallback/similar step label
-                            : context.l10n.farmInfo,
+                            ? context.l10n.listingStepProduceDetails
+                            : context.l10n.listingStepPricingQuantity,
                         style: AppTextStyles.small.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColors.textMuted,
@@ -210,7 +238,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.personalInfo, // standard heading
+                  context.l10n.listingStepProduceDetails,
                   style: AppTextStyles.h3.copyWith(
                     color: AppColors.primaryGreenDark,
                   ),
@@ -218,15 +246,12 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Name field
-                TextFormField(
+                AppTextField(
                   controller: _nameController,
-                  style: AppTextStyles.body,
-                  decoration: InputDecoration(
-                    labelText: 'Produce Name', // fallback string
-                    hintText: 'e.g., Organic Tomatoes',
-                  ),
+                  label: context.l10n.produceName,
+                  hintText: context.l10n.produceNameHint,
                   validator: (v) => (v == null || v.trim().isEmpty)
-                      ? 'Please enter a name'
+                      ? context.l10n.fieldRequired
                       : null,
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -235,7 +260,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 DropdownButtonFormField<ProductCategory>(
                   initialValue: _category,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Category'),
+                  decoration: InputDecoration(labelText: context.l10n.category),
                   items: [
                     DropdownMenuItem(
                       value: ProductCategory.vegetables,
@@ -262,9 +287,13 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
 
                 // Quality Grade select
                 DropdownButtonFormField<QualityGrade>(
+                  // Keyed so an AI-applied grade shows immediately.
+                  key: ValueKey(_qualityGrade),
                   initialValue: _qualityGrade,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Quality Grade'),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.qualityGrade,
+                  ),
                   items: [
                     DropdownMenuItem(
                       value: QualityGrade.a,
@@ -291,18 +320,26 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 ),
                 const SizedBox(height: AppSpacing.md),
 
+                // AI photo quality check (suggests a grade)
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _nameController,
+                  builder: (context, name, _) => QualityCheckCard(
+                    productName: name.text,
+                    onApplyGrade: (grade) =>
+                        setState(() => _qualityGrade = grade),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+
                 // Description field
-                TextFormField(
+                AppTextField(
                   controller: _descController,
                   maxLines: 4,
-                  style: AppTextStyles.body,
-                  decoration: InputDecoration(
-                    labelText: context.l10n.description,
-                    hintText:
-                        'Describe freshness, farming practices, harvest date, etc.',
-                  ),
+                  alignLabelWithHint: true,
+                  label: context.l10n.description,
+                  hintText: context.l10n.descriptionHint,
                   validator: (v) => (v == null || v.trim().isEmpty)
-                      ? 'Please enter a description'
+                      ? context.l10n.fieldRequired
                       : null,
                 ),
               ],
@@ -324,7 +361,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.farmInfo, // fallback heading
+                  context.l10n.listingStepPricingQuantity,
                   style: AppTextStyles.h3.copyWith(
                     color: AppColors.primaryGreenDark,
                   ),
@@ -332,55 +369,62 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 const SizedBox(height: AppSpacing.md),
 
                 // Price field
-                TextFormField(
+                AppTextField(
                   controller: _priceController,
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  style: AppTextStyles.body,
-                  decoration: const InputDecoration(
-                    labelText: 'Price (PKR)',
-                    hintText: 'e.g., 150',
-                    prefixIcon: Icon(
-                      Icons.payments_rounded,
-                      color: AppColors.primaryGreen,
-                    ),
+                  label: context.l10n.priceWithCurrency,
+                  hintText: context.l10n.priceHint,
+                  prefixIcon: const Icon(
+                    Icons.payments_rounded,
+                    color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Please enter price';
+                      return context.l10n.fieldRequired;
                     }
                     final price = double.tryParse(v);
                     if (price == null || price <= 0) {
-                      return 'Please enter a valid price';
+                      return context.l10n.pleaseEnterValidPrice;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: AppSpacing.md),
 
+                // AI fair-price suggestion (rule-based, labelled as such)
+                PriceSuggestionCard(
+                  productName: _nameController.text,
+                  category: _category,
+                  unit: _unit,
+                  grade: _qualityGrade,
+                  unitLabel: _unitLabel(context, _unit),
+                  onApply: (price) => setState(
+                    () => _priceController.text = price.toStringAsFixed(0),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+
                 // Quantity field
-                TextFormField(
+                AppTextField(
                   controller: _qtyController,
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  style: AppTextStyles.body,
-                  decoration: const InputDecoration(
-                    labelText: 'Quantity',
-                    hintText: 'e.g., 250',
-                    prefixIcon: Icon(
-                      Icons.scale_rounded,
-                      color: AppColors.primaryGreen,
-                    ),
+                  label: context.l10n.quantity,
+                  hintText: context.l10n.quantityHint,
+                  prefixIcon: const Icon(
+                    Icons.scale_rounded,
+                    color: AppColors.primaryGreen,
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return 'Please enter quantity';
+                      return context.l10n.fieldRequired;
                     }
                     final qty = double.tryParse(v);
                     if (qty == null || qty <= 0) {
-                      return 'Please enter a valid quantity';
+                      return context.l10n.pleaseEnterValidQuantity;
                     }
                     return null;
                   },
@@ -391,7 +435,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 DropdownButtonFormField<ProductUnit>(
                   initialValue: _unit,
                   style: AppTextStyles.body,
-                  decoration: const InputDecoration(labelText: 'Unit'),
+                  decoration: InputDecoration(labelText: context.l10n.unit),
                   items: [
                     DropdownMenuItem(
                       value: ProductUnit.kg,
@@ -425,4 +469,12 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
       ),
     );
   }
+
+  String _unitLabel(BuildContext context, ProductUnit unit) => switch (unit) {
+    ProductUnit.kg => context.l10n.unitKg,
+    ProductUnit.ton => context.l10n.unitTon,
+    ProductUnit.dozen => context.l10n.unitDozen,
+    ProductUnit.piece => context.l10n.unitPiece,
+    ProductUnit.litre => context.l10n.unitLitre,
+  };
 }

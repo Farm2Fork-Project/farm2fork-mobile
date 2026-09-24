@@ -51,6 +51,12 @@ dependencies:
   intl: ^0.20.2
   persistent_bottom_nav_bar_v2: ^6.3.2
   package_rename: ^1.10.1
+  image_picker: ^1.2.3
+  google_maps_flutter: ^2.18.1
+  geolocator: ^14.0.3
+  firebase_messaging: ^16.7.0
+  flutter_local_notifications: ^22.3.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -107,3 +113,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+  fonts:
+    - family: NotoNastaliqUrdu
+      fonts:
+        - asset: assets/fonts/NotoNastaliqUrdu-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoNastaliqUrdu-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NotoNastaliqUrdu-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NotoNastaliqUrdu-Bold.ttf
+          weight: 700

@@ -11,6 +11,24 @@ class ShipmentsApiService {
   Future<List<Map<String, dynamic>>> getAvailableDeliveries() =>
       _unwrapList(() => _dio.get<List<dynamic>>('/shipments/available'));
 
+  Future<Map<String, dynamic>> getStatus() => _unwrap(
+    () => _dio.get<Map<String, dynamic>>('/shipments/transporter/status'),
+  );
+
+  Future<Map<String, dynamic>> setAvailability(Map<String, dynamic> body) =>
+      _unwrap(
+        () => _dio.put<Map<String, dynamic>>(
+          '/shipments/transporter/availability',
+          data: body,
+        ),
+      );
+
+  Future<void> reportLocation(Map<String, double> location) =>
+      _dio.put<void>('/shipments/transporter/location', data: location);
+
+  Future<void> decline(String orderId) =>
+      _dio.post<void>('/shipments/offers/$orderId/decline');
+
   Future<List<Map<String, dynamic>>> getMyShipments() =>
       _unwrapList(() => _dio.get<List<dynamic>>('/shipments'));
 
@@ -48,9 +66,11 @@ class ShipmentsApiService {
   ) async {
     final data = (await request()).data;
     if (data == null) throw const ApiException(ApiErrorKind.unknown);
-    return data.map((item) {
-      if (item is! Map) throw const ApiException(ApiErrorKind.unknown);
-      return Map<String, dynamic>.from(item);
-    }).toList(growable: false);
+    return data
+        .map((item) {
+          if (item is! Map) throw const ApiException(ApiErrorKind.unknown);
+          return Map<String, dynamic>.from(item);
+        })
+        .toList(growable: false);
   }
 }

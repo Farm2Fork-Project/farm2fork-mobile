@@ -13,6 +13,8 @@ analyzer:
   exclude:
     # Generated build output (e.g. iOS SwiftPM SourcePackages) is not our code.
     - build/**
+    - android/**
+    - ios/**
 
 linter:
   # The lint rules applied to this project can be customized in the

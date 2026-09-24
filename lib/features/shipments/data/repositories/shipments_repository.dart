@@ -1,8 +1,25 @@
+import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 
 abstract class ShipmentsRepository {
+  /// Offers near the transporter's last location (empty while offline or
+  /// during a delivery).
   Future<List<AvailableDelivery>> getAvailable();
+
+  Future<TransporterStatus> getStatus();
+
+  /// Going online requires the current [location].
+  Future<TransporterStatus> setAvailability({
+    required bool online,
+    GeoPoint? location,
+  });
+
+  /// Foreground heartbeat while online.
+  Future<void> reportLocation(GeoPoint location);
+
+  /// Hides an offer for this transporter.
+  Future<void> decline(String orderId);
 
   Future<List<Shipment>> getMine();
 
