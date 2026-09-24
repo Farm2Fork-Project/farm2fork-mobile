@@ -97,20 +97,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featureComingSoon => 'Coming soon';
 
   @override
-  String get traceScannerTitle => 'Scan & Trace';
+  String get traceScannerTitle => 'Trace produce';
 
   @override
   String get traceScannerDescription =>
-      'Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.';
-
-  @override
-  String get traceScannerSimulateScan => 'Simulate Scan (Scan Tomatoes)';
-
-  @override
-  String get traceScannerDemoProductName => 'Organic Tomatoes';
-
-  @override
-  String get traceScannerVerifiedLedger => 'Verified Blockchain Trace Ledger';
+      'Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.';
 
   @override
   String get paymentOptionsNote =>
@@ -1107,4 +1098,185 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsConditionsContent =>
       'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.';
+
+  @override
+  String get traceInputLabel => 'Product ID or QR link';
+
+  @override
+  String get traceInputHint => '6a2fe77bb77795516febc287';
+
+  @override
+  String get traceInvalidInput =>
+      'That isn\'t a Farm2Fork product ID or QR link. Product IDs are 24 characters long.';
+
+  @override
+  String get traceSearchButton => 'Trace product';
+
+  @override
+  String get traceCameraComingSoon =>
+      'Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.';
+
+  @override
+  String get traceLoading => 'Loading journey…';
+
+  @override
+  String get traceLoadFailed =>
+      'Couldn\'t load the journey. Check your connection and try again.';
+
+  @override
+  String get traceNotFoundTitle => 'No product found for this code';
+
+  @override
+  String get traceNotFoundDesc =>
+      'Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.';
+
+  @override
+  String get traceSearchAnother => 'Trace another product';
+
+  @override
+  String get traceOriginVerified => 'Origin verified on ledger';
+
+  @override
+  String get traceOriginVerifiedDesc =>
+      'The farmer\'s listing is committed to the Hyperledger Fabric ledger and can\'t be altered.';
+
+  @override
+  String get traceOriginPending => 'Origin awaiting ledger confirmation';
+
+  @override
+  String get traceOriginPendingDesc =>
+      'The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.';
+
+  @override
+  String get traceOriginMissing => 'No ledger record for this listing';
+
+  @override
+  String get traceOriginMissingDesc =>
+      'This listing was created before ledger recording was enabled, so its origin can\'t be verified on-chain.';
+
+  @override
+  String get traceSourceFarm => 'Source farm';
+
+  @override
+  String get traceFarmUnknown => 'Farm details not provided';
+
+  @override
+  String get traceQualityGrade => 'Quality grade';
+
+  @override
+  String traceGradeValue(String grade) {
+    return 'Grade $grade';
+  }
+
+  @override
+  String get traceGradeNone => 'Not graded';
+
+  @override
+  String get traceListedOn => 'Listed on';
+
+  @override
+  String get traceProductId => 'Product ID';
+
+  @override
+  String get traceStatusActive => 'Available on the marketplace';
+
+  @override
+  String get traceStatusSoldOut => 'Sold out';
+
+  @override
+  String get traceStatusInactive => 'No longer listed';
+
+  @override
+  String get traceJourneyTitle => 'Supply chain journey';
+
+  @override
+  String traceLedgerProgress(int confirmed, int total) {
+    return '$confirmed of $total recorded on ledger';
+  }
+
+  @override
+  String get traceJourneyEmpty =>
+      'Only the listing so far. Sales and deliveries will appear here as they happen.';
+
+  @override
+  String get traceEventListed => 'Listed on marketplace';
+
+  @override
+  String get traceEventPaymentConfirmed => 'Payment confirmed';
+
+  @override
+  String get traceEventShipmentAssigned => 'Transporter assigned';
+
+  @override
+  String get traceEventShipmentPickedUp => 'Picked up from farm';
+
+  @override
+  String get traceEventShipmentInTransit => 'In transit';
+
+  @override
+  String get traceEventShipmentDelivered => 'Delivered';
+
+  @override
+  String get traceEventShipmentFailed => 'Delivery failed';
+
+  @override
+  String get traceRoleFarmer => 'Farmer';
+
+  @override
+  String get traceRoleBuyer => 'Buyer';
+
+  @override
+  String get traceRoleTransporter => 'Transporter';
+
+  @override
+  String traceReferenceSale(String reference) {
+    return 'Sale #$reference';
+  }
+
+  @override
+  String traceReferenceDelivery(String reference) {
+    return 'Delivery #$reference';
+  }
+
+  @override
+  String get traceLedgerConfirmed => 'Recorded on ledger';
+
+  @override
+  String get traceLedgerPending => 'Awaiting ledger confirmation';
+
+  @override
+  String get traceLedgerFailed => 'Ledger recording failed';
+
+  @override
+  String traceLedgerBlock(int block) {
+    return 'Block $block';
+  }
+
+  @override
+  String get productViewJourney => 'View product journey';
+
+  @override
+  String get listingViewJourney => 'View journey';
+
+  @override
+  String get listingHide => 'Hide from marketplace';
+
+  @override
+  String get listingShow => 'Show on marketplace';
+
+  @override
+  String get listingDelete => 'Delete listing';
+
+  @override
+  String get listingPublished => 'Listing published';
+
+  @override
+  String get listingPublishFailed =>
+      'Couldn\'t publish the listing. Your details are kept - check your connection and try again.';
+
+  @override
+  String get timeAm => 'AM';
+
+  @override
+  String get timePm => 'PM';
 }

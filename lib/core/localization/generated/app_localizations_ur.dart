@@ -97,20 +97,11 @@ class AppLocalizationsUr extends AppLocalizations {
   String get featureComingSoon => 'جلد آ رہا ہے';
 
   @override
-  String get traceScannerTitle => 'اسکین اور ٹریس';
+  String get traceScannerTitle => 'پیداوار ٹریس کریں';
 
   @override
   String get traceScannerDescription =>
-      'مصنوعات کا QR کوڈ اسکین کریں تاکہ اصل جگہ، کسان، آرڈر کا سفر، شپمنٹ اپ ڈیٹس، اور بلاک چین ریکارڈز دیکھ سکیں۔';
-
-  @override
-  String get traceScannerSimulateScan => 'اسکین سمولیٹ کریں (ٹماٹر اسکین کریں)';
-
-  @override
-  String get traceScannerDemoProductName => 'آرگینک ٹماٹر';
-
-  @override
-  String get traceScannerVerifiedLedger => 'تصدیق شدہ بلاک چین ٹریس لیجر';
+      'پروڈکٹ آئی ڈی درج کریں یا فارم ٹو فورک QR کوڈ کا لنک پیسٹ کریں تاکہ دیکھ سکیں پیداوار کہاں سے آئی اور بلاک چین لیجر پر درج ہر مرحلہ۔';
 
   @override
   String get paymentOptionsNote =>
@@ -1105,4 +1096,185 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get termsConditionsContent =>
       'ایپ استعمال کر کے آپ آرڈر کے وعدوں کو پورا کرنے پر متفق ہوتے ہیں۔ کسانوں کو معیار کی ضمانت دینی ہو گی، خریداروں کو چیک آؤٹ پر ادائیگی کرنی ہو گی، اور ٹرانسپورٹرز کو محفوظ طریقے سے ڈیلیور کرنا ہو گا۔ پلیٹ فارم فیس ناقابل واپسی ہے۔';
+
+  @override
+  String get traceInputLabel => 'پروڈکٹ آئی ڈی یا QR لنک';
+
+  @override
+  String get traceInputHint => '6a2fe77bb77795516febc287';
+
+  @override
+  String get traceInvalidInput =>
+      'یہ فارم ٹو فورک کی پروڈکٹ آئی ڈی یا QR لنک نہیں ہے۔ پروڈکٹ آئی ڈی 24 حروف کی ہوتی ہے۔';
+
+  @override
+  String get traceSearchButton => 'پروڈکٹ ٹریس کریں';
+
+  @override
+  String get traceCameraComingSoon =>
+      'کیمرے سے اسکیننگ جلد آ رہی ہے۔ فی الحال QR کوڈ کے ساتھ درج پروڈکٹ آئی ڈی یا لنک پیسٹ کریں۔';
+
+  @override
+  String get traceLoading => 'سفر لوڈ ہو رہا ہے…';
+
+  @override
+  String get traceLoadFailed =>
+      'سفر لوڈ نہیں ہو سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get traceNotFoundTitle => 'اس کوڈ کے لیے کوئی پروڈکٹ نہیں ملی';
+
+  @override
+  String get traceNotFoundDesc =>
+      'آئی ڈی چیک کریں یا QR کوڈ دوبارہ اسکین کریں۔ صرف فارم ٹو فورک کی لسٹنگز کا سفر ٹریس ہو سکتا ہے۔';
+
+  @override
+  String get traceSearchAnother => 'کوئی اور پروڈکٹ ٹریس کریں';
+
+  @override
+  String get traceOriginVerified => 'ماخذ کی لیجر پر تصدیق ہو چکی ہے';
+
+  @override
+  String get traceOriginVerifiedDesc =>
+      'کسان کی لسٹنگ ہائپر لیجر فیبرک لیجر پر محفوظ ہے اور اسے تبدیل نہیں کیا جا سکتا۔';
+
+  @override
+  String get traceOriginPending => 'ماخذ لیجر کی تصدیق کا منتظر ہے';
+
+  @override
+  String get traceOriginPendingDesc =>
+      'لسٹنگ درج ہو چکی ہے اور لیجر کے لیے قطار میں ہے۔ تصدیق ہوتے ہی یہ تصدیق شدہ دکھائی دے گی۔';
+
+  @override
+  String get traceOriginMissing => 'اس لسٹنگ کا کوئی لیجر ریکارڈ نہیں';
+
+  @override
+  String get traceOriginMissingDesc =>
+      'یہ لسٹنگ لیجر ریکارڈنگ شروع ہونے سے پہلے بنی تھی، اس لیے اس کے ماخذ کی آن چین تصدیق نہیں ہو سکتی۔';
+
+  @override
+  String get traceSourceFarm => 'ماخذ فارم';
+
+  @override
+  String get traceFarmUnknown => 'فارم کی تفصیلات فراہم نہیں کی گئیں';
+
+  @override
+  String get traceQualityGrade => 'کوالٹی گریڈ';
+
+  @override
+  String traceGradeValue(String grade) {
+    return 'گریڈ $grade';
+  }
+
+  @override
+  String get traceGradeNone => 'گریڈ نہیں دیا گیا';
+
+  @override
+  String get traceListedOn => 'لسٹ ہونے کی تاریخ';
+
+  @override
+  String get traceProductId => 'پروڈکٹ آئی ڈی';
+
+  @override
+  String get traceStatusActive => 'مارکیٹ پلیس پر دستیاب';
+
+  @override
+  String get traceStatusSoldOut => 'فروخت ہو چکا';
+
+  @override
+  String get traceStatusInactive => 'اب لسٹ نہیں ہے';
+
+  @override
+  String get traceJourneyTitle => 'سپلائی چین کا سفر';
+
+  @override
+  String traceLedgerProgress(int confirmed, int total) {
+    return '$total میں سے $confirmed لیجر پر درج';
+  }
+
+  @override
+  String get traceJourneyEmpty =>
+      'ابھی صرف لسٹنگ موجود ہے۔ فروخت اور ڈیلیوری ہوتے ہی یہاں نظر آئیں گی۔';
+
+  @override
+  String get traceEventListed => 'مارکیٹ پلیس پر لسٹ کیا گیا';
+
+  @override
+  String get traceEventPaymentConfirmed => 'ادائیگی کی تصدیق ہو گئی';
+
+  @override
+  String get traceEventShipmentAssigned => 'ٹرانسپورٹر مقرر ہو گیا';
+
+  @override
+  String get traceEventShipmentPickedUp => 'فارم سے اٹھا لیا گیا';
+
+  @override
+  String get traceEventShipmentInTransit => 'راستے میں';
+
+  @override
+  String get traceEventShipmentDelivered => 'پہنچا دیا گیا';
+
+  @override
+  String get traceEventShipmentFailed => 'ڈیلیوری ناکام';
+
+  @override
+  String get traceRoleFarmer => 'کسان';
+
+  @override
+  String get traceRoleBuyer => 'خریدار';
+
+  @override
+  String get traceRoleTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String traceReferenceSale(String reference) {
+    return 'فروخت #$reference';
+  }
+
+  @override
+  String traceReferenceDelivery(String reference) {
+    return 'ڈیلیوری #$reference';
+  }
+
+  @override
+  String get traceLedgerConfirmed => 'لیجر پر درج';
+
+  @override
+  String get traceLedgerPending => 'لیجر کی تصدیق کا انتظار';
+
+  @override
+  String get traceLedgerFailed => 'لیجر پر درج نہیں ہو سکا';
+
+  @override
+  String traceLedgerBlock(int block) {
+    return 'بلاک $block';
+  }
+
+  @override
+  String get productViewJourney => 'پروڈکٹ کا سفر دیکھیں';
+
+  @override
+  String get listingViewJourney => 'سفر دیکھیں';
+
+  @override
+  String get listingHide => 'مارکیٹ پلیس سے چھپائیں';
+
+  @override
+  String get listingShow => 'مارکیٹ پلیس پر دکھائیں';
+
+  @override
+  String get listingDelete => 'لسٹنگ حذف کریں';
+
+  @override
+  String get listingPublished => 'لسٹنگ شائع ہو گئی';
+
+  @override
+  String get listingPublishFailed =>
+      'لسٹنگ شائع نہیں ہو سکی۔ آپ کی تفصیلات محفوظ ہیں — کنکشن چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get timeAm => 'قبل دوپہر';
+
+  @override
+  String get timePm => 'بعد دوپہر';
 }

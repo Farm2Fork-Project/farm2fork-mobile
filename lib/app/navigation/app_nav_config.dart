@@ -93,6 +93,11 @@ abstract final class AppNavConfig {
 
   static String homeRouteForRole(AppUserRole role) => forRole(role).first.route;
 
+  /// Public provenance journey for one product (also the mobile target for a
+  /// scanned QR trace link).
+  static String traceRouteForProduct(String productId) =>
+      '/trace/products/$productId';
+
   static String roleRoutePrefix(AppUserRole role) {
     return switch (role) {
       AppUserRole.farmer => '/farmer',
@@ -107,6 +112,7 @@ abstract final class AppNavConfig {
     return location.startsWith('/auth') ||
         location.startsWith('/guest') ||
         location.startsWith('/marketplace/products/') ||
+        location.startsWith('/trace/products/') ||
         location.startsWith('/settings/');
   }
 
@@ -116,6 +122,8 @@ abstract final class AppNavConfig {
   }) {
     if (role == AppUserRole.admin) return false;
     if (location.startsWith('/marketplace/products/')) return true;
+    // A product's provenance is public; any signed-in role may open it.
+    if (location.startsWith('/trace/products/')) return true;
     if (role == AppUserRole.buyer &&
         (location == '/checkout' || location == '/payments')) {
       return true;

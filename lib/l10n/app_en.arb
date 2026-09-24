@@ -86,20 +86,11 @@
   "featureComingSoon": "Coming soon",
   "@featureComingSoon": { "description": "Placeholder title for future screens" },
 
-  "traceScannerTitle": "Scan & Trace",
+  "traceScannerTitle": "Trace produce",
   "@traceScannerTitle": { "description": "QR traceability scanner screen title" },
 
-  "traceScannerDescription": "Scan a product QR code to verify origin, farmer, order journey, shipment updates, and blockchain records.",
+  "traceScannerDescription": "Enter a product ID or paste the link from a Farm2Fork QR code to see where the produce came from and each step recorded on the blockchain ledger.",
   "@traceScannerDescription": { "description": "QR traceability scanner placeholder description" },
-
-  "traceScannerSimulateScan": "Simulate Scan (Scan Tomatoes)",
-  "@traceScannerSimulateScan": { "description": "Demo scan trigger button; no camera scanning is wired up yet" },
-
-  "traceScannerDemoProductName": "Organic Tomatoes",
-  "@traceScannerDemoProductName": { "description": "Product name shown for the demo trace journey" },
-
-  "traceScannerVerifiedLedger": "Verified Blockchain Trace Ledger",
-  "@traceScannerVerifiedLedger": { "description": "Subtitle confirming the trace journey is backed by the blockchain ledger" },
 
   "paymentOptionsNote": "Payments will support multiple options such as cash, JazzCash, and other gateways once the provider is finalized.",
   "@paymentOptionsNote": { "description": "Payment provider placeholder note" },
@@ -955,5 +946,167 @@
   "@termsConditionsTitle": { "description": "Terms & Conditions page title" },
 
   "termsConditionsContent": "By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.",
-  "@termsConditionsContent": { "description": "Terms & conditions page content" }
+  "@termsConditionsContent": { "description": "Terms & conditions page content" },
+
+  "traceInputLabel": "Product ID or QR link",
+  "@traceInputLabel": {"description": "Trace lookup input label"},
+
+  "traceInputHint": "6a2fe77bb77795516febc287",
+  "@traceInputHint": {"description": "Example product id shown as input hint (not translated: ids are Latin)"},
+
+  "traceInvalidInput": "That isn't a Farm2Fork product ID or QR link. Product IDs are 24 characters long.",
+  "@traceInvalidInput": {"description": "Validation message for a malformed trace lookup"},
+
+  "traceSearchButton": "Trace product",
+  "@traceSearchButton": {"description": "Trace lookup submit button"},
+
+  "traceCameraComingSoon": "Camera scanning is coming soon. For now, paste the product ID or the link printed with the QR code.",
+  "@traceCameraComingSoon": {"description": "Honest note that camera QR scanning is not built yet"},
+
+  "traceLoading": "Loading journey…",
+  "@traceLoading": {"description": "Loading message while fetching a product trace"},
+
+  "traceLoadFailed": "Couldn't load the journey. Check your connection and try again.",
+  "@traceLoadFailed": {"description": "Error message when the trace request fails"},
+
+  "traceNotFoundTitle": "No product found for this code",
+  "@traceNotFoundTitle": {"description": "Title when a traced product does not exist"},
+
+  "traceNotFoundDesc": "Check the ID or scan the QR code again. Only Farm2Fork listings have a traceable journey.",
+  "@traceNotFoundDesc": {"description": "Explanation when a traced product does not exist"},
+
+  "traceSearchAnother": "Trace another product",
+  "@traceSearchAnother": {"description": "Action to start a new trace lookup"},
+
+  "traceOriginVerified": "Origin verified on ledger",
+  "@traceOriginVerified": {"description": "Banner title when the listing event is committed on Fabric"},
+
+  "traceOriginVerifiedDesc": "The farmer's listing is committed to the Hyperledger Fabric ledger and can't be altered.",
+  "@traceOriginVerifiedDesc": {"description": "Banner body for a verified origin"},
+
+  "traceOriginPending": "Origin awaiting ledger confirmation",
+  "@traceOriginPending": {"description": "Banner title when the listing event is queued but not committed"},
+
+  "traceOriginPendingDesc": "The listing is recorded and queued for the ledger. It will show as verified once the commit is confirmed.",
+  "@traceOriginPendingDesc": {"description": "Banner body for a pending origin"},
+
+  "traceOriginMissing": "No ledger record for this listing",
+  "@traceOriginMissing": {"description": "Banner title when a listing has no ledger event"},
+
+  "traceOriginMissingDesc": "This listing was created before ledger recording was enabled, so its origin can't be verified on-chain.",
+  "@traceOriginMissingDesc": {"description": "Banner body when a listing has no ledger event"},
+
+  "traceSourceFarm": "Source farm",
+  "@traceSourceFarm": {"description": "Label for the farm a product came from"},
+
+  "traceFarmUnknown": "Farm details not provided",
+  "@traceFarmUnknown": {"description": "Shown when the farm profile is missing"},
+
+  "traceQualityGrade": "Quality grade",
+  "@traceQualityGrade": {"description": "Label for a product's quality grade"},
+
+  "traceGradeValue": "Grade {grade}",
+  "@traceGradeValue": {"description": "Quality grade value", "placeholders": {"grade": {"type": "String", "example": "A"}}},
+
+  "traceGradeNone": "Not graded",
+  "@traceGradeNone": {"description": "Shown when a product has no grade"},
+
+  "traceListedOn": "Listed on",
+  "@traceListedOn": {"description": "Label for when a product was listed"},
+
+  "traceProductId": "Product ID",
+  "@traceProductId": {"description": "Label for a product id"},
+
+  "traceStatusActive": "Available on the marketplace",
+  "@traceStatusActive": {"description": "Listing status: active"},
+
+  "traceStatusSoldOut": "Sold out",
+  "@traceStatusSoldOut": {"description": "Listing status: sold out"},
+
+  "traceStatusInactive": "No longer listed",
+  "@traceStatusInactive": {"description": "Listing status: inactive"},
+
+  "traceJourneyTitle": "Supply chain journey",
+  "@traceJourneyTitle": {"description": "Section title for the trace timeline"},
+
+  "traceLedgerProgress": "{confirmed} of {total} recorded on ledger",
+  "@traceLedgerProgress": {"description": "How many journey events are committed on the ledger", "placeholders": {"confirmed": {"type": "int", "example": "3"}, "total": {"type": "int", "example": "4"}}},
+
+  "traceJourneyEmpty": "Only the listing so far. Sales and deliveries will appear here as they happen.",
+  "@traceJourneyEmpty": {"description": "Shown when a product has no journey events yet"},
+
+  "traceEventListed": "Listed on marketplace",
+  "@traceEventListed": {"description": "Trace event: product listed"},
+
+  "traceEventPaymentConfirmed": "Payment confirmed",
+  "@traceEventPaymentConfirmed": {"description": "Trace event: payment confirmed"},
+
+  "traceEventShipmentAssigned": "Transporter assigned",
+  "@traceEventShipmentAssigned": {"description": "Trace event: shipment assigned"},
+
+  "traceEventShipmentPickedUp": "Picked up from farm",
+  "@traceEventShipmentPickedUp": {"description": "Trace event: picked up"},
+
+  "traceEventShipmentInTransit": "In transit",
+  "@traceEventShipmentInTransit": {"description": "Trace event: in transit"},
+
+  "traceEventShipmentDelivered": "Delivered",
+  "@traceEventShipmentDelivered": {"description": "Trace event: delivered"},
+
+  "traceEventShipmentFailed": "Delivery failed",
+  "@traceEventShipmentFailed": {"description": "Trace event: delivery failed"},
+
+  "traceRoleFarmer": "Farmer",
+  "@traceRoleFarmer": {"description": "Role badge on a trace event"},
+
+  "traceRoleBuyer": "Buyer",
+  "@traceRoleBuyer": {"description": "Role badge on a trace event"},
+
+  "traceRoleTransporter": "Transporter",
+  "@traceRoleTransporter": {"description": "Role badge on a trace event"},
+
+  "traceReferenceSale": "Sale #{reference}",
+  "@traceReferenceSale": {"description": "Short reference grouping one sale", "placeholders": {"reference": {"type": "String", "example": "874368"}}},
+
+  "traceReferenceDelivery": "Delivery #{reference}",
+  "@traceReferenceDelivery": {"description": "Short reference grouping one delivery", "placeholders": {"reference": {"type": "String", "example": "874377"}}},
+
+  "traceLedgerConfirmed": "Recorded on ledger",
+  "@traceLedgerConfirmed": {"description": "Ledger state: committed on Fabric"},
+
+  "traceLedgerPending": "Awaiting ledger confirmation",
+  "@traceLedgerPending": {"description": "Ledger state: queued, not yet committed"},
+
+  "traceLedgerFailed": "Ledger recording failed",
+  "@traceLedgerFailed": {"description": "Ledger state: recording failed"},
+
+  "traceLedgerBlock": "Block {block}",
+  "@traceLedgerBlock": {"description": "Fabric block number", "placeholders": {"block": {"type": "int", "example": "42"}}},
+
+  "productViewJourney": "View product journey",
+  "@productViewJourney": {"description": "Product detail action opening the trace journey"},
+
+  "listingViewJourney": "View journey",
+  "@listingViewJourney": {"description": "Listing card action opening the trace journey"},
+
+  "listingHide": "Hide from marketplace",
+  "@listingHide": {"description": "Listing card action: deactivate listing"},
+
+  "listingShow": "Show on marketplace",
+  "@listingShow": {"description": "Listing card action: reactivate listing"},
+
+  "listingDelete": "Delete listing",
+  "@listingDelete": {"description": "Listing card action: delete"},
+
+  "listingPublished": "Listing published",
+  "@listingPublished": {"description": "Snackbar after a listing is created"},
+
+  "listingPublishFailed": "Couldn't publish the listing. Your details are kept - check your connection and try again.",
+  "@listingPublishFailed": {"description": "Snackbar when creating a listing fails"},
+
+  "timeAm": "AM",
+  "@timeAm": {"description": "Before-noon marker for 12-hour times (intl's Urdu data only has 'a')"},
+
+  "timePm": "PM",
+  "@timePm": {"description": "After-noon marker for 12-hour times (intl's Urdu data only has 'p')"}
 }
