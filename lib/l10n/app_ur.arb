@@ -411,5 +411,21 @@
   "ledgerConfirmed": "لیجر پر درج",
   "ledgerPending": "لیجر زیرِ التوا",
   "ledgerFailed": "لیجر ناکام",
-  "ledgerMissing": "کوئی لیجر ریکارڈ نہیں"
+  "ledgerMissing": "کوئی لیجر ریکارڈ نہیں",
+  "farmStreet": "گلی / گاؤں",
+  "farmStreetHint": "مثلاً چک 5، نہر روڈ",
+  "farmCity": "شہر / ضلع",
+  "farmProvince": "صوبہ",
+  "farmProvinceHint": "صوبہ منتخب کریں",
+  "provincePunjab": "پنجاب",
+  "provinceSindh": "سندھ",
+  "provinceKpk": "خیبر پختونخوا",
+  "provinceBalochistan": "بلوچستان",
+  "provinceGilgitBaltistan": "گلگت بلتستان",
+  "provinceAjk": "آزاد جموں و کشمیر",
+  "provinceIslamabad": "اسلام آباد",
+  "farmLocationPromptTitle": "اپنے فارم کا پک اپ پتہ شامل کریں",
+  "farmLocationPromptBody": "جب تک آپ کے فارم کی گلی، شہر اور صوبہ محفوظ نہیں ہوتے، ٹرانسپورٹر آپ کے آرڈر نہ دیکھ سکتے ہیں نہ اٹھا سکتے ہیں۔",
+  "farmLocationSave": "پتہ محفوظ کریں",
+  "farmLocationSaveFailed": "پتہ محفوظ نہیں ہو سکا۔ اپنا کنکشن چیک کر کے دوبارہ کوشش کریں۔"
 }

@@ -2527,6 +2527,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No ledger record'**
   String get ledgerMissing;
+
+  /// Farm street or village
+  ///
+  /// In en, this message translates to:
+  /// **'Street / village'**
+  String get farmStreet;
+
+  /// Street hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Chak 5, Canal Road'**
+  String get farmStreetHint;
+
+  /// Farm city
+  ///
+  /// In en, this message translates to:
+  /// **'City / district'**
+  String get farmCity;
+
+  /// Farm province
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get farmProvince;
+
+  /// Province hint
+  ///
+  /// In en, this message translates to:
+  /// **'Select province'**
+  String get farmProvinceHint;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Punjab'**
+  String get provincePunjab;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Sindh'**
+  String get provinceSindh;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Khyber Pakhtunkhwa'**
+  String get provinceKpk;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Balochistan'**
+  String get provinceBalochistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Gilgit-Baltistan'**
+  String get provinceGilgitBaltistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Azad Jammu and Kashmir'**
+  String get provinceAjk;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Islamabad Capital Territory'**
+  String get provinceIslamabad;
+
+  /// Prompt title shown while farm location is incomplete
+  ///
+  /// In en, this message translates to:
+  /// **'Add your farm\'s pickup location'**
+  String get farmLocationPromptTitle;
+
+  /// Prompt body
+  ///
+  /// In en, this message translates to:
+  /// **'Transporters can\'t see or collect your orders until your farm\'s street, city and province are saved.'**
+  String get farmLocationPromptBody;
+
+  /// Save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save location'**
+  String get farmLocationSave;
+
+  /// Save failure
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the location. Check your connection and try again.'**
+  String get farmLocationSaveFailed;
 }
 
 class _AppLocalizationsDelegate

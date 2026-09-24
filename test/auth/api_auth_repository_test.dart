@@ -238,6 +238,9 @@ void main() {
           ),
           cnic: '35202-1234567-1',
           farmName: 'Green Acres',
+          farmAddress: 'Chak 5, Canal Road',
+          farmCity: 'Multan',
+          farmProvince: 'Punjab',
         ),
       );
 
@@ -246,6 +249,12 @@ void main() {
       expect(api.lastOnboardPath, 'farmer');
       expect(api.lastOnboardBody!['idToken'], 'id-token');
       expect(api.lastOnboardBody!['farmName'], 'Green Acres');
+      // Transporters need all three parts to collect this farm's orders.
+      expect(api.lastOnboardBody!['farmLocation'], {
+        'address': 'Chak 5, Canal Road',
+        'city': 'Multan',
+        'province': 'Punjab',
+      });
     },
   );
 
