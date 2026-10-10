@@ -22,6 +22,7 @@ class MarketplaceApiService {
       () => _dio.get<Map<String, dynamic>>(
         '/products',
         queryParameters: {
+          'status': 'active',
           'search': ?trimmedSearch,
           'category': ?category,
           'page': page,

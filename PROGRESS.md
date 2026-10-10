@@ -2,7 +2,7 @@
 
 > Working model: **Backend + Mobile in lockstep**, one vertical slice at a time. Each slice = a `feature/<name>` branch off `develop`, a PR per feature, reviewed and merged into `develop`. Integration branch is **`develop`** on every repo (team convention).
 >
-> Last updated: 2026-08-12
+> Last updated: 2026-10-11. The earlier maturity snapshot and slice entries below are historical; see the dated verification entry at the end for this change.
 
 ---
 
@@ -92,3 +92,35 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 - Mobile against a live backend: `flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000/api`
 - Web: `CI=true pnpm test && CI=true pnpm run build` (in farm2fork-web)
 - Web Compose configuration: `NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api docker compose config` (in farm2fork-web)
+
+
+## 2026-10-11 — Mobile farmer listing lifecycle
+
+- Normal mobile builds now use a real authenticated listing repository for
+  `GET /products/mine`, `POST /products`, `PATCH /products/:id`, and
+  `DELETE /products/:id`. Own-list pagination is consumed fully; owner IDs and
+  persisted product IDs remain server-owned. Explicit mock mode is retained.
+- Buyer marketplace browsing on both web and mobile requests active listings;
+  inactive/soft-deleted products no longer appear in browse/search results.
+- Creation uses the returned server product immediately. Failed writes retain
+  form input, show a localized inline error, and allow retry without losing
+  existing listings. Navigation occurs only after successful persistence.
+  Fabricated farmer names, location, rating and sales were removed from this flow.
+- English and Urdu phone-sized widget checks cover save failure/retry/navigation
+  and the corrected responsive step heading.
+- Added an isolated cross-client harness: mobile Dart repository -> real Nest
+  HTTP controller/service, JWT strategy and role checks -> disposable MongoDB ->
+  mobile and web buyer repositories. Verified persisted reload, ownership,
+  buyer create rejection, deactivation/reactivation and soft-delete visibility.
+- Run instructions and device smoke checklist:
+  `docs/testing/farmer-listings-e2e.md`.
+- Scope boundary: the harness seeds test identities after authentication; it does
+  not verify Firebase account acquisition, browser cookies, native device visuals,
+  AI inference, or listing ledger events. QR URLs come from the existing backend;
+  traceability integration is still pending.
+- Verification: full mobile suite passed (92 tests; 1 live test skipped without
+  harness configuration); full web suite passed (60 tests; 1 live test skipped).
+  Both live tests passed when run through the real-backend harness. Changed
+  mobile files passed static analysis; changed web files passed ESLint and web
+  TypeScript checking passed. Full mobile analysis still reports four existing
+  `unawaited_return_in_try_block` warnings in Firebase auth code.
