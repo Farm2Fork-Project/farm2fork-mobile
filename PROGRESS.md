@@ -124,3 +124,16 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
   mobile files passed static analysis; changed web files passed ESLint and web
   TypeScript checking passed. Full mobile analysis still reports four existing
   `unawaited_return_in_try_block` warnings in Firebase auth code.
+
+### 2026-10-11 — Safepay ledger compatibility
+
+- Fixed the chaincode payment gateway allowlist to accept the backend's `safepay`
+  value alongside Stripe and JazzCash, preserving all other input validation.
+- Added contract regression checks for Safepay write/read-back, identical retries
+  and immutable-content conflicts; added backend gateway argument checks for all
+  three gateways. Full Go tests and 12 backend blockchain tests passed.
+- Existing uncommitted Safepay implementation was preserved. No live Fabric
+  deployment or peer smoke ran because Docker is unavailable on this host.
+  Existing networks require a chaincode upgrade; failed outbox records require
+  separate review/retry. The blockchain README documents this boundary.
+- Safepay client checkout/return handling remains pending.
