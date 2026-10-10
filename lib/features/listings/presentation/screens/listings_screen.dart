@@ -48,122 +48,12 @@ class ListingsScreen extends ConsumerWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              // Dashboard summary header
               SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.pagePadding,
-                  vertical: AppSpacing.md,
-                ),
+                padding: const EdgeInsets.all(AppSpacing.pagePadding),
                 sliver: SliverToBoxAdapter(
-                  child: AppCard(
-                    backgroundColor: AppColors.primaryGreenDark,
-                    borderColor: AppColors.primaryGreenDark,
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 28,
-                              backgroundColor: AppColors.primaryGreenSoft,
-                              child: const Icon(
-                                Icons.agriculture_rounded,
-                                color: AppColors.primaryGreenDark,
-                                size: 30,
-                              ),
-                            ),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Hassan Organic Farm',
-                                    style: AppTextStyles.h3.copyWith(
-                                      color: AppColors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(height: AppSpacing.xs),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColors.accentYellow,
-                                        size: 14,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        'Multan, Punjab',
-                                        style: AppTextStyles.small.copyWith(
-                                          color: AppColors.primaryGreenSoft,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.lg),
-                        const Divider(color: AppColors.primaryGreen, height: 1),
-                        const SizedBox(height: AppSpacing.md),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  context.l10n.rating,
-                                  style: AppTextStyles.small.copyWith(
-                                    color: AppColors.primaryGreenSoft,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.accentYellow,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '4.8',
-                                      style: AppTextStyles.body.copyWith(
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Sales', // fallback if totalSales is dynamic
-                                  style: AppTextStyles.small.copyWith(
-                                    color: AppColors.primaryGreenSoft,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  context.l10n.totalSales(312),
-                                  style: AppTextStyles.body.copyWith(
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  child: Text(
+                    context.l10n.listingsDescription,
+                    style: AppTextStyles.body,
                   ),
                 ),
               ),

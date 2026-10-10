@@ -26,6 +26,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
   final _pageController = PageController();
 
   int _currentStep = 0;
+  bool _saveFailed = false;
 
   // Form Fields State
   final _nameController = TextEditingController();
@@ -76,11 +77,12 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
 
   Future<void> _submit() async {
     if (!_formKey2.currentState!.validate()) return;
+    setState(() => _saveFailed = false);
 
     final price = double.tryParse(_priceController.text) ?? 0.0;
     final quantity = double.tryParse(_qtyController.text) ?? 0.0;
 
-    await ref
+    final saved = await ref
         .read(listingsControllerProvider.notifier)
         .addListing(
           name: _nameController.text.trim(),
@@ -93,7 +95,11 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
         );
 
     if (!mounted) return;
-    context.pop(); // return to ListingsScreen
+    if (saved) {
+      context.pop();
+    } else {
+      setState(() => _saveFailed = true);
+    }
   }
 
   @override
@@ -132,13 +138,17 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                           color: AppColors.primaryGreenDark,
                         ),
                       ),
-                      Text(
-                        _currentStep == 0
-                            ? context.l10n.listingStepProduceDetails
-                            : context.l10n.listingStepPricingQuantity,
-                        style: AppTextStyles.small.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textMuted,
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          _currentStep == 0
+                              ? context.l10n.listingStepProduceDetails
+                              : context.l10n.listingStepPricingQuantity,
+                          textAlign: TextAlign.end,
+                          style: AppTextStyles.small.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textMuted,
+                          ),
                         ),
                       ),
                     ],
@@ -164,6 +174,18 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
             ),
 
             // Sticky Bottom Button bar
+            if (_saveFailed)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.pagePadding,
+                ),
+                child: Text(
+                  context.l10n.errorOccurred,
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.errorRed,
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(AppSpacing.pagePadding),
               child: Row(
@@ -183,7 +205,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                     child: AppButton(
                       label: _currentStep == 0
                           ? context.l10n.next
-                          : context.l10n.checkout,
+                          : context.l10n.createListingTitle,
                       variant: AppButtonVariant.primary,
                       onPressed: isLoading ? null : _nextStep,
                       expand: true,

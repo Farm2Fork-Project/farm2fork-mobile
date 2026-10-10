@@ -1,13 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/mock/mock_products.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'listings_repository.dart';
 
-final listingsRepositoryProvider = Provider<ListingsRepository>((ref) {
-  return MockListingsRepository();
-});
-
 class MockListingsRepository implements ListingsRepository {
+  static int _nextId = 0;
   @override
   Future<List<Product>> getFarmerListings(String farmerId) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
@@ -23,8 +19,11 @@ class MockListingsRepository implements ListingsRepository {
   @override
   Future<Product> createListing(Product product) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
-    mockProducts.insert(0, product);
-    return product;
+    final created = product.id.isEmpty
+        ? product.copyWith(id: 'mock_listing_${++_nextId}')
+        : product;
+    mockProducts.insert(0, created);
+    return created;
   }
 
   @override
