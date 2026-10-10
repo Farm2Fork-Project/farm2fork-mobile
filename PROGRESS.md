@@ -137,3 +137,18 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
   Existing networks require a chaincode upgrade; failed outbox records require
   separate review/retry. The blockchain README documents this boundary.
 - Safepay client checkout/return handling remains pending.
+
+### 2026-10-11 — Signed payment settlement integration
+
+- Repaired the backend payment integration fixture to inject the real Safepay
+  client with a test-only webhook secret and safely clean up disposable services.
+- Added HTTP callback checks backed by real MongoDB transactions: concurrent
+  success/replay, missing/invalid/tampered signatures, authorization-only events,
+  payment failure, unknown trackers and multi-item stock rollback.
+- Verified payment/order/inventory/outbox persistence, including one pending
+  Safepay ledger record after successful repeated callbacks.
+- Replaced the health fixture's infrastructure imports with an isolated real HTTP
+  health-route check. Full backend E2E suite passed: four suites, 15 tests.
+- Run instructions and scope: backend `docs/testing/safepay-settlement-e2e.md`.
+  Real Safepay sandbox checkout/event shapes, web/mobile return handling and live
+  Fabric delivery remain pending; synthetic signed events do not verify them.
