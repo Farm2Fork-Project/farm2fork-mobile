@@ -152,3 +152,28 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 - Run instructions and scope: backend `docs/testing/safepay-settlement-e2e.md`.
   Real Safepay sandbox checkout/event shapes, web/mobile return handling and live
   Fabric delivery remain pending; synthetic signed events do not verify them.
+
+### 2026-10-11 — Web Safepay handoff and return
+
+- Web checkout now requests Safepay, preserves the hosted checkout URL for each
+  farmer order and keeps the receipt visible after clearing saved cart groups.
+- Orders supports payment initiation/resume/retry against the existing order ID,
+  including saved orders whose first payment handoff failed. Missing or invalid
+  hosted links show errors; pending requests disable repeated clicks.
+- Added `/order/complete` and `/order/cancel` return pages matching the backend
+  examples. Returns open Orders and read persisted status; return parameters
+  never mark an order paid. Status can be refreshed manually and on focus.
+- Local JazzCash/Stripe placeholders and simulator actions require an explicit
+  development flag; Safepay does not show local settlement controls.
+- Added a real web component/repository -> Nest HTTP/JWT/CSRF -> MongoDB harness
+  with local Safepay tracker/passport fixtures. Verified two farmer orders,
+  authoritative totals, cancel/resume, failed-payment retry, ownership rejection,
+  signed callback/replay, stock depletion and exactly two payment/outbox records.
+- Full web suite passed: 72 tests, two live tests skipped without harness config.
+  The checkout live harness passed separately. TypeScript/build passed; scoped
+  ESLint had no errors and five existing unused-variable warnings. Built return
+  redirects were verified over HTTP. Instructions: web
+  `docs/testing/safepay-checkout.md`.
+- Mobile Safepay handoff/return, real provider sandbox event/checkout verification,
+  Firebase cookie acquisition, browser/device visuals and live Fabric delivery
+  remain pending. Existing backend Safepay implementation was preserved.
