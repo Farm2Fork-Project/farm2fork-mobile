@@ -251,3 +251,32 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
   deployed Fabric write/readback remain separate runtime checks. Instructions:
   `../farm2fork-backend/docs/testing/transporter-delivery.md`. No deployment or
   push ran.
+
+### 2026-10-11 — Notification clients and live Fabric verification
+
+- Replaced local-only notification toggles with real inbox/refresh/read-all and
+  explicit push opt-in/disable on web/mobile. Native FCM handles token refresh,
+  foreground notices and background/cold-start taps. Sign-out cleans up the
+  binding before clearing auth. EN/UR controls and recoverable errors are tested.
+- Added Android notification permission/channel and iOS push entitlements plus
+  remote-notification mode. Pinned Messaging/Core to match existing Firebase
+  Auth native SDKs; Android debug and iOS Simulator builds pass.
+- Both real checkout/delivery harnesses now verify notification persistence for
+  buyers, farmers and transporters, unread/ownership checks, payment replay
+  deduplication and single-device token handover/cleanup. The actual Fabric worker
+  commits ten payment/shipment records and independently reads them back.
+  No network reset or chaincode upgrade was needed.
+- Web: 92 tests pass + two harness skips. Mobile: 113 tests pass + two harness
+  skips. Backend: 171 unit tests pass. Scoped lint, type checks and native static
+  analysis pass. The two extended live Fabric harnesses pass separately.
+- Actual FCM/APNs receipt requires a registered device; only an iOS Simulator and
+  macOS are connected. Web VAPID configuration is missing locally. Merchant
+  Safepay/Firebase acquisition remain separate runtime checks. Full instructions:
+  `../farm2fork-backend/docs/testing/notifications-and-fabric.md`. No deployment
+  or Git push ran; new changes remain uncommitted.
+
+- Follow-up: the supplied public VAPID key is now configured in the ignored web
+  `.env.local`. Production build passes, the key reaches the browser bundle and
+  the built messaging worker returns HTTP 200 with root scope. The user confirmed
+  no device is available, so real FCM/APNs receipt remains unverified. Configure
+  the same public key in the deployment environment before deploying web push.

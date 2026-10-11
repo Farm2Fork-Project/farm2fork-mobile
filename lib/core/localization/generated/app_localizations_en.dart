@@ -1253,4 +1253,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dispatchDeliveryDistance => 'Estimated delivery distance';
+
+  @override
+  String get pushDescription =>
+      'Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.';
+
+  @override
+  String get pushEnable => 'Enable push notifications';
+
+  @override
+  String get pushDisable => 'Disable push notifications';
+
+  @override
+  String get pushDenied =>
+      'Allow notifications in device settings, then try again.';
+
+  @override
+  String get pushSignIn => 'Sign in to enable notifications.';
+
+  @override
+  String get pushInbox => 'Notification inbox';
+
+  @override
+  String get pushReadAll => 'Mark all as read';
+
+  @override
+  String get pushEmpty => 'No notifications yet.';
 }

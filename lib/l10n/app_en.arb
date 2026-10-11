@@ -1000,5 +1000,13 @@
   "dispatchDecline": "Decline offer",
   "dispatchEarning": "Delivery earning",
   "dispatchPickupDistance": "Distance to farm",
-  "dispatchDeliveryDistance": "Estimated delivery distance"
+  "dispatchDeliveryDistance": "Estimated delivery distance",
+  "pushDescription": "Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.",
+  "pushEnable": "Enable push notifications",
+  "pushDisable": "Disable push notifications",
+  "pushDenied": "Allow notifications in device settings, then try again.",
+  "pushSignIn": "Sign in to enable notifications.",
+  "pushInbox": "Notification inbox",
+  "pushReadAll": "Mark all as read",
+  "pushEmpty": "No notifications yet."
 }

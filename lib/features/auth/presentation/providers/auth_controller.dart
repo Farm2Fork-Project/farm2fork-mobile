@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
@@ -108,6 +109,12 @@ class AuthController extends AsyncNotifier<AuthState> {
   }
 
   Future<void> signOut() async {
+    // Clear the binding while the backend JWT is still available. Failure keeps
+    // the session open so the user can retry rather than leave a stale push token.
+    final userId = state.value?.user?.id;
+    if (userId != null) {
+      await ref.read(pushLogoutCleanupProvider)(userId);
+    }
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signOut();

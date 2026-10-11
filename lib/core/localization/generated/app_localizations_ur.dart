@@ -1250,4 +1250,30 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get dispatchDeliveryDistance => 'ترسیل کا تخمینی فاصلہ';
+
+  @override
+  String get pushDescription =>
+      'اس آلے پر پش الرٹس فعال کریں۔ اطلاعات ہمیشہ ان باکس میں دستیاب ہیں۔ ہر اکاؤنٹ پر ایک آلہ پش الرٹس وصول کرتا ہے۔';
+
+  @override
+  String get pushEnable => 'پش اطلاعات فعال کریں';
+
+  @override
+  String get pushDisable => 'پش اطلاعات بند کریں';
+
+  @override
+  String get pushDenied =>
+      'آلے کی ترتیبات میں اطلاعات کی اجازت دیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get pushSignIn => 'اطلاعات فعال کرنے کے لیے سائن ان کریں۔';
+
+  @override
+  String get pushInbox => 'اطلاعات کا ان باکس';
+
+  @override
+  String get pushReadAll => 'سب پڑھی ہوئی نشان زد کریں';
+
+  @override
+  String get pushEmpty => 'ابھی کوئی اطلاع نہیں۔';
 }

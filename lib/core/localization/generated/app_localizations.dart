@@ -2287,6 +2287,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimated delivery distance'**
   String get dispatchDeliveryDistance;
+
+  /// No description provided for @pushDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.'**
+  String get pushDescription;
+
+  /// No description provided for @pushEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable push notifications'**
+  String get pushEnable;
+
+  /// No description provided for @pushDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable push notifications'**
+  String get pushDisable;
+
+  /// No description provided for @pushDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications in device settings, then try again.'**
+  String get pushDenied;
+
+  /// No description provided for @pushSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to enable notifications.'**
+  String get pushSignIn;
+
+  /// No description provided for @pushInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification inbox'**
+  String get pushInbox;
+
+  /// No description provided for @pushReadAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get pushReadAll;
+
+  /// No description provided for @pushEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet.'**
+  String get pushEmpty;
 }
 
 class _AppLocalizationsDelegate
