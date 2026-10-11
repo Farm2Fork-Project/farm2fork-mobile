@@ -66,7 +66,9 @@ _Shipment _$ShipmentFromJson(Map<String, dynamic> json) => _Shipment(
   statusHistory: (json['statusHistory'] as List<dynamic>)
       .map((e) => ShipmentStatusUpdate.fromJson(e as Map<String, dynamic>))
       .toList(),
-  estimatedDelivery: DateTime.parse(json['estimatedDelivery'] as String),
+  estimatedDelivery: json['estimatedDelivery'] == null
+      ? null
+      : DateTime.parse(json['estimatedDelivery'] as String),
   actualDelivery: json['actualDelivery'] == null
       ? null
       : DateTime.parse(json['actualDelivery'] as String),
@@ -83,7 +85,7 @@ Map<String, dynamic> _$ShipmentToJson(_Shipment instance) => <String, dynamic>{
   'pickupAddress': instance.pickupAddress,
   'deliveryAddress': instance.deliveryAddress,
   'statusHistory': instance.statusHistory,
-  'estimatedDelivery': instance.estimatedDelivery.toIso8601String(),
+  'estimatedDelivery': instance.estimatedDelivery?.toIso8601String(),
   'actualDelivery': instance.actualDelivery?.toIso8601String(),
   'deliveryFee': instance.deliveryFee,
   'createdAt': instance.createdAt.toIso8601String(),

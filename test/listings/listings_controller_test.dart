@@ -11,7 +11,7 @@ import 'package:farm2fork_mobile/features/marketplace/data/models/product_catego
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class _TestAuthController extends AuthController {
+class FarmerAuth extends AuthController {
   @override
   Future<AuthState> build() async => AuthState(
     status: AuthStatus.authenticated,
@@ -77,7 +77,7 @@ class _Repo implements ListingsRepository {
 Future<(ProviderContainer, bool)> _publish(_Repo repo) async {
   final container = ProviderContainer(
     overrides: [
-      authControllerProvider.overrideWith(_TestAuthController.new),
+      authControllerProvider.overrideWith(FarmerAuth.new),
       listingsRepositoryProvider.overrideWithValue(repo),
     ],
   );
@@ -124,4 +124,18 @@ void main() {
       expect(state.requireValue.map((p) => p.id), ['p1']);
     },
   );
+}
+
+class RecordingListings extends _Repo {
+  bool fail = false;
+  int creates = 0;
+  Product? created;
+  @override
+  Future<Product> createListing(String farmerId, NewListing listing) async {
+    creates++;
+    if (fail) throw StateError('Offline');
+    created = _product('server-id');
+    listings.insert(0, created!);
+    return created!;
+  }
 }

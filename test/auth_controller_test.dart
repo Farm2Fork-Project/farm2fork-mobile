@@ -1,5 +1,6 @@
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/notifications/data/notifications_repository.dart';
 import 'package:farm2fork_mobile/features/notifications/push/push_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -174,6 +175,9 @@ void main() {
           authRepositoryProvider.overrideWithValue(MockAuthRepository()),
           notificationsRepositoryProvider.overrideWithValue(notifications),
           pushServiceProvider.overrideWithValue(NoopPushService()),
+          pushLogoutCleanupProvider.overrideWithValue(
+            (_) => notifications.clearDeviceToken(),
+          ),
         ],
       );
       addTearDown(container.dispose);

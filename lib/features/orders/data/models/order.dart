@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+export 'order_quote.dart';
 
 part 'order.freezed.dart';
 part 'order.g.dart';
@@ -61,23 +62,4 @@ abstract class Order with _$Order {
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
-}
-
-/// Server price for one farmer's cart, shown before the order is placed.
-class OrderQuote {
-  const OrderQuote({
-    required this.totalAmount,
-    required this.platformFeePercent,
-    required this.platformFeeAmount,
-    required this.deliveryFee,
-    required this.deliveryDistanceKm,
-    required this.grandTotal,
-  });
-
-  final double totalAmount;
-  final double platformFeePercent;
-  final double platformFeeAmount;
-  final double deliveryFee;
-  final double deliveryDistanceKm;
-  final double grandTotal;
 }

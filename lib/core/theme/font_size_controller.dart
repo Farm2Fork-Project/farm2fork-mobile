@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/localization/locale_repository.dart';
 
-final fontSizeControllerProvider =
-    NotifierProvider<FontSizeController, double>(FontSizeController.new);
+final fontSizeControllerProvider = NotifierProvider<FontSizeController, double>(
+  FontSizeController.new,
+);
 
 class FontSizeController extends Notifier<double> {
   static const _key = 'font_size_scale';

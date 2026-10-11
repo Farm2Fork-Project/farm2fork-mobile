@@ -184,11 +184,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               color: AppColors.primaryGreenSoft,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              color: AppColors.primaryGreenDark,
-              size: 20,
-            ),
+            child: Icon(icon, color: AppColors.primaryGreenDark, size: 20),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(

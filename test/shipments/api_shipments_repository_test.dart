@@ -80,6 +80,25 @@ const _shipmentDto = <String, dynamic>{
 };
 
 void main() {
+  test(
+    'accepts a shipment without an ETA and preserves its delivery fee and map pins',
+    () async {
+      final dto = Map<String, dynamic>.from(_shipmentDto)
+        ..remove('estimatedDelivery');
+      dto['deliveryFee'] = 180;
+      dto['pickupAddress'] = {
+        ..._shipmentDto['pickupAddress'] as Map<String, dynamic>,
+        'lat': 31.52,
+        'lng': 74.35,
+      };
+      final shipment = await ApiShipmentsRepository(
+        _StubApi(shipment: dto),
+      ).claim('order-1');
+      expect(shipment.estimatedDelivery, isNull);
+      expect(shipment.deliveryFee, 180);
+      expect(shipment.pickupAddress.lat, 31.52);
+    },
+  );
   test('maps a redacted available delivery from the backend', () async {
     final api = _StubApi(
       available: const [

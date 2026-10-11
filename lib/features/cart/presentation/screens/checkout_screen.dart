@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +48,29 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   /// Server quote per farmer group, refreshed whenever the pin changes.
   final Map<String, AsyncValue<OrderQuote>> _quotes = {};
   int _quoteGeneration = 0;
+  String? _quotedKey;
+  String _key(List<FarmerCartGroup> groups) => jsonEncode([
+    _street.text,
+    _city.text,
+    _province?.wire,
+    _zip.text,
+    _dropoff?.lat,
+    _dropoff?.lng,
+    for (final group in groups)
+      [
+        group.farmerId,
+        for (final item in group.items) [item.product.id, item.quantity],
+      ],
+  ]);
+  @override
+  void initState() {
+    super.initState();
+    for (final controller in [_street, _city, _zip]) {
+      controller.addListener(() {
+        if (mounted) setState(() {});
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -68,6 +92,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Future<void> _refreshQuotes(List<FarmerCartGroup> groups) async {
     if (_dropoff == null) return;
     final generation = ++_quoteGeneration;
+    final key = _key(groups);
     final repo = ref.read(ordersRepositoryProvider);
     setState(() {
       for (final group in groups) {
@@ -87,7 +112,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         );
         // A newer pin superseded this request.
         if (!mounted || generation != _quoteGeneration) return;
-        setState(() => _quotes[group.farmerId] = result);
+        setState(() {
+          _quotes[group.farmerId] = result;
+          _quotedKey = key;
+        });
       }),
     );
   }
@@ -95,6 +123,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
+    final groups = ref
+        .read(farmerCartGroupsProvider)
+        .where((g) => widget.farmerId == null || g.farmerId == widget.farmerId)
+        .toList();
+    if (_quotedKey != _key(groups) ||
+        groups.any((g) => _quotes[g.farmerId]?.hasValue != true)) {
+      await _refreshQuotes(groups);
+      return;
+    }
     final address = _address();
 
     final result = await ref
@@ -146,6 +183,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final groups = widget.farmerId == null
         ? allGroups
         : allGroups.where((g) => g.farmerId == widget.farmerId).toList();
+    final quoted = _quotedKey == _key(groups);
     final isSubmitting = ref.watch(checkoutControllerProvider).isLoading;
     final locale = Localizations.localeOf(context);
 
@@ -206,7 +244,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               _OrderGroupCard(
                                 group: group,
                                 locale: locale,
-                                quote: _quotes[group.farmerId],
+                                quote: quoted ? _quotes[group.farmerId] : null,
                               ),
                               const SizedBox(height: AppSpacing.md),
                             ],
@@ -217,6 +255,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   ),
                   _SubmitBar(
                     groupCount: groups.length,
+                    quoted: quoted,
                     isSubmitting: isSubmitting,
                     onSubmit: _submit,
                   ),
@@ -330,15 +369,22 @@ class _OrderGroupCard extends StatelessWidget {
           _Row(
             label: context.l10n.subtotal,
             value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.itemsSubtotal, locale),
+              formatCurrencyAmount(
+                quote?.value?.totalAmount ?? group.itemsSubtotal,
+                locale,
+              ),
             ),
           ),
           _Row(
             label: context.l10n.platformFeeWithPercent(
-              group.platformFeePercent.toStringAsFixed(0),
+              (quote?.value?.platformFeePercent ?? group.platformFeePercent)
+                  .toStringAsFixed(1),
             ),
             value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.platformFee, locale),
+              formatCurrencyAmount(
+                quote?.value?.platformFeeAmount ?? group.platformFee,
+                locale,
+              ),
             ),
           ),
           ..._deliveryRows(context),
@@ -424,11 +470,13 @@ class _Row extends StatelessWidget {
 class _SubmitBar extends StatelessWidget {
   const _SubmitBar({
     required this.groupCount,
+    required this.quoted,
     required this.isSubmitting,
     required this.onSubmit,
   });
 
   final int groupCount;
+  final bool quoted;
   final bool isSubmitting;
   final VoidCallback onSubmit;
 
@@ -448,7 +496,9 @@ class _SubmitBar extends StatelessWidget {
               ),
             )
           : AppButton(
-              label: context.l10n.placeOrderCount(groupCount),
+              label: quoted
+                  ? context.l10n.placeOrderCount(groupCount)
+                  : context.l10n.getDeliveryQuote,
               icon: Icons.lock_outline_rounded,
               expand: true,
               onPressed: onSubmit,

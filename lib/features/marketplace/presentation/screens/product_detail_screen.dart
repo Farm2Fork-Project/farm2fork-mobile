@@ -62,8 +62,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           child: CircularProgressIndicator(color: AppColors.primaryGreen),
         ),
         error: (e, _) => AppErrorState(
-          onRetry: () =>
-              ref.invalidate(productByIdProvider(widget.productId)),
+          onRetry: () => ref.invalidate(productByIdProvider(widget.productId)),
         ),
         data: (product) {
           if (product == null) {

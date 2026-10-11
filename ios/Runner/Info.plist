@@ -11,11 +11,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>farm2fork</string>
 				<!-- Google Sign-In: REVERSED_CLIENT_ID from GoogleService-Info.plist -->
 				<string>com.googleusercontent.apps.886626107303-i812hqv7bminose8da3943t881bonpds</string>
 			</array>
 		</dict>
 	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -59,6 +62,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array><string>remote-notification</string></array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

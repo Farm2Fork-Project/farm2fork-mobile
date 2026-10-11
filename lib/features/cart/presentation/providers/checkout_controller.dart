@@ -27,6 +27,25 @@ class CheckoutController extends AsyncNotifier<CheckoutResult?> {
   @override
   CheckoutResult? build() => null;
 
+  Future<Map<String, OrderQuote>> quote(
+    OrderAddress address, {
+    String? farmerId,
+  }) async {
+    final groups = ref
+        .read(farmerCartGroupsProvider)
+        .where((g) => farmerId == null || g.farmerId == farmerId);
+    final repo = ref.read(ordersRepositoryProvider);
+    final entries = await Future.wait(
+      groups.map(
+        (g) async => MapEntry(
+          g.farmerId,
+          await repo.quoteOrder(items: _linesFor(g), shippingAddress: address),
+        ),
+      ),
+    );
+    return Map.fromEntries(entries);
+  }
+
   /// Places orders for the cart's farmer groups. When [farmerId] is given, only
   /// that farmer's group is checked out (per-group checkout from the cart);
   /// otherwise every group is placed as a separate order (§6.1).

@@ -114,9 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           .read(authControllerProvider.notifier)
           .sendPasswordReset(email: email);
       if (mounted) {
-        setState(
-          () => _errorMessage = context.l10n.passwordResetSentNote,
-        );
+        setState(() => _errorMessage = context.l10n.passwordResetSentNote);
       }
     } catch (error) {
       if (mounted) {

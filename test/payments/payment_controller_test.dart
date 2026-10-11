@@ -7,7 +7,11 @@ import 'package:farm2fork_mobile/features/payments/presentation/providers/paymen
 
 class _RecordingPaymentsRepository implements PaymentsRepository {
   final initiatedOrderIds = <String>[];
+  final fetchedPaymentIds = <String>[];
   final settledPaymentIds = <String>[];
+
+  @override
+  Future<Payment?> findForOrder(String orderId) async => null;
 
   @override
   Future<Payment> initiate(String orderId) async {
@@ -23,14 +27,17 @@ class _RecordingPaymentsRepository implements PaymentsRepository {
   }
 
   @override
-  Future<Payment> get(String paymentId) async => Payment(
-    id: paymentId,
-    orderId: paymentId.replaceFirst('payment-', ''),
-    amount: 870,
-    currency: 'PKR',
-    status: PaymentStatus.pending,
-    createdAt: DateTime(2026, 8, 11),
-  );
+  Future<Payment> get(String paymentId) async {
+    fetchedPaymentIds.add(paymentId);
+    return Payment(
+      id: paymentId,
+      orderId: paymentId.replaceFirst('payment-', ''),
+      amount: 870,
+      currency: 'PKR',
+      status: PaymentStatus.pending,
+      createdAt: DateTime(2026, 8, 11),
+    );
+  }
 
   @override
   Future<Payment> simulate(String paymentId, PaymentStatus status) async {
@@ -47,6 +54,26 @@ class _RecordingPaymentsRepository implements PaymentsRepository {
 }
 
 void main() {
+  test(
+    'refresh reads the existing payment without creating a new tracker',
+    () async {
+      final repo = _RecordingPaymentsRepository();
+      final container = ProviderContainer(
+        overrides: [
+          paymentsRepositoryProvider.overrideWithValue(repo),
+          paymentSimulatorEnabledProvider.overrideWithValue(false),
+        ],
+      );
+      addTearDown(container.dispose);
+      final controller = container.read(paymentControllerProvider.notifier);
+      await controller.settle(['order-a']);
+      await controller.refresh(['order-a']);
+      expect(repo.initiatedOrderIds, ['order-a']);
+      expect(repo.fetchedPaymentIds, ['payment-order-a']);
+      expect(repo.settledPaymentIds, isEmpty);
+    },
+  );
+
   test('settles one payment for every successfully created order', () async {
     final repo = _RecordingPaymentsRepository();
     final container = ProviderContainer(

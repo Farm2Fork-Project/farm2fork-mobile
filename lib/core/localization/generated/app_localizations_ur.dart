@@ -1834,4 +1834,187 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get loanActionFailed =>
       'یہ کام نہیں ہو سکا۔ ریفریش کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get traceScannerSimulateScan => 'اسکین سمولیٹ کریں (ٹماٹر اسکین کریں)';
+
+  @override
+  String get traceScannerDemoProductName => 'آرگینک ٹماٹر';
+
+  @override
+  String get traceScannerVerifiedLedger => 'تصدیق شدہ بلاک چین ٹریس لیجر';
+
+  @override
+  String get continueSafepay => 'Safepay کے ساتھ جاری رکھیں';
+
+  @override
+  String get paymentServerStatus =>
+      'ادائیگی کی حالت سرور سے تصدیق ہوتی ہے۔ چیک آؤٹ کے بعد یہاں واپس آئیں اور اگر تصدیق باقی ہو تو تازہ کریں۔';
+
+  @override
+  String get paymentCheckoutClosed =>
+      'چیک آؤٹ بند کر دیا گیا۔ آپ کا محفوظ آرڈر اب بھی ادائیگی کے لیے دستیاب ہے۔';
+
+  @override
+  String get paymentActionFailed =>
+      'چیک آؤٹ کھولا یا تازہ نہیں کیا جا سکا۔ آپ کا آرڈر محفوظ ہے۔ دوبارہ کوشش کریں یا اپنے آرڈرز دیکھیں۔';
+
+  @override
+  String paymentOrderNumber(int number) {
+    return 'آرڈر $number';
+  }
+
+  @override
+  String get deliveryLatitude => 'ترسیل کی جگہ کا عرض بلد';
+
+  @override
+  String get deliveryLongitude => 'ترسیل کی جگہ کا طول بلد';
+
+  @override
+  String get locationLatitude => 'عرض بلد';
+
+  @override
+  String get locationLongitude => 'طول بلد';
+
+  @override
+  String get locationInvalid => 'پاکستان کے اندر درست نقاط درج کریں۔';
+
+  @override
+  String get locationCoordinatesHelp =>
+      'اپنی نقشہ ایپ سے اس پتے کے نقاط کاپی کریں۔';
+
+  @override
+  String get getDeliveryQuote => 'ترسیل کی قیمت معلوم کریں';
+
+  @override
+  String get deliveryQuoteRequired => 'آرڈر دینے سے پہلے ترسیل کی قیمت دیکھیں۔';
+
+  @override
+  String get deliveryQuoteFailed =>
+      'ترسیل کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get deliveryFee => 'ترسیل کی فیس';
+
+  @override
+  String deliveryDistance(String distance) {
+    return 'ترسیل کا تخمینی فاصلہ: $distance کلومیٹر';
+  }
+
+  @override
+  String get farmPickupLocation => 'فارم سے وصولی کی جگہ';
+
+  @override
+  String get farmPickupHelp =>
+      'اپنے فارم کا پتہ اور نقاط محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
+
+  @override
+  String get farmPickupSave => 'وصولی کی جگہ محفوظ کریں';
+
+  @override
+  String get farmPickupSaved => 'وصولی کی جگہ محفوظ ہو گئی۔';
+
+  @override
+  String get farmPickupFailed =>
+      'فارم کی جگہ لوڈ یا محفوظ نہیں ہو سکی۔ معلومات چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get farmPickupAfterSignup =>
+      'اکاؤنٹ بنانے کے بعد لسٹنگز میں اپنے فارم سے وصولی کا پتہ اور نقشے کے نقاط محفوظ کریں۔';
+
+  @override
+  String get dispatchTitle => 'ترسیل کی دستیابی';
+
+  @override
+  String get dispatchLoading => 'دستیابی لوڈ ہو رہی ہے…';
+
+  @override
+  String get dispatchOnline => 'آن لائن';
+
+  @override
+  String get dispatchOffline => 'آف لائن';
+
+  @override
+  String get dispatchFresh => 'موجودہ مقام قریبی پیشکشوں کے لیے تیار ہے۔';
+
+  @override
+  String get dispatchStale =>
+      'پیشکشیں وصول اور قبول کرنے کے لیے اپنا موجودہ مقام شیئر کریں۔';
+
+  @override
+  String get dispatchRadius => 'وصولی کا دائرہ';
+
+  @override
+  String get dispatchActive =>
+      'دوسری ترسیل قبول کرنے سے پہلے موجودہ ترسیل مکمل کریں۔';
+
+  @override
+  String get dispatchUpdated => 'مقام آخری بار شیئر کیا گیا';
+
+  @override
+  String get dispatchHelp =>
+      'اپنی نقشہ ایپ سے موجودہ نقاط کاپی کریں۔ جگہ بدلنے یا مقام کی مدت ختم ہونے پر انہیں اپ ڈیٹ کریں۔';
+
+  @override
+  String get dispatchLatitude => 'موجودہ عرض بلد';
+
+  @override
+  String get dispatchLongitude => 'موجودہ طول بلد';
+
+  @override
+  String get dispatchGoOnline => 'آن لائن جائیں';
+
+  @override
+  String get dispatchGoOffline => 'آف لائن جائیں';
+
+  @override
+  String get dispatchUpdateLocation => 'موجودہ مقام شیئر کریں';
+
+  @override
+  String get dispatchRefresh => 'حالت اور پیشکشیں تازہ کریں';
+
+  @override
+  String get dispatchError =>
+      'دستیابی اپ ڈیٹ نہیں ہو سکی۔ کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get dispatchDecline => 'پیشکش مسترد کریں';
+
+  @override
+  String get dispatchEarning => 'ترسیل کی آمدنی';
+
+  @override
+  String get dispatchPickupDistance => 'فارم تک فاصلہ';
+
+  @override
+  String get dispatchDeliveryDistance => 'ترسیل کا تخمینی فاصلہ';
+
+  @override
+  String get pushDescription =>
+      'اس آلے پر پش الرٹس فعال کریں۔ اطلاعات ہمیشہ ان باکس میں دستیاب ہیں۔ ہر اکاؤنٹ پر ایک آلہ پش الرٹس وصول کرتا ہے۔';
+
+  @override
+  String get pushEnable => 'پش اطلاعات فعال کریں';
+
+  @override
+  String get pushDisable => 'پش اطلاعات بند کریں';
+
+  @override
+  String get pushDenied =>
+      'آلے کی ترتیبات میں اطلاعات کی اجازت دیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get pushSignIn => 'اطلاعات فعال کرنے کے لیے سائن ان کریں۔';
+
+  @override
+  String get pushInbox => 'اطلاعات کا ان باکس';
+
+  @override
+  String get pushReadAll => 'سب پڑھی ہوئی نشان زد کریں';
+
+  @override
+  String get pushEmpty => 'ابھی کوئی اطلاع نہیں۔';
+
+  @override
+  String get enterCoordinates => 'مقام کے نقاط درج کریں';
 }

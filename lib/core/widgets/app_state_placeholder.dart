@@ -45,9 +45,7 @@ class AppEmptyState extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               Text(
                 subtitle!,
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textMuted,
-                ),
+                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
                 textAlign: TextAlign.center,
               ),
             ],

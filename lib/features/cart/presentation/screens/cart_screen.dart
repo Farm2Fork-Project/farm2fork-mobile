@@ -70,7 +70,10 @@ class CartScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.l10n.clearCartConfirmTitle, style: AppTextStyles.h3),
+        title: Text(
+          context.l10n.clearCartConfirmTitle,
+          style: AppTextStyles.h3,
+        ),
         content: Text(
           context.l10n.clearCartConfirmMessage,
           style: AppTextStyles.body,

@@ -125,3 +125,17 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 - Whole flow: see `farm2fork-backend/docs/TESTING.md` (`pnpm seed:demo`, `pnpm smoke:flow`)
 - Web: `CI=true pnpm test && CI=true pnpm run build` (in farm2fork-web)
 - Web Compose configuration: `NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api docker compose config` (in farm2fork-web)
+
+## 2026-10-12 — develop integration
+
+Merged the UI/UX audit branch into current remote develop in an isolated checkout. Kept develop's GPS/map dispatch and foreground heartbeat, complete farm pickup onboarding, AI listing assistance, public farm identity and ledger chips, community/loans/inbox surfaces. Integrated real Safepay launch/retry/resume and status-only cold returns, native payment deep links, bare payment DTO parsing and the `client: mobile` marker.
+
+Buyer checkout keeps the map picker and now offers validated manual coordinates when GPS/maps are unavailable. Quotes are tied to the address, pin and cart contents; server subtotal/platform/delivery prices are shown before placement. Farmer listings retain the richer new-listing model, paginate all results and unwrap normalized ownership errors. Missing shipment ETA is accepted, and shipment status failures remain retryable.
+
+Push uses one message/tap listener lifecycle plus one token-refresh subscription for an opted-in session. Consent remains explicit and stored per user in secure storage. An independent logout callback avoids auth/push provider cycles. Captured account and revision checks discard deferred SDK work after account changes; revocation serializes cleanup after pending token writes and blocks refresh reattachment. iOS foreground presentation and Android HIGH-priority channel creation are preserved.
+
+Firebase Core 4.13.0 and Messaging 16.5.0 are pinned to compatible native Firebase 12.17 dependencies. Maps, geolocator and local notifications are retained. iOS uses Swift Package Manager for supported plugins and a tracked CocoaPods configuration/lock for Google Maps.
+
+Verification recorded in the integration checkout: generated localization/models regenerated; full Flutter suite passed (157 tests, two live-only tests skipped) and scoped analysis found no issues; Android debug APK and iOS simulator app built. Full analysis retains four pre-existing `unawaited_return_in_try_block` warnings in unchanged FirebaseAuthGateway. Physical-device FCM/APNs delivery and hosted Safepay checkout are not established by builds or unit tests. The integration root's disposable backend/Fabric harness verified two paid/delivered orders and ten confirmed ledger/readback events through the merged mobile adapters.
+
+The integration root also passed the real cross-platform listing lifecycle: persisted mobile listing, buyer web/mobile visibility, ownership and buyer-role denials, deactivate/reactivate/soft delete, and exactly one linked origin outbox record.

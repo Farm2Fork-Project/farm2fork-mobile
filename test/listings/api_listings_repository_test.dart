@@ -26,7 +26,7 @@ class _RecordingApi implements ListingsApiService {
   };
 
   @override
-  Future<Map<String, dynamic>> fetchMine() async => {
+  Future<Map<String, dynamic>> fetchMine([int page = 1]) async => {
     'data': [_product(), _product(status: 'inactive')],
   };
 

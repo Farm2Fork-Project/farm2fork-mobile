@@ -52,7 +52,7 @@ abstract class Shipment with _$Shipment {
     required ShipmentAddress pickupAddress,
     required ShipmentAddress deliveryAddress,
     required List<ShipmentStatusUpdate> statusHistory,
-    required DateTime estimatedDelivery,
+    DateTime? estimatedDelivery,
     DateTime? actualDelivery,
     // Fixed fee the transporter earns (PKR); absent on legacy shipments.
     double? deliveryFee,

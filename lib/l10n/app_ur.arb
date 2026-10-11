@@ -537,5 +537,74 @@
   "loanReject": "مسترد کریں",
   "loanRejectTitle": "مسترد کرنے کی وجہ",
   "loanRejectHint": "کسان یہ وجہ دیکھے گا",
-  "loanActionFailed": "یہ کام نہیں ہو سکا۔ ریفریش کر کے دوبارہ کوشش کریں۔"
+  "loanActionFailed": "یہ کام نہیں ہو سکا۔ ریفریش کر کے دوبارہ کوشش کریں۔",
+  "traceScannerSimulateScan": "اسکین سمولیٹ کریں (ٹماٹر اسکین کریں)",
+  "traceScannerDemoProductName": "آرگینک ٹماٹر",
+  "traceScannerVerifiedLedger": "تصدیق شدہ بلاک چین ٹریس لیجر",
+  "continueSafepay": "Safepay کے ساتھ جاری رکھیں",
+  "paymentServerStatus": "ادائیگی کی حالت سرور سے تصدیق ہوتی ہے۔ چیک آؤٹ کے بعد یہاں واپس آئیں اور اگر تصدیق باقی ہو تو تازہ کریں۔",
+  "paymentCheckoutClosed": "چیک آؤٹ بند کر دیا گیا۔ آپ کا محفوظ آرڈر اب بھی ادائیگی کے لیے دستیاب ہے۔",
+  "paymentActionFailed": "چیک آؤٹ کھولا یا تازہ نہیں کیا جا سکا۔ آپ کا آرڈر محفوظ ہے۔ دوبارہ کوشش کریں یا اپنے آرڈرز دیکھیں۔",
+  "paymentOrderNumber": "آرڈر {number}",
+  "@paymentOrderNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryLatitude": "ترسیل کی جگہ کا عرض بلد",
+  "deliveryLongitude": "ترسیل کی جگہ کا طول بلد",
+  "locationLatitude": "عرض بلد",
+  "locationLongitude": "طول بلد",
+  "locationInvalid": "پاکستان کے اندر درست نقاط درج کریں۔",
+  "locationCoordinatesHelp": "اپنی نقشہ ایپ سے اس پتے کے نقاط کاپی کریں۔",
+  "getDeliveryQuote": "ترسیل کی قیمت معلوم کریں",
+  "deliveryQuoteRequired": "آرڈر دینے سے پہلے ترسیل کی قیمت دیکھیں۔",
+  "deliveryQuoteFailed": "ترسیل کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔",
+  "deliveryFee": "ترسیل کی فیس",
+  "deliveryDistance": "ترسیل کا تخمینی فاصلہ: {distance} کلومیٹر",
+  "farmPickupLocation": "فارم سے وصولی کی جگہ",
+  "farmPickupHelp": "اپنے فارم کا پتہ اور نقاط محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔",
+  "farmPickupSave": "وصولی کی جگہ محفوظ کریں",
+  "farmPickupSaved": "وصولی کی جگہ محفوظ ہو گئی۔",
+  "farmPickupFailed": "فارم کی جگہ لوڈ یا محفوظ نہیں ہو سکی۔ معلومات چیک کر کے دوبارہ کوشش کریں۔",
+  "@deliveryDistance": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "farmPickupAfterSignup": "اکاؤنٹ بنانے کے بعد لسٹنگز میں اپنے فارم سے وصولی کا پتہ اور نقشے کے نقاط محفوظ کریں۔",
+  "dispatchTitle": "ترسیل کی دستیابی",
+  "dispatchLoading": "دستیابی لوڈ ہو رہی ہے…",
+  "dispatchOnline": "آن لائن",
+  "dispatchOffline": "آف لائن",
+  "dispatchFresh": "موجودہ مقام قریبی پیشکشوں کے لیے تیار ہے۔",
+  "dispatchStale": "پیشکشیں وصول اور قبول کرنے کے لیے اپنا موجودہ مقام شیئر کریں۔",
+  "dispatchRadius": "وصولی کا دائرہ",
+  "dispatchActive": "دوسری ترسیل قبول کرنے سے پہلے موجودہ ترسیل مکمل کریں۔",
+  "dispatchUpdated": "مقام آخری بار شیئر کیا گیا",
+  "dispatchHelp": "اپنی نقشہ ایپ سے موجودہ نقاط کاپی کریں۔ جگہ بدلنے یا مقام کی مدت ختم ہونے پر انہیں اپ ڈیٹ کریں۔",
+  "dispatchLatitude": "موجودہ عرض بلد",
+  "dispatchLongitude": "موجودہ طول بلد",
+  "dispatchGoOnline": "آن لائن جائیں",
+  "dispatchGoOffline": "آف لائن جائیں",
+  "dispatchUpdateLocation": "موجودہ مقام شیئر کریں",
+  "dispatchRefresh": "حالت اور پیشکشیں تازہ کریں",
+  "dispatchError": "دستیابی اپ ڈیٹ نہیں ہو سکی۔ کنکشن چیک کر کے دوبارہ کوشش کریں۔",
+  "dispatchDecline": "پیشکش مسترد کریں",
+  "dispatchEarning": "ترسیل کی آمدنی",
+  "dispatchPickupDistance": "فارم تک فاصلہ",
+  "dispatchDeliveryDistance": "ترسیل کا تخمینی فاصلہ",
+  "pushDescription": "اس آلے پر پش الرٹس فعال کریں۔ اطلاعات ہمیشہ ان باکس میں دستیاب ہیں۔ ہر اکاؤنٹ پر ایک آلہ پش الرٹس وصول کرتا ہے۔",
+  "pushEnable": "پش اطلاعات فعال کریں",
+  "pushDisable": "پش اطلاعات بند کریں",
+  "pushDenied": "آلے کی ترتیبات میں اطلاعات کی اجازت دیں، پھر دوبارہ کوشش کریں۔",
+  "pushSignIn": "اطلاعات فعال کرنے کے لیے سائن ان کریں۔",
+  "pushInbox": "اطلاعات کا ان باکس",
+  "pushReadAll": "سب پڑھی ہوئی نشان زد کریں",
+  "pushEmpty": "ابھی کوئی اطلاع نہیں۔",
+  "enterCoordinates": "مقام کے نقاط درج کریں"
 }

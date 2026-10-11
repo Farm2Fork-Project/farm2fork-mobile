@@ -1852,4 +1852,188 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loanActionFailed => 'That didn\'t work. Refresh and try again.';
+
+  @override
+  String get traceScannerSimulateScan => 'Simulate Scan (Scan Tomatoes)';
+
+  @override
+  String get traceScannerDemoProductName => 'Organic Tomatoes';
+
+  @override
+  String get traceScannerVerifiedLedger => 'Verified Blockchain Trace Ledger';
+
+  @override
+  String get continueSafepay => 'Continue with Safepay';
+
+  @override
+  String get paymentServerStatus =>
+      'Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.';
+
+  @override
+  String get paymentCheckoutClosed =>
+      'Checkout was closed. Your saved order is still available to pay.';
+
+  @override
+  String get paymentActionFailed =>
+      'Could not open or refresh checkout. Your order is saved. Try again or view your orders.';
+
+  @override
+  String paymentOrderNumber(int number) {
+    return 'Order $number';
+  }
+
+  @override
+  String get deliveryLatitude => 'Delivery latitude';
+
+  @override
+  String get deliveryLongitude => 'Delivery longitude';
+
+  @override
+  String get locationLatitude => 'Latitude';
+
+  @override
+  String get locationLongitude => 'Longitude';
+
+  @override
+  String get locationInvalid => 'Enter valid coordinates inside Pakistan.';
+
+  @override
+  String get locationCoordinatesHelp =>
+      'Copy the coordinates of this address from your map app.';
+
+  @override
+  String get getDeliveryQuote => 'Get delivery quote';
+
+  @override
+  String get deliveryQuoteRequired =>
+      'Review a delivery quote before placing your order.';
+
+  @override
+  String get deliveryQuoteFailed =>
+      'Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.';
+
+  @override
+  String get deliveryFee => 'Delivery fee';
+
+  @override
+  String deliveryDistance(String distance) {
+    return 'Estimated delivery distance: $distance km';
+  }
+
+  @override
+  String get farmPickupLocation => 'Farm pickup location';
+
+  @override
+  String get farmPickupHelp =>
+      'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.';
+
+  @override
+  String get farmPickupSave => 'Save pickup location';
+
+  @override
+  String get farmPickupSaved => 'Pickup location saved.';
+
+  @override
+  String get farmPickupFailed =>
+      'Could not load or save your farm location. Check the details and retry.';
+
+  @override
+  String get farmPickupAfterSignup =>
+      'After creating your account, open Listings to save your farm pickup address and map coordinates.';
+
+  @override
+  String get dispatchTitle => 'Delivery availability';
+
+  @override
+  String get dispatchLoading => 'Loading availability…';
+
+  @override
+  String get dispatchOnline => 'Online';
+
+  @override
+  String get dispatchOffline => 'Offline';
+
+  @override
+  String get dispatchFresh => 'Current location is ready for nearby offers.';
+
+  @override
+  String get dispatchStale =>
+      'Share your current location to receive and accept offers.';
+
+  @override
+  String get dispatchRadius => 'Pickup radius';
+
+  @override
+  String get dispatchActive =>
+      'Finish your active delivery before accepting another.';
+
+  @override
+  String get dispatchUpdated => 'Location last shared';
+
+  @override
+  String get dispatchHelp =>
+      'Copy your current coordinates from your map app. Update them when you move or when your location expires.';
+
+  @override
+  String get dispatchLatitude => 'Current latitude';
+
+  @override
+  String get dispatchLongitude => 'Current longitude';
+
+  @override
+  String get dispatchGoOnline => 'Go online';
+
+  @override
+  String get dispatchGoOffline => 'Go offline';
+
+  @override
+  String get dispatchUpdateLocation => 'Share current location';
+
+  @override
+  String get dispatchRefresh => 'Refresh status and offers';
+
+  @override
+  String get dispatchError =>
+      'Could not update availability. Check your connection and retry.';
+
+  @override
+  String get dispatchDecline => 'Decline offer';
+
+  @override
+  String get dispatchEarning => 'Delivery earning';
+
+  @override
+  String get dispatchPickupDistance => 'Distance to farm';
+
+  @override
+  String get dispatchDeliveryDistance => 'Estimated delivery distance';
+
+  @override
+  String get pushDescription =>
+      'Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.';
+
+  @override
+  String get pushEnable => 'Enable push notifications';
+
+  @override
+  String get pushDisable => 'Disable push notifications';
+
+  @override
+  String get pushDenied =>
+      'Allow notifications in device settings, then try again.';
+
+  @override
+  String get pushSignIn => 'Sign in to enable notifications.';
+
+  @override
+  String get pushInbox => 'Notification inbox';
+
+  @override
+  String get pushReadAll => 'Mark all as read';
+
+  @override
+  String get pushEmpty => 'No notifications yet.';
+
+  @override
+  String get enterCoordinates => 'Enter coordinates';
 }

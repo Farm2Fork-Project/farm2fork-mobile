@@ -12,7 +12,8 @@ class FaqScreen extends StatefulWidget {
   State<FaqScreen> createState() => _FaqScreenState();
 }
 
-class _FaqScreenState extends State<FaqScreen> with SingleTickerProviderStateMixin {
+class _FaqScreenState extends State<FaqScreen>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override

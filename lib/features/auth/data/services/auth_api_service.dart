@@ -29,7 +29,10 @@ class AuthApiService {
     return _requireBody(response.data);
   }
 
-  Future<Map<String, dynamic>> _post(String path, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> _post(
+    String path,
+    Map<String, dynamic> body,
+  ) async {
     final response = await _dio.post<Map<String, dynamic>>(path, data: body);
     return _requireBody(response.data);
   }
