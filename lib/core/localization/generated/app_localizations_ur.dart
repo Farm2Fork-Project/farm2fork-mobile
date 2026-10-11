@@ -1105,4 +1105,24 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get termsConditionsContent =>
       'ایپ استعمال کر کے آپ آرڈر کے وعدوں کو پورا کرنے پر متفق ہوتے ہیں۔ کسانوں کو معیار کی ضمانت دینی ہو گی، خریداروں کو چیک آؤٹ پر ادائیگی کرنی ہو گی، اور ٹرانسپورٹرز کو محفوظ طریقے سے ڈیلیور کرنا ہو گا۔ پلیٹ فارم فیس ناقابل واپسی ہے۔';
+
+  @override
+  String get continueSafepay => 'Safepay کے ساتھ جاری رکھیں';
+
+  @override
+  String get paymentServerStatus =>
+      'ادائیگی کی حالت سرور سے تصدیق ہوتی ہے۔ چیک آؤٹ کے بعد یہاں واپس آئیں اور اگر تصدیق باقی ہو تو تازہ کریں۔';
+
+  @override
+  String get paymentCheckoutClosed =>
+      'چیک آؤٹ بند کر دیا گیا۔ آپ کا محفوظ آرڈر اب بھی ادائیگی کے لیے دستیاب ہے۔';
+
+  @override
+  String get paymentActionFailed =>
+      'چیک آؤٹ کھولا یا تازہ نہیں کیا جا سکا۔ آپ کا آرڈر محفوظ ہے۔ دوبارہ کوشش کریں یا اپنے آرڈرز دیکھیں۔';
+
+  @override
+  String paymentOrderNumber(int number) {
+    return 'آرڈر $number';
+  }
 }

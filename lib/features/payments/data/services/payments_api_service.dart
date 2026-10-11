@@ -12,7 +12,7 @@ class PaymentsApiService {
   }) => _unwrap(
     () => _dio.post<Map<String, dynamic>>(
       '/payments',
-      data: {'orderId': orderId, 'gateway': gateway},
+      data: {'orderId': orderId, 'gateway': gateway, 'client': 'mobile'},
     ),
   );
 
@@ -28,6 +28,13 @@ class PaymentsApiService {
 
   Future<Map<String, dynamic>> getPayment(String paymentId) =>
       _unwrap(() => _dio.get<Map<String, dynamic>>('/payments/$paymentId'));
+
+  Future<Map<String, dynamic>> listPayments({required int page}) => _unwrap(
+    () => _dio.get<Map<String, dynamic>>(
+      '/payments',
+      queryParameters: {'page': page, 'limit': 50},
+    ),
+  );
 
   Future<Map<String, dynamic>> _unwrap(
     Future<Response<Map<String, dynamic>>> Function() request,

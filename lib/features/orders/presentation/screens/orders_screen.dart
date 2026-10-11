@@ -317,6 +317,19 @@ class _OrderCard extends StatelessWidget {
           const Divider(color: AppColors.surfaceMedium, height: 1),
           const SizedBox(height: AppSpacing.md),
           _buildRoleSpecificDetails(context),
+          if (role == AppUserRole.buyer &&
+              order.status == OrderStatus.pending) ...[
+            const SizedBox(height: AppSpacing.md),
+            OutlinedButton(
+              onPressed: () => context.push(
+                Uri(
+                  path: '/payments',
+                  queryParameters: {'orderId': order.id},
+                ).toString(),
+              ),
+              child: Text(context.l10n.continueSafepay),
+            ),
+          ],
           if ((role == AppUserRole.buyer || role == AppUserRole.farmer) &&
               order.shipmentId != null) ...[
             const SizedBox(height: AppSpacing.md),

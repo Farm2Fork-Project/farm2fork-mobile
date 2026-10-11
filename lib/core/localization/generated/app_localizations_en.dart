@@ -1107,4 +1107,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsConditionsContent =>
       'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.';
+
+  @override
+  String get continueSafepay => 'Continue with Safepay';
+
+  @override
+  String get paymentServerStatus =>
+      'Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.';
+
+  @override
+  String get paymentCheckoutClosed =>
+      'Checkout was closed. Your saved order is still available to pay.';
+
+  @override
+  String get paymentActionFailed =>
+      'Could not open or refresh checkout. Your order is saved. Try again or view your orders.';
+
+  @override
+  String paymentOrderNumber(int number) {
+    return 'Order $number';
+  }
 }

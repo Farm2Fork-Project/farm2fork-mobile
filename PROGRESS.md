@@ -177,3 +177,36 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 - Mobile Safepay handoff/return, real provider sandbox event/checkout verification,
   Firebase cookie acquisition, browser/device visuals and live Fabric delivery
   remain pending. Existing backend Safepay implementation was preserved.
+
+### 2026-10-11 — Mobile Safepay handoff and return
+
+- Mobile uses Safepay hosted checkout and retains the initiation URL. Fixed
+  payment reads to accept the backend's bare DTO. Added localized EN/UR launch
+  failures and explicit resume/retry actions for existing pending buyer orders.
+- Initial reads, browser resume and cold-start return refresh persisted status
+  without creating a new tracker. Safepay does not invoke the simulator. Retry
+  keeps the order ID; launch/read failures remain recoverable.
+- Backend accepts an optional validated web/mobile client marker and appends
+  the existing order ID to its configured return URLs for mobile only. Web
+  return pages offer an app link; Android/iOS register the scheme. Return query
+  parameters never mark a payment successful; ordinary web returns are retained.
+- Real Dart repository/controller -> Nest HTTP/JWT/role/CSRF -> MongoDB harness
+  passed: two farmer orders, authoritative totals, intentional resume, ownership
+  rejection, signed success/replay, failure/retry, cold-start reads, sold-out stock
+  and exactly two paid orders/payment/outbox records. Both web and mobile live
+  checkout harnesses pass. Safepay tracker/passport responses are local fixtures.
+- Mobile: 102 tests passed, two live tests skipped without harness config;
+  changed files pass static analysis. Six payment screen/router tests pass after
+  the final state-reset adjustment. Whole-app analysis retains four existing
+  Firebase auth warnings. Backend: 22 payment unit tests and 15 HTTP integration
+  tests passed; production source/harness TypeScript checking passed with the
+  build config and rootDir override. Web: 77 tests passed, two live skips;
+  TypeScript/build and built return-page HTTP checks pass.
+- Android debug APK and iOS Simulator builds passed; compiled Android intent
+  and iOS callback scheme verified. Retained
+  resolved iOS SwiftPM dependency pins. Flutter migrated the iOS target to 15,
+  matching the already installed Firebase package requirement.
+- Instructions and runtime checks: `docs/testing/safepay-checkout.md`. Real
+  merchant sandbox checkout/event formats, Firebase acquisition, signed-in
+  native handoff/phone visuals and deployed Fabric delivery remain unverified.
+  Existing backend Safepay edits were preserved. No deployment or push ran.

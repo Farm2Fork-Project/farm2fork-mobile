@@ -8,5 +8,8 @@ import 'package:farm2fork_mobile/features/payments/data/services/payments_api_se
 
 final paymentsRepositoryProvider = Provider<PaymentsRepository>((ref) {
   if (AppConfig.useMocks) return MockPaymentsRepository();
-  return ApiPaymentsRepository(PaymentsApiService(ref.watch(dioProvider)));
+  return ApiPaymentsRepository(
+    PaymentsApiService(ref.watch(dioProvider)),
+    useSimulator: AppConfig.paymentSimulatorEnabled,
+  );
 });

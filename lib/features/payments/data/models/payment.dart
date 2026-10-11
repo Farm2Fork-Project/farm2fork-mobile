@@ -8,6 +8,8 @@ class Payment {
     required this.currency,
     required this.status,
     required this.createdAt,
+    this.gateway,
+    this.checkoutUrl,
   });
 
   final String id;
@@ -16,4 +18,6 @@ class Payment {
   final String currency;
   final PaymentStatus status;
   final DateTime createdAt;
+  final String? gateway;
+  final String? checkoutUrl;
 }
