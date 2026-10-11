@@ -67,12 +67,39 @@ class ShipmentsScreen extends ConsumerWidget {
   }
 }
 
-class _ShipmentCard extends ConsumerWidget {
+class _ShipmentCard extends ConsumerStatefulWidget {
   const _ShipmentCard({required this.shipment});
   final Shipment shipment;
+  @override
+  ConsumerState<_ShipmentCard> createState() => _ShipmentCardState();
+}
+
+class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
+  Shipment get shipment => widget.shipment;
+  bool _busy = false, _error = false;
+  Future<void> _update(ShipmentStatus status, String note) async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = false;
+    });
+    try {
+      await ref
+          .read(shipmentsControllerProvider.notifier)
+          .updateShipmentStatus(
+            shipmentId: shipment.id,
+            status: status,
+            note: note,
+          );
+    } on Object {
+      if (mounted) setState(() => _error = true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final statusColor = switch (shipment.status) {
       ShipmentStatus.assigned => AppColors.accentYellow,
       ShipmentStatus.pickedUp => AppColors.secondaryBlue,
@@ -90,9 +117,11 @@ class _ShipmentCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                context.l10n.shipmentNumber(isolateLtr(shipment.id)),
-                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
+              Expanded(
+                child: Text(
+                  context.l10n.shipmentNumber(isolateLtr(shipment.id)),
+                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
               AppBadge(
                 label: statusText,
@@ -138,7 +167,8 @@ class _ShipmentCard extends ConsumerWidget {
               shipment.status != ShipmentStatus.failed) ...[
             const Divider(color: AppColors.surfaceMedium),
             const SizedBox(height: AppSpacing.md),
-            _buildUpdateControls(context, ref),
+            if (_error) Text(context.l10n.errorOccurred),
+            _buildUpdateControls(context),
           ],
         ],
       ),
@@ -243,7 +273,7 @@ class _ShipmentCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildUpdateControls(BuildContext context, WidgetRef ref) {
+  Widget _buildUpdateControls(BuildContext context) {
     final nextStatus = switch (shipment.status) {
       ShipmentStatus.assigned => ShipmentStatus.pickedUp,
       ShipmentStatus.pickedUp => ShipmentStatus.inTransit,
@@ -263,17 +293,14 @@ class _ShipmentCard extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          ref
-              .read(shipmentsControllerProvider.notifier)
-              .updateShipmentStatus(
-                shipmentId: shipment.id,
-                status: nextStatus,
-                note: context.l10n.shipmentStatusUpdate(
+        onPressed: _busy
+            ? null
+            : () => _update(
+                nextStatus,
+                context.l10n.shipmentStatusUpdate(
                   _statusLabel(context, nextStatus),
                 ),
-              );
-        },
+              ),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: AppColors.white,

@@ -3283,6 +3283,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That didn\'t work. Refresh and try again.'**
   String get loanActionFailed;
+
+  /// Demo scan trigger button; no camera scanning is wired up yet
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate Scan (Scan Tomatoes)'**
+  String get traceScannerSimulateScan;
+
+  /// Product name shown for the demo trace journey
+  ///
+  /// In en, this message translates to:
+  /// **'Organic Tomatoes'**
+  String get traceScannerDemoProductName;
+
+  /// Subtitle confirming the trace journey is backed by the blockchain ledger
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Blockchain Trace Ledger'**
+  String get traceScannerVerifiedLedger;
+
+  /// No description provided for @continueSafepay.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Safepay'**
+  String get continueSafepay;
+
+  /// No description provided for @paymentServerStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.'**
+  String get paymentServerStatus;
+
+  /// No description provided for @paymentCheckoutClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout was closed. Your saved order is still available to pay.'**
+  String get paymentCheckoutClosed;
+
+  /// No description provided for @paymentActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open or refresh checkout. Your order is saved. Try again or view your orders.'**
+  String get paymentActionFailed;
+
+  /// No description provided for @paymentOrderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order {number}'**
+  String paymentOrderNumber(int number);
+
+  /// No description provided for @deliveryLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery latitude'**
+  String get deliveryLatitude;
+
+  /// No description provided for @deliveryLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery longitude'**
+  String get deliveryLongitude;
+
+  /// No description provided for @locationLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get locationLatitude;
+
+  /// No description provided for @locationLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get locationLongitude;
+
+  /// No description provided for @locationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid coordinates inside Pakistan.'**
+  String get locationInvalid;
+
+  /// No description provided for @locationCoordinatesHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the coordinates of this address from your map app.'**
+  String get locationCoordinatesHelp;
+
+  /// No description provided for @getDeliveryQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Get delivery quote'**
+  String get getDeliveryQuote;
+
+  /// No description provided for @deliveryQuoteRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Review a delivery quote before placing your order.'**
+  String get deliveryQuoteRequired;
+
+  /// No description provided for @deliveryQuoteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.'**
+  String get deliveryQuoteFailed;
+
+  /// No description provided for @deliveryFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery fee'**
+  String get deliveryFee;
+
+  /// No description provided for @deliveryDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated delivery distance: {distance} km'**
+  String deliveryDistance(String distance);
+
+  /// No description provided for @farmPickupLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm pickup location'**
+  String get farmPickupLocation;
+
+  /// No description provided for @farmPickupHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.'**
+  String get farmPickupHelp;
+
+  /// No description provided for @farmPickupSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save pickup location'**
+  String get farmPickupSave;
+
+  /// No description provided for @farmPickupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup location saved.'**
+  String get farmPickupSaved;
+
+  /// No description provided for @farmPickupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load or save your farm location. Check the details and retry.'**
+  String get farmPickupFailed;
+
+  /// No description provided for @farmPickupAfterSignup.
+  ///
+  /// In en, this message translates to:
+  /// **'After creating your account, open Listings to save your farm pickup address and map coordinates.'**
+  String get farmPickupAfterSignup;
+
+  /// No description provided for @dispatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery availability'**
+  String get dispatchTitle;
+
+  /// No description provided for @dispatchLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading availability…'**
+  String get dispatchLoading;
+
+  /// No description provided for @dispatchOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get dispatchOnline;
+
+  /// No description provided for @dispatchOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get dispatchOffline;
+
+  /// No description provided for @dispatchFresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Current location is ready for nearby offers.'**
+  String get dispatchFresh;
+
+  /// No description provided for @dispatchStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your current location to receive and accept offers.'**
+  String get dispatchStale;
+
+  /// No description provided for @dispatchRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup radius'**
+  String get dispatchRadius;
+
+  /// No description provided for @dispatchActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish your active delivery before accepting another.'**
+  String get dispatchActive;
+
+  /// No description provided for @dispatchUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Location last shared'**
+  String get dispatchUpdated;
+
+  /// No description provided for @dispatchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy your current coordinates from your map app. Update them when you move or when your location expires.'**
+  String get dispatchHelp;
+
+  /// No description provided for @dispatchLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Current latitude'**
+  String get dispatchLatitude;
+
+  /// No description provided for @dispatchLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Current longitude'**
+  String get dispatchLongitude;
+
+  /// No description provided for @dispatchGoOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Go online'**
+  String get dispatchGoOnline;
+
+  /// No description provided for @dispatchGoOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Go offline'**
+  String get dispatchGoOffline;
+
+  /// No description provided for @dispatchUpdateLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share current location'**
+  String get dispatchUpdateLocation;
+
+  /// No description provided for @dispatchRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh status and offers'**
+  String get dispatchRefresh;
+
+  /// No description provided for @dispatchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update availability. Check your connection and retry.'**
+  String get dispatchError;
+
+  /// No description provided for @dispatchDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline offer'**
+  String get dispatchDecline;
+
+  /// No description provided for @dispatchEarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery earning'**
+  String get dispatchEarning;
+
+  /// No description provided for @dispatchPickupDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance to farm'**
+  String get dispatchPickupDistance;
+
+  /// No description provided for @dispatchDeliveryDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated delivery distance'**
+  String get dispatchDeliveryDistance;
+
+  /// No description provided for @pushDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.'**
+  String get pushDescription;
+
+  /// No description provided for @pushEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable push notifications'**
+  String get pushEnable;
+
+  /// No description provided for @pushDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable push notifications'**
+  String get pushDisable;
+
+  /// No description provided for @pushDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications in device settings, then try again.'**
+  String get pushDenied;
+
+  /// No description provided for @pushSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to enable notifications.'**
+  String get pushSignIn;
+
+  /// No description provided for @pushInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification inbox'**
+  String get pushInbox;
+
+  /// No description provided for @pushReadAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get pushReadAll;
+
+  /// No description provided for @pushEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet.'**
+  String get pushEmpty;
+
+  /// No description provided for @enterCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter coordinates'**
+  String get enterCoordinates;
 }
 
 class _AppLocalizationsDelegate

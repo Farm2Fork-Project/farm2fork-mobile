@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:farm2fork_mobile/features/notifications/data/notifications_repository.dart';
-import 'package:farm2fork_mobile/features/notifications/push/push_service.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
@@ -110,15 +109,9 @@ class AuthController extends AsyncNotifier<AuthState> {
   }
 
   Future<void> signOut() async {
-    // Stop pushes to this device for the account being signed out; needs the
-    // session, so it runs first. Best-effort.
-    try {
-      await Future.wait([
-        ref.read(notificationsRepositoryProvider).clearDeviceToken(),
-        ref.read(pushServiceProvider).disable(),
-      ]).timeout(const Duration(seconds: 3));
-    } on Object {
-      // Signing out must never fail because of push cleanup.
+    final userId = state.value?.user?.id;
+    if (userId != null) {
+      await ref.read(pushLogoutCleanupProvider)(userId);
     }
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {

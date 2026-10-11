@@ -127,7 +127,9 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       pickupAddress: _address(dto['pickupAddress']),
       deliveryAddress: _address(dto['deliveryAddress']),
       statusHistory: history.map(_historyEntry).toList(growable: false),
-      estimatedDelivery: _date(dto['estimatedDelivery']),
+      estimatedDelivery: dto['estimatedDelivery'] == null
+          ? null
+          : _date(dto['estimatedDelivery']),
       actualDelivery: dto['actualDelivery'] == null
           ? null
           : _date(dto['actualDelivery']),

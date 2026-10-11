@@ -90,9 +90,7 @@ class _EmailVerificationScreenState
       }
     } on _EmailStillUnverified {
       if (mounted) {
-        setState(
-          () => _message = context.l10n.verificationStillPendingNote,
-        );
+        setState(() => _message = context.l10n.verificationStillPendingNote);
       }
     } catch (error) {
       if (mounted) {

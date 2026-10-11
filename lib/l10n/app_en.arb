@@ -1456,5 +1456,83 @@
   "loanRejectHint": "The farmer will see this",
   "@loanRejectHint": {"description": "loanRejectHint"},
   "loanActionFailed": "That didn't work. Refresh and try again.",
-  "@loanActionFailed": {"description": "loanActionFailed"}
+  "@loanActionFailed": {"description": "loanActionFailed"},
+  "traceScannerSimulateScan": "Simulate Scan (Scan Tomatoes)",
+  "@traceScannerSimulateScan": {
+    "description": "Demo scan trigger button; no camera scanning is wired up yet"
+  },
+  "traceScannerDemoProductName": "Organic Tomatoes",
+  "@traceScannerDemoProductName": {
+    "description": "Product name shown for the demo trace journey"
+  },
+  "traceScannerVerifiedLedger": "Verified Blockchain Trace Ledger",
+  "@traceScannerVerifiedLedger": {
+    "description": "Subtitle confirming the trace journey is backed by the blockchain ledger"
+  },
+  "continueSafepay": "Continue with Safepay",
+  "paymentServerStatus": "Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.",
+  "paymentCheckoutClosed": "Checkout was closed. Your saved order is still available to pay.",
+  "paymentActionFailed": "Could not open or refresh checkout. Your order is saved. Try again or view your orders.",
+  "paymentOrderNumber": "Order {number}",
+  "@paymentOrderNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryLatitude": "Delivery latitude",
+  "deliveryLongitude": "Delivery longitude",
+  "locationLatitude": "Latitude",
+  "locationLongitude": "Longitude",
+  "locationInvalid": "Enter valid coordinates inside Pakistan.",
+  "locationCoordinatesHelp": "Copy the coordinates of this address from your map app.",
+  "getDeliveryQuote": "Get delivery quote",
+  "deliveryQuoteRequired": "Review a delivery quote before placing your order.",
+  "deliveryQuoteFailed": "Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.",
+  "deliveryFee": "Delivery fee",
+  "deliveryDistance": "Estimated delivery distance: {distance} km",
+  "farmPickupLocation": "Farm pickup location",
+  "farmPickupHelp": "Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.",
+  "farmPickupSave": "Save pickup location",
+  "farmPickupSaved": "Pickup location saved.",
+  "farmPickupFailed": "Could not load or save your farm location. Check the details and retry.",
+  "@deliveryDistance": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "farmPickupAfterSignup": "After creating your account, open Listings to save your farm pickup address and map coordinates.",
+  "dispatchTitle": "Delivery availability",
+  "dispatchLoading": "Loading availability…",
+  "dispatchOnline": "Online",
+  "dispatchOffline": "Offline",
+  "dispatchFresh": "Current location is ready for nearby offers.",
+  "dispatchStale": "Share your current location to receive and accept offers.",
+  "dispatchRadius": "Pickup radius",
+  "dispatchActive": "Finish your active delivery before accepting another.",
+  "dispatchUpdated": "Location last shared",
+  "dispatchHelp": "Copy your current coordinates from your map app. Update them when you move or when your location expires.",
+  "dispatchLatitude": "Current latitude",
+  "dispatchLongitude": "Current longitude",
+  "dispatchGoOnline": "Go online",
+  "dispatchGoOffline": "Go offline",
+  "dispatchUpdateLocation": "Share current location",
+  "dispatchRefresh": "Refresh status and offers",
+  "dispatchError": "Could not update availability. Check your connection and retry.",
+  "dispatchDecline": "Decline offer",
+  "dispatchEarning": "Delivery earning",
+  "dispatchPickupDistance": "Distance to farm",
+  "dispatchDeliveryDistance": "Estimated delivery distance",
+  "pushDescription": "Enable push alerts on this device. Your notification inbox is always available. One device per account receives push alerts.",
+  "pushEnable": "Enable push notifications",
+  "pushDisable": "Disable push notifications",
+  "pushDenied": "Allow notifications in device settings, then try again.",
+  "pushSignIn": "Sign in to enable notifications.",
+  "pushInbox": "Notification inbox",
+  "pushReadAll": "Mark all as read",
+  "pushEmpty": "No notifications yet.",
+  "enterCoordinates": "Enter coordinates"
 }

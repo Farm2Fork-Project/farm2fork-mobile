@@ -34,11 +34,15 @@ abstract class PushService {
 
   /// Forgets the device token (on sign-out).
   Future<void> disable();
+
+  void dispose();
 }
 
 class FirebasePushService implements PushService {
   final _local = FlutterLocalNotificationsPlugin();
   bool _started = false;
+  int _epoch = 0;
+  final List<StreamSubscription<RemoteMessage>> _subscriptions = [];
 
   /// Matches the backend's android.notification.channelId and the
   /// default_notification_channel_id in AndroidManifest.xml.
@@ -56,6 +60,7 @@ class FirebasePushService implements PushService {
   }) async {
     if (_started) return;
     _started = true;
+    final epoch = ++_epoch;
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     await _local.initialize(
@@ -84,33 +89,39 @@ class FirebasePushService implements PushService {
         >()
         ?.createNotificationChannel(channel);
 
+    if (epoch != _epoch) return;
+
     // Android doesn't show FCM notifications while the app is in the
     // foreground, so show them locally.
-    FirebaseMessaging.onMessage.listen((message) {
-      final notification = message.notification;
-      if (notification != null &&
-          defaultTargetPlatform == TargetPlatform.android) {
-        _local.show(
-          id: message.messageId.hashCode,
-          title: notification.title,
-          body: notification.body,
-          notificationDetails: NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              importance: Importance.high,
-              priority: Priority.high,
+    _subscriptions.add(
+      FirebaseMessaging.onMessage.listen((message) {
+        final notification = message.notification;
+        if (notification != null &&
+            defaultTargetPlatform == TargetPlatform.android) {
+          _local.show(
+            id: message.messageId.hashCode,
+            title: notification.title,
+            body: notification.body,
+            notificationDetails: NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                importance: Importance.high,
+                priority: Priority.high,
+              ),
             ),
-          ),
-          payload: jsonEncode(message.data),
-        );
-      }
-      onForegroundMessage(message.data);
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((m) => onTap(m.data));
+            payload: jsonEncode(message.data),
+          );
+        }
+        onForegroundMessage(message.data);
+      }),
+    );
+    _subscriptions.add(
+      FirebaseMessaging.onMessageOpenedApp.listen((m) => onTap(m.data)),
+    );
     final initial = await FirebaseMessaging.instance.getInitialMessage();
-    if (initial != null) onTap(initial.data);
+    if (initial != null && epoch == _epoch) onTap(initial.data);
   }
 
   @override
@@ -125,6 +136,16 @@ class FirebasePushService implements PushService {
 
   @override
   Future<void> disable() => FirebaseMessaging.instance.deleteToken();
+
+  @override
+  void dispose() {
+    _epoch++;
+    for (final subscription in _subscriptions) {
+      unawaited(subscription.cancel());
+    }
+    _subscriptions.clear();
+    _started = false;
+  }
 }
 
 /// No push in mock mode (and in tests, which override this provider).
@@ -143,8 +164,15 @@ class NoopPushService implements PushService {
 
   @override
   Future<void> disable() async {}
+
+  @override
+  void dispose() {}
 }
 
-final pushServiceProvider = Provider<PushService>(
-  (ref) => AppConfig.useMocks ? NoopPushService() : FirebasePushService(),
-);
+final pushServiceProvider = Provider<PushService>((ref) {
+  final service = AppConfig.useMocks
+      ? NoopPushService()
+      : FirebasePushService();
+  ref.onDispose(service.dispose);
+  return service;
+});

@@ -22,6 +22,14 @@ class MockPaymentsRepository implements PaymentsRepository {
   }
 
   @override
+  Future<Payment?> findForOrder(String orderId) async {
+    for (final payment in _payments.values) {
+      if (payment.orderId == orderId) return payment;
+    }
+    return null;
+  }
+
+  @override
   Future<Payment> get(String paymentId) async {
     final payment = _payments[paymentId];
     if (payment == null) throw StateError('Payment not found');

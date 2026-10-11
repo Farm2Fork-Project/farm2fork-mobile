@@ -161,13 +161,15 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                           color: AppColors.primaryGreenDark,
                         ),
                       ),
-                      Text(
-                        _currentStep == 0
-                            ? context.l10n.listingStepProduceDetails
-                            : context.l10n.listingStepPricingQuantity,
-                        style: AppTextStyles.small.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textMuted,
+                      Flexible(
+                        child: Text(
+                          _currentStep == 0
+                              ? context.l10n.listingStepProduceDetails
+                              : context.l10n.listingStepPricingQuantity,
+                          style: AppTextStyles.small.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textMuted,
+                          ),
                         ),
                       ),
                     ],
@@ -212,7 +214,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                     child: AppButton(
                       label: _currentStep == 0
                           ? context.l10n.next
-                          : context.l10n.checkout,
+                          : context.l10n.createListingTitle,
                       variant: AppButtonVariant.primary,
                       onPressed: isLoading ? null : _nextStep,
                       expand: true,

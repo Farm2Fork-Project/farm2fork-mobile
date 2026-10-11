@@ -94,7 +94,11 @@ class LanguageDisplayScreen extends ConsumerWidget {
                 children: [
                   SectionHeader(title: context.l10n.fontSize),
                   const SizedBox(height: AppSpacing.md),
-                  _buildFontSizeSelectors(context, ref, currentScale: fontScale),
+                  _buildFontSizeSelectors(
+                    context,
+                    ref,
+                    currentScale: fontScale,
+                  ),
                 ],
               ),
             ),
@@ -161,7 +165,9 @@ class LanguageDisplayScreen extends ConsumerWidget {
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
           side: BorderSide(
-            color: isSelected ? AppColors.primaryGreen : AppColors.surfaceMedium,
+            color: isSelected
+                ? AppColors.primaryGreen
+                : AppColors.surfaceMedium,
           ),
         );
       }).toList(),

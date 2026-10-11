@@ -12,13 +12,22 @@ class ApiListingsRepository implements ListingsRepository {
 
   @override
   Future<List<Product>> getFarmerListings(String farmerId) async {
-    final body = await _api.fetchMine();
-    final data = body['data'];
-    if (data is! List) return const [];
-    return data
-        .whereType<Map<String, dynamic>>()
-        .map(ProductDtoMapper.fromDto)
-        .toList(growable: false);
+    final products = <Product>[];
+    var page = 1;
+    int totalPages;
+    do {
+      final body = await _api.fetchMine(page);
+      final data = body['data'];
+      if (data is! List) {
+        throw const FormatException('Invalid listing response');
+      }
+      products.addAll(
+        data.cast<Map<String, dynamic>>().map(ProductDtoMapper.fromDto),
+      );
+      totalPages = (body['totalPages'] as num?)?.toInt() ?? 1;
+      page++;
+    } while (page <= totalPages);
+    return products;
   }
 
   @override

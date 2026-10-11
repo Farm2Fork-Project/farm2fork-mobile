@@ -12,10 +12,10 @@ class ListingsApiService {
   static const int pageSize = 100;
 
   /// GET /products/mine - the signed-in farmer's listings, all statuses.
-  Future<Map<String, dynamic>> fetchMine() => _unwrap(
+  Future<Map<String, dynamic>> fetchMine([int page = 1]) => _unwrap(
     () => _dio.get<Map<String, dynamic>>(
       '/products/mine',
-      queryParameters: {'limit': pageSize},
+      queryParameters: {'limit': pageSize, 'page': page},
     ),
   );
 
@@ -33,14 +33,21 @@ class ListingsApiService {
 
   /// DELETE /products/:id - a soft delete (the listing becomes inactive).
   Future<void> delete(String productId) async {
-    await _dio.delete<Map<String, dynamic>>('/products/$productId');
+    await _unwrap(
+      () => _dio.delete<Map<String, dynamic>>('/products/$productId'),
+    );
   }
 
   Future<Map<String, dynamic>> _unwrap(
     Future<Response<Map<String, dynamic>>> Function() request,
   ) async {
-    final data = (await request()).data;
-    if (data == null) throw const ApiException(ApiErrorKind.unknown);
-    return data;
+    try {
+      final data = (await request()).data;
+      if (data == null) throw const ApiException(ApiErrorKind.unknown);
+      return data;
+    } on DioException catch (error) {
+      if (error.error is ApiException) throw error.error!;
+      rethrow;
+    }
   }
 }

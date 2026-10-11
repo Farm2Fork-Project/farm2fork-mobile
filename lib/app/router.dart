@@ -151,6 +151,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, state) => PaymentScreen(
           orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
+          returnResult: state.uri.queryParameters['result'],
         ),
       ),
       GoRoute(

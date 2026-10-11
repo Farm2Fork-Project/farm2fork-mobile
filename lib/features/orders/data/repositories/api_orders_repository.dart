@@ -34,14 +34,7 @@ class ApiOrdersRepository implements OrdersRepository {
       items: items,
       shippingAddress: _addressToDto(shippingAddress),
     );
-    return OrderQuote(
-      totalAmount: _toDouble(dto['totalAmount']),
-      platformFeePercent: _toDouble(dto['platformFeePercent']),
-      platformFeeAmount: _toDouble(dto['platformFeeAmount']),
-      deliveryFee: _toDouble(dto['deliveryFee']),
-      deliveryDistanceKm: _toDouble(dto['deliveryDistanceKm']),
-      grandTotal: _toDouble(dto['grandTotal']),
-    );
+    return OrderQuote.fromJson(dto);
   }
 
   Map<String, dynamic> _addressToDto(OrderAddress address) => {

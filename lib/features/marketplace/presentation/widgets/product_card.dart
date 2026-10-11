@@ -76,7 +76,9 @@ class ProductCard extends StatelessWidget {
                       child: AppBadge(
                         label: qualityGradeLabel(context, product.qualityGrade),
                         icon: Icons.verified_rounded,
-                        backgroundColor: AppColors.white.withValues(alpha: 0.92),
+                        backgroundColor: AppColors.white.withValues(
+                          alpha: 0.92,
+                        ),
                         foregroundColor: _gradeColor(product.qualityGrade),
                       ),
                     ),
@@ -187,4 +189,3 @@ Color _gradeColor(QualityGrade grade) {
     QualityGrade.c => AppColors.errorRed,
   };
 }
-

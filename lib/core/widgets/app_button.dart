@@ -91,9 +91,7 @@ class AppButton extends StatelessWidget {
           disabledBackgroundColor: isLoading
               ? background
               : AppColors.surfaceMedium,
-          disabledForegroundColor: isLoading
-              ? foreground
-              : AppColors.textMuted,
+          disabledForegroundColor: isLoading ? foreground : AppColors.textMuted,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.md,

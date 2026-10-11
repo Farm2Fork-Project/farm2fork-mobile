@@ -71,6 +71,20 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
     }
   }
 
+  Future<void> _enterCoordinates() async {
+    final point = await showDialog<GeoPoint>(
+      context: context,
+      builder: (_) => _CoordinateDialog(initial: _hasChoice ? _picked : null),
+    );
+    if (mounted && point != null) {
+      setState(() {
+        _cameraCenter = point;
+        _picked = point;
+        _hasChoice = true;
+      });
+    }
+  }
+
   void _confirm() {
     if (!_picked.isInPakistan) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -148,6 +162,10 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
                         isLoading: _locating,
                         onPressed: _locating ? null : _useMyLocation,
                       ),
+                      TextButton(
+                        onPressed: _enterCoordinates,
+                        child: Text(l10n.enterCoordinates),
+                      ),
                       const SizedBox(height: AppSpacing.sm),
                       AppButton(
                         label: l10n.confirmLocation,
@@ -165,4 +183,83 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
       ),
     );
   }
+}
+
+class _CoordinateDialog extends StatefulWidget {
+  const _CoordinateDialog({this.initial});
+  final GeoPoint? initial;
+  @override
+  State<_CoordinateDialog> createState() => _CoordinateDialogState();
+}
+
+class _CoordinateDialogState extends State<_CoordinateDialog> {
+  late final lat = TextEditingController(
+    text: widget.initial == null ? '' : '${widget.initial!.lat}',
+  );
+  late final lng = TextEditingController(
+    text: widget.initial == null ? '' : '${widget.initial!.lng}',
+  );
+  final form = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    lat.dispose();
+    lng.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: Text(context.l10n.enterCoordinates),
+    content: SingleChildScrollView(
+      child: Form(
+        key: form,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(context.l10n.locationCoordinatesHelp),
+            TextFormField(
+              controller: lat,
+              decoration: InputDecoration(
+                labelText: context.l10n.locationLatitude,
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              validator: (_) {
+                final p = GeoPoint(
+                  double.tryParse(lat.text.trim()) ?? double.nan,
+                  double.tryParse(lng.text.trim()) ?? double.nan,
+                );
+                return p.isInPakistan ? null : context.l10n.locationInvalid;
+              },
+            ),
+            TextFormField(
+              controller: lng,
+              decoration: InputDecoration(
+                labelText: context.l10n.locationLongitude,
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    actions: [
+      TextButton(
+        onPressed: () {
+          if (form.currentState!.validate()) {
+            Navigator.of(context).pop(
+              GeoPoint(
+                double.parse(lat.text.trim()),
+                double.parse(lng.text.trim()),
+              ),
+            );
+          }
+        },
+        child: Text(context.l10n.confirmLocation),
+      ),
+    ],
+  );
 }

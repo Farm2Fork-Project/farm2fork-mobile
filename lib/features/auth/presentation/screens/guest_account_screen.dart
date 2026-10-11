@@ -167,4 +167,3 @@ class GuestAccountScreen extends StatelessWidget {
     );
   }
 }
-

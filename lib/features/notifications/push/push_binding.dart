@@ -8,6 +8,7 @@ import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_contr
 import 'package:farm2fork_mobile/features/notifications/data/notifications_repository.dart';
 import 'package:farm2fork_mobile/features/notifications/presentation/notification_routes.dart';
 import 'package:farm2fork_mobile/features/notifications/push/push_service.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/dispatch_controller.dart';
 
 /// Connects FCM to the session: registers the device token for whoever is
@@ -24,22 +25,20 @@ class PushBinding extends ConsumerStatefulWidget {
 }
 
 class _PushBindingState extends ConsumerState<PushBinding> {
-  StreamSubscription<String>? _tokenSub;
   PushData? _pendingTap;
+  late final PushService _push;
 
   @override
   void initState() {
     super.initState();
-    final push = ref.read(pushServiceProvider);
+    final push = _push = ref.read(pushServiceProvider);
     unawaited(
       push
           .start(onTap: _handleTap, onForegroundMessage: _handleForeground)
           .catchError((_) {}),
     );
     ref.listenManual(authControllerProvider, (previous, next) {
-      final wasIn = previous?.asData?.value.isAuthenticated ?? false;
       final isIn = next.asData?.value.isAuthenticated ?? false;
-      if (isIn && !wasIn) _register();
       if (isIn && _pendingTap != null) {
         final tap = _pendingTap!;
         _pendingTap = null;
@@ -50,25 +49,12 @@ class _PushBindingState extends ConsumerState<PushBinding> {
 
   @override
   void dispose() {
-    _tokenSub?.cancel();
+    _push.dispose();
     super.dispose();
   }
 
-  Future<void> _register() async {
-    final push = ref.read(pushServiceProvider);
-    final repo = ref.read(notificationsRepositoryProvider);
-    try {
-      final token = await push.enable();
-      if (token != null) await repo.registerDeviceToken(token);
-      _tokenSub ??= push.tokenRefresh.listen(
-        (token) => repo.registerDeviceToken(token).catchError((_) {}),
-      );
-    } on Object {
-      // Push is best-effort; the in-app inbox still works.
-    }
-  }
-
   void _handleForeground(PushData data) {
+    if (!mounted) return;
     ref
       ..invalidate(unreadNotificationsProvider)
       ..invalidate(notificationsProvider);
@@ -78,6 +64,7 @@ class _PushBindingState extends ConsumerState<PushBinding> {
   }
 
   void _handleTap(PushData data) {
+    if (!mounted) return;
     final auth = ref.read(authControllerProvider).asData?.value;
     // A tap that launched the app arrives before the session is restored.
     if (auth == null || !auth.isAuthenticated || auth.role == null) {
@@ -107,5 +94,8 @@ class _PushBindingState extends ConsumerState<PushBinding> {
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) {
+    ref.watch(pushControllerProvider);
+    return widget.child;
+  }
 }
