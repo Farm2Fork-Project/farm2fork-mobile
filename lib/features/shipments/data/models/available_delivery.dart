@@ -1,6 +1,9 @@
 class AvailableDelivery {
   const AvailableDelivery({
     required this.orderId,
+    this.deliveryFee,
+    this.deliveryDistanceKm,
+    this.distanceToPickupKm,
     required this.pickupCity,
     required this.pickupProvince,
     required this.deliveryCity,
@@ -10,6 +13,7 @@ class AvailableDelivery {
   });
 
   final String orderId;
+  final double? deliveryFee, deliveryDistanceKm, distanceToPickupKm;
   final String pickupCity;
   final String pickupProvince;
   final String deliveryCity;

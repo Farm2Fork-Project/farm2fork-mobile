@@ -1186,4 +1186,71 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get farmPickupAfterSignup =>
       'After creating your account, open Listings to save your farm pickup address and map coordinates.';
+
+  @override
+  String get dispatchTitle => 'Delivery availability';
+
+  @override
+  String get dispatchLoading => 'Loading availability…';
+
+  @override
+  String get dispatchOnline => 'Online';
+
+  @override
+  String get dispatchOffline => 'Offline';
+
+  @override
+  String get dispatchFresh => 'Current location is ready for nearby offers.';
+
+  @override
+  String get dispatchStale =>
+      'Share your current location to receive and accept offers.';
+
+  @override
+  String get dispatchRadius => 'Pickup radius';
+
+  @override
+  String get dispatchActive =>
+      'Finish your active delivery before accepting another.';
+
+  @override
+  String get dispatchUpdated => 'Location last shared';
+
+  @override
+  String get dispatchHelp =>
+      'Copy your current coordinates from your map app. Update them when you move or when your location expires.';
+
+  @override
+  String get dispatchLatitude => 'Current latitude';
+
+  @override
+  String get dispatchLongitude => 'Current longitude';
+
+  @override
+  String get dispatchGoOnline => 'Go online';
+
+  @override
+  String get dispatchGoOffline => 'Go offline';
+
+  @override
+  String get dispatchUpdateLocation => 'Share current location';
+
+  @override
+  String get dispatchRefresh => 'Refresh status and offers';
+
+  @override
+  String get dispatchError =>
+      'Could not update availability. Check your connection and retry.';
+
+  @override
+  String get dispatchDecline => 'Decline offer';
+
+  @override
+  String get dispatchEarning => 'Delivery earning';
+
+  @override
+  String get dispatchPickupDistance => 'Distance to farm';
+
+  @override
+  String get dispatchDeliveryDistance => 'Estimated delivery distance';
 }

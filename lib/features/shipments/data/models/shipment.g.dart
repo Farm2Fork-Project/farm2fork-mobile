@@ -12,6 +12,8 @@ _ShipmentAddress _$ShipmentAddressFromJson(Map<String, dynamic> json) =>
       city: json['city'] as String,
       province: json['province'] as String,
       zip: json['zip'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lng: (json['lng'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ShipmentAddressToJson(_ShipmentAddress instance) =>
@@ -20,6 +22,8 @@ Map<String, dynamic> _$ShipmentAddressToJson(_ShipmentAddress instance) =>
       'city': instance.city,
       'province': instance.province,
       'zip': instance.zip,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };
 
 _ShipmentStatusUpdate _$ShipmentStatusUpdateFromJson(
@@ -42,8 +46,8 @@ Map<String, dynamic> _$ShipmentStatusUpdateToJson(
 
 const _$ShipmentStatusEnumMap = {
   ShipmentStatus.assigned: 'assigned',
-  ShipmentStatus.pickedUp: 'pickedUp',
-  ShipmentStatus.inTransit: 'inTransit',
+  ShipmentStatus.pickedUp: 'picked_up',
+  ShipmentStatus.inTransit: 'in_transit',
   ShipmentStatus.delivered: 'delivered',
   ShipmentStatus.failed: 'failed',
 };
@@ -62,7 +66,10 @@ _Shipment _$ShipmentFromJson(Map<String, dynamic> json) => _Shipment(
   statusHistory: (json['statusHistory'] as List<dynamic>)
       .map((e) => ShipmentStatusUpdate.fromJson(e as Map<String, dynamic>))
       .toList(),
-  estimatedDelivery: DateTime.parse(json['estimatedDelivery'] as String),
+  estimatedDelivery: json['estimatedDelivery'] == null
+      ? null
+      : DateTime.parse(json['estimatedDelivery'] as String),
+  deliveryFee: (json['deliveryFee'] as num?)?.toDouble(),
   actualDelivery: json['actualDelivery'] == null
       ? null
       : DateTime.parse(json['actualDelivery'] as String),
@@ -78,7 +85,8 @@ Map<String, dynamic> _$ShipmentToJson(_Shipment instance) => <String, dynamic>{
   'pickupAddress': instance.pickupAddress,
   'deliveryAddress': instance.deliveryAddress,
   'statusHistory': instance.statusHistory,
-  'estimatedDelivery': instance.estimatedDelivery.toIso8601String(),
+  'estimatedDelivery': instance.estimatedDelivery?.toIso8601String(),
+  'deliveryFee': instance.deliveryFee,
   'actualDelivery': instance.actualDelivery?.toIso8601String(),
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),

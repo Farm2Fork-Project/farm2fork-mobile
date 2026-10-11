@@ -10,6 +10,9 @@ class ApiShipmentsRepository extends ShipmentsRepository {
   final ShipmentsApiService _api;
 
   @override
+  Future<void> decline(String orderId) => _api.decline(orderId);
+
+  @override
   Future<List<AvailableDelivery>> getAvailable() async {
     final data = await _api.getAvailableDeliveries();
     return data.map(_availableFromDto).toList(growable: false);
@@ -49,6 +52,9 @@ class ApiShipmentsRepository extends ShipmentsRepository {
   AvailableDelivery _availableFromDto(Map<String, dynamic> dto) {
     return AvailableDelivery(
       orderId: _requiredString(dto, 'orderId'),
+      deliveryFee: (dto['deliveryFee'] as num?)?.toDouble(),
+      deliveryDistanceKm: (dto['deliveryDistanceKm'] as num?)?.toDouble(),
+      distanceToPickupKm: (dto['distanceToPickupKm'] as num?)?.toDouble(),
       pickupCity: _requiredString(dto, 'pickupCity'),
       pickupProvince: _requiredString(dto, 'pickupProvince'),
       deliveryCity: _requiredString(dto, 'deliveryCity'),
@@ -69,7 +75,10 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       pickupAddress: _address(dto['pickupAddress']),
       deliveryAddress: _address(dto['deliveryAddress']),
       statusHistory: history.map(_historyEntry).toList(growable: false),
-      estimatedDelivery: _date(dto['estimatedDelivery']),
+      estimatedDelivery: dto['estimatedDelivery'] == null
+          ? null
+          : _date(dto['estimatedDelivery']),
+      deliveryFee: (dto['deliveryFee'] as num?)?.toDouble(),
       actualDelivery: dto['actualDelivery'] == null
           ? null
           : _date(dto['actualDelivery']),
@@ -86,6 +95,8 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       city: _requiredString(dto, 'city'),
       province: _requiredString(dto, 'province'),
       zip: dto['zip'] as String?,
+      lat: (dto['lat'] as num?)?.toDouble(),
+      lng: (dto['lng'] as num?)?.toDouble(),
     );
   }
 
@@ -95,8 +106,8 @@ class ApiShipmentsRepository extends ShipmentsRepository {
     return ShipmentStatusUpdate(
       status: _status(dto['status']),
       timestamp: _date(dto['timestamp']),
-      note: _requiredString(dto, 'note'),
-      updatedBy: _requiredString(dto, 'updatedBy'),
+      note: dto['note'] as String? ?? '',
+      updatedBy: dto['updatedBy'] as String? ?? '',
     );
   }
 

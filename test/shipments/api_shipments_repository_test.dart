@@ -20,7 +20,8 @@ class _StubApi extends ShipmentsApiService {
   Map<String, dynamic>? statusBody;
 
   @override
-  Future<List<Map<String, dynamic>>> getAvailableDeliveries() async => available;
+  Future<List<Map<String, dynamic>>> getAvailableDeliveries() async =>
+      available;
 
   @override
   Future<List<Map<String, dynamic>>> getMyShipments() async => shipments;
@@ -78,6 +79,25 @@ const _shipmentDto = <String, dynamic>{
 };
 
 void main() {
+  test(
+    'accepts a shipment without an ETA and preserves its delivery fee and map pins',
+    () async {
+      final dto = Map<String, dynamic>.from(_shipmentDto)
+        ..remove('estimatedDelivery');
+      dto['deliveryFee'] = 180;
+      dto['pickupAddress'] = {
+        ..._shipmentDto['pickupAddress'] as Map<String, dynamic>,
+        'lat': 31.52,
+        'lng': 74.35,
+      };
+      final shipment = await ApiShipmentsRepository(
+        _StubApi(shipment: dto),
+      ).claim('order-1');
+      expect(shipment.estimatedDelivery, isNull);
+      expect(shipment.deliveryFee, 180);
+      expect(shipment.pickupAddress.lat, 31.52);
+    },
+  );
   test('maps a redacted available delivery from the backend', () async {
     final api = _StubApi(
       available: const [
@@ -100,15 +120,18 @@ void main() {
     expect(deliveries.single.itemCount, 2);
   });
 
-  test('claims only the selected order and maps the assigned shipment', () async {
-    final api = _StubApi(shipment: _shipmentDto);
+  test(
+    'claims only the selected order and maps the assigned shipment',
+    () async {
+      final api = _StubApi(shipment: _shipmentDto);
 
-    final shipment = await ApiShipmentsRepository(api).claim('order-1');
+      final shipment = await ApiShipmentsRepository(api).claim('order-1');
 
-    expect(api.claimedOrderId, 'order-1');
-    expect(shipment.id, 'shipment-1');
-    expect(shipment.status, ShipmentStatus.assigned);
-  });
+      expect(api.claimedOrderId, 'order-1');
+      expect(shipment.id, 'shipment-1');
+      expect(shipment.status, ShipmentStatus.assigned);
+    },
+  );
 
   test('rejects a shipment response without a backend id', () async {
     final malformed = Map<String, dynamic>.from(_shipmentDto)..remove('id');

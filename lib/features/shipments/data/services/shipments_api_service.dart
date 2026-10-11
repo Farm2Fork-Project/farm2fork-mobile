@@ -8,6 +8,10 @@ class ShipmentsApiService {
 
   final Dio _dio;
 
+  Future<void> decline(String orderId) async {
+    await _dio.post<void>('/shipments/offers/$orderId/decline');
+  }
+
   Future<List<Map<String, dynamic>>> getAvailableDeliveries() =>
       _unwrapList(() => _dio.get<List<dynamic>>('/shipments/available'));
 
@@ -48,9 +52,11 @@ class ShipmentsApiService {
   ) async {
     final data = (await request()).data;
     if (data == null) throw const ApiException(ApiErrorKind.unknown);
-    return data.map((item) {
-      if (item is! Map) throw const ApiException(ApiErrorKind.unknown);
-      return Map<String, dynamic>.from(item);
-    }).toList(growable: false);
+    return data
+        .map((item) {
+          if (item is! Map) throw const ApiException(ApiErrorKind.unknown);
+          return Map<String, dynamic>.from(item);
+        })
+        .toList(growable: false);
   }
 }

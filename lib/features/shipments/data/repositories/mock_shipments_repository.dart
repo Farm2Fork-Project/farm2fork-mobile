@@ -94,6 +94,11 @@ class MockShipmentsRepository extends ShipmentsRepository {
   ];
 
   @override
+  Future<void> decline(String orderId) async {
+    _available.removeWhere((offer) => offer.orderId == orderId);
+  }
+
+  @override
   Future<List<AvailableDelivery>> getAvailable() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     return List.unmodifiable(_available);
@@ -107,14 +112,18 @@ class MockShipmentsRepository extends ShipmentsRepository {
 
   @override
   Future<Shipment> getById(String shipmentId) async {
-    final shipment = _shipments.where((item) => item.id == shipmentId).firstOrNull;
+    final shipment = _shipments
+        .where((item) => item.id == shipmentId)
+        .firstOrNull;
     if (shipment == null) throw Exception('Shipment not found');
     return shipment;
   }
 
   @override
   Future<Shipment> claim(String orderId) async {
-    final available = _available.where((item) => item.orderId == orderId).firstOrNull;
+    final available = _available
+        .where((item) => item.orderId == orderId)
+        .firstOrNull;
     if (available == null) throw Exception('Delivery is no longer available');
     final now = DateTime.now();
     final shipment = Shipment(

@@ -118,3 +118,18 @@ scripts; its build and production-source/harness type checking pass.
 
 Final Android debug APK and iOS Simulator builds also passed for this delivery
 revision. No physical-device checkout or merchant session was exercised.
+
+## Transporter delivery extension — 2026-10-11
+
+Run the backend fixture with `--mobile --delivery` to continue settled checkout
+through real transporter availability, location refresh, decline/acceptance and
+pickup/transit/delivery. Transport dispatch uses the actual service; notifications
+remain stubbed. The passing run finishes two delivered orders and shipments with
+four timeline entries each and ten persisted ledger outbox records.
+
+Mobile availability controls use manually supplied current coordinates. Failed
+actions remain retryable; automatic GPS and background tracking are not included.
+Shipments without an ETA now map correctly and retain delivery fees/address pins.
+The final suite passes 109 tests with two harness skips; scoped static analysis,
+Android debug APK and iOS Simulator builds pass. Commands and scope are recorded
+in `../../../farm2fork-backend/docs/testing/transporter-delivery.md`.

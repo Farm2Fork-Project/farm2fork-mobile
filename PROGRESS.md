@@ -228,3 +228,26 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
 - Merchant Safepay, Firebase sign-in, authenticated device handoff, real transport
   dispatch/notifications and deployed Fabric remain outside these local fixtures.
   See `docs/testing/safepay-checkout.md`. No push or deployment ran.
+
+### 2026-10-11 — Transporter availability and delivery completion
+
+- Web/mobile transporters now load server availability, explicitly enter current
+  coordinates, go online/offline, refresh location, decline or accept priced
+  nearby offers and advance assigned shipments through pickup, transit and
+  delivery. One active shipment and role/ownership checks stay server-enforced.
+- Mobile catches failed claim/status actions, disables repeated requests and
+  keeps failed actions retryable. Fixed long shipment ID header overflow and
+  mapping of shipments without an ETA; delivery fees and address pins are kept.
+  Availability controls and errors are localized in English and Urdu.
+- Both real HTTP checkout-to-delivery harnesses pass with actual transport
+  services: two delivered orders, two payments, two delivered shipments with four
+  timeline entries each, depleted stock and ten persisted ledger outbox records.
+  Web also exercises transporter controls and the buyer delivered-shipment UI.
+- Mobile: 109 tests pass, two harness skips, scoped static analysis passes;
+  final Android debug APK and iOS Simulator builds pass. Web: 86 tests pass,
+  two harness skips, TypeScript, production build and scoped ESLint pass.
+- Coordinates are entered and refreshed manually. Automatic GPS/background
+  tracking, merchant Safepay, Firebase acquisition, real push delivery and
+  deployed Fabric write/readback remain separate runtime checks. Instructions:
+  `../farm2fork-backend/docs/testing/transporter-delivery.md`. No deployment or
+  push ran.
