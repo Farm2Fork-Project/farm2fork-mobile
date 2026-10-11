@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/notifications/push_runtime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:farm2fork_mobile/core/localization/generated/app_localizations.dart';
@@ -32,10 +33,10 @@ class Farm2ForkApp extends ConsumerWidget {
           builder: (context, routerChild) {
             final scale = ref.watch(fontSizeControllerProvider);
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(scale),
-              ),
-              child: routerChild!,
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: TextScaler.linear(scale)),
+              child: PushRuntime(child: routerChild!),
             );
           },
         );

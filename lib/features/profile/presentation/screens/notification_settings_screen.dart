@@ -1,214 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
-import 'package:farm2fork_mobile/core/theme/app_colors.dart';
-import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
-import 'package:farm2fork_mobile/core/theme/app_typography.dart';
-import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/network/network_providers.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 
-final orderUpdatesProvider = NotifierProvider<_OrderUpdatesNotifier, bool>(
-  _OrderUpdatesNotifier.new,
-);
+final notificationsInboxProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
+  if (ref.watch(authControllerProvider).value?.user == null) return [];
+  final response = await ref
+      .watch(dioProvider)
+      .get<Map<String, dynamic>>(
+        '/notifications',
+        queryParameters: {'limit': 50},
+      );
+  return (response.data?['data'] as List? ?? []).cast<Map<String, dynamic>>();
+});
 
-class _OrderUpdatesNotifier extends Notifier<bool> {
-  @override
-  bool build() => true;
-  void set(bool val) => state = val;
-}
-
-final shipmentUpdatesProvider = NotifierProvider<_ShipmentUpdatesNotifier, bool>(
-  _ShipmentUpdatesNotifier.new,
-);
-
-class _ShipmentUpdatesNotifier extends Notifier<bool> {
-  @override
-  bool build() => true;
-  void set(bool val) => state = val;
-}
-
-final communityAlertsProvider = NotifierProvider<_CommunityAlertsNotifier, bool>(
-  _CommunityAlertsNotifier.new,
-);
-
-class _CommunityAlertsNotifier extends Notifier<bool> {
-  @override
-  bool build() => true;
-  void set(bool val) => state = val;
-}
-
-final marketingAlertsProvider = NotifierProvider<_MarketingAlertsNotifier, bool>(
-  _MarketingAlertsNotifier.new,
-);
-
-class _MarketingAlertsNotifier extends Notifier<bool> {
-  @override
-  bool build() => false;
-  void set(bool val) => state = val;
-}
-
-class NotificationSettingsScreen extends ConsumerWidget {
+class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final orderUpdates = ref.watch(orderUpdatesProvider);
-    final shipmentUpdates = ref.watch(shipmentUpdatesProvider);
-    final communityAlerts = ref.watch(communityAlertsProvider);
-    final marketingAlerts = ref.watch(marketingAlertsProvider);
+  ConsumerState<NotificationSettingsScreen> createState() =>
+      _NotificationSettingsState();
+}
 
-    return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
-      appBar: AppBar(
-        title: Text(context.l10n.notificationsTitle, style: AppTextStyles.h2),
-        elevation: 0,
-        backgroundColor: AppColors.backgroundLight,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpacing.pagePadding),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-              child: Text(
-                context.l10n.notificationsSubtitle,
-                style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              margin: const EdgeInsets.only(bottom: AppSpacing.lg),
-              decoration: BoxDecoration(
-                color: AppColors.secondaryBlueSoft,
-                borderRadius: BorderRadius.circular(AppRadius.md),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.info_outline_rounded,
-                    size: 18,
-                    color: AppColors.secondaryBlue,
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: Text(
-                      context.l10n.notificationsNotYetConnectedNote,
-                      style: AppTextStyles.small.copyWith(
-                        color: AppColors.secondaryBlue,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            AppCard(
-              child: Column(
-                children: [
-                  _buildSwitchTile(
-                    context,
-                    title: context.l10n.orderUpdates,
-                    subtitle: context.l10n.orderUpdatesDesc,
-                    value: orderUpdates,
-                    icon: Icons.receipt_long_rounded,
-                    onChanged: (val) =>
-                        ref.read(orderUpdatesProvider.notifier).set(val),
-                  ),
-                  const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _buildSwitchTile(
-                    context,
-                    title: context.l10n.shipmentUpdates,
-                    subtitle: context.l10n.shipmentUpdatesDesc,
-                    value: shipmentUpdates,
-                    icon: Icons.local_shipping_rounded,
-                    onChanged: (val) =>
-                        ref.read(shipmentUpdatesProvider.notifier).set(val),
-                  ),
-                  const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _buildSwitchTile(
-                    context,
-                    title: context.l10n.communityAlerts,
-                    subtitle: context.l10n.communityAlertsDesc,
-                    value: communityAlerts,
-                    icon: Icons.forum_rounded,
-                    onChanged: (val) =>
-                        ref.read(communityAlertsProvider.notifier).set(val),
-                  ),
-                  const Divider(color: AppColors.surfaceMedium, height: 1),
-                  _buildSwitchTile(
-                    context,
-                    title: context.l10n.marketingAlerts,
-                    subtitle: context.l10n.marketingAlertsDesc,
-                    value: marketingAlerts,
-                    icon: Icons.campaign_rounded,
-                    onChanged: (val) =>
-                        ref.read(marketingAlertsProvider.notifier).set(val),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+class _NotificationSettingsState
+    extends ConsumerState<NotificationSettingsScreen> {
+  bool _busy = false;
+  bool _error = false;
+  bool _denied = false;
+  Future<void> _toggle(bool enabled) async {
+    setState(() {
+      _busy = true;
+      _error = false;
+      _denied = false;
+    });
+    try {
+      final controller = ref.read(pushControllerProvider.notifier);
+      if (enabled) {
+        await controller.disable();
+      } else {
+        final granted = await controller.enable();
+        if (mounted) setState(() => _denied = !granted);
+      }
+    } catch (_) {
+      if (mounted) setState(() => _error = true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
-  Widget _buildSwitchTile(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    required bool value,
-    required IconData icon,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      child: Row(
+  Future<void> _readAll() async {
+    setState(() {
+      _busy = true;
+      _error = false;
+    });
+    try {
+      await ref.read(dioProvider).post('/notifications/read-all');
+      ref.invalidate(notificationsInboxProvider);
+    } catch (_) {
+      if (mounted) setState(() => _error = true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final user = ref.watch(authControllerProvider).value?.user;
+    final push = ref.watch(pushControllerProvider);
+    final inbox = ref.watch(notificationsInboxProvider);
+    final enabled = push.value ?? false;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.notificationsTitle)),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
         children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            decoration: const BoxDecoration(
-              color: AppColors.primaryGreenSoft,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              icon,
-              color: AppColors.primaryGreenDark,
-              size: 22,
-            ),
+          Text(l10n.pushDescription),
+          const SizedBox(height: 12),
+          FilledButton(
+            onPressed: _busy || push.isLoading || user == null
+                ? null
+                : () => _toggle(enabled),
+            child: Text(enabled ? l10n.pushDisable : l10n.pushEnable),
           ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          if (user == null) Text(l10n.pushSignIn),
+          if (_denied) Text(l10n.pushDenied),
+          if (_error || push.hasError) Text(l10n.errorOccurred),
+          if (push.hasError)
+            TextButton(
+              onPressed: () => ref.invalidate(pushControllerProvider),
+              child: Text(l10n.retry),
+            ),
+          const SizedBox(height: 20),
+          Text(l10n.pushInbox, style: Theme.of(context).textTheme.titleLarge),
+          Wrap(
+            children: [
+              TextButton(
+                onPressed: () => ref.invalidate(notificationsInboxProvider),
+                child: Text(l10n.dispatchRefresh),
+              ),
+              TextButton(
+                onPressed: _busy || user == null ? null : _readAll,
+                child: Text(l10n.pushReadAll),
+              ),
+            ],
+          ),
+          inbox.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (_, _) => Text(l10n.errorOccurred),
+            data: (items) => Column(
               children: [
-                Text(
-                  title,
-                  style: AppTextStyles.body.copyWith(
-                    fontWeight: FontWeight.bold,
+                if (items.isEmpty) Text(l10n.pushEmpty),
+                for (final item in items)
+                  ListTile(
+                    title: Text(item['title'] as String? ?? ''),
+                    subtitle: Text(item['message'] as String? ?? ''),
+                    trailing: item['isRead'] == false
+                        ? const Icon(Icons.circle, size: 10)
+                        : null,
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: AppTextStyles.small.copyWith(
-                    color: AppColors.textMuted,
-                  ),
-                ),
               ],
             ),
-          ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: AppColors.primaryGreen,
-            activeTrackColor: AppColors.primaryGreenSoft,
-            inactiveThumbColor: AppColors.textMuted,
-            inactiveTrackColor: AppColors.surfaceMedium,
           ),
         ],
       ),
