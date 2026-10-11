@@ -14,6 +14,30 @@ import 'package:farm2fork_mobile/features/orders/data/repositories/api_orders_re
 import 'package:farm2fork_mobile/features/orders/data/services/orders_api_service.dart';
 import 'package:farm2fork_mobile/features/listings/data/services/farm_location_service.dart';
 
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/shipments/data/repositories/api_shipments_repository.dart';
+import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository_provider.dart';
+import 'package:farm2fork_mobile/features/shipments/data/services/shipments_api_service.dart';
+import 'package:farm2fork_mobile/features/shipments/data/services/transporter_dispatch_service.dart';
+import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/providers/shipments_controller.dart';
+
+class _TransportAuth extends AuthController {
+  @override
+  Future<AuthState> build() async => const AuthState(
+    status: AuthStatus.authenticated,
+    user: AuthUser(
+      id: String.fromEnvironment('CHECKOUT_TEST_TRANSPORTER_ID'),
+      email: 'fixture@example.test',
+      role: AppUserRole.transporter,
+      isVerified: true,
+      isActive: true,
+    ),
+  );
+}
+
 const api = String.fromEnvironment('CHECKOUT_TEST_API');
 const token = String.fromEnvironment('CHECKOUT_TEST_BUYER_TOKEN');
 const otherToken = String.fromEnvironment('CHECKOUT_TEST_OTHER_TOKEN');
@@ -203,6 +227,136 @@ void main() {
         (await repository.get(begun.payments[orders.first]!.id)).status,
         PaymentStatus.success,
       );
+
+      if (const bool.fromEnvironment('CHECKOUT_TEST_DELIVERY')) {
+        final transportDio = Dio(
+          BaseOptions(
+            baseUrl: api,
+            headers: {
+              'Authorization':
+                  'Bearer ${const String.fromEnvironment('CHECKOUT_TEST_TRANSPORTER_TOKEN')}',
+            },
+          ),
+        );
+        final competitorDio = Dio(
+          BaseOptions(
+            baseUrl: api,
+            headers: {
+              'Authorization':
+                  'Bearer ${const String.fromEnvironment('CHECKOUT_TEST_SECOND_TRANSPORTER_TOKEN')}',
+            },
+          ),
+        );
+        addTearDown(transportDio.close);
+        addTearDown(competitorDio.close);
+        final dispatch = TransporterDispatchService(transportDio);
+        final transportRepo = ApiShipmentsRepository(
+          ShipmentsApiService(transportDio),
+        );
+        final competitorRepo = ApiShipmentsRepository(
+          ShipmentsApiService(competitorDio),
+        );
+        expect((await dispatch.getStatus()).online, false);
+        expect(await transportRepo.getAvailable(), isEmpty);
+        await TransporterDispatchService(
+          competitorDio,
+        ).setAvailability(true, lat: 31.52, lng: 74.35);
+        final declineId = (await competitorRepo.getAvailable()).first.orderId;
+        await competitorRepo.decline(declineId);
+        expect(
+          (await competitorRepo.getAvailable()).any(
+            (o) => o.orderId == declineId,
+          ),
+          false,
+        );
+        await dispatch.setAvailability(true, lat: 31.52, lng: 74.35);
+        await dispatch.updateLocation(31.521, 74.351);
+        expect((await dispatch.getStatus()).locationFresh, true);
+        final deliveries = ProviderContainer(
+          overrides: [
+            authControllerProvider.overrideWith(_TransportAuth.new),
+            shipmentsRepositoryProvider.overrideWithValue(transportRepo),
+          ],
+        );
+        addTearDown(deliveries.dispose);
+        await deliveries.read(authControllerProvider.future);
+        await deliveries.read(shipmentsControllerProvider.future);
+        final deliveryController = deliveries.read(
+          shipmentsControllerProvider.notifier,
+        );
+        expect(
+          deliveries.read(shipmentsControllerProvider).requireValue.available,
+          hasLength(2),
+        );
+        for (var i = 0; i < 2; i++) {
+          final offer = (await transportRepo.getAvailable()).first;
+          expect(offer.deliveryFee, greaterThan(0));
+          final shipment = await deliveryController.claim(offer.orderId);
+          expect((await dispatch.getStatus()).activeShipmentId, shipment.id);
+          expect(await transportRepo.getAvailable(), isEmpty);
+          await expectLater(
+            competitorRepo.claim(offer.orderId),
+            throwsA(
+              isA<DioException>().having(
+                (e) => e.response?.statusCode,
+                'status',
+                409,
+              ),
+            ),
+          );
+          await expectLater(
+            competitorRepo.updateStatus(
+              shipmentId: shipment.id,
+              status: ShipmentStatus.pickedUp,
+              note: 'Wrong owner',
+            ),
+            throwsA(
+              isA<DioException>().having(
+                (e) => e.response?.statusCode,
+                'status',
+                403,
+              ),
+            ),
+          );
+          for (final status in [
+            ShipmentStatus.pickedUp,
+            ShipmentStatus.inTransit,
+            ShipmentStatus.delivered,
+          ]) {
+            await deliveryController.updateShipmentStatus(
+              shipmentId: shipment.id,
+              status: status,
+              note: 'Fixture ${status.name}',
+            );
+          }
+          expect(
+            (await transportRepo.getById(shipment.id)).statusHistory,
+            hasLength(4),
+          );
+          expect((await dispatch.getStatus()).activeShipmentId, isNull);
+        }
+        expect(
+          (await ApiShipmentsRepository(
+            ShipmentsApiService(dio),
+          ).getMine()).every((s) => s.status == ShipmentStatus.delivered),
+          true,
+        );
+        final farmerDio = Dio(
+          BaseOptions(
+            baseUrl: api,
+            headers: {'Authorization': 'Bearer $farmerToken'},
+          ),
+        );
+        addTearDown(farmerDio.close);
+        expect(
+          await ApiShipmentsRepository(
+            ShipmentsApiService(farmerDio),
+          ).getMine(),
+          hasLength(1),
+        );
+        await dispatch.setAvailability(false);
+        expect((await dispatch.getStatus()).online, false);
+      }
     },
     skip: api.isEmpty,
   );

@@ -12,6 +12,9 @@ import 'package:farm2fork_mobile/features/shipments/data/models/available_delive
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/shipments_controller.dart';
 
+import 'transporter_availability.dart';
+import 'package:farm2fork_mobile/features/shipments/data/repositories/shipments_repository_provider.dart';
+
 class ShipmentsScreen extends ConsumerWidget {
   const ShipmentsScreen({super.key});
 
@@ -28,76 +31,148 @@ class ShipmentsScreen extends ConsumerWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () =>
-              ref.read(shipmentsControllerProvider.notifier).fetchShipments(),
-          color: AppColors.primaryGreen,
-          child: shipmentsAsync.when(
-            data: (dashboard) {
-              if (dashboard.available.isEmpty && dashboard.mine.isEmpty) {
-                return AppEmptyState(
-                  message: context.l10n.noDataFound,
-                  icon: Icons.local_shipping_rounded,
-                );
-              }
-
-              return ListView(
-                padding: const EdgeInsets.all(AppSpacing.pagePadding),
-                children: [
-                  if (dashboard.available.isNotEmpty) ...[
-                    Text(
-                      context.l10n.availableDeliveries,
-                      style: AppTextStyles.h3,
+        child: Column(
+          children: [
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () => ref
+                    .read(shipmentsControllerProvider.notifier)
+                    .fetchShipments(),
+                color: AppColors.primaryGreen,
+                child: shipmentsAsync.when(
+                  data: (dashboard) {
+                    return ListView(
+                      padding: const EdgeInsets.all(AppSpacing.pagePadding),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        TransporterAvailability(
+                          revision: dashboard.mine
+                              .map((s) => "${s.id}:${s.status.name}")
+                              .join(","),
+                          onRefresh: () => ref
+                              .read(shipmentsControllerProvider.notifier)
+                              .fetchShipments(),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        if (dashboard.available.isEmpty &&
+                            dashboard.mine.isEmpty)
+                          Text(context.l10n.noDataFound),
+                        if (dashboard.available.isNotEmpty) ...[
+                          Text(
+                            context.l10n.availableDeliveries,
+                            style: AppTextStyles.h3,
+                          ),
+                          const SizedBox(height: AppSpacing.md),
+                          for (final delivery in dashboard.available)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppSpacing.md,
+                              ),
+                              child: _AvailableDeliveryCard(delivery: delivery),
+                            ),
+                        ],
+                        if (dashboard.mine.isNotEmpty) ...[
+                          if (dashboard.available.isNotEmpty)
+                            const SizedBox(height: AppSpacing.lg),
+                          Text(
+                            context.l10n.myDeliveries,
+                            style: AppTextStyles.h3,
+                          ),
+                          const SizedBox(height: AppSpacing.md),
+                          for (final shipment in dashboard.mine)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppSpacing.md,
+                              ),
+                              child: _ShipmentCard(shipment: shipment),
+                            ),
+                        ],
+                      ],
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryGreen,
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                    for (final delivery in dashboard.available)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                        child: _AvailableDeliveryCard(delivery: delivery),
-                      ),
-                  ],
-                  if (dashboard.mine.isNotEmpty) ...[
-                    if (dashboard.available.isNotEmpty)
-                      const SizedBox(height: AppSpacing.lg),
-                    Text(context.l10n.myDeliveries, style: AppTextStyles.h3),
-                    const SizedBox(height: AppSpacing.md),
-                    for (final shipment in dashboard.mine)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                        child: _ShipmentCard(shipment: shipment),
-                      ),
-                  ],
-                ],
-              );
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(color: AppColors.primaryGreen),
+                  ),
+                  error: (error, stack) => AppErrorState(
+                    icon: Icons.error_outline_rounded,
+                    onRetry: () => ref
+                        .read(shipmentsControllerProvider.notifier)
+                        .fetchShipments(),
+                  ),
+                ),
+              ),
             ),
-            error: (error, stack) => AppErrorState(
-              icon: Icons.error_outline_rounded,
-              onRetry: () => ref
-                  .read(shipmentsControllerProvider.notifier)
-                  .fetchShipments(),
-            ),
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _AvailableDeliveryCard extends ConsumerWidget {
+class _AvailableDeliveryCard extends ConsumerStatefulWidget {
   const _AvailableDeliveryCard({required this.delivery});
 
   final AvailableDelivery delivery;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_AvailableDeliveryCard> createState() =>
+      _AvailableDeliveryCardState();
+}
+
+class _AvailableDeliveryCardState
+    extends ConsumerState<_AvailableDeliveryCard> {
+  bool _busy = false, _error = false;
+  Future<void> _action(bool decline) async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = false;
+    });
+    try {
+      if (decline) {
+        await ref
+            .read(shipmentsRepositoryProvider)
+            .decline(widget.delivery.orderId);
+        await ref.read(shipmentsControllerProvider.notifier).fetchShipments();
+      } else {
+        await ref
+            .read(shipmentsControllerProvider.notifier)
+            .claim(widget.delivery.orderId);
+      }
+    } on Object {
+      if (mounted) setState(() => _error = true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final delivery = widget.delivery;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.l10n.deliveryRequest, style: AppTextStyles.h3),
+          if (delivery.deliveryFee != null)
+            Text(
+              '${context.l10n.dispatchEarning}: ${context.l10n.currencyAmount(delivery.deliveryFee!.toStringAsFixed(0))}',
+            ),
+          if (delivery.distanceToPickupKm != null)
+            Text(
+              '${context.l10n.dispatchPickupDistance}: ${delivery.distanceToPickupKm} km',
+            ),
+          if (delivery.deliveryDistanceKm != null)
+            Text(
+              '${context.l10n.dispatchDeliveryDistance}: ${delivery.deliveryDistanceKm} km',
+            ),
+          TextButton(
+            onPressed: _busy ? null : () => _action(true),
+            child: Text(context.l10n.dispatchDecline),
+          ),
+          if (_error) Text(context.l10n.errorOccurred),
           const SizedBox(height: AppSpacing.sm),
           Text(
             '${delivery.pickupCity}, ${delivery.pickupProvince} → ${delivery.deliveryCity}, ${delivery.deliveryProvince}',
@@ -112,9 +187,7 @@ class _AvailableDeliveryCard extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => ref
-                  .read(shipmentsControllerProvider.notifier)
-                  .claim(delivery.orderId),
+              onPressed: _busy ? null : () => _action(false),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryGreen,
                 foregroundColor: AppColors.white,
@@ -128,12 +201,39 @@ class _AvailableDeliveryCard extends ConsumerWidget {
   }
 }
 
-class _ShipmentCard extends ConsumerWidget {
+class _ShipmentCard extends ConsumerStatefulWidget {
   const _ShipmentCard({required this.shipment});
   final Shipment shipment;
+  @override
+  ConsumerState<_ShipmentCard> createState() => _ShipmentCardState();
+}
+
+class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
+  Shipment get shipment => widget.shipment;
+  bool _busy = false, _error = false;
+  Future<void> _update(ShipmentStatus status, String note) async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = false;
+    });
+    try {
+      await ref
+          .read(shipmentsControllerProvider.notifier)
+          .updateShipmentStatus(
+            shipmentId: shipment.id,
+            status: status,
+            note: note,
+          );
+    } on Object {
+      if (mounted) setState(() => _error = true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final statusColor = switch (shipment.status) {
       ShipmentStatus.assigned => AppColors.accentYellow,
       ShipmentStatus.pickedUp => AppColors.secondaryBlue,
@@ -151,10 +251,15 @@ class _ShipmentCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                context.l10n.shipmentNumber(isolateLtr(shipment.id)),
-                style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
+              Expanded(
+                child: Text(
+                  context.l10n.shipmentNumber(isolateLtr(shipment.id)),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
+              const SizedBox(width: AppSpacing.sm),
               AppBadge(
                 label: statusText,
                 backgroundColor: statusColor.withValues(alpha: 0.1),
@@ -166,6 +271,10 @@ class _ShipmentCard extends ConsumerWidget {
           const Divider(color: AppColors.surfaceMedium),
           const SizedBox(height: AppSpacing.md),
 
+          if (shipment.deliveryFee != null)
+            Text(
+              "${context.l10n.dispatchEarning}: ${context.l10n.currencyAmount(shipment.deliveryFee!.toStringAsFixed(0))}",
+            ),
           // Addresses
           _buildAddressRow(
             context,
@@ -194,12 +303,13 @@ class _ShipmentCard extends ConsumerWidget {
 
           const SizedBox(height: AppSpacing.lg),
 
+          if (_error) Text(context.l10n.errorOccurred),
           // Update Status Action Buttons
           if (shipment.status != ShipmentStatus.delivered &&
               shipment.status != ShipmentStatus.failed) ...[
             const Divider(color: AppColors.surfaceMedium),
             const SizedBox(height: AppSpacing.md),
-            _buildUpdateControls(context, ref),
+            _buildUpdateControls(context),
           ],
         ],
       ),
@@ -304,7 +414,7 @@ class _ShipmentCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildUpdateControls(BuildContext context, WidgetRef ref) {
+  Widget _buildUpdateControls(BuildContext context) {
     final nextStatus = switch (shipment.status) {
       ShipmentStatus.assigned => ShipmentStatus.pickedUp,
       ShipmentStatus.pickedUp => ShipmentStatus.inTransit,
@@ -324,17 +434,14 @@ class _ShipmentCard extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          ref
-              .read(shipmentsControllerProvider.notifier)
-              .updateShipmentStatus(
-                shipmentId: shipment.id,
-                status: nextStatus,
-                note: context.l10n.shipmentStatusUpdate(
+        onPressed: _busy
+            ? null
+            : () => _update(
+                nextStatus,
+                context.l10n.shipmentStatusUpdate(
                   _statusLabel(context, nextStatus),
                 ),
-              );
-        },
+              ),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: AppColors.white,

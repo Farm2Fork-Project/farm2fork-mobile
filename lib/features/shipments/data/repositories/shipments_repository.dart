@@ -2,6 +2,9 @@ import 'package:farm2fork_mobile/features/shipments/data/models/available_delive
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 
 abstract class ShipmentsRepository {
+  Future<void> decline(String orderId) =>
+      throw UnsupportedError("Decline is unavailable");
+
   Future<List<AvailableDelivery>> getAvailable();
 
   Future<List<Shipment>> getMine();

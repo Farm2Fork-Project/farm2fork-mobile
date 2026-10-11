@@ -2161,6 +2161,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'After creating your account, open Listings to save your farm pickup address and map coordinates.'**
   String get farmPickupAfterSignup;
+
+  /// No description provided for @dispatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery availability'**
+  String get dispatchTitle;
+
+  /// No description provided for @dispatchLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading availability…'**
+  String get dispatchLoading;
+
+  /// No description provided for @dispatchOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get dispatchOnline;
+
+  /// No description provided for @dispatchOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get dispatchOffline;
+
+  /// No description provided for @dispatchFresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Current location is ready for nearby offers.'**
+  String get dispatchFresh;
+
+  /// No description provided for @dispatchStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your current location to receive and accept offers.'**
+  String get dispatchStale;
+
+  /// No description provided for @dispatchRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup radius'**
+  String get dispatchRadius;
+
+  /// No description provided for @dispatchActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish your active delivery before accepting another.'**
+  String get dispatchActive;
+
+  /// No description provided for @dispatchUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Location last shared'**
+  String get dispatchUpdated;
+
+  /// No description provided for @dispatchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy your current coordinates from your map app. Update them when you move or when your location expires.'**
+  String get dispatchHelp;
+
+  /// No description provided for @dispatchLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Current latitude'**
+  String get dispatchLatitude;
+
+  /// No description provided for @dispatchLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Current longitude'**
+  String get dispatchLongitude;
+
+  /// No description provided for @dispatchGoOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Go online'**
+  String get dispatchGoOnline;
+
+  /// No description provided for @dispatchGoOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Go offline'**
+  String get dispatchGoOffline;
+
+  /// No description provided for @dispatchUpdateLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share current location'**
+  String get dispatchUpdateLocation;
+
+  /// No description provided for @dispatchRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh status and offers'**
+  String get dispatchRefresh;
+
+  /// No description provided for @dispatchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update availability. Check your connection and retry.'**
+  String get dispatchError;
+
+  /// No description provided for @dispatchDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline offer'**
+  String get dispatchDecline;
+
+  /// No description provided for @dispatchEarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery earning'**
+  String get dispatchEarning;
+
+  /// No description provided for @dispatchPickupDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance to farm'**
+  String get dispatchPickupDistance;
+
+  /// No description provided for @dispatchDeliveryDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated delivery distance'**
+  String get dispatchDeliveryDistance;
 }
 
 class _AppLocalizationsDelegate
