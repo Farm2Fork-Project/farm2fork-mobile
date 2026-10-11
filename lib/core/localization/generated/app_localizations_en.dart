@@ -1127,4 +1127,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String paymentOrderNumber(int number) {
     return 'Order $number';
   }
+
+  @override
+  String get deliveryLatitude => 'Delivery latitude';
+
+  @override
+  String get deliveryLongitude => 'Delivery longitude';
+
+  @override
+  String get locationLatitude => 'Latitude';
+
+  @override
+  String get locationLongitude => 'Longitude';
+
+  @override
+  String get locationInvalid => 'Enter valid coordinates inside Pakistan.';
+
+  @override
+  String get locationCoordinatesHelp =>
+      'Copy the coordinates of this address from your map app.';
+
+  @override
+  String get getDeliveryQuote => 'Get delivery quote';
+
+  @override
+  String get deliveryQuoteRequired =>
+      'Review a delivery quote before placing your order.';
+
+  @override
+  String get deliveryQuoteFailed =>
+      'Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.';
+
+  @override
+  String get deliveryFee => 'Delivery fee';
+
+  @override
+  String deliveryDistance(String distance) {
+    return 'Estimated delivery distance: $distance km';
+  }
+
+  @override
+  String get farmPickupLocation => 'Farm pickup location';
+
+  @override
+  String get farmPickupHelp =>
+      'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.';
+
+  @override
+  String get farmPickupSave => 'Save pickup location';
+
+  @override
+  String get farmPickupSaved => 'Pickup location saved.';
+
+  @override
+  String get farmPickupFailed =>
+      'Could not load or save your farm location. Check the details and retry.';
+
+  @override
+  String get farmPickupAfterSignup =>
+      'After creating your account, open Listings to save your farm pickup address and map coordinates.';
 }

@@ -93,3 +93,28 @@ uses seeded JWT identities and synthetic signed callbacks. It cannot prove
 provider acceptance of return URL query parameters or native browser handoff.
 The backend's original Safepay implementation remains pre-existing uncommitted
 work; this flow adds the mobile client marker without replacing that work.
+
+## Delivery quote and farmer pickup setup — 2026-10-11
+
+Buyer checkout now requires explicit Pakistan delivery coordinates, requests a
+backend quote for each farmer, and displays delivery fees and authoritative totals
+before placing orders. Address/cart edits require another quote. Saved order
+breakdowns also show delivery fees. Orders retain delivery coordinates, distance
+and charges returned by the backend.
+
+Farmers open Farm pickup location from Listings to load and save their address,
+city, province and map pin. The form rejects out-of-range coordinates and supports
+EN/UR. Signup directs farmers here rather than posting an incomplete address-only
+location. Coordinates can be copied from a map app; no fabricated default is used.
+
+The current mobile suite passed 105 tests with two environment-gated skips.
+Delivery form widgets verify pin validation, quote-before-order behavior, stale
+quote invalidation and pickup saving. Scoped analysis passed. The live harness
+passed against the rebased backend using real farm-location and order repositories,
+server delivery quotes, full gateway amounts, signed settlement/replay and cold
+payment recovery. Notification/transport dispatch are stubbed and Safepay uses
+local HTTP fixtures. The backend production configuration now excludes development
+scripts; its build and production-source/harness type checking pass.
+
+Final Android debug APK and iOS Simulator builds also passed for this delivery
+revision. No physical-device checkout or merchant session was exercised.

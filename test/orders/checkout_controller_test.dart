@@ -39,6 +39,19 @@ class _RecordingOrdersRepo implements OrdersRepository {
   final List<List<OrderLine>> createdLines = [];
 
   @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async => const OrderQuote(
+    totalAmount: 0,
+    platformFeePercent: 5,
+    platformFeeAmount: 0,
+    deliveryFee: 0,
+    deliveryDistanceKm: 0,
+    grandTotal: 0,
+  );
+
+  @override
   Future<Order> createOrder({
     required List<OrderLine> items,
     required OrderAddress shippingAddress,
@@ -78,6 +91,19 @@ class _RecordingOrdersRepo implements OrdersRepository {
 /// in the product), to exercise partial-success handling.
 class _PartialFailRepo implements OrdersRepository {
   int created = 0;
+
+  @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async => const OrderQuote(
+    totalAmount: 0,
+    platformFeePercent: 5,
+    platformFeeAmount: 0,
+    deliveryFee: 0,
+    deliveryDistanceKm: 0,
+    grandTotal: 0,
+  );
 
   @override
   Future<Order> createOrder({

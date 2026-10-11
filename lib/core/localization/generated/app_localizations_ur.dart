@@ -1125,4 +1125,62 @@ class AppLocalizationsUr extends AppLocalizations {
   String paymentOrderNumber(int number) {
     return 'آرڈر $number';
   }
+
+  @override
+  String get deliveryLatitude => 'ترسیل کی جگہ کا عرض بلد';
+
+  @override
+  String get deliveryLongitude => 'ترسیل کی جگہ کا طول بلد';
+
+  @override
+  String get locationLatitude => 'عرض بلد';
+
+  @override
+  String get locationLongitude => 'طول بلد';
+
+  @override
+  String get locationInvalid => 'پاکستان کے اندر درست نقاط درج کریں۔';
+
+  @override
+  String get locationCoordinatesHelp =>
+      'اپنی نقشہ ایپ سے اس پتے کے نقاط کاپی کریں۔';
+
+  @override
+  String get getDeliveryQuote => 'ترسیل کی قیمت معلوم کریں';
+
+  @override
+  String get deliveryQuoteRequired => 'آرڈر دینے سے پہلے ترسیل کی قیمت دیکھیں۔';
+
+  @override
+  String get deliveryQuoteFailed =>
+      'ترسیل کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get deliveryFee => 'ترسیل کی فیس';
+
+  @override
+  String deliveryDistance(String distance) {
+    return 'ترسیل کا تخمینی فاصلہ: $distance کلومیٹر';
+  }
+
+  @override
+  String get farmPickupLocation => 'فارم سے وصولی کی جگہ';
+
+  @override
+  String get farmPickupHelp =>
+      'اپنے فارم کا پتہ اور نقاط محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
+
+  @override
+  String get farmPickupSave => 'وصولی کی جگہ محفوظ کریں';
+
+  @override
+  String get farmPickupSaved => 'وصولی کی جگہ محفوظ ہو گئی۔';
+
+  @override
+  String get farmPickupFailed =>
+      'فارم کی جگہ لوڈ یا محفوظ نہیں ہو سکی۔ معلومات چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get farmPickupAfterSignup =>
+      'اکاؤنٹ بنانے کے بعد لسٹنگز میں اپنے فارم سے وصولی کا پتہ اور نقشے کے نقاط محفوظ کریں۔';
 }

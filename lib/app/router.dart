@@ -23,6 +23,7 @@ import 'package:farm2fork_mobile/features/feed/presentation/screens/feed_screen.
 import 'package:farm2fork_mobile/features/finance/presentation/screens/loans_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/listings_screen.dart';
+import 'package:farm2fork_mobile/features/listings/presentation/screens/farm_location_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marketplace_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
@@ -126,6 +127,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           return ProductDetailScreen(productId: id);
         },
+      ),
+      GoRoute(
+        path: '/farmer/farm-location',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FarmLocationScreen(),
       ),
       GoRoute(
         path: '/checkout',

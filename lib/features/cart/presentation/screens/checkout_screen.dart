@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/orders/data/models/order_quote.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
@@ -35,6 +37,28 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final _city = TextEditingController();
   final _province = TextEditingController();
   final _zip = TextEditingController();
+  final _lat = TextEditingController();
+  final _lng = TextEditingController();
+  bool _quoting = false;
+  String? _quoteKey;
+  Map<String, OrderQuote> _quotes = {};
+  String? _quoteError;
+  String _key(List<FarmerCartGroup> groups) => jsonEncode([
+    _street.text,
+    _city.text,
+    _province.text,
+    _zip.text,
+    _lat.text,
+    _lng.text,
+    groups
+        .map(
+          (g) => [
+            g.farmerId,
+            g.items.map((i) => [i.product.id, i.quantity]).toList(),
+          ],
+        )
+        .toList(),
+  ]);
 
   @override
   void dispose() {
@@ -42,6 +66,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     _city.dispose();
     _province.dispose();
     _zip.dispose();
+    _lat.dispose();
+    _lng.dispose();
     super.dispose();
   }
 
@@ -53,8 +79,39 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       city: _city.text.trim(),
       province: _province.text.trim(),
       zip: _zip.text.trim().isEmpty ? null : _zip.text.trim(),
+      lat: double.parse(_lat.text),
+      lng: double.parse(_lng.text),
     );
 
+    final groups = ref
+        .read(farmerCartGroupsProvider)
+        .where((g) => widget.farmerId == null || g.farmerId == widget.farmerId)
+        .toList();
+    final key = _key(groups);
+    if (_quoteKey != key) {
+      setState(() {
+        _quoting = true;
+        _quoteError = null;
+      });
+      try {
+        final quotes = await ref
+            .read(checkoutControllerProvider.notifier)
+            .quote(address, farmerId: widget.farmerId);
+        if (mounted) {
+          setState(() {
+            _quotes = quotes;
+            _quoteKey = key;
+          });
+        }
+      } on Object {
+        if (mounted) {
+          setState(() => _quoteError = context.l10n.deliveryQuoteFailed);
+        }
+      } finally {
+        if (mounted) setState(() => _quoting = false);
+      }
+      return;
+    }
     final result = await ref
         .read(checkoutControllerProvider.notifier)
         .submit(address, farmerId: widget.farmerId);
@@ -104,7 +161,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final groups = widget.farmerId == null
         ? allGroups
         : allGroups.where((g) => g.farmerId == widget.farmerId).toList();
-    final isSubmitting = ref.watch(checkoutControllerProvider).isLoading;
+    final isSubmitting =
+        ref.watch(checkoutControllerProvider).isLoading || _quoting;
+    final quoted = _quoteKey == _key(groups);
     final locale = Localizations.localeOf(context);
 
     return Scaffold(
@@ -127,6 +186,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       padding: const EdgeInsets.all(AppSpacing.pagePadding),
                       child: Form(
                         key: _formKey,
+                        onChanged: () => setState(() {}),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -137,6 +197,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               city: _city,
                               province: _province,
                               zip: _zip,
+                              lat: _lat,
+                              lng: _lng,
                               enabled: !isSubmitting,
                             ),
                             const SizedBox(height: AppSpacing.xl),
@@ -150,7 +212,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             for (final group in groups) ...[
-                              _OrderGroupCard(group: group, locale: locale),
+                              _OrderGroupCard(
+                                group: group,
+                                locale: locale,
+                                quote: quoted ? _quotes[group.farmerId] : null,
+                              ),
                               const SizedBox(height: AppSpacing.md),
                             ],
                           ],
@@ -158,10 +224,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       ),
                     ),
                   ),
+                  if (_quoteError != null)
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        _quoteError!,
+                        style: const TextStyle(color: AppColors.errorRed),
+                      ),
+                    ),
                   _SubmitBar(
                     groupCount: groups.length,
                     isSubmitting: isSubmitting,
                     onSubmit: _submit,
+                    quoted: quoted,
                   ),
                 ],
               ),
@@ -176,6 +251,8 @@ class _AddressForm extends StatelessWidget {
     required this.city,
     required this.province,
     required this.zip,
+    required this.lat,
+    required this.lng,
     required this.enabled,
   });
 
@@ -183,12 +260,20 @@ class _AddressForm extends StatelessWidget {
   final TextEditingController city;
   final TextEditingController province;
   final TextEditingController zip;
+  final TextEditingController lat, lng;
   final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     String? required(String? v) =>
         (v == null || v.trim().isEmpty) ? context.l10n.fieldRequired : null;
+
+    String? coordinate(String? value, double min, double max) {
+      final n = double.tryParse(value ?? '');
+      return n == null || !n.isFinite || n < min || n > max
+          ? context.l10n.locationInvalid
+          : null;
+    }
 
     return Column(
       children: [
@@ -220,13 +305,41 @@ class _AddressForm extends StatelessWidget {
           enabled: enabled,
           // Optional — no validator.
         ),
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
+          controller: lat,
+          label: context.l10n.deliveryLatitude,
+          enabled: enabled,
+          keyboardType: const TextInputType.numberWithOptions(
+            decimal: true,
+            signed: true,
+          ),
+          validator: (v) => coordinate(v, 23.5, 37.2),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
+          controller: lng,
+          label: context.l10n.deliveryLongitude,
+          enabled: enabled,
+          keyboardType: const TextInputType.numberWithOptions(
+            decimal: true,
+            signed: true,
+          ),
+          validator: (v) => coordinate(v, 60.5, 77.9),
+        ),
+        Text(context.l10n.locationCoordinatesHelp),
       ],
     );
   }
 }
 
 class _OrderGroupCard extends StatelessWidget {
-  const _OrderGroupCard({required this.group, required this.locale});
+  const _OrderGroupCard({
+    required this.group,
+    required this.locale,
+    this.quote,
+  });
+  final OrderQuote? quote;
 
   final FarmerCartGroup group;
   final Locale locale;
@@ -266,25 +379,42 @@ class _OrderGroupCard extends StatelessWidget {
           _Row(
             label: context.l10n.subtotal,
             value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.itemsSubtotal, locale),
+              formatCurrencyAmount(
+                quote?.totalAmount ?? group.itemsSubtotal,
+                locale,
+              ),
             ),
           ),
-          _Row(
-            label: context.l10n.platformFeeWithPercent(
-              group.platformFeePercent.toStringAsFixed(0),
+          if (quote != null) ...[
+            _Row(
+              label: context.l10n.platformFeeWithPercent(
+                quote!.platformFeePercent.toStringAsFixed(1),
+              ),
+              value: context.l10n.currencyAmount(
+                formatCurrencyAmount(quote!.platformFeeAmount, locale),
+              ),
             ),
-            value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.platformFee, locale),
+            _Row(
+              label: context.l10n.deliveryFee,
+              value: context.l10n.currencyAmount(
+                formatCurrencyAmount(quote!.deliveryFee, locale),
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          _Row(
-            label: context.l10n.grandTotal,
-            value: context.l10n.currencyAmount(
-              formatCurrencyAmount(group.grandTotal, locale),
+            Text(
+              context.l10n.deliveryDistance(
+                quote!.deliveryDistanceKm.toStringAsFixed(1),
+              ),
+              style: AppTextStyles.small,
             ),
-            emphasize: true,
-          ),
+            _Row(
+              label: context.l10n.grandTotal,
+              value: context.l10n.currencyAmount(
+                formatCurrencyAmount(quote!.grandTotal, locale),
+              ),
+              emphasize: true,
+            ),
+          ] else
+            Text(context.l10n.deliveryQuoteRequired),
         ],
       ),
     );
@@ -328,11 +458,13 @@ class _SubmitBar extends StatelessWidget {
     required this.groupCount,
     required this.isSubmitting,
     required this.onSubmit,
+    required this.quoted,
   });
 
   final int groupCount;
   final bool isSubmitting;
   final VoidCallback onSubmit;
+  final bool quoted;
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +482,9 @@ class _SubmitBar extends StatelessWidget {
               ),
             )
           : AppButton(
-              label: context.l10n.placeOrderCount(groupCount),
+              label: quoted
+                  ? context.l10n.placeOrderCount(groupCount)
+                  : context.l10n.getDeliveryQuote,
               icon: Icons.lock_outline_rounded,
               expand: true,
               onPressed: onSubmit,

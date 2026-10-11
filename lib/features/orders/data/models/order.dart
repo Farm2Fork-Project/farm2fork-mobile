@@ -12,6 +12,8 @@ abstract class OrderAddress with _$OrderAddress {
     required String city,
     required String province,
     String? zip,
+    double? lat,
+    double? lng,
   }) = _OrderAddress;
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) =>
@@ -44,6 +46,8 @@ abstract class Order with _$Order {
     required double totalAmount,
     required double platformFeePercent,
     required double platformFeeAmount,
+    @Default(0) double deliveryFee,
+    double? deliveryDistanceKm,
     required double grandTotal,
     required OrderAddress shippingAddress,
     required OrderStatus status,

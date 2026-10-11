@@ -51,9 +51,19 @@ class ListingsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(AppSpacing.pagePadding),
                 sliver: SliverToBoxAdapter(
-                  child: Text(
-                    context.l10n.listingsDescription,
-                    style: AppTextStyles.body,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.l10n.listingsDescription,
+                        style: AppTextStyles.body,
+                      ),
+                      TextButton.icon(
+                        onPressed: () => context.push('/farmer/farm-location'),
+                        icon: const Icon(Icons.location_on_outlined),
+                        label: Text(context.l10n.farmPickupLocation),
+                      ),
+                    ],
                   ),
                 ),
               ),
