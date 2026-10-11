@@ -292,6 +292,30 @@ class _OrderCard extends StatelessWidget {
               ),
             ],
           ),
+          if (order.deliveryFee > 0) ...[
+            const SizedBox(height: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.l10n.deliveryFee,
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.textMuted,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  context.l10n.currencyAmount(
+                    order.deliveryFee.toStringAsFixed(0),
+                  ),
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.textDark,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: AppSpacing.md),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -2059,6 +2059,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Order {number}'**
   String paymentOrderNumber(int number);
+
+  /// No description provided for @deliveryLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery latitude'**
+  String get deliveryLatitude;
+
+  /// No description provided for @deliveryLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery longitude'**
+  String get deliveryLongitude;
+
+  /// No description provided for @locationLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get locationLatitude;
+
+  /// No description provided for @locationLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get locationLongitude;
+
+  /// No description provided for @locationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid coordinates inside Pakistan.'**
+  String get locationInvalid;
+
+  /// No description provided for @locationCoordinatesHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the coordinates of this address from your map app.'**
+  String get locationCoordinatesHelp;
+
+  /// No description provided for @getDeliveryQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Get delivery quote'**
+  String get getDeliveryQuote;
+
+  /// No description provided for @deliveryQuoteRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Review a delivery quote before placing your order.'**
+  String get deliveryQuoteRequired;
+
+  /// No description provided for @deliveryQuoteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.'**
+  String get deliveryQuoteFailed;
+
+  /// No description provided for @deliveryFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery fee'**
+  String get deliveryFee;
+
+  /// No description provided for @deliveryDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated delivery distance: {distance} km'**
+  String deliveryDistance(String distance);
+
+  /// No description provided for @farmPickupLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm pickup location'**
+  String get farmPickupLocation;
+
+  /// No description provided for @farmPickupHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.'**
+  String get farmPickupHelp;
+
+  /// No description provided for @farmPickupSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save pickup location'**
+  String get farmPickupSave;
+
+  /// No description provided for @farmPickupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup location saved.'**
+  String get farmPickupSaved;
+
+  /// No description provided for @farmPickupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load or save your farm location. Check the details and retry.'**
+  String get farmPickupFailed;
+
+  /// No description provided for @farmPickupAfterSignup.
+  ///
+  /// In en, this message translates to:
+  /// **'After creating your account, open Listings to save your farm pickup address and map coordinates.'**
+  String get farmPickupAfterSignup;
 }
 
 class _AppLocalizationsDelegate

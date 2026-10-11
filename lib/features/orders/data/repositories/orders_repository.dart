@@ -1,3 +1,5 @@
+import '../models/order_quote.dart';
+export '../models/order_quote.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 
@@ -5,6 +7,10 @@ import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 typedef OrderLine = ({String productId, int quantity});
 
 abstract class OrdersRepository {
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  });
   Future<List<Order>> getOrdersByUser({
     required String userId,
     required AppUserRole role,

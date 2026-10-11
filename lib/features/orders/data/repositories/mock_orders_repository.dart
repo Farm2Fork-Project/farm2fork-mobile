@@ -3,6 +3,22 @@ import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 import 'orders_repository.dart';
 
 class MockOrdersRepository implements OrdersRepository {
+  @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async {
+    final subtotal = items.fold(0.0, (sum, item) => sum + item.quantity * 100);
+    return OrderQuote(
+      totalAmount: subtotal,
+      platformFeePercent: 5,
+      platformFeeAmount: subtotal * .05,
+      deliveryFee: 0,
+      deliveryDistanceKm: 0,
+      grandTotal: subtotal * 1.05,
+    );
+  }
+
   final List<Order> _orders = [
     Order(
       id: 'ord_1001',

@@ -26,7 +26,6 @@ class _FarmerOnboardingScreenState
   final _cnic = TextEditingController();
   final _phone = TextEditingController();
   final _farmName = TextEditingController();
-  final _farmLocation = TextEditingController();
   final _cropTypes = TextEditingController();
   final _landSize = TextEditingController();
   String? _error;
@@ -39,7 +38,6 @@ class _FarmerOnboardingScreenState
       _cnic,
       _phone,
       _farmName,
-      _farmLocation,
       _cropTypes,
       _landSize,
     ]) {
@@ -62,9 +60,6 @@ class _FarmerOnboardingScreenState
         cnic: _cnic.text.trim(),
         phone: _phone.text.trim().isEmpty ? null : _phone.text.trim(),
         farmName: _farmName.text.trim(),
-        farmLocationAddress: _farmLocation.text.trim().isEmpty
-            ? null
-            : _farmLocation.text.trim(),
         cropTypes: splitCommaList(_cropTypes.text),
         landSizeAcres: double.tryParse(_landSize.text.trim()),
       ),
@@ -101,10 +96,7 @@ class _FarmerOnboardingScreenState
           validator: (v) => validateRequiredField(context, v),
         ),
         const SizedBox(height: AppSpacing.md),
-        AuthTextField(
-          controller: _farmLocation,
-          label: context.l10n.farmLocation,
-        ),
+        Text(context.l10n.farmPickupAfterSignup),
         const SizedBox(height: AppSpacing.md),
         AuthTextField(
           controller: _cropTypes,

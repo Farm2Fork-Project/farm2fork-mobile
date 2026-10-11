@@ -12,6 +12,8 @@ _OrderAddress _$OrderAddressFromJson(Map<String, dynamic> json) =>
       city: json['city'] as String,
       province: json['province'] as String,
       zip: json['zip'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lng: (json['lng'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OrderAddressToJson(_OrderAddress instance) =>
@@ -20,6 +22,8 @@ Map<String, dynamic> _$OrderAddressToJson(_OrderAddress instance) =>
       'city': instance.city,
       'province': instance.province,
       'zip': instance.zip,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };
 
 _OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => _OrderItem(
@@ -53,6 +57,8 @@ _Order _$OrderFromJson(Map<String, dynamic> json) => _Order(
   totalAmount: (json['totalAmount'] as num).toDouble(),
   platformFeePercent: (json['platformFeePercent'] as num).toDouble(),
   platformFeeAmount: (json['platformFeeAmount'] as num).toDouble(),
+  deliveryFee: (json['deliveryFee'] as num?)?.toDouble() ?? 0,
+  deliveryDistanceKm: (json['deliveryDistanceKm'] as num?)?.toDouble(),
   grandTotal: (json['grandTotal'] as num).toDouble(),
   shippingAddress: OrderAddress.fromJson(
     json['shippingAddress'] as Map<String, dynamic>,
@@ -72,6 +78,8 @@ Map<String, dynamic> _$OrderToJson(_Order instance) => <String, dynamic>{
   'totalAmount': instance.totalAmount,
   'platformFeePercent': instance.platformFeePercent,
   'platformFeeAmount': instance.platformFeeAmount,
+  'deliveryFee': instance.deliveryFee,
+  'deliveryDistanceKm': instance.deliveryDistanceKm,
   'grandTotal': instance.grandTotal,
   'shippingAddress': instance.shippingAddress,
   'status': _$OrderStatusEnumMap[instance.status]!,

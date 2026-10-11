@@ -210,3 +210,21 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
   merchant sandbox checkout/event formats, Firebase acquisition, signed-in
   native handoff/phone visuals and deployed Fabric delivery remain unverified.
   Existing backend Safepay edits were preserved. No deployment or push ran.
+
+
+### 2026-10-11 — Delivery checkout contract repair
+
+- Web/mobile now submit validated buyer map coordinates and review authoritative
+  backend quotes per farmer before creating orders. Quotes include delivery fees;
+  address/cart edits invalidate the review. Saved mobile orders show delivery fees.
+- Farmers configure pickup address/pin from Listings on both clients. New signup
+  defers location to this complete form, replacing rejected address-only payloads.
+- Real web and mobile checkout harnesses pass against the rebased backend,
+  including farmer pickup PATCH, delivery pricing, gateway amounts, signed payment
+  settlement/replay, stock depletion and exactly two paid orders/outbox records.
+- Web: 81 tests passed, two harness skips, TypeScript/production build passed.
+  Mobile: 105 tests passed, two harness skips, scoped analysis passed; final
+  Android debug APK and iOS Simulator builds passed.
+- Merchant Safepay, Firebase sign-in, authenticated device handoff, real transport
+  dispatch/notifications and deployed Fabric remain outside these local fixtures.
+  See `docs/testing/safepay-checkout.md`. No push or deployment ran.

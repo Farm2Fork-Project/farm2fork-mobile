@@ -14,18 +14,24 @@ class ApiOrdersRepository implements OrdersRepository {
   final OrdersApiService _api;
 
   @override
+  Future<OrderQuote> quoteOrder({
+    required List<OrderLine> items,
+    required OrderAddress shippingAddress,
+  }) async => OrderQuote.fromJson(
+    await _api.quoteOrder(
+      items: items,
+      shippingAddress: shippingAddress.toJson(),
+    ),
+  );
+
+  @override
   Future<Order> createOrder({
     required List<OrderLine> items,
     required OrderAddress shippingAddress,
   }) async {
     final json = await _api.createOrder(
       items: items,
-      shippingAddress: {
-        'street': shippingAddress.street,
-        'city': shippingAddress.city,
-        'province': shippingAddress.province,
-        if (shippingAddress.zip != null) 'zip': shippingAddress.zip,
-      },
+      shippingAddress: shippingAddress.toJson(),
     );
     return _orderFromDto(json);
   }
@@ -65,6 +71,8 @@ class ApiOrdersRepository implements OrdersRepository {
       totalAmount: _toDouble(dto['totalAmount']),
       platformFeePercent: _toDouble(dto['platformFeePercent']),
       platformFeeAmount: _toDouble(dto['platformFeeAmount']),
+      deliveryFee: _toDouble(dto['deliveryFee']),
+      deliveryDistanceKm: (dto['deliveryDistanceKm'] as num?)?.toDouble(),
       grandTotal: _toDouble(dto['grandTotal']),
       shippingAddress: _address(dto['shippingAddress']),
       status: _statusFromString(dto['status'] as String?),
@@ -103,6 +111,8 @@ class ApiOrdersRepository implements OrdersRepository {
       city: (map['city'] as String?) ?? '',
       province: (map['province'] as String?) ?? '',
       zip: map['zip'] as String?,
+      lat: (map['lat'] as num?)?.toDouble(),
+      lng: (map['lng'] as num?)?.toDouble(),
     );
   }
 

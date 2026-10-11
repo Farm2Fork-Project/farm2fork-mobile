@@ -9,9 +9,18 @@ import 'package:farm2fork_mobile/features/payments/data/services/payments_api_se
 import 'package:farm2fork_mobile/features/payments/data/models/payment.dart';
 import 'package:farm2fork_mobile/features/payments/presentation/providers/payment_controller.dart';
 
+import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
+import 'package:farm2fork_mobile/features/orders/data/repositories/api_orders_repository.dart';
+import 'package:farm2fork_mobile/features/orders/data/services/orders_api_service.dart';
+import 'package:farm2fork_mobile/features/listings/data/services/farm_location_service.dart';
+
 const api = String.fromEnvironment('CHECKOUT_TEST_API');
 const token = String.fromEnvironment('CHECKOUT_TEST_BUYER_TOKEN');
 const otherToken = String.fromEnvironment('CHECKOUT_TEST_OTHER_TOKEN');
+const farmerToken = String.fromEnvironment('CHECKOUT_TEST_FARMER_TOKEN');
+const secondFarmerToken = String.fromEnvironment(
+  'CHECKOUT_TEST_SECOND_FARMER_TOKEN',
+);
 const secret = String.fromEnvironment('CHECKOUT_TEST_WEBHOOK_SECRET');
 void main() {
   test(
@@ -42,23 +51,62 @@ void main() {
       final products =
           (await dio.get<Map<String, dynamic>>('/products')).data!['data']
               as List;
+      final pickup = {
+        'address': 'Fixture farm road',
+        'city': 'Lahore',
+        'province': 'Punjab',
+        'lat': 31.5104,
+        'lng': 74.35,
+      };
+      for (final farmerToken in [farmerToken, secondFarmerToken]) {
+        final farmerDio = Dio(
+          BaseOptions(
+            baseUrl: api,
+            headers: {'Authorization': 'Bearer $farmerToken'},
+          ),
+        );
+        addTearDown(farmerDio.close);
+        final farm = FarmLocationService(farmerDio);
+        expect((await farm.get())['complete'], false);
+        expect((await farm.save(pickup))['complete'], true);
+      }
+      await expectLater(
+        FarmLocationService(dio).save(pickup),
+        throwsA(
+          isA<DioException>().having(
+            (e) => e.response?.statusCode,
+            'status',
+            403,
+          ),
+        ),
+      );
+      final orderRepository = ApiOrdersRepository(OrdersApiService(dio));
       final orders = <String>[];
       for (final product in products) {
-        final order = (await dio.post<Map<String, dynamic>>(
-          '/orders',
-          data: {
-            'items': [
-              {'productId': product['id'], 'quantity': 2},
-            ],
-            'shippingAddress': {
-              'street': '12 Mall Road',
-              'city': 'Lahore',
-              'province': 'Punjab',
-            },
-          },
-        )).data!;
-        expect(order['grandTotal'], 210);
-        orders.add(order['id'] as String);
+        final items = [(productId: product['id'] as String, quantity: 2)];
+        const address = OrderAddress(
+          street: '12 Mall Road',
+          city: 'Lahore',
+          province: 'Punjab',
+          lat: 31.5204,
+          lng: 74.3587,
+        );
+        final quote = await orderRepository.quoteOrder(
+          items: items,
+          shippingAddress: address,
+        );
+        expect(quote.deliveryFee, greaterThan(0));
+        final order = await orderRepository.createOrder(
+          items: items,
+          shippingAddress: address,
+        );
+        expect(order.grandTotal, quote.grandTotal);
+        expect(
+          order.grandTotal,
+          order.totalAmount + order.platformFeeAmount + order.deliveryFee,
+        );
+        expect(order.shippingAddress.lat, address.lat);
+        orders.add(order.id);
       }
       expect(orders, hasLength(2));
       final uninitiated = await controller.refresh(orders);
@@ -146,7 +194,9 @@ void main() {
         hasLength(2),
       );
       expect(
-        (await dio.get<Map<String, dynamic>>('/products?status=active')).data!['data'],
+        (await dio.get<Map<String, dynamic>>(
+          '/products?status=active',
+        )).data!['data'],
         isEmpty,
       );
       expect(

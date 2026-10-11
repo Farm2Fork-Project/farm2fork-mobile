@@ -56,7 +56,6 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     required super.cnic,
     super.phone,
     required this.farmName,
-    this.farmLocationAddress,
     this.cropTypes = const [],
     this.landSizeAcres,
     this.bankName,
@@ -65,7 +64,6 @@ class FarmerOnboardingRequest extends OnboardingRequest {
   });
 
   final String farmName;
-  final String? farmLocationAddress;
   final List<String> cropTypes;
   final double? landSizeAcres;
   final String? bankName;
@@ -77,13 +75,10 @@ class FarmerOnboardingRequest extends OnboardingRequest {
 
   @override
   Map<String, dynamic> toProfileJson() {
-    final hasBank =
-        (bankName ?? bankAccountNumber ?? bankAccountTitle) != null;
+    final hasBank = (bankName ?? bankAccountNumber ?? bankAccountTitle) != null;
     return {
       'farmName': farmName,
       'cnic': cnic,
-      if (farmLocationAddress != null && farmLocationAddress!.isNotEmpty)
-        'farmLocation': {'address': farmLocationAddress},
       if (cropTypes.isNotEmpty) 'cropTypes': cropTypes,
       if (landSizeAcres != null) 'landSizeAcres': landSizeAcres,
       if (hasBank)
