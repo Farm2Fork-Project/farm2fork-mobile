@@ -4,7 +4,9 @@ import 'package:farm2fork_mobile/features/payments/data/repositories/payments_re
 import 'package:farm2fork_mobile/features/payments/data/services/payments_api_service.dart';
 
 class ApiPaymentsRepository implements PaymentsRepository {
-  ApiPaymentsRepository(this._api);
+  ApiPaymentsRepository(this._api, {this.useSimulator = false});
+
+  final bool useSimulator;
 
   final PaymentsApiService _api;
 
@@ -12,7 +14,7 @@ class ApiPaymentsRepository implements PaymentsRepository {
   Future<Payment> initiate(String orderId) async {
     final body = await _api.initiatePayment(
       orderId: orderId,
-      gateway: 'jazzcash',
+      gateway: useSimulator ? 'jazzcash' : 'safepay',
     );
     return _paymentFromBody(body);
   }
@@ -31,8 +33,29 @@ class ApiPaymentsRepository implements PaymentsRepository {
     return _paymentFromBody(await _api.getPayment(paymentId));
   }
 
+  @override
+  Future<Payment?> findForOrder(String orderId) async {
+    for (var page = 1; ; page++) {
+      final body = await _api.listPayments(page: page);
+      final data = body['data'];
+      if (data is! List) throw const ApiException(ApiErrorKind.unknown);
+      for (final dto in data) {
+        if (dto is Map<String, dynamic> && dto['orderId'] == orderId) {
+          return _paymentFromBody(dto);
+        }
+      }
+      final totalPages = body['totalPages'];
+      if (totalPages is! num ||
+          totalPages < page ||
+          data.isEmpty ||
+          page >= totalPages) {
+        return null;
+      }
+    }
+  }
+
   Payment _paymentFromBody(Map<String, dynamic> body) {
-    final dto = body['payment'];
+    final dto = body['payment'] ?? body;
     if (dto is! Map<String, dynamic>) {
       throw const ApiException(ApiErrorKind.unknown);
     }
@@ -47,6 +70,8 @@ class ApiPaymentsRepository implements PaymentsRepository {
       amount: _number(dto['amount']),
       currency: (dto['currency'] as String?) ?? 'PKR',
       status: _status(dto['status'] as String?),
+      gateway: dto['gateway'] as String?,
+      checkoutUrl: body['checkoutUrl'] as String?,
       createdAt:
           DateTime.tryParse(dto['createdAt'] as String? ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0),

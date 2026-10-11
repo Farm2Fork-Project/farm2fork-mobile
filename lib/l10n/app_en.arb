@@ -955,5 +955,11 @@
   "@termsConditionsTitle": { "description": "Terms & Conditions page title" },
 
   "termsConditionsContent": "By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.",
-  "@termsConditionsContent": { "description": "Terms & conditions page content" }
+  "@termsConditionsContent": { "description": "Terms & conditions page content" },
+  "continueSafepay": "Continue with Safepay",
+  "paymentServerStatus": "Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.",
+  "paymentCheckoutClosed": "Checkout was closed. Your saved order is still available to pay.",
+  "paymentActionFailed": "Could not open or refresh checkout. Your order is saved. Try again or view your orders.",
+  "paymentOrderNumber": "Order {number}",
+  "@paymentOrderNumber": {"placeholders": {"number": {"type": "int"}}}
 }

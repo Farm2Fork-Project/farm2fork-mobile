@@ -2029,6 +2029,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By using the Farm2Fork application, you agree to fulfill order commitments. Farmers must guarantee correct quality grades, buyers must settle balances upon checkout, and transporters must complete delivery routes securely. Platform fee calculations are fixed by system rules and are non-refundable.'**
   String get termsConditionsContent;
+
+  /// No description provided for @continueSafepay.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Safepay'**
+  String get continueSafepay;
+
+  /// No description provided for @paymentServerStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment status is confirmed by the server. Return here after checkout and refresh if confirmation is still pending.'**
+  String get paymentServerStatus;
+
+  /// No description provided for @paymentCheckoutClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout was closed. Your saved order is still available to pay.'**
+  String get paymentCheckoutClosed;
+
+  /// No description provided for @paymentActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open or refresh checkout. Your order is saved. Try again or view your orders.'**
+  String get paymentActionFailed;
+
+  /// No description provided for @paymentOrderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order {number}'**
+  String paymentOrderNumber(int number);
 }
 
 class _AppLocalizationsDelegate

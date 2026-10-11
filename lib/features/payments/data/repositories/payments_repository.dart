@@ -5,5 +5,7 @@ abstract class PaymentsRepository {
 
   Future<Payment> get(String paymentId);
 
+  Future<Payment?> findForOrder(String orderId);
+
   Future<Payment> simulate(String paymentId, PaymentStatus status);
 }
