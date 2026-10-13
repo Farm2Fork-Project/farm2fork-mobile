@@ -41,11 +41,18 @@ sealed class OnboardingRequest {
     required this.credential,
     required this.cnic,
     this.phone,
+    this.fullName,
   });
 
   final OnboardingCredential credential;
   final String cnic;
+
+  /// E.164, already normalised by the form.
   final String? phone;
+
+  /// Not part of the onboarding DTOs; saved with PATCH /auth/me/profile once
+  /// the account exists (see ApiAuthRepository.completeOnboarding).
+  final String? fullName;
 
   OnboardingRole get role;
 
@@ -57,6 +64,7 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.farmName,
     required this.farmAddress,
     required this.farmCity,
@@ -119,6 +127,7 @@ class BuyerOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.businessName,
     required this.businessType,
     this.addresses = const [],
@@ -147,6 +156,7 @@ class TransporterOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.vehicleType,
     required this.vehicleNumber,
     required this.licenseNumber,

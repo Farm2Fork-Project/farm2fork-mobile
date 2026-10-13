@@ -102,6 +102,29 @@ void main() {
       expect(AppNavConfig.guestHomeRoute, '/guest/marketplace');
     });
 
+    test('settings pages are open to every signed-in role, not to guests', () {
+      for (final role in [
+        AppUserRole.buyer,
+        AppUserRole.farmer,
+        AppUserRole.transporter,
+        AppUserRole.financialPartner,
+      ]) {
+        for (final location in [
+          '/settings/profile',
+          '/settings/notifications',
+          '/settings/language-display',
+        ]) {
+          expect(
+            AppNavConfig.canAccessRouteForRole(role: role, location: location),
+            isTrue,
+            reason: '$role $location',
+          );
+        }
+      }
+      expect(AppNavConfig.isPublicRoute('/settings/faqs'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/settings/profile'), isFalse);
+    });
+
     test('guest and role route guards are centralized', () {
       expect(AppNavConfig.isPublicRoute('/auth/login'), isTrue);
       expect(AppNavConfig.isPublicRoute('/guest/trace'), isTrue);

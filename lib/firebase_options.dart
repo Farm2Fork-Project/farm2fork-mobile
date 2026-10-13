@@ -14,9 +14,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'Farm2Fork Firebase is not configured for the web platform.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -48,5 +46,13 @@ class DefaultFirebaseOptions {
     iosClientId:
         '886626107303-i812hqv7bminose8da3943t881bonpds.apps.googleusercontent.com',
     iosBundleId: 'com.farm2fork.app',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCv-EKMygv7FalbcyNHbrI8BiMle1hnCs0',
+    appId: '1:886626107303:android:b54e4ef35e46f436998082',
+    messagingSenderId: '886626107303',
+    projectId: 'farm2fork-2a5b9',
+    storageBucket: 'farm2fork-2a5b9.firebasestorage.app',
   );
 }

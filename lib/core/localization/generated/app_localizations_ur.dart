@@ -2017,4 +2017,264 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get enterCoordinates => 'مقام کے نقاط درج کریں';
+
+  @override
+  String get save => 'محفوظ کریں';
+
+  @override
+  String get saveChanges => 'تبدیلیاں محفوظ کریں';
+
+  @override
+  String get showPassword => 'پاس ورڈ دکھائیں';
+
+  @override
+  String get hidePassword => 'پاس ورڈ چھپائیں';
+
+  @override
+  String get verifiedBadge => 'تصدیق شدہ';
+
+  @override
+  String get notVerifiedBadge => 'تصدیق باقی';
+
+  @override
+  String fieldOptional(String label) {
+    return '$label (اختیاری)';
+  }
+
+  @override
+  String get loginTitle => 'خوش آمدید';
+
+  @override
+  String get loginSubtitle =>
+      'تازہ پیداوار خریدنے، بیچنے یا پہنچانے کے لیے لاگ ان کریں۔';
+
+  @override
+  String get authOrUseEmail => 'یا ای میل سے';
+
+  @override
+  String get loginPasswordRequired => 'اپنا پاس ورڈ درج کریں';
+
+  @override
+  String onboardingStepLabel(int current, int total) {
+    return 'مرحلہ $current از $total';
+  }
+
+  @override
+  String get onboardingRoleTitle => 'آپ فارم ٹو فورک کیسے استعمال کریں گے؟';
+
+  @override
+  String get onboardingRoleSubtitle =>
+      'اپنے مطابق کردار منتخب کریں۔ اس سے آپ کے لیے درست سہولیات سیٹ ہوں گی۔';
+
+  @override
+  String get onboardingAccountTitle => 'اپنا لاگ ان بنائیں';
+
+  @override
+  String get onboardingAccountSubtitle =>
+      'ایسی ای میل استعمال کریں جو آپ کھول سکیں۔ ہم تصدیقی لنک بھیجیں گے۔';
+
+  @override
+  String get onboardingBuyerTitle => 'آپ کے بارے میں';
+
+  @override
+  String get onboardingBuyerSubtitle => 'ہمیں بتائیں کہ خریداری کون کر رہا ہے۔';
+
+  @override
+  String get onboardingFarmTitle => 'آپ اور آپ کا فارم';
+
+  @override
+  String get onboardingFarmSubtitle =>
+      'خریداروں کو آپ کی پیداوار کے ساتھ آپ کے فارم کا نام نظر آتا ہے۔';
+
+  @override
+  String get onboardingVehicleTitle => 'آپ اور آپ کی گاڑی';
+
+  @override
+  String get onboardingVehicleSubtitle =>
+      'گاڑی کی تفصیلات سے آپ کو مناسب ڈیلیوری ملتی ہے۔';
+
+  @override
+  String get onboardingPickupTitle => 'آپ پیداوار کہاں سے لوڈ کرتے ہیں؟';
+
+  @override
+  String get onboardingPickupSubtitle =>
+      'ٹرانسپورٹر اسی پتے سے مال اٹھائیں گے۔ آپ اسے بعد میں لسٹنگز میں بدل سکتے ہیں۔';
+
+  @override
+  String get onboardingIdentityTitle => 'آپ کی شناخت';
+
+  @override
+  String get onboardingIdentitySubtitle =>
+      'آپ کا شناختی کارڈ نمبر ایپ میں ہمیشہ چھپا ہوا دکھایا جاتا ہے۔';
+
+  @override
+  String get onboardingSignedInWithGoogle => 'گوگل سے لاگ ان';
+
+  @override
+  String get fullNameHint => 'وہ نام جو آپ پروفائل پر دکھانا چاہتے ہیں';
+
+  @override
+  String get validationNameShort => 'اپنا پورا نام درج کریں (کم از کم 2 حروف)';
+
+  @override
+  String get businessIndividualNote =>
+      'اپنے یا گھر کے لیے خریداری۔ کاروبار کے نام کی ضرورت نہیں۔';
+
+  @override
+  String get validationAcres => 'ایکڑ عدد میں درج کریں، جیسے 12.5';
+
+  @override
+  String get validationVehicleNumber => 'نمبر پلیٹ درج کریں (3 سے 20 حروف)';
+
+  @override
+  String get cnicHint => '35202-1234567-1';
+
+  @override
+  String cnicDigitsProgress(int count) {
+    return '13 میں سے $count ہندسے';
+  }
+
+  @override
+  String get cnicComplete => '13 ہندسے درج ہو گئے';
+
+  @override
+  String get phoneHint => '0300 1234567';
+
+  @override
+  String phoneSavedAs(String number) {
+    return '$number کے طور پر محفوظ ہوگا';
+  }
+
+  @override
+  String get validationPhoneInvalid =>
+      'درست فون نمبر درج کریں، جیسے 0300 1234567';
+
+  @override
+  String get passwordRuleHint =>
+      'کم از کم 8 حروف۔ حروف اور ہندسے ملانے سے پاس ورڈ مضبوط ہوتا ہے۔';
+
+  @override
+  String get passwordStrengthWeak => 'کمزور';
+
+  @override
+  String get passwordStrengthFair => 'ٹھیک ہے';
+
+  @override
+  String get passwordStrengthStrong => 'مضبوط';
+
+  @override
+  String passwordStrengthIs(String strength) {
+    return 'پاس ورڈ کی مضبوطی: $strength';
+  }
+
+  @override
+  String verifyResendIn(int seconds) {
+    return '$seconds سیکنڈ بعد دوبارہ بھیجیں';
+  }
+
+  @override
+  String get verifyCheckSpam => 'نہیں مل رہی؟ اسپیم یا جنک فولڈر دیکھیں۔';
+
+  @override
+  String get verifyUseDifferentEmail => 'دوسری ای میل استعمال کریں';
+
+  @override
+  String get profileSectionAccount => 'اکاؤنٹ';
+
+  @override
+  String get profileSectionPreferences => 'ترجیحات';
+
+  @override
+  String get editProfile => 'پروفائل میں ترمیم';
+
+  @override
+  String get profileLoadFailed =>
+      'آپ کی پروفائل لوڈ نہیں ہو سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get profileSectionPersonal => 'ذاتی معلومات';
+
+  @override
+  String get profileSectionBusiness => 'کاروبار';
+
+  @override
+  String get profileSectionFarm => 'فارم';
+
+  @override
+  String get profileSectionVehicle => 'گاڑی';
+
+  @override
+  String get profileSectionIdentity => 'لاگ ان اور شناخت';
+
+  @override
+  String get profileIdentityLocked =>
+      'یہ معلومات ایپ میں تبدیل نہیں ہو سکتیں۔ کوئی غلطی ہو تو سپورٹ سے رابطہ کریں۔';
+
+  @override
+  String get profileFarmLocationNotSet => 'ابھی مقرر نہیں';
+
+  @override
+  String get profileSaved => 'پروفائل اپ ڈیٹ ہو گئی۔';
+
+  @override
+  String get profileSaveFailed =>
+      'تبدیلیاں محفوظ نہیں ہو سکیں۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String profileFieldRejected(String field) {
+    return '“$field” قبول نہیں ہوا۔ اسے چیک کر کے دوبارہ کوشش کریں۔';
+  }
+
+  @override
+  String get discardChangesTitle => 'تبدیلیاں رد کریں؟';
+
+  @override
+  String get discardChangesMessage =>
+      'آپ کی تبدیلیاں محفوظ نہیں ہوئیں۔ ابھی جانے سے وہ ضائع ہو جائیں گی۔';
+
+  @override
+  String get discardChanges => 'رد کریں';
+
+  @override
+  String get keepEditing => 'ترمیم جاری رکھیں';
+
+  @override
+  String get profilePhotoChange => 'تصویر بدلیں';
+
+  @override
+  String get profilePhotoAdd => 'تصویر لگائیں';
+
+  @override
+  String get profilePhotoRemove => 'تصویر ہٹائیں';
+
+  @override
+  String get profilePhotoGallery => 'گیلری سے منتخب کریں';
+
+  @override
+  String get profilePhotoCamera => 'تصویر کھینچیں';
+
+  @override
+  String get profilePhotoCropTitle => 'تصویر کاٹیں';
+
+  @override
+  String get profilePhotoUploading => 'تصویر اپ لوڈ ہو رہی ہے…';
+
+  @override
+  String get profilePhotoUpdated => 'تصویر اپ ڈیٹ ہو گئی۔';
+
+  @override
+  String get profilePhotoRemoved => 'تصویر ہٹا دی گئی۔';
+
+  @override
+  String get profilePhotoFailed =>
+      'آپ کی تصویر اپ ڈیٹ نہیں ہو سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get profilePhotoPickFailed =>
+      'تصاویر یا کیمرا نہیں کھل سکا۔ سیٹنگز میں ایپ کی اجازتیں دیکھیں۔';
+
+  @override
+  String profilePhotoOf(String name) {
+    return '$name کی پروفائل تصویر';
+  }
 }
