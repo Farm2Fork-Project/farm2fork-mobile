@@ -6,6 +6,14 @@ import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository
 class MockAuthRepository implements AuthRepository {
   static const _password = 'test1234';
 
+  // Display names for the demo accounts, so profile screens have something real
+  // to show in mock builds.
+  static const _testNames = {
+    'buyer@test.com': 'Ayesha Khan',
+    'farmer@test.com': 'Muhammad Aslam',
+    'transporter@test.com': 'Bilal Ahmed',
+  };
+
   static const _testAccounts = {
     'buyer@test.com': AppUserRole.buyer,
     'farmer@test.com': AppUserRole.farmer,
@@ -19,6 +27,7 @@ class MockAuthRepository implements AuthRepository {
         email: entry.key,
         role: entry.value,
         password: _password,
+        fullName: _testNames[entry.key],
       ),
   };
 
@@ -131,11 +140,13 @@ class _StoredUser {
     required this.email,
     required this.role,
     required this.password,
+    this.fullName,
   });
   final String id;
   final String email;
   final AppUserRole role;
   final String password;
+  final String? fullName;
 
   AuthUser toAuthUser() => AuthUser(
     id: id,
@@ -143,5 +154,6 @@ class _StoredUser {
     role: role,
     isVerified: true,
     isActive: true,
+    fullName: fullName,
   );
 }

@@ -107,8 +107,12 @@ abstract final class AppNavConfig {
     return location.startsWith('/auth') ||
         location.startsWith('/guest') ||
         location.startsWith('/marketplace/products/') ||
-        location.startsWith('/settings/');
+        (location.startsWith('/settings/') && !_isAccountSettings(location));
   }
+
+  // Settings pages that need a signed-in account (guests are sent away).
+  static bool _isAccountSettings(String location) =>
+      location == '/settings/profile';
 
   static bool canAccessRouteForRole({
     required AppUserRole role,
@@ -116,6 +120,8 @@ abstract final class AppNavConfig {
   }) {
     if (role == AppUserRole.admin) return false;
     if (location.startsWith('/marketplace/products/')) return true;
+    // Settings, profile editing and help pages are shared by every role.
+    if (location.startsWith('/settings/')) return true;
     if (role == AppUserRole.buyer &&
         (location == '/checkout' || location == '/payments')) {
       return true;

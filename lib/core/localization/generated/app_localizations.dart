@@ -2335,6 +2335,504 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notifications yet.'**
   String get pushEmpty;
+
+  /// Generic save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Sticky save button on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChanges;
+
+  /// Tooltip for the password visibility toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// Tooltip for the password visibility toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
+
+  /// Badge: the account email is verified
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verifiedBadge;
+
+  /// Badge: the account email is not verified yet
+  ///
+  /// In en, this message translates to:
+  /// **'Not verified'**
+  String get notVerifiedBadge;
+
+  /// Label of an optional field
+  ///
+  /// In en, this message translates to:
+  /// **'{label} (optional)'**
+  String fieldOptional(String label);
+
+  /// Login screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get loginTitle;
+
+  /// Login screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to buy, sell or deliver fresh produce.'**
+  String get loginSubtitle;
+
+  /// Divider between Google and email sign-in
+  ///
+  /// In en, this message translates to:
+  /// **'or use email'**
+  String get authOrUseEmail;
+
+  /// Login: empty password message
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get loginPasswordRequired;
+
+  /// Sign-up progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingStepLabel(int current, int total);
+
+  /// Sign-up role step title
+  ///
+  /// In en, this message translates to:
+  /// **'How will you use Farm2Fork?'**
+  String get onboardingRoleTitle;
+
+  /// Sign-up role step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the role that fits you. It sets up the right tools.'**
+  String get onboardingRoleSubtitle;
+
+  /// Sign-up account step title
+  ///
+  /// In en, this message translates to:
+  /// **'Create your sign-in'**
+  String get onboardingAccountTitle;
+
+  /// Sign-up account step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Use an email you can open. We\'ll send a verification link.'**
+  String get onboardingAccountSubtitle;
+
+  /// Sign-up buyer details step title
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get onboardingBuyerTitle;
+
+  /// Sign-up buyer details step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us who is buying.'**
+  String get onboardingBuyerSubtitle;
+
+  /// Sign-up farmer details step title
+  ///
+  /// In en, this message translates to:
+  /// **'About you and your farm'**
+  String get onboardingFarmTitle;
+
+  /// Sign-up farmer details step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers see your farm name next to your produce.'**
+  String get onboardingFarmSubtitle;
+
+  /// Sign-up transporter details step title
+  ///
+  /// In en, this message translates to:
+  /// **'About you and your vehicle'**
+  String get onboardingVehicleTitle;
+
+  /// Sign-up transporter details step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle details help match you with deliveries.'**
+  String get onboardingVehicleSubtitle;
+
+  /// Sign-up farm pickup step title
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you load produce?'**
+  String get onboardingPickupTitle;
+
+  /// Sign-up farm pickup step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Transporters collect from this address. You can change it later in Listings.'**
+  String get onboardingPickupSubtitle;
+
+  /// Sign-up identity step title
+  ///
+  /// In en, this message translates to:
+  /// **'Your identity'**
+  String get onboardingIdentityTitle;
+
+  /// Sign-up identity step subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your CNIC is only ever shown masked in the app.'**
+  String get onboardingIdentitySubtitle;
+
+  /// Label above the Google identity chip
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in with Google'**
+  String get onboardingSignedInWithGoogle;
+
+  /// Hint for the full name field
+  ///
+  /// In en, this message translates to:
+  /// **'The name you want shown on your profile'**
+  String get fullNameHint;
+
+  /// Full name too short
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name (at least 2 letters)'**
+  String get validationNameShort;
+
+  /// Note shown when the buyer type is Individual
+  ///
+  /// In en, this message translates to:
+  /// **'Buying for yourself or your household. No business name needed.'**
+  String get businessIndividualNote;
+
+  /// Invalid farm size
+  ///
+  /// In en, this message translates to:
+  /// **'Enter acres as a number, like 12.5'**
+  String get validationAcres;
+
+  /// Invalid vehicle number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the number plate (3 to 20 characters)'**
+  String get validationVehicleNumber;
+
+  /// CNIC field hint
+  ///
+  /// In en, this message translates to:
+  /// **'35202-1234567-1'**
+  String get cnicHint;
+
+  /// Live CNIC digit counter
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of 13 digits'**
+  String cnicDigitsProgress(int count);
+
+  /// CNIC field complete
+  ///
+  /// In en, this message translates to:
+  /// **'13 digits entered'**
+  String get cnicComplete;
+
+  /// Phone field hint
+  ///
+  /// In en, this message translates to:
+  /// **'0300 1234567'**
+  String get phoneHint;
+
+  /// Normalised phone preview
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as {number}'**
+  String phoneSavedAs(String number);
+
+  /// Invalid phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number, like 0300 1234567'**
+  String get validationPhoneInvalid;
+
+  /// Password rule under the field
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters. Mix letters and numbers to make it stronger.'**
+  String get passwordRuleHint;
+
+  /// Password strength level
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get passwordStrengthWeak;
+
+  /// Password strength level
+  ///
+  /// In en, this message translates to:
+  /// **'Okay'**
+  String get passwordStrengthFair;
+
+  /// Password strength level
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get passwordStrengthStrong;
+
+  /// Password strength with level
+  ///
+  /// In en, this message translates to:
+  /// **'Password strength: {strength}'**
+  String passwordStrengthIs(String strength);
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Punjab'**
+  String get provincePunjab;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Sindh'**
+  String get provinceSindh;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Khyber Pakhtunkhwa'**
+  String get provinceKhyberPakhtunkhwa;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Balochistan'**
+  String get provinceBalochistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Gilgit-Baltistan'**
+  String get provinceGilgitBaltistan;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Azad Jammu and Kashmir'**
+  String get provinceAzadKashmir;
+
+  /// Province
+  ///
+  /// In en, this message translates to:
+  /// **'Islamabad Capital Territory'**
+  String get provinceIslamabad;
+
+  /// Resend cooldown label
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email in {seconds}s'**
+  String verifyResendIn(int seconds);
+
+  /// Hint on the verify email screen
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t find it? Check your spam or junk folder.'**
+  String get verifyCheckSpam;
+
+  /// Leaves the verify screen and returns to login
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get verifyUseDifferentEmail;
+
+  /// Profile section header
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get profileSectionAccount;
+
+  /// Profile section header
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get profileSectionPreferences;
+
+  /// Edit profile entry and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get editProfile;
+
+  /// Profile load error
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your profile. Check your connection and try again.'**
+  String get profileLoadFailed;
+
+  /// Edit profile section
+  ///
+  /// In en, this message translates to:
+  /// **'Personal details'**
+  String get profileSectionPersonal;
+
+  /// Edit profile section
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get profileSectionBusiness;
+
+  /// Edit profile section
+  ///
+  /// In en, this message translates to:
+  /// **'Farm'**
+  String get profileSectionFarm;
+
+  /// Edit profile section
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get profileSectionVehicle;
+
+  /// Edit profile read-only section
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in and identity'**
+  String get profileSectionIdentity;
+
+  /// Note under read-only email and CNIC
+  ///
+  /// In en, this message translates to:
+  /// **'These can\'t be changed in the app. Contact support if something is wrong.'**
+  String get profileIdentityLocked;
+
+  /// Farm location row when empty
+  ///
+  /// In en, this message translates to:
+  /// **'Not set yet'**
+  String get profileFarmLocationNotSet;
+
+  /// Snack after saving the profile
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated.'**
+  String get profileSaved;
+
+  /// Profile save error
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save your changes. Check your connection and try again.'**
+  String get profileSaveFailed;
+
+  /// Field-level error returned by the server
+  ///
+  /// In en, this message translates to:
+  /// **'“{field}” was not accepted. Check it and try again.'**
+  String profileFieldRejected(String field);
+
+  /// Unsaved changes dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChangesTitle;
+
+  /// Unsaved changes dialog body
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. If you leave now, they\'ll be lost.'**
+  String get discardChangesMessage;
+
+  /// Unsaved changes dialog confirm
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discardChanges;
+
+  /// Unsaved changes dialog cancel
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditing;
+
+  /// Profile photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get profilePhotoChange;
+
+  /// Profile photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get profilePhotoAdd;
+
+  /// Profile photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get profilePhotoRemove;
+
+  /// Photo source option
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get profilePhotoGallery;
+
+  /// Photo source option
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get profilePhotoCamera;
+
+  /// Cropper toolbar title
+  ///
+  /// In en, this message translates to:
+  /// **'Crop photo'**
+  String get profilePhotoCropTitle;
+
+  /// Photo upload progress
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading photo…'**
+  String get profilePhotoUploading;
+
+  /// Photo upload success
+  ///
+  /// In en, this message translates to:
+  /// **'Photo updated.'**
+  String get profilePhotoUpdated;
+
+  /// Photo removal success
+  ///
+  /// In en, this message translates to:
+  /// **'Photo removed.'**
+  String get profilePhotoRemoved;
+
+  /// Photo upload error
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update your photo. Check your connection and try again.'**
+  String get profilePhotoFailed;
+
+  /// Photo picker error
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open your photos or camera. Check the app\'s permissions in Settings.'**
+  String get profilePhotoPickFailed;
+
+  /// Accessibility label of an avatar
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo of {name}'**
+  String profilePhotoOf(String name);
 }
 
 class _AppLocalizationsDelegate

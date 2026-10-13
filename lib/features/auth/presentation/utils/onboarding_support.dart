@@ -3,14 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
-import 'package:farm2fork_mobile/core/theme/app_colors.dart';
-import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
 import 'package:farm2fork_mobile/features/auth/data/services/firebase_auth_gateway.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_session.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_form_widgets.dart';
+import 'package:farm2fork_mobile/core/utils/pakistan_identity.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_draft.dart';
 
 final _cnicRegExp = RegExp(r'^\d{5}-?\d{7}-?\d$');
 final _emailRegExp = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
@@ -39,6 +38,82 @@ String? validatePasswordField(BuildContext context, String? value) {
   final text = value ?? '';
   if (text.isEmpty) return context.l10n.validationRequired;
   return text.length < 8 ? context.l10n.validationPasswordShort : null;
+}
+
+String? validateFullNameField(BuildContext context, String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return context.l10n.validationRequired;
+  return text.length < 2 || text.length > 80
+      ? context.l10n.validationNameShort
+      : null;
+}
+
+/// Phone is optional; when present it must normalise to an E.164 number.
+String? validatePhoneField(BuildContext context, String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return null;
+  return normalizePhone(text) == null
+      ? context.l10n.validationPhoneInvalid
+      : null;
+}
+
+/// Farm size is optional; when present it must be a number from 0 to 100000.
+String? validateAcresField(BuildContext context, String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return null;
+  final acres = double.tryParse(text);
+  return acres == null || !acres.isFinite || acres < 0 || acres > 100000
+      ? context.l10n.validationAcres
+      : null;
+}
+
+String? validateVehicleNumberField(BuildContext context, String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return context.l10n.validationRequired;
+  return text.length < 3 || text.length > 20
+      ? context.l10n.validationVehicleNumber
+      : null;
+}
+
+String? validateCoordinateField(
+  BuildContext context,
+  String? value,
+  double min,
+  double max,
+) {
+  final n = double.tryParse(value?.trim() ?? '');
+  return n == null || !n.isFinite || n < min || n > max
+      ? context.l10n.locationInvalid
+      : null;
+}
+
+/// Pakistan's bounding box as accepted by the backend for a farm pin.
+const pakistanLatRange = (23.5, 37.2);
+const pakistanLngRange = (60.5, 77.9);
+
+/// Provinces and territories the backend accepts (sent in English).
+const pakistanProvinces = [
+  'Punjab',
+  'Sindh',
+  'Khyber Pakhtunkhwa',
+  'Balochistan',
+  'Gilgit-Baltistan',
+  'Azad Jammu and Kashmir',
+  'Islamabad Capital Territory',
+];
+
+String provinceLabel(BuildContext context, String value) {
+  final l10n = context.l10n;
+  return switch (value) {
+    'Punjab' => l10n.provincePunjab,
+    'Sindh' => l10n.provinceSindh,
+    'Khyber Pakhtunkhwa' => l10n.provinceKhyberPakhtunkhwa,
+    'Balochistan' => l10n.provinceBalochistan,
+    'Gilgit-Baltistan' => l10n.provinceGilgitBaltistan,
+    'Azad Jammu and Kashmir' => l10n.provinceAzadKashmir,
+    'Islamabad Capital Territory' => l10n.provinceIslamabad,
+    _ => value,
+  };
 }
 
 /// Maps auth/network failures to a localized, user-facing message. Returns an
@@ -95,8 +170,9 @@ Future<void> submitOnboarding(
   BuildContext context,
   GlobalKey<FormState> formKey,
   OnboardingRequest Function() buildRequest,
-  void Function(String?) setError,
-) async {
+  void Function(String?) setError, {
+  void Function(Object error)? onFailure,
+}) async {
   if (!formKey.currentState!.validate()) return;
   setError(null);
 
@@ -113,60 +189,10 @@ Future<void> submitOnboarding(
       context.go('/auth/verify');
       return;
     }
+    onFailure?.call(state.error!);
     setError(onboardingErrorMessage(context, state.error!));
   } else {
     ref.read(onboardingSessionProvider.notifier).clear();
-  }
-}
-
-/// Email + password fields shown only for the new-account (email/password) path.
-class OnboardingAccountFields extends StatefulWidget {
-  const OnboardingAccountFields({
-    super.key,
-    required this.emailController,
-    required this.passwordController,
-  });
-
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
-
-  @override
-  State<OnboardingAccountFields> createState() =>
-      _OnboardingAccountFieldsState();
-}
-
-class _OnboardingAccountFieldsState extends State<OnboardingAccountFields> {
-  bool _obscure = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AuthTextField(
-          controller: widget.emailController,
-          label: context.l10n.email,
-          keyboardType: TextInputType.emailAddress,
-          validator: (v) => validateEmailField(context, v),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        AuthTextField(
-          controller: widget.passwordController,
-          label: context.l10n.password,
-          obscureText: _obscure,
-          validator: (v) => validatePasswordField(context, v),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscure
-                  ? Icons.visibility_off_rounded
-                  : Icons.visibility_rounded,
-              color: AppColors.textMuted,
-            ),
-            onPressed: () => setState(() => _obscure = !_obscure),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.md),
-      ],
-    );
   }
 }
 
@@ -181,3 +207,66 @@ List<String> splitCommaList(String value) {
 
 /// Re-exported for screens that only need the outcome type.
 typedef OnboardingOutcome = FirebaseSignInOutcome;
+
+/// Turns the stepped form's [draft] into the request the backend expects.
+/// Individual buyers have no business, so their name stands in for the
+/// business name the API still requires.
+OnboardingRequest buildOnboardingRequest(
+  OnboardingSession session,
+  OnboardingDraft draft,
+) {
+  String v(OnboardingField f) => draft.value(f).trim();
+  final credential = buildOnboardingCredential(
+    session,
+    email: v(OnboardingField.email),
+    password: draft.value(OnboardingField.password),
+  );
+  final cnic = formatCnic(v(OnboardingField.cnic));
+  final phoneText = v(OnboardingField.phone);
+  final phone = phoneText.isEmpty ? null : normalizePhone(phoneText);
+  final fullName = v(OnboardingField.fullName);
+
+  return switch (draft.role) {
+    OnboardingRole.farmer => FarmerOnboardingRequest(
+      credential: credential,
+      cnic: cnic,
+      phone: phone,
+      fullName: fullName,
+      farmName: v(OnboardingField.farmName),
+      farmLocation: FarmLocationInput(
+        address: v(OnboardingField.address),
+        city: v(OnboardingField.city),
+        province: v(OnboardingField.province),
+        lat: double.parse(v(OnboardingField.lat)),
+        lng: double.parse(v(OnboardingField.lng)),
+      ),
+      cropTypes: splitCommaList(v(OnboardingField.cropTypes)),
+      landSizeAcres: double.tryParse(v(OnboardingField.landSize)),
+    ),
+    OnboardingRole.transporter => TransporterOnboardingRequest(
+      credential: credential,
+      cnic: cnic,
+      phone: phone,
+      fullName: fullName,
+      vehicleType: v(OnboardingField.vehicleType),
+      vehicleNumber: v(OnboardingField.vehicleNumber),
+      licenseNumber: v(OnboardingField.licenseNumber),
+      serviceAreas: splitCommaList(v(OnboardingField.serviceAreas)),
+    ),
+    _ => () {
+      final type = v(OnboardingField.businessType).isEmpty
+          ? 'individual'
+          : v(OnboardingField.businessType);
+      return BuyerOnboardingRequest(
+        credential: credential,
+        cnic: cnic,
+        phone: phone,
+        fullName: fullName,
+        businessName: type == 'individual'
+            ? fullName
+            : v(OnboardingField.businessName),
+        businessType: type,
+      );
+    }(),
+  };
+}

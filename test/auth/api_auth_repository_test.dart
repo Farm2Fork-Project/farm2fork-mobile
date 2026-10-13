@@ -62,6 +62,15 @@ class _FakeApi implements AuthApiService {
   String? lastIdToken;
   String? lastOnboardPath;
   Map<String, dynamic>? lastOnboardBody;
+  final profilePatches = <Map<String, dynamic>>[];
+  Object? profilePatchError;
+
+  @override
+  Future<Map<String, dynamic>> updateProfile(Map<String, dynamic> body) async {
+    if (profilePatchError != null) throw profilePatchError!;
+    profilePatches.add(body);
+    return {};
+  }
 
   @override
   Future<Map<String, dynamic>> signInWithFirebase(String idToken) async {
@@ -248,6 +257,101 @@ void main() {
       expect(api.lastOnboardBody!['farmName'], 'Green Acres');
     },
   );
+
+  test('the signed-in user carries name, photo and phone', () async {
+    api.signInResponse = {
+      'accessToken': 'jwt-123',
+      'user': {
+        'id': 'u1',
+        'email': 'user@example.com',
+        'role': 'buyer',
+        'isVerified': true,
+        'isActive': true,
+        'fullName': 'Ayesha Khan',
+        'phone': '+923001234567',
+        'avatarUrl': 'https://res.cloudinary.com/c/image/upload/w_256,h_256/a',
+      },
+    };
+    final outcome = await repo.signInWithEmail(
+      email: 'user@example.com',
+      password: 'pw',
+    );
+    final user = (outcome as FirebaseSignedIn).user;
+    expect(user.fullName, 'Ayesha Khan');
+    expect(user.displayName, 'Ayesha Khan');
+    expect(user.avatarUrl, contains('w_256,h_256'));
+    expect(user.phone, '+923001234567');
+  });
+
+  test('a user without a name is called by the start of their email', () async {
+    api.signInResponse = _session('buyer');
+    final outcome = await repo.signInWithEmail(
+      email: 'user@example.com',
+      password: 'pw',
+    );
+    expect((outcome as FirebaseSignedIn).user.displayName, 'user');
+  });
+
+  test('onboarding saves the name with PATCH /auth/me/profile', () async {
+    api.onboardResponse = _session('buyer');
+    final user = await repo.completeOnboarding(
+      const BuyerOnboardingRequest(
+        credential: GoogleOnboardingCredential(),
+        cnic: '35202-1234567-1',
+        fullName: '  Ayesha Khan ',
+        businessName: 'Ayesha Khan',
+        businessType: 'individual',
+      ),
+    );
+    expect(api.profilePatches, [
+      {'fullName': 'Ayesha Khan'},
+    ]);
+    expect(user.fullName, 'Ayesha Khan');
+    // The name is not part of the onboarding DTO.
+    expect(api.lastOnboardBody!.containsKey('fullName'), isFalse);
+  });
+
+  test('a failed name save does not undo a successful sign-up', () async {
+    api.onboardResponse = _session('buyer');
+    api.profilePatchError = const ApiException(ApiErrorKind.server);
+    final user = await repo.completeOnboarding(
+      const BuyerOnboardingRequest(
+        credential: GoogleOnboardingCredential(),
+        cnic: '35202-1234567-1',
+        fullName: 'Ayesha Khan',
+        businessName: 'Ayesha Khan',
+        businessType: 'individual',
+      ),
+    );
+    expect(user.role, AppUserRole.buyer);
+    expect(user.fullName, isNull);
+    expect(storage.token, 'jwt-123');
+  });
+
+  test('farmer onboarding sends the pickup location', () async {
+    api.onboardResponse = _session('farmer');
+    await repo.completeOnboarding(
+      const FarmerOnboardingRequest(
+        credential: GoogleOnboardingCredential(),
+        cnic: '35202-1234567-1',
+        farmName: 'Green Acres',
+        farmLocation: FarmLocationInput(
+          address: 'Chak 5',
+          city: 'Multan',
+          province: 'Punjab',
+          lat: 30.1,
+          lng: 71.5,
+        ),
+      ),
+    );
+    expect(api.lastOnboardBody!['farmLocation'], {
+      'address': 'Chak 5',
+      'city': 'Multan',
+      'province': 'Punjab',
+      'lat': 30.1,
+      'lng': 71.5,
+    });
+  });
 
   test('restoreSession clears the token and returns null on 401', () async {
     storage.token = 'stale';

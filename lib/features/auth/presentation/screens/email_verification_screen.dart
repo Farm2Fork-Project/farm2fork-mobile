@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,22 +26,67 @@ class EmailVerificationScreen extends ConsumerStatefulWidget {
 
 class _EmailVerificationScreenState
     extends ConsumerState<EmailVerificationScreen> {
+  /// How long to wait before the verification email can be sent again.
+  static const _resendCooldown = 45;
+
   bool _working = false;
+  bool _resending = false;
   String? _message;
+  AuthNoticeKind _messageKind = AuthNoticeKind.info;
+  int _secondsLeft = 0;
+  Timer? _timer;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startCooldown() {
+    _timer?.cancel();
+    setState(() => _secondsLeft = _resendCooldown);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      setState(
+        () => _secondsLeft = (_secondsLeft - 1).clamp(0, _resendCooldown),
+      );
+      if (_secondsLeft == 0) timer.cancel();
+    });
+  }
+
+  void _show(String? message, AuthNoticeKind kind) => setState(() {
+    _message = message;
+    _messageKind = kind;
+  });
 
   Future<void> _resend() async {
-    setState(() {
-      _working = true;
-      _message = null;
-    });
+    setState(() => _resending = true);
+    _show(null, AuthNoticeKind.info);
     try {
       await ref.read(authControllerProvider.notifier).resendEmailVerification();
       if (mounted) {
-        setState(() => _message = context.l10n.verificationResentNote);
+        _show(context.l10n.verificationResentNote, AuthNoticeKind.success);
+        _startCooldown();
       }
     } catch (error) {
       if (mounted) {
-        setState(() => _message = onboardingErrorMessage(context, error));
+        _show(onboardingErrorMessage(context, error), AuthNoticeKind.error);
+      }
+    } finally {
+      if (mounted) setState(() => _resending = false);
+    }
+  }
+
+  /// Wrong address? Drop the half-finished sign-up and start again.
+  Future<void> _useDifferentEmail() async {
+    setState(() => _working = true);
+    try {
+      await ref.read(authControllerProvider.notifier).signOut();
+      ref.read(onboardingSessionProvider.notifier).clear();
+      if (mounted) context.go('/auth/login');
+    } catch (error) {
+      if (mounted) {
+        _show(onboardingErrorMessage(context, error), AuthNoticeKind.error);
       }
     } finally {
       if (mounted) setState(() => _working = false);
@@ -49,10 +95,8 @@ class _EmailVerificationScreenState
 
   Future<void> _continue() async {
     final session = ref.read(onboardingSessionProvider);
-    setState(() {
-      _working = true;
-      _message = null;
-    });
+    setState(() => _working = true);
+    _show(null, AuthNoticeKind.info);
     try {
       if (session?.pendingRequest case final request?) {
         await ref
@@ -90,13 +134,11 @@ class _EmailVerificationScreenState
       }
     } on _EmailStillUnverified {
       if (mounted) {
-        setState(
-          () => _message = context.l10n.verificationStillPendingNote,
-        );
+        _show(context.l10n.verificationStillPendingNote, AuthNoticeKind.info);
       }
     } catch (error) {
       if (mounted) {
-        setState(() => _message = onboardingErrorMessage(context, error));
+        _show(onboardingErrorMessage(context, error), AuthNoticeKind.error);
       }
     } finally {
       if (mounted) setState(() => _working = false);
@@ -105,50 +147,84 @@ class _EmailVerificationScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final email = ref.watch(onboardingSessionProvider)?.email;
+    final hasEmail = email != null && email.isNotEmpty;
+    final busy = _working || _resending;
+    final cooling = _secondsLeft > 0;
+
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(backgroundColor: AppColors.backgroundLight),
       body: SafeArea(
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsets.all(AppSpacing.pagePadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: AppSpacing.xl),
-              const Icon(
-                Icons.mark_email_read_outlined,
-                size: 56,
+          children: [
+            const SizedBox(height: AppSpacing.lg),
+            Container(
+              width: 72,
+              height: 72,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryGreenSoft,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.mark_email_unread_outlined,
+                size: 36,
                 color: AppColors.primaryGreenDark,
               ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            Semantics(
+              header: true,
+              child: Text(l10n.verifyYourEmailTitle, style: AppTextStyles.h2),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              hasEmail
+                  ? l10n.verifyYourEmailBody(email)
+                  : l10n.verifyYourEmailBodyGeneric,
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.textMuted,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              l10n.verifyCheckSpam,
+              style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            if (_message != null) ...[
+              AuthNoticeBanner(message: _message!, kind: _messageKind),
               const SizedBox(height: AppSpacing.lg),
-              Text(context.l10n.verifyYourEmailTitle, style: AppTextStyles.h2),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                email == null || email.isEmpty
-                    ? context.l10n.verifyYourEmailBodyGeneric
-                    : context.l10n.verifyYourEmailBody(email),
-                style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              if (_message != null) ...[
-                AuthErrorBanner(message: _message!),
-                const SizedBox(height: AppSpacing.md),
-              ],
-              AppButton(
-                label: context.l10n.iHaveVerifiedMyEmail,
-                onPressed: _working ? null : _continue,
-                expand: true,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              AppButton(
-                label: context.l10n.resendVerificationEmail,
-                variant: AppButtonVariant.quiet,
-                onPressed: _working ? null : _resend,
-                expand: true,
-              ),
             ],
-          ),
+            AppButton(
+              label: l10n.iHaveVerifiedMyEmail,
+              onPressed: busy ? null : _continue,
+              isLoading: _working,
+              expand: true,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppButton(
+              label: cooling
+                  ? l10n.verifyResendIn(_secondsLeft)
+                  : l10n.resendVerificationEmail,
+              variant: AppButtonVariant.quiet,
+              onPressed: busy || cooling ? null : _resend,
+              isLoading: _resending,
+              expand: true,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Center(
+              child: TextButton(
+                style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+                onPressed: busy ? null : _useDifferentEmail,
+                child: Text(l10n.verifyUseDifferentEmail),
+              ),
+            ),
+          ],
         ),
       ),
     );
