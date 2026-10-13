@@ -21,6 +21,7 @@ class ErrorInterceptor extends Interceptor {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
         return const ApiException(ApiErrorKind.timeout);
       case DioExceptionType.connectionError:
         return const ApiException(ApiErrorKind.network);
