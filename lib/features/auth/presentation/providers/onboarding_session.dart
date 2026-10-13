@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_draft.dart';
 
 /// How the pending onboarding will obtain its Firebase identity.
 enum OnboardingMethod {
@@ -19,6 +20,7 @@ class OnboardingSession {
     this.email,
     this.displayName,
     this.pendingRequest,
+    this.draft = const OnboardingDraft(),
   });
 
   final OnboardingMethod method;
@@ -28,6 +30,9 @@ class OnboardingSession {
   final String? email;
   final String? displayName;
   final OnboardingRequest? pendingRequest;
+
+  /// What the user has typed so far, kept across back navigation.
+  final OnboardingDraft draft;
 
   bool get isEmailPassword => method == OnboardingMethod.emailPassword;
 }
@@ -51,6 +56,19 @@ class OnboardingSessionController extends Notifier<OnboardingSession?> {
       email: email,
       displayName: session.displayName,
       pendingRequest: request,
+      draft: session.draft,
+    );
+  }
+
+  void updateDraft(OnboardingDraft draft) {
+    final session = state;
+    if (session == null) return;
+    state = OnboardingSession(
+      method: session.method,
+      email: session.email,
+      displayName: session.displayName,
+      pendingRequest: session.pendingRequest,
+      draft: draft,
     );
   }
 

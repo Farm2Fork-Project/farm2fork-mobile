@@ -88,7 +88,22 @@ class ApiAuthRepository implements AuthRepository {
       ...request.toProfileJson(),
     };
     final response = await _api.onboard(request.role.backendPath, body);
-    return _persistSession(response);
+    final user = await _persistSession(response);
+    return _saveFullName(user, request.fullName);
+  }
+
+  // The onboarding endpoints take no name, so it is saved right after the
+  // account exists. Failing here must not undo a successful sign-up: the name
+  // can be set later from Edit profile.
+  Future<AuthUser> _saveFullName(AuthUser user, String? fullName) async {
+    final name = fullName?.trim();
+    if (name == null || name.length < 2) return user;
+    try {
+      await _api.updateProfile({'fullName': name});
+      return user.copyWith(fullName: name);
+    } catch (_) {
+      return user;
+    }
   }
 
   @override
@@ -167,6 +182,9 @@ class ApiAuthRepository implements AuthRepository {
     role: AuthUser.roleFromBackend(json['role'] as String),
     isVerified: (json['isVerified'] as bool?) ?? false,
     isActive: (json['isActive'] as bool?) ?? true,
+    fullName: json['fullName'] as String?,
+    avatarUrl: json['avatarUrl'] as String?,
+    phone: json['phone'] as String?,
   );
 
   ApiException? _apiExceptionFrom(Object error) {

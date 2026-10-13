@@ -29,7 +29,19 @@ class AuthApiService {
     return _requireBody(response.data);
   }
 
-  Future<Map<String, dynamic>> _post(String path, Map<String, dynamic> body) async {
+  /// PATCH /auth/me/profile — used right after onboarding to save the name.
+  Future<Map<String, dynamic>> updateProfile(Map<String, dynamic> body) async {
+    final response = await _dio.patch<Map<String, dynamic>>(
+      '/auth/me/profile',
+      data: body,
+    );
+    return _requireBody(response.data);
+  }
+
+  Future<Map<String, dynamic>> _post(
+    String path,
+    Map<String, dynamic> body,
+  ) async {
     final response = await _dio.post<Map<String, dynamic>>(path, data: body);
     return _requireBody(response.data);
   }

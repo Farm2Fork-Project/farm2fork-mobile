@@ -280,3 +280,83 @@ Backlog item to slot in: a **profiles endpoint** so the marketplace farmer-detai
   the built messaging worker returns HTTP 200 with root scope. The user confirmed
   no device is available, so real FCM/APNs receipt remains unverified. Configure
   the same public key in the deployment environment before deploying web push.
+
+### 2026-10-13 — Web: auth, profile and inline-confirm redesign (not committed)
+
+- Sign-in and sign-up are real pages shared by every role: `/login`, `/signup`,
+  `/signup/buyer`, `/signup/farmer` (three short steps, draft kept in
+  `sessionStorage` without the password), `/verify-email`, `/forgot-password`.
+  After sign-in the role from `GET /auth/me` decides the landing page (buyer `/`,
+  farmer `/farmer`, financial partner `/financial`, admin `/admin/dashboard`,
+  transporter the mobile-app page); the "wrong role" dead end is gone. Admin and
+  financial use the same Firebase flow, so there is no separate staff login. The
+  overlay stack on `/` is removed; `/?auth=login`, `/?auth=signup`,
+  `/farmer?signup=true` and `/admin/login` redirect, and `/farmer`, `/financial`
+  and `/admin/*` send signed-out visitors to `/login?next=`. English and Urdu
+  (RTL), plain-language Firebase/API errors, live CNIC and phone checks (phone
+  sent as E.164). Buyers who choose Individual skip the business name.
+- `/account` and `/account/edit` replace `ProfileScreen` for every role: photo,
+  name, phone, role details, language and text size, notifications, help links,
+  sign out. Edit uses `PATCH /auth/me/profile` and `PATCH /farmers/me/farm-location`
+  with a dirty guard and API field errors; the photo is cropped inline
+  (`react-easy-crop`) to a 512px JPEG and sent with `PUT /auth/me/avatar`
+  (`DELETE` to remove). Sign out, delete listing and discard changes are inline
+  two-step confirms; the farmer listing detail opens in place. Admin, financial and
+  transporter modals are untouched (second pass).
+- Web checks: new unit and component tests pass (role routing, step validation,
+  edit dirty/save, avatar upload happy/error path with a mocked fetch, i18n key
+  parity). Nine older tests fail on this branch for reasons outside this slice
+  (`AiListingAssistant`, `FarmFeed`, `LoanScreens`, `contracts` farm identity), and
+  the production build stops on the same files: the merge of `develop` into this
+  branch dropped the AI-assistant contract types and left duplicate methods in
+  `lib/farmer/farmer-repository.ts`. Browser-checked against a mock API at desktop
+  and mobile widths; no live backend or Firebase sign-in was run.
+
+### 2026-10-13 — Mobile: login, stepped sign-up and profile redesign (not committed)
+
+- **Login** is a compact light screen (leaf mark, "Welcome back", Google, email +
+  password with inline validation, visibility toggle, forgot password, Login,
+  Create account as the secondary action, guest browsing as a quiet link). It
+  scrolls instead of jumping when the keyboard opens, with keyboard actions and
+  autofill hints. The password-reset confirmation is no longer styled as an error.
+- **Sign-up** is one stepped flow at `/auth/onboarding` (the per-role screens and
+  `OnboardingScaffold` are gone): Role -> Account (new email accounts; strength
+  hint) -> About you / your farm / your vehicle -> Pickup (farmers) -> Identity
+  (CNIC formatted live to 13 digits, phone normalised to E.164). Google users skip
+  Account and see a "Signed in with Google" chip. Individual buyers skip the
+  business name; their name is sent as the business name the API still requires.
+  Drafts live in `OnboardingSession.draft`, so Back and re-entering keep them. An
+  "email already in use" failure returns to the Account step. `submitOnboarding`
+  and the onboarding session/API calls are unchanged. Email verification gained a
+  45 s resend cooldown, clear info/success/error states and "Use a different email".
+- **Farmer sign-up now sends `farmLocation`** (address, city, province, lat, lng).
+  The backend DTO has required it since 2026-09-24, and the previous mobile form
+  omitted it, so farmer sign-up would have been rejected with a 400. Coordinates are
+  still typed by hand (no GPS dependency was added).
+- **The name** is not part of the onboarding DTOs, so it is saved straight after
+  sign-up with `PATCH /auth/me/profile`; a failure there does not undo the sign-up.
+- **Profile**: header with avatar (initials fallback), name, role badge, email,
+  verified state; Account / Preferences / Help sections; sign-out confirms inline
+  (no dialog). **Edit profile** (`/settings/profile`): name, phone, buyer business,
+  farmer farm details (+ link to the existing pickup-location screen), transporter
+  vehicle; email and masked CNIC read-only; only changed fields are sent; dirty
+  guard, API field errors, pinned Save bar. Photo: gallery/camera -> square crop ->
+  512 px JPEG q85 -> `PUT /auth/me/avatar` (field `file`); remove with `DELETE`. New
+  `lib/features/profile` data layer (Freezed `UserProfile`, API + mock repositories,
+  `ProfileController`); saving refreshes the auth user so headers update. New shared
+  `AppAvatar`, `AppNoticeBanner`; `AppTextField` takes input action, autofill,
+  formatters and server error text. `AuthUser` has `fullName`, `avatarUrl`, `phone`.
+- **Route guard fix**: `canAccessRouteForRole` rejected every `/settings/*` path for
+  signed-in users, so they were bounced home (notification and language screens
+  included). Settings pages are now open to all signed-in roles; `/settings/profile`
+  stays closed to guests.
+- Added `image_picker` and `image_cropper`; Android `UCropActivity` and camera query,
+  iOS camera/photo usage strings. Cloudinary keys stay in the backend only.
+- Checks: 203 tests pass (90 new: identity helpers, login, stepped sign-up per role,
+  verification, profile header and sign-out, edit dirty/save/field errors/photo
+  upload/remove with fake repositories, multipart request shape, router access;
+  Urdu at 1.3x text scale on every new screen). `flutter analyze` is clean apart from
+  the four existing `firebase_auth_gateway` warnings. Android debug APK and the iOS
+  Simulator (iPhone 11, `USE_MOCKS`) builds pass; screens checked on the simulator in
+  English and Urdu. Not run: a real camera/gallery/UCrop pass, a live backend with
+  Cloudinary, and Android devices (none connected).

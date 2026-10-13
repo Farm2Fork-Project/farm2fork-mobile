@@ -88,6 +88,14 @@ class AuthController extends AsyncNotifier<AuthState> {
     });
   }
 
+  /// Swaps in a refreshed copy of the signed-in user (after a profile or photo
+  /// edit) so every header that reads the user updates, without a loading flash.
+  void updateCurrentUser(AuthUser user) {
+    final current = state.value;
+    if (current == null || current.user == null) return;
+    state = AsyncData(AuthState(status: current.status, user: user));
+  }
+
   Future<FirebaseSignInOutcome> _runFirebaseSignIn(
     Future<FirebaseSignInOutcome> Function() action,
   ) async {

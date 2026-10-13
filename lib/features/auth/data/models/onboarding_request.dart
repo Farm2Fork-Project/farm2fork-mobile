@@ -39,15 +39,47 @@ sealed class OnboardingRequest {
     required this.credential,
     required this.cnic,
     this.phone,
+    this.fullName,
   });
 
   final OnboardingCredential credential;
   final String cnic;
+
+  /// E.164, already normalised by the form.
   final String? phone;
+
+  /// Not part of the onboarding DTOs; saved with PATCH /auth/me/profile once
+  /// the account exists (see ApiAuthRepository.completeOnboarding).
+  final String? fullName;
 
   OnboardingRole get role;
 
   Map<String, dynamic> toProfileJson();
+}
+
+/// A farm's pickup address and map pin, as the onboarding DTO expects it.
+class FarmLocationInput {
+  const FarmLocationInput({
+    required this.address,
+    required this.city,
+    required this.province,
+    required this.lat,
+    required this.lng,
+  });
+
+  final String address;
+  final String city;
+  final String province;
+  final double lat;
+  final double lng;
+
+  Map<String, dynamic> toJson() => {
+    'address': address,
+    'city': city,
+    'province': province,
+    'lat': lat,
+    'lng': lng,
+  };
 }
 
 class FarmerOnboardingRequest extends OnboardingRequest {
@@ -55,7 +87,9 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.farmName,
+    this.farmLocation,
     this.cropTypes = const [],
     this.landSizeAcres,
     this.bankName,
@@ -64,6 +98,10 @@ class FarmerOnboardingRequest extends OnboardingRequest {
   });
 
   final String farmName;
+
+  /// Required by the backend's farmer onboarding DTO (address, city, province,
+  /// lat, lng inside Pakistan); the sign-up flow always supplies it.
+  final FarmLocationInput? farmLocation;
   final List<String> cropTypes;
   final double? landSizeAcres;
   final String? bankName;
@@ -78,6 +116,7 @@ class FarmerOnboardingRequest extends OnboardingRequest {
     final hasBank = (bankName ?? bankAccountNumber ?? bankAccountTitle) != null;
     return {
       'farmName': farmName,
+      if (farmLocation != null) 'farmLocation': farmLocation!.toJson(),
       'cnic': cnic,
       if (cropTypes.isNotEmpty) 'cropTypes': cropTypes,
       if (landSizeAcres != null) 'landSizeAcres': landSizeAcres,
@@ -96,6 +135,7 @@ class BuyerOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.businessName,
     required this.businessType,
     this.addresses = const [],
@@ -124,6 +164,7 @@ class TransporterOnboardingRequest extends OnboardingRequest {
     required super.credential,
     required super.cnic,
     super.phone,
+    super.fullName,
     required this.vehicleType,
     required this.vehicleNumber,
     required this.licenseNumber,

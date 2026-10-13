@@ -1279,4 +1279,286 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pushEmpty => 'No notifications yet.';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get saveChanges => 'Save changes';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get verifiedBadge => 'Verified';
+
+  @override
+  String get notVerifiedBadge => 'Not verified';
+
+  @override
+  String fieldOptional(String label) {
+    return '$label (optional)';
+  }
+
+  @override
+  String get loginTitle => 'Welcome back';
+
+  @override
+  String get loginSubtitle => 'Sign in to buy, sell or deliver fresh produce.';
+
+  @override
+  String get authOrUseEmail => 'or use email';
+
+  @override
+  String get loginPasswordRequired => 'Enter your password';
+
+  @override
+  String onboardingStepLabel(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get onboardingRoleTitle => 'How will you use Farm2Fork?';
+
+  @override
+  String get onboardingRoleSubtitle =>
+      'Choose the role that fits you. It sets up the right tools.';
+
+  @override
+  String get onboardingAccountTitle => 'Create your sign-in';
+
+  @override
+  String get onboardingAccountSubtitle =>
+      'Use an email you can open. We\'ll send a verification link.';
+
+  @override
+  String get onboardingBuyerTitle => 'About you';
+
+  @override
+  String get onboardingBuyerSubtitle => 'Tell us who is buying.';
+
+  @override
+  String get onboardingFarmTitle => 'About you and your farm';
+
+  @override
+  String get onboardingFarmSubtitle =>
+      'Buyers see your farm name next to your produce.';
+
+  @override
+  String get onboardingVehicleTitle => 'About you and your vehicle';
+
+  @override
+  String get onboardingVehicleSubtitle =>
+      'Vehicle details help match you with deliveries.';
+
+  @override
+  String get onboardingPickupTitle => 'Where do you load produce?';
+
+  @override
+  String get onboardingPickupSubtitle =>
+      'Transporters collect from this address. You can change it later in Listings.';
+
+  @override
+  String get onboardingIdentityTitle => 'Your identity';
+
+  @override
+  String get onboardingIdentitySubtitle =>
+      'Your CNIC is only ever shown masked in the app.';
+
+  @override
+  String get onboardingSignedInWithGoogle => 'Signed in with Google';
+
+  @override
+  String get fullNameHint => 'The name you want shown on your profile';
+
+  @override
+  String get validationNameShort => 'Enter your full name (at least 2 letters)';
+
+  @override
+  String get businessIndividualNote =>
+      'Buying for yourself or your household. No business name needed.';
+
+  @override
+  String get validationAcres => 'Enter acres as a number, like 12.5';
+
+  @override
+  String get validationVehicleNumber =>
+      'Enter the number plate (3 to 20 characters)';
+
+  @override
+  String get cnicHint => '35202-1234567-1';
+
+  @override
+  String cnicDigitsProgress(int count) {
+    return '$count of 13 digits';
+  }
+
+  @override
+  String get cnicComplete => '13 digits entered';
+
+  @override
+  String get phoneHint => '0300 1234567';
+
+  @override
+  String phoneSavedAs(String number) {
+    return 'Saved as $number';
+  }
+
+  @override
+  String get validationPhoneInvalid =>
+      'Enter a valid phone number, like 0300 1234567';
+
+  @override
+  String get passwordRuleHint =>
+      'At least 8 characters. Mix letters and numbers to make it stronger.';
+
+  @override
+  String get passwordStrengthWeak => 'Weak';
+
+  @override
+  String get passwordStrengthFair => 'Okay';
+
+  @override
+  String get passwordStrengthStrong => 'Strong';
+
+  @override
+  String passwordStrengthIs(String strength) {
+    return 'Password strength: $strength';
+  }
+
+  @override
+  String get provincePunjab => 'Punjab';
+
+  @override
+  String get provinceSindh => 'Sindh';
+
+  @override
+  String get provinceKhyberPakhtunkhwa => 'Khyber Pakhtunkhwa';
+
+  @override
+  String get provinceBalochistan => 'Balochistan';
+
+  @override
+  String get provinceGilgitBaltistan => 'Gilgit-Baltistan';
+
+  @override
+  String get provinceAzadKashmir => 'Azad Jammu and Kashmir';
+
+  @override
+  String get provinceIslamabad => 'Islamabad Capital Territory';
+
+  @override
+  String verifyResendIn(int seconds) {
+    return 'Resend email in ${seconds}s';
+  }
+
+  @override
+  String get verifyCheckSpam =>
+      'Can\'t find it? Check your spam or junk folder.';
+
+  @override
+  String get verifyUseDifferentEmail => 'Use a different email';
+
+  @override
+  String get profileSectionAccount => 'Account';
+
+  @override
+  String get profileSectionPreferences => 'Preferences';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get profileLoadFailed =>
+      'Couldn\'t load your profile. Check your connection and try again.';
+
+  @override
+  String get profileSectionPersonal => 'Personal details';
+
+  @override
+  String get profileSectionBusiness => 'Business';
+
+  @override
+  String get profileSectionFarm => 'Farm';
+
+  @override
+  String get profileSectionVehicle => 'Vehicle';
+
+  @override
+  String get profileSectionIdentity => 'Sign-in and identity';
+
+  @override
+  String get profileIdentityLocked =>
+      'These can\'t be changed in the app. Contact support if something is wrong.';
+
+  @override
+  String get profileFarmLocationNotSet => 'Not set yet';
+
+  @override
+  String get profileSaved => 'Profile updated.';
+
+  @override
+  String get profileSaveFailed =>
+      'Couldn\'t save your changes. Check your connection and try again.';
+
+  @override
+  String profileFieldRejected(String field) {
+    return '“$field” was not accepted. Check it and try again.';
+  }
+
+  @override
+  String get discardChangesTitle => 'Discard changes?';
+
+  @override
+  String get discardChangesMessage =>
+      'You have unsaved changes. If you leave now, they\'ll be lost.';
+
+  @override
+  String get discardChanges => 'Discard';
+
+  @override
+  String get keepEditing => 'Keep editing';
+
+  @override
+  String get profilePhotoChange => 'Change photo';
+
+  @override
+  String get profilePhotoAdd => 'Add photo';
+
+  @override
+  String get profilePhotoRemove => 'Remove photo';
+
+  @override
+  String get profilePhotoGallery => 'Choose from gallery';
+
+  @override
+  String get profilePhotoCamera => 'Take a photo';
+
+  @override
+  String get profilePhotoCropTitle => 'Crop photo';
+
+  @override
+  String get profilePhotoUploading => 'Uploading photo…';
+
+  @override
+  String get profilePhotoUpdated => 'Photo updated.';
+
+  @override
+  String get profilePhotoRemoved => 'Photo removed.';
+
+  @override
+  String get profilePhotoFailed =>
+      'Couldn\'t update your photo. Check your connection and try again.';
+
+  @override
+  String get profilePhotoPickFailed =>
+      'Couldn\'t open your photos or camera. Check the app\'s permissions in Settings.';
+
+  @override
+  String profilePhotoOf(String name) {
+    return 'Profile photo of $name';
+  }
 }
