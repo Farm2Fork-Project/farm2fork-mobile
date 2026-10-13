@@ -10,17 +10,15 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/buyer_onboarding_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/email_verification_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/farmer_onboarding_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/guest_account_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/login_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/onboarding_role_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/transporter_onboarding_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/onboarding_flow_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/cart_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/checkout_screen.dart';
 import 'package:farm2fork_mobile/features/feed/presentation/screens/feed_screen.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_edit_screen.dart';
 import 'package:farm2fork_mobile/features/finance/presentation/screens/loans_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/listings_screen.dart';
@@ -28,6 +26,7 @@ import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marke
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
 import 'package:farm2fork_mobile/features/payments/presentation/screens/payment_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/notification_settings_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/language_display_screen.dart';
@@ -110,21 +109,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/auth/onboarding',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, _) => const OnboardingRoleScreen(),
-        routes: [
-          GoRoute(
-            path: 'farmer',
-            builder: (_, _) => const FarmerOnboardingScreen(),
-          ),
-          GoRoute(
-            path: 'buyer',
-            builder: (_, _) => const BuyerOnboardingScreen(),
-          ),
-          GoRoute(
-            path: 'transporter',
-            builder: (_, _) => const TransporterOnboardingScreen(),
-          ),
-        ],
+        builder: (_, _) => const OnboardingFlowScreen(),
       ),
       GoRoute(
         path: '/marketplace/products/:id',
@@ -200,6 +185,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               state.extra as LocationPickerArgs? ??
               const LocationPickerArgs(purpose: LocationPickerPurpose.dropoff),
         ),
+      ),
+      GoRoute(
+        path: '/settings/farm-location',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FarmLocationEditScreen(),
+      ),
+      GoRoute(
+        path: '/settings/profile',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const EditProfileScreen(),
       ),
       GoRoute(
         path: '/settings/notifications',

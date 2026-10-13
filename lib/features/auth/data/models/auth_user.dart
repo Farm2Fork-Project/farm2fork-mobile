@@ -15,6 +15,9 @@ class AuthUser {
     required this.role,
     required this.isVerified,
     required this.isActive,
+    this.fullName,
+    this.avatarUrl,
+    this.phone,
   });
 
   final String id;
@@ -22,6 +25,40 @@ class AuthUser {
   final AppUserRole role;
   final bool isVerified;
   final bool isActive;
+
+  /// The person's own name, when they have given one.
+  final String? fullName;
+
+  /// Cloudinary delivery URL (256px square) built by the backend.
+  final String? avatarUrl;
+  final String? phone;
+
+  /// What to call this person in the UI: their name, else the part of the
+  /// email before the `@`.
+  String get displayName {
+    final name = fullName?.trim();
+    if (name != null && name.isNotEmpty) return name;
+    final at = email.indexOf('@');
+    return at > 0 ? email.substring(0, at) : email;
+  }
+
+  AuthUser copyWith({
+    String? fullName,
+    String? avatarUrl,
+    String? phone,
+    bool clearAvatar = false,
+  }) {
+    return AuthUser(
+      id: id,
+      email: email,
+      role: role,
+      isVerified: isVerified,
+      isActive: isActive,
+      fullName: fullName ?? this.fullName,
+      avatarUrl: clearAvatar ? null : (avatarUrl ?? this.avatarUrl),
+      phone: phone ?? this.phone,
+    );
+  }
 
   static AppUserRole roleFromBackend(String value) {
     return switch (value) {

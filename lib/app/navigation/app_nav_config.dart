@@ -126,10 +126,14 @@ abstract final class AppNavConfig {
         location.startsWith('/guest') ||
         location.startsWith('/marketplace/products/') ||
         location.startsWith('/trace/products/') ||
-        location.startsWith('/settings/') ||
+        (location.startsWith('/settings/') && !_isAccountSettings(location)) ||
         // Farmer onboarding pins the farm before the backend session exists.
         location == '/pick-location';
   }
+
+  // Settings pages that need a signed-in account (guests are sent away).
+  static bool _isAccountSettings(String location) =>
+      location == '/settings/profile';
 
   static bool canAccessRouteForRole({
     required AppUserRole role,
@@ -146,6 +150,8 @@ abstract final class AppNavConfig {
           role == AppUserRole.buyer ||
           role == AppUserRole.financialPartner;
     }
+    // Settings, profile editing and help pages are shared by every role.
+    if (location.startsWith('/settings/')) return true;
     if (role == AppUserRole.buyer &&
         (location == '/checkout' || location == '/payments')) {
       return true;
