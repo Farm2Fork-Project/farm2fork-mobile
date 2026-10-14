@@ -335,6 +335,7 @@ class _CartItemRow extends StatelessWidget {
               AppIconCircleButton(
                 icon: Icons.add_rounded,
                 onTap: onIncrement,
+                enabled: item.quantity < item.product.quantity.floor(),
                 visibleSize: 26,
               ),
             ],

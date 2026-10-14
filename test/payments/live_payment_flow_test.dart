@@ -150,7 +150,12 @@ void main() {
       final resumedUrl = Uri.parse(
         resumed.payments[orders.first]!.checkoutUrl!,
       );
-      expect(resumedUrl.queryParameters['order_id'], orders.first);
+      expect(
+        Uri.parse(
+          resumedUrl.queryParameters['redirect_url']!,
+        ).queryParameters['mobileOrderId'],
+        orders.first,
+      );
       expect(resumedUrl.queryParameters['tracker'], isNot(tracker));
       await expectLater(
         other.post(

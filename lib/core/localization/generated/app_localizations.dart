@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// Confirmation dialog message before deleting a farmer's product listing
   ///
   /// In en, this message translates to:
-  /// **'This removes the listing from the marketplace. This can\'t be undone.'**
+  /// **'This removes the product from the marketplace. Your listing and history are kept. You can show it again.'**
   String get deleteListingConfirmMessage;
 
   /// Label for farmer/product rating
@@ -4087,6 +4087,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This grade is a model suggestion. Review it before choosing to use it.'**
   String get aiGradeAdvisory;
+
+  /// No description provided for @editListingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit listing'**
+  String get editListingTitle;
+
+  /// No description provided for @listingEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get listingEdit;
+
+  /// No description provided for @listingUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing updated'**
+  String get listingUpdated;
+
+  /// No description provided for @listingActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save this change. Please try again.'**
+  String get listingActionFailed;
+
+  /// No description provided for @listingPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Product photos'**
+  String get listingPhotos;
+
+  /// No description provided for @listingPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4 JPEG, PNG or WebP photos, 5 MB each. The first photo is the cover.'**
+  String get listingPhotosHint;
+
+  /// No description provided for @listingAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get listingAddPhoto;
+
+  /// No description provided for @listingPhotoError.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a JPEG, PNG or WebP photo under 5 MB. Check photo access and try again.'**
+  String get listingPhotoError;
+
+  /// No description provided for @listingUseCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Use as cover'**
+  String get listingUseCover;
+
+  /// No description provided for @cancelUnpaidOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel unpaid order'**
+  String get cancelUnpaidOrder;
+
+  /// No description provided for @cancelUnpaidOrderConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this unpaid draft order? No payment has been started.'**
+  String get cancelUnpaidOrderConfirm;
+
+  /// No description provided for @orderCancelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not cancel this order. Refresh its status; a started payment must be handled through support.'**
+  String get orderCancelFailed;
 }
 
 class _AppLocalizationsDelegate

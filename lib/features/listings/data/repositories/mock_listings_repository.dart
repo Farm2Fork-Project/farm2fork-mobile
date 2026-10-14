@@ -34,7 +34,7 @@ class MockListingsRepository implements ListingsRepository {
       price: listing.price,
       quantity: listing.quantity,
       unit: listing.unit,
-      images: const [],
+      images: listing.images,
       qualityGrade: listing.qualityGrade,
       status: ProductStatus.active,
       // Reuse the mock farmer's own summary instead of inventing one.
@@ -49,6 +49,33 @@ class MockListingsRepository implements ListingsRepository {
     );
     mockProducts.insert(0, product);
     return product;
+  }
+
+  @override
+  Future<List<String>> uploadPhotos(List<ListingPhoto> photos) async => photos
+      .map(
+        (photo) =>
+            Uri.dataFromBytes(photo.bytes, mimeType: photo.mimeType).toString(),
+      )
+      .toList();
+
+  @override
+  Future<Product> updateListing(String productId, NewListing listing) async {
+    final index = mockProducts.indexWhere((p) => p.id == productId);
+    if (index == -1) throw StateError('Product not found');
+    final updated = mockProducts[index].copyWith(
+      name: listing.name,
+      category: listing.category,
+      description: listing.description,
+      price: listing.price,
+      quantity: listing.quantity,
+      unit: listing.unit,
+      qualityGrade: listing.qualityGrade,
+      images: listing.images,
+      status: listing.status ?? mockProducts[index].status,
+    );
+    mockProducts[index] = updated;
+    return updated;
   }
 
   @override
@@ -67,6 +94,10 @@ class MockListingsRepository implements ListingsRepository {
   @override
   Future<void> deleteListing(String productId) async {
     await Future<void>.delayed(const Duration(milliseconds: 250));
-    mockProducts.removeWhere((p) => p.id == productId);
+    final index = mockProducts.indexWhere((product) => product.id == productId);
+    if (index == -1) throw StateError("Product not found");
+    mockProducts[index] = mockProducts[index].copyWith(
+      status: ProductStatus.inactive,
+    );
   }
 }

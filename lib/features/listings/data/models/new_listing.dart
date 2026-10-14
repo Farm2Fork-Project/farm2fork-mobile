@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 
@@ -12,6 +13,9 @@ class NewListing {
     required this.quantity,
     required this.unit,
     required this.qualityGrade,
+    this.images = const [],
+    this.status,
+    this.original,
   });
 
   final String name;
@@ -21,4 +25,18 @@ class NewListing {
   final double quantity;
   final ProductUnit unit;
   final QualityGrade qualityGrade;
+  final List<String> images;
+  final ProductStatus? status;
+  final Product? original;
+}
+
+class ListingPhoto {
+  const ListingPhoto({
+    required this.bytes,
+    required this.filename,
+    required this.mimeType,
+  });
+  final Uint8List bytes;
+  final String filename;
+  final String mimeType;
 }

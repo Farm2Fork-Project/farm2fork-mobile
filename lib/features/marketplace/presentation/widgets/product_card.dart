@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/widgets/product_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -169,7 +170,7 @@ class _ProductImage extends StatelessWidget {
       height: 112,
       width: double.infinity,
       child: images.isNotEmpty
-          ? Image.network(images.first, fit: BoxFit.cover)
+          ? ProductPhoto(url: images.first)
           : Container(
               color: AppColors.primaryGreenSoft,
               child: const Icon(

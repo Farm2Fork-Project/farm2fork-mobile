@@ -34,19 +34,27 @@ class OrdersController extends AsyncNotifier<List<Order>> {
     });
   }
 
-  Future<void> updateStatus(String orderId, OrderStatus status) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) {
-        throw Exception('Unauthorized');
-      }
-      final repository = ref.read(ordersRepositoryProvider);
-      await repository.updateOrderStatus(orderId, status);
-      return repository.getOrdersByUser(
-        userId: authState.user!.id,
-        role: authState.user!.role,
-      );
-    });
+  bool _mutating = false;
+  Future<bool> updateStatus(String orderId, OrderStatus status) async {
+    if (_mutating) return false;
+    final authState = ref.read(authControllerProvider).asData?.value;
+    if (authState?.user == null) return false;
+    _mutating = true;
+    final previous = state;
+    try {
+      final updated = await ref
+          .read(ordersRepositoryProvider)
+          .updateOrderStatus(orderId, status);
+      state = AsyncData([
+        for (final order in previous.asData?.value ?? <Order>[])
+          if (order.id == orderId) updated else order,
+      ]);
+      return true;
+    } catch (_) {
+      state = previous;
+      return false;
+    } finally {
+      _mutating = false;
+    }
   }
 }

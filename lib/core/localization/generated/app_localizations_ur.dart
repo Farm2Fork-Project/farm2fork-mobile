@@ -617,7 +617,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get deleteListingConfirmMessage =>
-      'اس سے یہ لسٹنگ مارکیٹ پلیس سے ہٹ جائے گی۔ یہ عمل واپس نہیں ہو سکتا۔';
+      'اس سے پیداوار مارکیٹ سے ہٹ جائے گی۔ فہرست اور سابقہ ریکارڈ محفوظ رہیں گے۔ آپ اسے دوبارہ دکھا سکتے ہیں۔';
 
   @override
   String get rating => 'درجہ بندی';
@@ -2288,4 +2288,45 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get aiGradeAdvisory =>
       'یہ گریڈ ماڈل کی تجویز ہے۔ اسے استعمال کرنے سے پہلے جائزہ لیں۔';
+
+  @override
+  String get editListingTitle => 'پیداوار میں ترمیم';
+
+  @override
+  String get listingEdit => 'ترمیم کریں';
+
+  @override
+  String get listingUpdated => 'پیداوار کی تفصیلات محفوظ ہو گئیں';
+
+  @override
+  String get listingActionFailed =>
+      'تبدیلی محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get listingPhotos => 'پیداوار کی تصاویر';
+
+  @override
+  String get listingPhotosHint =>
+      'زیادہ سے زیادہ ۴ JPEG، PNG یا WebP تصاویر، ہر ایک ۵ MB تک۔ پہلی تصویر مرکزی تصویر ہے۔';
+
+  @override
+  String get listingAddPhoto => 'تصویر شامل کریں';
+
+  @override
+  String get listingPhotoError =>
+      '۵ MB سے کم JPEG، PNG یا WebP تصویر منتخب کریں۔ تصاویر تک رسائی چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get listingUseCover => 'مرکزی تصویر بنائیں';
+
+  @override
+  String get cancelUnpaidOrder => 'غیر ادا شدہ آرڈر منسوخ کریں';
+
+  @override
+  String get cancelUnpaidOrderConfirm =>
+      'یہ غیر ادا شدہ آرڈر منسوخ کریں؟ ابھی ادائیگی شروع نہیں ہوئی۔';
+
+  @override
+  String get orderCancelFailed =>
+      'آرڈر منسوخ نہیں ہو سکا۔ صورتحال تازہ کریں؛ شروع شدہ ادائیگی کے لیے معاونت سے رابطہ کریں۔';
 }

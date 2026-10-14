@@ -540,7 +540,7 @@
   "deleteListingConfirmTitle": "Delete listing?",
   "@deleteListingConfirmTitle": { "description": "Confirmation dialog title before deleting a farmer's product listing" },
 
-  "deleteListingConfirmMessage": "This removes the listing from the marketplace. This can't be undone.",
+  "deleteListingConfirmMessage": "This removes the product from the marketplace. Your listing and history are kept. You can show it again.",
   "@deleteListingConfirmMessage": { "description": "Confirmation dialog message before deleting a farmer's product listing" },
 
   "rating": "Rating",
@@ -1690,5 +1690,17 @@
   "@profilePhotoOf": {"description": "Accessibility label of an avatar", "placeholders": {"name": {"type": "String"}}},
   "cropOther": "Other",
   "aiOtherCropNoGrading": "AI grading is not available for this crop. You can still list it and choose a quality grade manually.",
-  "aiGradeAdvisory": "This grade is a model suggestion. Review it before choosing to use it."
+  "aiGradeAdvisory": "This grade is a model suggestion. Review it before choosing to use it.",
+  "editListingTitle": "Edit listing",
+  "listingEdit": "Edit",
+  "listingUpdated": "Listing updated",
+  "listingActionFailed": "Could not save this change. Please try again.",
+  "listingPhotos": "Product photos",
+  "listingPhotosHint": "Up to 4 JPEG, PNG or WebP photos, 5 MB each. The first photo is the cover.",
+  "listingAddPhoto": "Add photo",
+  "listingPhotoError": "Choose a JPEG, PNG or WebP photo under 5 MB. Check photo access and try again.",
+  "listingUseCover": "Use as cover",
+  "cancelUnpaidOrder": "Cancel unpaid order",
+  "cancelUnpaidOrderConfirm": "Cancel this unpaid draft order? No payment has been started.",
+  "orderCancelFailed": "Could not cancel this order. Refresh its status; a started payment must be handled through support."
 }

@@ -35,6 +35,8 @@ class ListingsController extends AsyncNotifier<List<Product>> {
   /// Publishes a listing. Returns whether it succeeded; on failure the
   /// previously loaded listings are kept (not replaced by an error state), so
   /// the create screen can keep the farmer's form and explain what happened.
+  bool _mutating = false;
+
   Future<bool> addListing({
     required String name,
     required ProductCategory category,
@@ -43,64 +45,99 @@ class ListingsController extends AsyncNotifier<List<Product>> {
     required double quantity,
     required ProductUnit unit,
     required QualityGrade qualityGrade,
+    List<String> images = const [],
+    String? productId,
+    ProductStatus? status,
+    Product? original,
   }) async {
     final authState = ref.read(authControllerProvider).asData?.value;
     if (authState == null || authState.user == null) return false;
 
+    if (_mutating) return false;
+    _mutating = true;
     final previous = state;
-    state = const AsyncLoading();
     try {
       final repository = ref.read(listingsRepositoryProvider);
       final farmerId = authState.user!.id;
-      await repository.createListing(
-        farmerId,
-        NewListing(
-          name: name,
-          category: category,
-          description: description,
-          price: price,
-          quantity: quantity,
-          unit: unit,
-          qualityGrade: qualityGrade,
-        ),
+      final draft = NewListing(
+        name: name,
+        category: category,
+        description: description,
+        price: price,
+        quantity: quantity,
+        unit: unit,
+        qualityGrade: qualityGrade,
+        images: images,
+        status: status,
+        original: original,
       );
-      state = AsyncData(await repository.getFarmerListings(farmerId));
+      final product = productId == null
+          ? await repository.createListing(farmerId, draft)
+          : await repository.updateListing(productId, draft);
+      final current = previous.asData?.value ?? [];
+      state = AsyncData(
+        productId == null
+            ? [product, ...current]
+            : [
+                for (final item in current)
+                  if (item.id == product.id) product else item,
+              ],
+      );
       return true;
     } catch (_) {
       state = previous;
       return false;
+    } finally {
+      _mutating = false;
     }
   }
 
-  Future<void> toggleStatus(
+  Future<bool> toggleStatus(
     String productId,
     ProductStatus currentStatus,
   ) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) {
-        throw Exception('Unauthorized');
-      }
-      final repository = ref.read(listingsRepositoryProvider);
+    if (_mutating) return false;
+    _mutating = true;
+    final previous = state;
+    try {
       final nextStatus = currentStatus == ProductStatus.active
           ? ProductStatus.inactive
           : ProductStatus.active;
-      await repository.updateListingStatus(productId, nextStatus);
-      return repository.getFarmerListings(authState.user!.id);
-    });
+      final updated = await ref
+          .read(listingsRepositoryProvider)
+          .updateListingStatus(productId, nextStatus);
+      state = AsyncData([
+        for (final product in previous.asData?.value ?? <Product>[])
+          if (product.id == productId) updated else product,
+      ]);
+      return true;
+    } catch (_) {
+      state = previous;
+      return false;
+    } finally {
+      _mutating = false;
+    }
   }
 
-  Future<void> deleteProduct(String productId) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final authState = ref.read(authControllerProvider).asData?.value;
-      if (authState == null || authState.user == null) {
-        throw Exception('Unauthorized');
-      }
-      final repository = ref.read(listingsRepositoryProvider);
-      await repository.deleteListing(productId);
-      return repository.getFarmerListings(authState.user!.id);
-    });
+  Future<bool> deleteProduct(String productId) async {
+    if (_mutating) return false;
+    _mutating = true;
+    final previous = state;
+    try {
+      await ref.read(listingsRepositoryProvider).deleteListing(productId);
+      state = AsyncData([
+        for (final product in previous.asData?.value ?? <Product>[])
+          if (product.id == productId)
+            product.copyWith(status: ProductStatus.inactive)
+          else
+            product,
+      ]);
+      return true;
+    } catch (_) {
+      state = previous;
+      return false;
+    } finally {
+      _mutating = false;
+    }
   }
 }

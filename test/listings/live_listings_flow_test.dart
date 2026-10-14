@@ -76,6 +76,32 @@ void main() {
         buyerListings.createListing(farmerId, draft),
         forbidden,
       );
+      final edited = NewListing(
+        name: draft.name,
+        category: draft.category,
+        description: 'Updated harvest',
+        price: 350,
+        quantity: 12,
+        unit: draft.unit,
+        qualityGrade: QualityGrade.a,
+      );
+      await expectLater(
+        foreignListings.updateListing(saved.id, edited),
+        forbidden,
+      );
+      await expectLater(
+        buyerListings.updateListing(saved.id, edited),
+        forbidden,
+      );
+      final changed = await listings.updateListing(saved.id, edited);
+      expect(changed.id, saved.id);
+      expect((await fresh.getFarmerListings(farmerId)).single.price, 350);
+      final buyerView = (await marketplace.searchProducts(
+        'E2E Mangoes',
+      )).single;
+      expect(buyerView.quantity, 12);
+      expect(buyerView.description, 'Updated harvest');
+      expect(buyerView.qualityGrade, QualityGrade.a);
       await listings.updateListingStatus(saved.id, ProductStatus.inactive);
       expect(await marketplace.searchProducts('E2E Mangoes'), isEmpty);
       await listings.updateListingStatus(saved.id, ProductStatus.active);

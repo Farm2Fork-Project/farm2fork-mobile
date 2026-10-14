@@ -53,13 +53,18 @@ class ApiOrdersRepository implements OrdersRepository {
   }) async {
     // The backend scopes orders by the authenticated caller's role/id, so the
     // userId/role args are not sent — they're satisfied by the JWT.
-    final body = await _api.fetchOrders();
-    final data = body['data'];
-    if (data is! List) return const [];
-    return data
-        .whereType<Map<String, dynamic>>()
-        .map(_orderFromDto)
-        .toList(growable: false);
+    final orders = <Order>[];
+    var page = 1;
+    var totalPages = 1;
+    do {
+      final body = await _api.fetchOrders(page: page);
+      final data = body['data'];
+      if (data is! List) throw const FormatException('Invalid orders response');
+      orders.addAll(data.cast<Map<String, dynamic>>().map(_orderFromDto));
+      totalPages = (body['totalPages'] as num?)?.toInt() ?? 1;
+      page++;
+    } while (page <= totalPages);
+    return orders;
   }
 
   @override
@@ -86,6 +91,7 @@ class ApiOrdersRepository implements OrdersRepository {
       grandTotal: _toDouble(dto['grandTotal']),
       shippingAddress: _address(dto['shippingAddress']),
       status: _statusFromString(dto['status'] as String?),
+      canCancel: dto['canCancel'] == true,
       paymentId: dto['paymentId'] as String?,
       shipmentId: dto['shipmentId'] as String?,
       createdAt: _toDate(dto['createdAt']),

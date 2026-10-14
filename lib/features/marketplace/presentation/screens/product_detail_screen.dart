@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/widgets/product_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
@@ -126,7 +127,7 @@ class _ProductDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAvailable = product.status == ProductStatus.active;
+    final isAvailable = product.status == ProductStatus.active && product.quantity >= 1;
     final locale = Localizations.localeOf(context);
 
     return CustomScrollView(
@@ -152,7 +153,7 @@ class _ProductDetailBody extends StatelessWidget {
           ),
           flexibleSpace: FlexibleSpaceBar(
             background: product.images.isNotEmpty
-                ? Image.network(product.images.first, fit: BoxFit.cover)
+                ? ProductPhoto(url: product.images.first, label: product.name)
                 : Container(
                     color: AppColors.primaryGreenSoft,
                     child: const Icon(
@@ -259,6 +260,7 @@ class _ProductDetailBody extends StatelessWidget {
                         ),
                         _QuantitySelector(
                           quantity: quantity,
+                          maximum: product.quantity.floor(),
                           onIncrement: onIncrement,
                           onDecrement: onDecrement,
                         ),
@@ -469,10 +471,12 @@ class _FarmerCard extends StatelessWidget {
 class _QuantitySelector extends StatelessWidget {
   const _QuantitySelector({
     required this.quantity,
+    required this.maximum,
     required this.onIncrement,
     required this.onDecrement,
   });
   final int quantity;
+  final int maximum;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
 
@@ -497,6 +501,7 @@ class _QuantitySelector extends StatelessWidget {
         AppIconCircleButton(
           icon: Icons.add_rounded,
           onTap: onIncrement,
+          enabled: quantity < maximum,
           visibleSize: 40,
         ),
       ],

@@ -59,7 +59,15 @@ final productsProvider = FutureProvider.autoDispose<List<Product>>((ref) {
   final query = ref.watch(searchQueryProvider).trim();
 
   if (query.isNotEmpty) {
-    return repo.searchProducts(query);
+    return repo
+        .searchProducts(query)
+        .then(
+          (products) => category == null
+              ? products
+              : products
+                    .where((product) => product.category == category)
+                    .toList(),
+        );
   }
   return repo.getProducts(category: category);
 });

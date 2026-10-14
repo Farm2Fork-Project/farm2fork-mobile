@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../models/new_listing.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 
 /// Raw transport over the farmer-only `/products` write endpoints and
@@ -22,6 +23,26 @@ class ListingsApiService {
   /// POST /products - also records the listing's first ledger event.
   Future<Map<String, dynamic>> create(Map<String, dynamic> body) =>
       _unwrap(() => _dio.post<Map<String, dynamic>>('/products', data: body));
+
+  Future<List<String>> uploadPhotos(List<ListingPhoto> photos) async {
+    final data = await _unwrap(
+      () => _dio.post<Map<String, dynamic>>(
+        '/products/images',
+        data: FormData.fromMap({
+          'images': photos
+              .map(
+                (photo) => MultipartFile.fromBytes(
+                  photo.bytes,
+                  filename: photo.filename,
+                  contentType: DioMediaType.parse(photo.mimeType),
+                ),
+              )
+              .toList(),
+        }),
+      ),
+    );
+    return (data['urls'] as List).cast<String>();
+  }
 
   /// PATCH /products/:id
   Future<Map<String, dynamic>> update(

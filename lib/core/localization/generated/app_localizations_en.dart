@@ -617,7 +617,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteListingConfirmMessage =>
-      'This removes the listing from the marketplace. This can\'t be undone.';
+      'This removes the product from the marketplace. Your listing and history are kept. You can show it again.';
 
   @override
   String get rating => 'Rating';
@@ -2308,4 +2308,45 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiGradeAdvisory =>
       'This grade is a model suggestion. Review it before choosing to use it.';
+
+  @override
+  String get editListingTitle => 'Edit listing';
+
+  @override
+  String get listingEdit => 'Edit';
+
+  @override
+  String get listingUpdated => 'Listing updated';
+
+  @override
+  String get listingActionFailed =>
+      'Could not save this change. Please try again.';
+
+  @override
+  String get listingPhotos => 'Product photos';
+
+  @override
+  String get listingPhotosHint =>
+      'Up to 4 JPEG, PNG or WebP photos, 5 MB each. The first photo is the cover.';
+
+  @override
+  String get listingAddPhoto => 'Add photo';
+
+  @override
+  String get listingPhotoError =>
+      'Choose a JPEG, PNG or WebP photo under 5 MB. Check photo access and try again.';
+
+  @override
+  String get listingUseCover => 'Use as cover';
+
+  @override
+  String get cancelUnpaidOrder => 'Cancel unpaid order';
+
+  @override
+  String get cancelUnpaidOrderConfirm =>
+      'Cancel this unpaid draft order? No payment has been started.';
+
+  @override
+  String get orderCancelFailed =>
+      'Could not cancel this order. Refresh its status; a started payment must be handled through support.';
 }

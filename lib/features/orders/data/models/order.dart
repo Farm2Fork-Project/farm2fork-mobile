@@ -55,6 +55,7 @@ abstract class Order with _$Order {
     required double grandTotal,
     required OrderAddress shippingAddress,
     required OrderStatus status,
+    @Default(false) bool canCancel,
     String? paymentId,
     String? shipmentId,
     required DateTime createdAt,

@@ -121,7 +121,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+    if (ref.read(checkoutControllerProvider).isLoading ||
+        !(_formKey.currentState?.validate() ?? false)) {
+      return;
+    }
 
     final groups = ref
         .read(farmerCartGroupsProvider)
@@ -183,7 +186,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final groups = widget.farmerId == null
         ? allGroups
         : allGroups.where((g) => g.farmerId == widget.farmerId).toList();
-    final quoted = _quotedKey == _key(groups);
+    final quoted =
+        _quotedKey == _key(groups) &&
+        groups.every((group) => _quotes[group.farmerId]?.hasValue == true);
     final isSubmitting = ref.watch(checkoutControllerProvider).isLoading;
     final locale = Localizations.localeOf(context);
 
@@ -222,13 +227,16 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               enabled: !isSubmitting,
                             ),
                             const SizedBox(height: AppSpacing.md),
-                            LocationPinField(
-                              purpose: LocationPickerPurpose.dropoff,
-                              initialValue: _dropoff,
-                              onChanged: (pin) {
-                                setState(() => _dropoff = pin);
-                                _refreshQuotes(groups);
-                              },
+                            AbsorbPointer(
+                              absorbing: isSubmitting,
+                              child: LocationPinField(
+                                purpose: LocationPickerPurpose.dropoff,
+                                initialValue: _dropoff,
+                                onChanged: (pin) {
+                                  setState(() => _dropoff = pin);
+                                  _refreshQuotes(groups);
+                                },
+                              ),
                             ),
                             const SizedBox(height: AppSpacing.xl),
                             SectionHeader(title: context.l10n.orderSummary),
