@@ -1,15 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/core/config/app_config.dart';
+import 'package:farm2fork_mobile/core/network/network_providers.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/repositories/api_marketplace_repository.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/repositories/marketplace_repository.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/repositories/mock_marketplace_repository.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/services/marketplace_api_service.dart';
 
 // ─── Repository Provider ─────────────────────────────────────────────────────
 
-/// Swap [MockMarketplaceRepository] for the real Dio implementation later.
-final marketplaceRepositoryProvider = Provider<MarketplaceRepository>(
-  (ref) => MockMarketplaceRepository(),
-);
+/// Resolves to the real Dio-backed repository, or the in-memory mock when
+/// [AppConfig.useMocks] is set (lets the app run without a live backend).
+final marketplaceRepositoryProvider = Provider<MarketplaceRepository>((ref) {
+  if (AppConfig.useMocks) {
+    return MockMarketplaceRepository();
+  }
+  final dio = ref.watch(dioProvider);
+  return ApiMarketplaceRepository(MarketplaceApiService(dio));
+});
 
 // ─── Active Category Filter ───────────────────────────────────────────────────
 

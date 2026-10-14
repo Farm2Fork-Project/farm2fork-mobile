@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "886626107303",
+    "project_id": "farm2fork-2a5b9",
+    "storage_bucket": "farm2fork-2a5b9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886626107303:android:b54e4ef35e46f436998082",
+        "android_client_info": {
+          "package_name": "com.farm2fork.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886626107303-sqk567983p5k6fe7v3u06soc69ejt8tb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farm2fork.app",
+            "certificate_hash": "b1c88a9df763f7c85bc1044b2f5da36857e27987"
+          }
+        },
+        {
+          "client_id": "886626107303-beetj4kr742o4hoir05hqkhoa8ku2gkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv-EKMygv7FalbcyNHbrI8BiMle1hnCs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886626107303-beetj4kr742o4hoir05hqkhoa8ku2gkh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "886626107303-i812hqv7bminose8da3943t881bonpds.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.farm2fork.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

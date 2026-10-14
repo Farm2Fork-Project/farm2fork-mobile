@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -9,7 +10,11 @@ import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
+import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/providers/marketplace_providers.dart';
@@ -35,18 +40,33 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authControllerProvider).asData?.value;
     final productAsync = ref.watch(productByIdProvider(widget.productId));
+
+    // The data case renders its own SliverAppBar (with a hero image and its
+    // own back button); loading/error/not-found have no sliver of their own,
+    // so give them a plain AppBar here instead of leaving the user stranded
+    // with no way back except the OS gesture.
+    final needsFallbackAppBar = productAsync.maybeWhen(
+      data: (product) => product == null,
+      orElse: () => true,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
+      appBar: needsFallbackAppBar
+          ? AppBar(backgroundColor: AppColors.backgroundLight, elevation: 0)
+          : null,
       body: productAsync.when(
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.primaryGreen),
         ),
-        error: (e, _) => Center(child: Text(context.l10n.errorOccurred)),
+        error: (e, _) => AppErrorState(
+          onRetry: () => ref.invalidate(productByIdProvider(widget.productId)),
+        ),
         data: (product) {
           if (product == null) {
-            return Center(child: Text(context.l10n.noDataFound));
+            return AppEmptyState(message: context.l10n.noDataFound);
           }
           return _ProductDetailBody(
             product: product,
@@ -54,6 +74,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             onIncrement: _increment,
             onDecrement: _decrement,
             onAddToCart: () {
+              if (authState?.isAuthenticated != true) {
+                showAuthRequiredSheet(
+                  context,
+                  message: context.l10n.loginToAddToCart,
+                );
+                return;
+              }
               ref
                   .read(cartControllerProvider.notifier)
                   .addItem(product, quantity: _quantity);
@@ -64,7 +91,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     style: AppTextStyles.small.copyWith(color: AppColors.white),
                   ),
                   backgroundColor: AppColors.primaryGreen,
-                  duration: const Duration(seconds: 1),
+                  duration: AppDurations.quickConfirmation,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.md),
@@ -214,8 +241,13 @@ class _ProductDetailBody extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
 
                 // ── Farmer Card ────────────────────────────────────────
-                _FarmerCard(product: product),
-                const SizedBox(height: AppSpacing.xl),
+                // Hidden when the farmer has no profile at all, instead of
+                // rendering "?" and an empty name.
+                if (product.farmer.name.isNotEmpty ||
+                    product.farmer.farmName.isNotEmpty) ...[
+                  _FarmerCard(product: product),
+                  const SizedBox(height: AppSpacing.xl),
+                ],
 
                 // ── Quantity Selector ──────────────────────────────────
                 if (isAvailable) ...[
@@ -244,6 +276,18 @@ class _ProductDetailBody extends StatelessWidget {
                   ),
                 ] else
                   _OutOfStockBanner(),
+                const SizedBox(height: AppSpacing.md),
+
+                // ── Provenance ─────────────────────────────────────────
+                AppButton(
+                  label: context.l10n.productViewJourney,
+                  icon: Icons.timeline_rounded,
+                  variant: AppButtonVariant.secondary,
+                  expand: true,
+                  onPressed: () => context.push(
+                    AppNavConfig.traceRouteForProduct(product.id),
+                  ),
+                ),
                 const SizedBox(height: AppSpacing.xxl),
               ],
             ),
@@ -313,6 +357,10 @@ class _FarmerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final farmer = product.farmer;
+    final title = farmer.name.isNotEmpty ? farmer.name : farmer.farmName;
+    // The live API has no ratings or sales history yet; show them only when
+    // present (mock data) rather than as "0.0" and "0 sales".
+    final hasStats = farmer.rating > 0 || farmer.totalSales > 0;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,7 +373,7 @@ class _FarmerCard extends StatelessWidget {
                 radius: 24,
                 backgroundColor: AppColors.primaryGreenSoft,
                 child: Text(
-                  farmer.name.isNotEmpty ? farmer.name[0].toUpperCase() : '?',
+                  title.isNotEmpty ? title[0].toUpperCase() : '?',
                   style: AppTextStyles.h2.copyWith(
                     color: AppColors.primaryGreen,
                   ),
@@ -337,73 +385,81 @@ class _FarmerCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      farmer.name,
+                      title,
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    if (farmer.name.isNotEmpty && farmer.farmName.isNotEmpty)
+                      Text(
+                        farmer.farmName,
+                        style: AppTextStyles.small.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              // Rating - only when the backend actually has one.
+              if (hasStats)
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 16,
+                      color: AppColors.accentYellow,
+                    ),
+                    const SizedBox(width: 2),
                     Text(
-                      farmer.farmName,
+                      farmer.rating.toStringAsFixed(1),
                       style: AppTextStyles.small.copyWith(
-                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
-              ),
-              // Rating
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star_rounded,
-                    size: 16,
-                    color: AppColors.accentYellow,
-                  ),
-                  const SizedBox(width: 2),
-                  Text(
-                    farmer.rating.toStringAsFixed(1),
-                    style: AppTextStyles.small.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              const Icon(
-                Icons.location_on_outlined,
-                size: 14,
-                color: AppColors.secondaryBlue,
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  farmer.farmLocationAddress,
+          if (farmer.farmLocationAddress.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              children: [
+                const Icon(
+                  Icons.location_on_outlined,
+                  size: 14,
+                  color: AppColors.secondaryBlue,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    farmer.farmLocationAddress,
+                    style: AppTextStyles.small.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          if (hasStats) ...[
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                const Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 14,
+                  color: AppColors.primaryGreen,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  context.l10n.totalSales(farmer.totalSales),
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.textMuted,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              const Icon(
-                Icons.shopping_bag_outlined,
-                size: 14,
-                color: AppColors.primaryGreen,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                context.l10n.totalSales(farmer.totalSales),
-                style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ],
       ),
     );
@@ -425,10 +481,11 @@ class _QuantitySelector extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _QBtn(
+        AppIconCircleButton(
           icon: Icons.remove_rounded,
           onTap: onDecrement,
           enabled: quantity > 1,
+          visibleSize: 40,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
@@ -437,42 +494,12 @@ class _QuantitySelector extends StatelessWidget {
             style: AppTextStyles.h2.copyWith(color: AppColors.primaryGreen),
           ),
         ),
-        _QBtn(icon: Icons.add_rounded, onTap: onIncrement, enabled: true),
+        AppIconCircleButton(
+          icon: Icons.add_rounded,
+          onTap: onIncrement,
+          visibleSize: 40,
+        ),
       ],
-    );
-  }
-}
-
-class _QBtn extends StatelessWidget {
-  const _QBtn({required this.icon, required this.onTap, required this.enabled});
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: enabled ? AppColors.primaryGreenSoft : AppColors.surfaceMedium,
-          border: Border.all(
-            color: enabled
-                ? AppColors.primaryGreen.withValues(alpha: 0.5)
-                : AppColors.surfaceMedium,
-          ),
-        ),
-        child: Icon(
-          icon,
-          size: 20,
-          color: enabled
-              ? AppColors.primaryGreen
-              : AppColors.textDark.withValues(alpha: 0.3),
-        ),
-      ),
     );
   }
 }

@@ -27,10 +27,17 @@ class AppLocalizationsUr extends AppLocalizations {
   String get logout => 'لاگ آؤٹ';
 
   @override
+  String get logoutConfirmTitle => 'لاگ آؤٹ کریں؟';
+
+  @override
+  String get logoutConfirmMessage =>
+      'اپنے اکاؤنٹ تک رسائی کے لیے آپ کو دوبارہ سائن ان کرنا ہوگا۔';
+
+  @override
   String get welcome => 'خوش آمدید';
 
   @override
-  String get marketplace => 'مارکیٹ پلیس';
+  String get marketplace => 'منڈی';
 
   @override
   String get cart => 'کارٹ';
@@ -45,7 +52,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get settings => 'ترتیبات';
 
   @override
-  String get navHome => 'ہوم';
+  String get navHome => 'منڈی';
 
   @override
   String get navCart => 'کارٹ';
@@ -57,7 +64,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navProfile => 'پروفائل';
 
   @override
-  String get navListings => 'لسٹنگز';
+  String get navListings => 'فہرستیں';
 
   @override
   String get navCreateListing => 'بنائیں';
@@ -66,13 +73,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navTrace => 'ٹریس';
 
   @override
-  String get navShipments => 'شپمنٹس';
+  String get navShipments => 'تاریخچہ';
 
   @override
   String get navLoans => 'قرضے';
 
   @override
-  String get navFeed => 'فیڈ';
+  String get navFeed => 'کسان چوپال';
 
   @override
   String get errorOccurred => 'خرابی پیش آگئی ہے۔ براہ کرم دوبارہ کوشش کریں۔';
@@ -90,11 +97,11 @@ class AppLocalizationsUr extends AppLocalizations {
   String get featureComingSoon => 'جلد آ رہا ہے';
 
   @override
-  String get traceScannerTitle => 'اسکین اور ٹریس';
+  String get traceScannerTitle => 'پیداوار ٹریس کریں';
 
   @override
   String get traceScannerDescription =>
-      'مصنوعات کا QR کوڈ اسکین کریں تاکہ اصل جگہ، کسان، آرڈر کا سفر، شپمنٹ اپ ڈیٹس، اور بلاک چین ریکارڈز دیکھ سکیں۔';
+      'پروڈکٹ آئی ڈی درج کریں یا فارم ٹو فورک QR کوڈ کا لنک پیسٹ کریں تاکہ دیکھ سکیں پیداوار کہاں سے آئی اور بلاک چین لیجر پر درج ہر مرحلہ۔';
 
   @override
   String get paymentOptionsNote =>
@@ -105,7 +112,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get authWelcomeSubtitle =>
-      'جس اکاؤنٹ رول کا preview دیکھنا ہے اسے منتخب کریں۔ backend auth module تیار ہونے کے بعد اصل login یہاں connect ہوگا۔';
+      'آپ جس اکاؤنٹ کی قسم کو دیکھنا چاہتے ہیں، اسے منتخب کریں۔ سسٹم مکمل ہونے پر آپ کا اصل لاگ ان یہاں کام کرے گا۔';
 
   @override
   String get chooseYourRole => 'اپنا رول منتخب کریں';
@@ -116,7 +123,7 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get roleFarmer => 'کسان';
+  String get roleFarmer => 'کاشتکار';
 
   @override
   String get roleBuyer => 'خریدار';
@@ -132,23 +139,23 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get farmerRoleDescription =>
-      'پیداوار کی listings، orders، اور community updates manage کریں۔';
+      'اپنی فصلوں، آرڈرز، اور کسان چوپال کی سرگرمیوں کا انتظام کریں۔';
 
   @override
   String get buyerRoleDescription =>
-      'تازہ پیداوار خریدیں، QR code scan کریں، اور orders track کریں۔';
+      'تازہ پیداوار خریدیں، تصدیق کے لیے کیو آر (QR) کوڈ اسکین کریں، اور اپنے آرڈرز کو ٹریک کریں۔';
 
   @override
   String get transporterRoleDescription =>
-      'shipment tasks دیکھیں اور delivery progress update کریں۔';
+      'اپنی ترسیل کے کام دیکھیں اور اشیاء کی بروقت فراہمی کو اپ ڈیٹ کریں۔';
 
   @override
   String get financialPartnerRoleDescription =>
-      'loan requests اور farmer finance activity review کریں۔';
+      'کسانوں کے لیے قرض کی درخواستیں اور مالی سرگرمیاں دیکھیں۔';
 
   @override
   String get adminRoleDescription =>
-      'marketplace، orders، finance، اور platform activity monitor کریں۔';
+      'منڈی، آرڈرز، فنانس، اور پلیٹ فارم کی تمام سرگرمیوں کی نگرانی کریں۔';
 
   @override
   String signedInAsRole(String role) {
@@ -156,39 +163,168 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get listingsTitle => 'میری لسٹنگز';
+  String get listingsTitle => 'میری فصلیں';
 
   @override
   String get listingsDescription =>
-      'active produce listings، stock updates، اور farm inventory manage کریں۔';
+      'اپنی فصلوں، اسٹاک اور فارم کی پیداوار کا انتظام کریں۔';
 
   @override
-  String get createListingTitle => 'لسٹنگ بنائیں';
+  String get createListingTitle => 'پیداوار درج کریں';
 
   @override
   String get createListingDescription =>
-      'buyers کے لیے crop details، quantity، grade، price، اور harvest information شامل کریں۔';
+      'خریداروں کے لیے فصل کی تفصیلات، مقدار، کوالٹی، قیمت اور کٹائی کی معلومات درج کریں۔';
 
   @override
-  String get feedTitle => 'فارم فیڈ';
+  String get listingStepProduceDetails => 'پیداوار کی تفصیلات';
+
+  @override
+  String get listingStepPricingQuantity => 'قیمت اور مقدار';
+
+  @override
+  String get produceName => 'پیداوار کا نام';
+
+  @override
+  String get produceNameHint => 'مثلاً، نامیاتی ٹماٹر';
+
+  @override
+  String get category => 'قسم';
+
+  @override
+  String get descriptionHint =>
+      'تازگی، کاشتکاری کے طریقے، کٹائی کی تاریخ وغیرہ بیان کریں۔';
+
+  @override
+  String get priceWithCurrency => 'قیمت (روپے)';
+
+  @override
+  String get priceHint => 'مثلاً، 150';
+
+  @override
+  String get pleaseEnterValidPrice => 'براہ کرم درست قیمت درج کریں';
+
+  @override
+  String get quantityHint => 'مثلاً، 250';
+
+  @override
+  String get pleaseEnterValidQuantity => 'براہ کرم درست مقدار درج کریں';
+
+  @override
+  String get unit => 'اکائی';
+
+  @override
+  String get feedTitle => 'کسان چوپال';
 
   @override
   String get feedDescription =>
-      'updates share کریں، سوالات پوچھیں، اور Farm2Fork network کی trusted activity follow کریں۔';
+      'اپنی معلومات شیئر کریں، سوالات پوچھیں، اور کسانوں کے نیٹ ورک سے جڑے رہیں۔';
+
+  @override
+  String feedCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تبصرے',
+      one: '1 تبصرہ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get feedCommentsTitle => 'تبصرے';
+
+  @override
+  String get feedNoCommentsYet => 'ابھی تک کوئی تبصرہ نہیں۔';
+
+  @override
+  String get feedAddCommentHint => 'تبصرہ شامل کریں...';
 
   @override
   String get shipmentsTitle => 'شپمنٹس';
 
   @override
   String get shipmentsDescription =>
-      'assigned pickups، delivery status، اور QR-linked shipment movement track کریں۔';
+      'اپنی تفویض کردہ ترسیلات، منزل کی صورتحال اور کیو آر (QR) کوڈ سے منسلک معلومات ٹریک کریں۔';
+
+  @override
+  String get availableDeliveries => 'دستیاب ترسیلات';
+
+  @override
+  String get myDeliveries => 'میری ترسیلات';
+
+  @override
+  String get deliveryRequest => 'ترسیل کی درخواست';
+
+  @override
+  String deliveryItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اشیاء',
+      one: '1 شے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get claimDelivery => 'ترسیل قبول کریں';
+
+  @override
+  String get shipmentTracking => 'ترسیل کی ٹریکنگ';
+
+  @override
+  String get shipmentTimeline => 'ترسیل کی صورتحال';
+
+  @override
+  String get shipmentAssigned => 'تفویض شدہ';
+
+  @override
+  String get shipmentPickedUp => 'فصل وصول کر لی گئی';
+
+  @override
+  String get shipmentInTransit => 'راستے میں';
+
+  @override
+  String get shipmentDelivered => 'پہنچا دی گئی';
+
+  @override
+  String get shipmentFailed => 'ناکام';
+
+  @override
+  String get trackDelivery => 'ترسیل ٹریک کریں';
+
+  @override
+  String shipmentNumber(String id) {
+    return 'شپمنٹ #$id';
+  }
+
+  @override
+  String get pickupFarm => 'پک اپ فارم';
+
+  @override
+  String get deliveryDestination => 'ترسیل کی منزل';
+
+  @override
+  String get confirmPickup => 'فصل وصول کرنے کی تصدیق کریں';
+
+  @override
+  String get startTransit => 'روانہ کریں — راستے میں';
+
+  @override
+  String get confirmDelivery => 'حتمی ترسیل کی تصدیق کریں';
+
+  @override
+  String shipmentStatusUpdate(String status) {
+    return 'ٹرانسپورٹر نے صورتحال $status کر دی ہے۔';
+  }
 
   @override
   String get loansTitle => 'قرضے';
 
   @override
   String get loansDescription =>
-      'farmer finance requests، repayment status، اور partner decisions review کریں۔';
+      'کسانوں کی مالی مدد، قرض کی واپسی کی صورتحال اور شراکت داروں کے فیصلے دیکھیں۔';
 
   @override
   String get changeLanguage => 'Change Language (زبان تبدیل کریں)';
@@ -293,6 +429,19 @@ class AppLocalizationsUr extends AppLocalizations {
   String get shopNow => 'ابھی خریداری کریں';
 
   @override
+  String get clearCart => 'کارٹ خالی کریں';
+
+  @override
+  String get clearCartConfirmTitle => 'کارٹ خالی کریں؟';
+
+  @override
+  String get clearCartConfirmMessage =>
+      'اس سے آپ کے کارٹ کی تمام اشیاء حذف ہو جائیں گی۔ یہ عمل واپس نہیں ہو سکتا۔';
+
+  @override
+  String get cancel => 'منسوخ کریں';
+
+  @override
   String get subtotal => 'ذیلی کل';
 
   @override
@@ -312,10 +461,163 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
+  String get checkoutTitle => 'ادائیگی';
+
+  @override
+  String get ordersTabActive => 'جاری';
+
+  @override
+  String get ordersTabCompleted => 'مکمل';
+
+  @override
+  String get orderStatusPending => 'زیر التواء';
+
+  @override
+  String get orderStatusPaid => 'ادا شدہ';
+
+  @override
+  String get orderStatusProcessing => 'زیر عمل';
+
+  @override
+  String get orderStatusShipped => 'بھیج دیا گیا';
+
+  @override
+  String get orderStatusDelivered => 'پہنچا دیا گیا';
+
+  @override
+  String get orderStatusCancelled => 'منسوخ شدہ';
+
+  @override
+  String orderNumber(String id) {
+    return 'آرڈر #$id';
+  }
+
+  @override
+  String get shippingAddress => 'ترسیل کا پتہ';
+
+  @override
+  String get streetAddress => 'گلی کا پتہ';
+
+  @override
+  String get city => 'شہر';
+
+  @override
+  String get province => 'صوبہ';
+
+  @override
+  String get zipCode => 'پوسٹل کوڈ';
+
+  @override
+  String get orderSummary => 'آرڈر کا خلاصہ';
+
+  @override
+  String orderForFarmer(String farmerName) {
+    return '$farmerName کے لیے آرڈر';
+  }
+
+  @override
+  String get separateOrdersNote =>
+      'مختلف کسانوں کی اشیاء الگ الگ آرڈرز کے طور پر دی جاتی ہیں۔';
+
+  @override
+  String placeOrderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز دیں',
+      one: '1 آرڈر دیں',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ordersPlacedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کامیابی سے دے دیے گئے',
+      one: '1 آرڈر کامیابی سے دے دیا گیا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get orderPlacementFailed =>
+      'آپ کا آرڈر نہیں دیا جا سکا۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get paymentTitle => 'ادائیگی';
+
+  @override
+  String get paymentPending => 'ادائیگی زیر التوا ہے';
+
+  @override
+  String get paymentPendingDescription =>
+      'آپ کی ادائیگی بن گئی ہے اور تصدیق کا انتظار کر رہی ہے۔ یہ سکرین خودکار طور پر اپ ڈیٹ نہیں ہوتی — تازہ صورتحال دیکھنے کے لیے واپس چیک کریں یا ریفریش کریں۔';
+
+  @override
+  String get checkPaymentStatus => 'ادائیگی کی صورتحال چیک کریں';
+
+  @override
+  String paymentOrdersReadyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز ادائیگی کے لیے تیار ہیں',
+      one: '1 آرڈر ادائیگی کے لیے تیار ہے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get completeTestPayment => 'ٹیسٹ ادائیگی مکمل کریں';
+
+  @override
+  String get paymentComplete => 'ادائیگی مکمل ہو گئی';
+
+  @override
+  String paymentCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کی ادائیگیاں مکمل ہوئیں',
+      one: '1 آرڈر کی ادائیگی مکمل ہوئی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get paymentFailed => 'ادائیگی مکمل نہیں ہو سکی';
+
+  @override
+  String paymentFailedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آرڈرز کی ادائیگیاں ناکام ہوئیں',
+      one: '1 آرڈر کی ادائیگی ناکام ہوئی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewOrders => 'آرڈرز دیکھیں';
+
+  @override
+  String get fieldRequired => 'یہ خانہ ضروری ہے';
+
+  @override
   String get removeItem => 'ہٹائیں';
 
   @override
   String get itemRemoved => 'آئٹم ہٹا دیا گیا';
+
+  @override
+  String get deleteListingConfirmTitle => 'لسٹنگ حذف کریں؟';
+
+  @override
+  String get deleteListingConfirmMessage =>
+      'اس سے یہ لسٹنگ مارکیٹ پلیس سے ہٹ جائے گی۔ یہ عمل واپس نہیں ہو سکتا۔';
 
   @override
   String get rating => 'درجہ بندی';
@@ -371,6 +673,133 @@ class AppLocalizationsUr extends AppLocalizations {
   String get invalidCredentials => 'غلط ای میل یا پاس ورڈ۔ دوبارہ کوشش کریں۔';
 
   @override
+  String get enterEmailFirst => 'پہلے اپنا ای میل ایڈریس درج کریں۔';
+
+  @override
+  String get passwordResetSentNote =>
+      'اگر اکاؤنٹ موجود ہے تو ہم نے پاس ورڈ ری سیٹ کرنے کے لیے ای میل بھیج دیا ہے۔';
+
+  @override
+  String get verifyYourEmailTitle => 'اپنی ای میل کی تصدیق کریں';
+
+  @override
+  String get verifyYourEmailBodyGeneric =>
+      'ہم نے آپ کی ای میل پر بھیجا گیا تصدیقی لنک کھولیں، پھر یہاں واپس آئیں۔';
+
+  @override
+  String verifyYourEmailBody(String email) {
+    return 'ہم نے $email پر بھیجا گیا تصدیقی لنک کھولیں، پھر یہاں واپس آئیں۔';
+  }
+
+  @override
+  String get verificationResentNote => 'ایک نیا تصدیقی ای میل بھیج دیا گیا ہے۔';
+
+  @override
+  String get verificationStillPendingNote =>
+      'آپ کی ای میل ابھی تصدیق شدہ نہیں ہے۔ اپنا ان باکس چیک کریں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get iHaveVerifiedMyEmail => 'میں نے اپنی ای میل کی تصدیق کر لی ہے';
+
+  @override
+  String get resendVerificationEmail => 'تصدیقی ای میل دوبارہ بھیجیں';
+
+  @override
+  String get continueWithGoogle => 'گوگل کے ساتھ جاری رکھیں';
+
+  @override
+  String get signUpWithEmail => 'ای میل سے سائن اپ کریں';
+
+  @override
+  String get onboardingCompleteProfile => 'اپنی پروفائل مکمل کریں';
+
+  @override
+  String get onboardingProfileSubtitle =>
+      'سیٹ اپ مکمل کرنے کے لیے ہمیں اپنے بارے میں کچھ بتائیں۔';
+
+  @override
+  String get email => 'ای میل';
+
+  @override
+  String get fieldCnic => 'شناختی کارڈ نمبر';
+
+  @override
+  String get businessName => 'کاروبار کا نام';
+
+  @override
+  String get businessType => 'کاروبار کی قسم';
+
+  @override
+  String get selectBusinessType => 'کاروبار کی قسم منتخب کریں';
+
+  @override
+  String get businessTypeIndividual => 'انفرادی';
+
+  @override
+  String get businessTypeRetailer => 'خوردہ فروش';
+
+  @override
+  String get businessTypeRestaurant => 'ریسٹورنٹ';
+
+  @override
+  String get businessTypeWholesaler => 'تھوک فروش';
+
+  @override
+  String get vehicleNumber => 'گاڑی کا نمبر';
+
+  @override
+  String get selectVehicleType => 'گاڑی کی قسم منتخب کریں';
+
+  @override
+  String get vehicleTypeBike => 'موٹر سائیکل';
+
+  @override
+  String get vehicleTypeRickshaw => 'رکشہ';
+
+  @override
+  String get vehicleTypeVan => 'وین';
+
+  @override
+  String get vehicleTypeTruck => 'ٹرک';
+
+  @override
+  String get cropTypesHint => 'مثلاً گندم، چاول، آم';
+
+  @override
+  String get serviceAreasHint => 'مثلاً لاہور، فیصل آباد';
+
+  @override
+  String get validationRequired => 'یہ خانہ ضروری ہے';
+
+  @override
+  String get validationCnicInvalid =>
+      'درست شناختی کارڈ نمبر درج کریں (مثلاً 35202-1234567-1)';
+
+  @override
+  String get validationEmailInvalid => 'درست ای میل درج کریں';
+
+  @override
+  String get validationPasswordShort => 'پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے';
+
+  @override
+  String get authErrorEmailInUse =>
+      'اس ای میل کا اکاؤنٹ پہلے سے موجود ہے۔ سائن ان کریں۔';
+
+  @override
+  String get authErrorWeakPassword => 'زیادہ مضبوط پاس ورڈ منتخب کریں۔';
+
+  @override
+  String get authErrorNetwork =>
+      'انٹرنیٹ کنکشن نہیں ہے۔ اپنا نیٹ ورک چیک کریں۔';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'بہت زیادہ کوششیں۔ بعد میں دوبارہ کوشش کریں۔';
+
+  @override
+  String get authErrorGeneric => 'کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔';
+
+  @override
   String get signUpSuccess => 'اکاؤنٹ بن گیا! آپ لاگ ان ہو گئے ہیں۔';
 
   @override
@@ -398,6 +827,9 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get authRequiredDismiss => 'براؤز کرتے رہیں';
+
+  @override
+  String get authOr => 'یا';
 
   @override
   String get signUpSelectRole => 'میں چاہتا/چاہتی ہوں...';
@@ -467,4 +899,1393 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get devTestAccounts => 'ڈیو ٹیسٹ اکاؤنٹس';
+
+  @override
+  String get notificationSettings => 'اطلاعات کی ترتیبات';
+
+  @override
+  String get languageDisplay => 'زبان اور ڈسپلے';
+
+  @override
+  String get fontSize => 'فونٹ سائز';
+
+  @override
+  String get contactUs => 'ہم سے رابطہ کریں';
+
+  @override
+  String get faqs => 'اکثر پوچھے گئے سوالات';
+
+  @override
+  String get aboutUs => 'ہمارے بارے میں';
+
+  @override
+  String get privacyPolicy => 'رازداری کی پالیسی';
+
+  @override
+  String get termsConditions => 'شرائط و ضوابط';
+
+  @override
+  String get appSettings => 'ایپ کی ترتیبات';
+
+  @override
+  String get helpInformation => 'مدد اور معلومات';
+
+  @override
+  String get notificationsTitle => 'اطلاعات';
+
+  @override
+  String get notificationsSubtitle => 'منتخب کریں کہ آپ کو کیسے اطلاع دی جائے';
+
+  @override
+  String get notificationsNotYetConnectedNote =>
+      'اس ڈیوائس پر آرڈرز، ڈلیوریوں اور قرضوں کی پش اطلاعات آن ہیں۔ یہ موضوع وار سوئچ فی الحال صرف اس سیشن کے لیے ہیں؛ تمام اطلاعات بند کرنے کے لیے انہیں فون کی سیٹنگز میں بند کریں۔';
+
+  @override
+  String get orderUpdates => 'آرڈر کی اپ ڈیٹس';
+
+  @override
+  String get orderUpdatesDesc =>
+      'آرڈر کی صورتحال تبدیل ہونے پر اطلاع حاصل کریں';
+
+  @override
+  String get shipmentUpdates => 'شپمنٹ الرٹس';
+
+  @override
+  String get shipmentUpdatesDesc => 'فعال شپمنٹس کو حقیقی وقت میں ٹریک کریں';
+
+  @override
+  String get communityAlerts => 'کمیونٹی اپ ڈیٹس';
+
+  @override
+  String get communityAlertsDesc => 'نئی پوسٹس اور تبصروں پر الرٹ حاصل کریں';
+
+  @override
+  String get marketingAlerts => 'پروموشنل پیغامات';
+
+  @override
+  String get marketingAlertsDesc => 'ڈسکاؤنٹ اور مارکیٹ مہمات سے باخبر رہیں';
+
+  @override
+  String get languageDisplayTitle => 'زبان اور ڈسپلے';
+
+  @override
+  String get fontSizeSmall => 'چھوٹا';
+
+  @override
+  String get fontSizeMedium => 'درمیانہ';
+
+  @override
+  String get fontSizeLarge => 'بڑا';
+
+  @override
+  String get fontSizeXLarge => 'بہت بڑا';
+
+  @override
+  String get textScalePreview => 'پیش نظارہ';
+
+  @override
+  String get textScalePreviewDesc =>
+      'یہ ایک نمونہ جملہ ہے یہ دیکھنے کے لیے کہ فونٹ سائز کی تبدیلی ایپ میں پڑھنے کی سہولت پر کیا اثر ڈالتی ہے۔';
+
+  @override
+  String get contactUsTitle => 'ہم سے رابطہ کریں';
+
+  @override
+  String get contactUsSubtitle => 'سپورٹ ٹیم سے رابطہ کریں';
+
+  @override
+  String get contactSubject => 'موضوع';
+
+  @override
+  String get contactSubjectGeneral => 'عام معلومات';
+
+  @override
+  String get contactSubjectListing => 'لسٹنگ میں مدد';
+
+  @override
+  String get contactSubjectPayment => 'ادائیگی کا مسئلہ';
+
+  @override
+  String get contactSubjectTransport => 'ٹرانسپورٹ سپورٹ';
+
+  @override
+  String get contactMessage => 'پیغام';
+
+  @override
+  String get contactMessageHint => 'اپنی درخواست کی تفصیلات یہاں لکھیں...';
+
+  @override
+  String get contactSubmit => 'درخواست جمع کروائیں';
+
+  @override
+  String get contactEmail => 'سپورٹ ای میل';
+
+  @override
+  String get contactPhone => 'ہیلپ لائن نمبر';
+
+  @override
+  String get contactAddress => 'مرکزی دفتر کا پتہ';
+
+  @override
+  String get contactMessageSuccess =>
+      'پیغام نوٹ کر لیا گیا ہے۔ ہمارا سپورٹ ان باکس ابھی منسلک نہیں ہے، اس لیے براہ کرم جواب کے لیے support@farm2fork.pk پر بھی ای میل کریں۔';
+
+  @override
+  String get pleaseEnterMessage => 'براہ کرم اپنا پیغام درج کریں';
+
+  @override
+  String get faqsTitle => 'اکثر پوچھے گئے سوالات';
+
+  @override
+  String get faqCategoryGeneral => 'عام';
+
+  @override
+  String get faqCategoryMarketplace => 'مارکیٹ پلیس';
+
+  @override
+  String get faqCategorySecurity => 'سیکورٹی';
+
+  @override
+  String get faqCategoryTransport => 'ڈیلیوری';
+
+  @override
+  String get faqQ1 => 'فارم ٹو فورک کیسے کام کرتا ہے؟';
+
+  @override
+  String get faqA1 =>
+      'فارم ٹو فورک کسانوں کو براہ راست خریداروں اور ٹرانسپورٹرز سے جوڑتا ہے۔ کسان فصلیں لسٹ کرتے ہیں، خریدار انہیں خریدتے ہیں، اور ٹرانسپورٹرز فراہم کرتے ہیں۔';
+
+  @override
+  String get faqQ2 => 'کیا میری ادائیگی محفوظ ہے؟';
+
+  @override
+  String get faqA2 =>
+      'جی ہاں۔ فارم ٹو فورک تصدیق شدہ ادائیگی کے طریقے (JazzCash، بینک ٹرانسفر) استعمال کرتا ہے جہاں رقم صرف ڈیلیوری کی کامیابی پر ہی جاری کی جاتی ہے۔';
+
+  @override
+  String get faqQ3 => 'پلیٹ فارم فیس کتنی ہے؟';
+
+  @override
+  String get faqA3 =>
+      'کامیاب لین دین پر پلیٹ فارم 5% تک کی چھوٹی فیس وصول کرتا ہے تاکہ سسٹم اور سپورٹ کے اخراجات کو پورا کیا جا سکے۔';
+
+  @override
+  String get faqQ4 => 'ٹرانسپورٹرز کیسے رجسٹر ہوتے ہیں؟';
+
+  @override
+  String get faqA4 =>
+      'ٹرانسپورٹرز ایپ میں ٹرانسپورٹر رول منتخب کر کے اپنی گاڑی کی تفصیلات، سروس ایریا اور لائسنس کی معلومات درج کر کے سائن اپ کر سکتے ہیں۔';
+
+  @override
+  String get aboutUsTitle => 'ہمارے بارے میں';
+
+  @override
+  String get aboutUsContent =>
+      'فارم ٹو فورک ایک زرعی اقدام ہے جو مقامی کسانوں کو بااختیار بنانے، درمیانی خریداروں (آڑھتی) سے بچانے، اور خریداروں کے لیے تازہ پیداوار کی ضمانت فراہم کرنے کے لیے بنایا گیا ہے۔ بلاک چین ریکارڈز کے ذریعے ہم براہ راست اور قابل اعتماد سپلائی نیٹ ورک بناتے ہیں۔';
+
+  @override
+  String get privacyPolicyTitle => 'رازداری کی پالیسی';
+
+  @override
+  String get privacyPolicyContent =>
+      'ہم آپ کی رازداری کا احترام کرتے ہیں۔ ہم نام، ای میل، فون نمبر اور لوکیشن ڈیٹا صرف لسٹنگ اور شپمنٹ ٹریکنگ کے لیے جمع کرتے ہیں۔ ہم کبھی بھی صارف کا ڈیٹا کسی تیسرے فریق کو فروخت نہیں کرتے۔';
+
+  @override
+  String get termsConditionsTitle => 'شرائط و ضوابط';
+
+  @override
+  String get termsConditionsContent =>
+      'ایپ استعمال کر کے آپ آرڈر کے وعدوں کو پورا کرنے پر متفق ہوتے ہیں۔ کسانوں کو معیار کی ضمانت دینی ہو گی، خریداروں کو چیک آؤٹ پر ادائیگی کرنی ہو گی، اور ٹرانسپورٹرز کو محفوظ طریقے سے ڈیلیور کرنا ہو گا۔ پلیٹ فارم فیس ناقابل واپسی ہے۔';
+
+  @override
+  String get traceInputLabel => 'پروڈکٹ آئی ڈی یا QR لنک';
+
+  @override
+  String get traceInputHint => '6a2fe77bb77795516febc287';
+
+  @override
+  String get traceInvalidInput =>
+      'یہ فارم ٹو فورک کی پروڈکٹ آئی ڈی یا QR لنک نہیں ہے۔ پروڈکٹ آئی ڈی 24 حروف کی ہوتی ہے۔';
+
+  @override
+  String get traceSearchButton => 'پروڈکٹ ٹریس کریں';
+
+  @override
+  String get traceCameraComingSoon =>
+      'کیمرے سے اسکیننگ جلد آ رہی ہے۔ فی الحال QR کوڈ کے ساتھ درج پروڈکٹ آئی ڈی یا لنک پیسٹ کریں۔';
+
+  @override
+  String get traceLoading => 'سفر لوڈ ہو رہا ہے…';
+
+  @override
+  String get traceLoadFailed =>
+      'سفر لوڈ نہیں ہو سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get traceNotFoundTitle => 'اس کوڈ کے لیے کوئی پروڈکٹ نہیں ملی';
+
+  @override
+  String get traceNotFoundDesc =>
+      'آئی ڈی چیک کریں یا QR کوڈ دوبارہ اسکین کریں۔ صرف فارم ٹو فورک کی لسٹنگز کا سفر ٹریس ہو سکتا ہے۔';
+
+  @override
+  String get traceSearchAnother => 'کوئی اور پروڈکٹ ٹریس کریں';
+
+  @override
+  String get traceOriginVerified => 'ماخذ کی لیجر پر تصدیق ہو چکی ہے';
+
+  @override
+  String get traceOriginVerifiedDesc =>
+      'کسان کی لسٹنگ ہائپر لیجر فیبرک لیجر پر محفوظ ہے اور اسے تبدیل نہیں کیا جا سکتا۔';
+
+  @override
+  String get traceOriginPending => 'ماخذ لیجر کی تصدیق کا منتظر ہے';
+
+  @override
+  String get traceOriginPendingDesc =>
+      'لسٹنگ درج ہو چکی ہے اور لیجر کے لیے قطار میں ہے۔ تصدیق ہوتے ہی یہ تصدیق شدہ دکھائی دے گی۔';
+
+  @override
+  String get traceOriginMissing => 'اس لسٹنگ کا کوئی لیجر ریکارڈ نہیں';
+
+  @override
+  String get traceOriginMissingDesc =>
+      'یہ لسٹنگ لیجر ریکارڈنگ شروع ہونے سے پہلے بنی تھی، اس لیے اس کے ماخذ کی آن چین تصدیق نہیں ہو سکتی۔';
+
+  @override
+  String get traceSourceFarm => 'ماخذ فارم';
+
+  @override
+  String get traceFarmUnknown => 'فارم کی تفصیلات فراہم نہیں کی گئیں';
+
+  @override
+  String get traceQualityGrade => 'کوالٹی گریڈ';
+
+  @override
+  String traceGradeValue(String grade) {
+    return 'گریڈ $grade';
+  }
+
+  @override
+  String get traceGradeNone => 'گریڈ نہیں دیا گیا';
+
+  @override
+  String get traceListedOn => 'لسٹ ہونے کی تاریخ';
+
+  @override
+  String get traceProductId => 'پروڈکٹ آئی ڈی';
+
+  @override
+  String get traceStatusActive => 'مارکیٹ پلیس پر دستیاب';
+
+  @override
+  String get traceStatusSoldOut => 'فروخت ہو چکا';
+
+  @override
+  String get traceStatusInactive => 'اب لسٹ نہیں ہے';
+
+  @override
+  String get traceJourneyTitle => 'سپلائی چین کا سفر';
+
+  @override
+  String traceLedgerProgress(int confirmed, int total) {
+    return '$total میں سے $confirmed لیجر پر درج';
+  }
+
+  @override
+  String get traceJourneyEmpty =>
+      'ابھی صرف لسٹنگ موجود ہے۔ فروخت اور ڈیلیوری ہوتے ہی یہاں نظر آئیں گی۔';
+
+  @override
+  String get traceEventListed => 'مارکیٹ پلیس پر لسٹ کیا گیا';
+
+  @override
+  String get traceEventPaymentConfirmed => 'ادائیگی کی تصدیق ہو گئی';
+
+  @override
+  String get traceEventShipmentAssigned => 'ٹرانسپورٹر مقرر ہو گیا';
+
+  @override
+  String get traceEventShipmentPickedUp => 'فارم سے اٹھا لیا گیا';
+
+  @override
+  String get traceEventShipmentInTransit => 'راستے میں';
+
+  @override
+  String get traceEventShipmentDelivered => 'پہنچا دیا گیا';
+
+  @override
+  String get traceEventShipmentFailed => 'ڈیلیوری ناکام';
+
+  @override
+  String get traceRoleFarmer => 'کسان';
+
+  @override
+  String get traceRoleBuyer => 'خریدار';
+
+  @override
+  String get traceRoleTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String traceReferenceSale(String reference) {
+    return 'فروخت #$reference';
+  }
+
+  @override
+  String traceReferenceDelivery(String reference) {
+    return 'ڈیلیوری #$reference';
+  }
+
+  @override
+  String get traceLedgerConfirmed => 'لیجر پر درج';
+
+  @override
+  String get traceLedgerPending => 'لیجر کی تصدیق کا انتظار';
+
+  @override
+  String get traceLedgerFailed => 'لیجر پر درج نہیں ہو سکا';
+
+  @override
+  String traceLedgerBlock(int block) {
+    return 'بلاک $block';
+  }
+
+  @override
+  String get productViewJourney => 'پروڈکٹ کا سفر دیکھیں';
+
+  @override
+  String get listingViewJourney => 'سفر دیکھیں';
+
+  @override
+  String get listingHide => 'مارکیٹ پلیس سے چھپائیں';
+
+  @override
+  String get listingShow => 'مارکیٹ پلیس پر دکھائیں';
+
+  @override
+  String get listingDelete => 'لسٹنگ حذف کریں';
+
+  @override
+  String get listingPublished => 'لسٹنگ شائع ہو گئی';
+
+  @override
+  String get listingPublishFailed =>
+      'لسٹنگ شائع نہیں ہو سکی۔ آپ کی تفصیلات محفوظ ہیں — کنکشن چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get timeAm => 'قبل دوپہر';
+
+  @override
+  String get timePm => 'بعد دوپہر';
+
+  @override
+  String get aiPriceTitle => 'مناسب قیمت کی تجویز';
+
+  @override
+  String get aiSuggestPrice => 'قیمت تجویز کریں';
+
+  @override
+  String aiPriceRange(String min, String max, String unit) {
+    return '$min – $max روپے فی $unit';
+  }
+
+  @override
+  String get aiPriceRuleBased =>
+      'حوالہ جاتی حدود، موسم اور گریڈ پر مبنی اندازہ — یہ لائیو منڈی کا ڈیٹا نہیں ہے۔';
+
+  @override
+  String aiUsePrice(String price) {
+    return '$price روپے استعمال کریں';
+  }
+
+  @override
+  String get aiPriceNoRule =>
+      'اس اکائی یا زمرے کے لیے ابھی کوئی قیمت کا اصول موجود نہیں۔';
+
+  @override
+  String get aiQualityTitle => 'تصویر سے معیار کی جانچ';
+
+  @override
+  String get aiPreviewModel =>
+      'پیش نظارہ ماڈل: گریڈنگ ماڈل ابھی تربیت یافتہ نہیں، اس لیے اس کے گریڈ قابلِ اعتماد نہیں۔';
+
+  @override
+  String get aiCropLabel => 'تصویر میں فصل';
+
+  @override
+  String get aiNeedCrop => 'تصویر میں موجود فصل منتخب کریں۔';
+
+  @override
+  String get aiTakePhoto => 'تصویر کھینچیں';
+
+  @override
+  String get aiChoosePhoto => 'گیلری سے منتخب کریں';
+
+  @override
+  String aiGradeResult(String grade, int confidence) {
+    return 'گریڈ $grade · $confidence% اعتماد';
+  }
+
+  @override
+  String get aiPreviewResult =>
+      'صرف پیش نظارہ — ماڈل کی تربیت مکمل ہونے تک اس گریڈ پر انحصار نہ کریں۔';
+
+  @override
+  String get aiCropNotTrained =>
+      'ماڈل کے پاس ابھی اس فصل کا تربیتی ڈیٹا نہیں ہے۔';
+
+  @override
+  String get aiLowConfidence => 'کم اعتماد — گریڈ خود بھی جانچ لیں۔';
+
+  @override
+  String aiUseGrade(String grade) {
+    return 'گریڈ $grade استعمال کریں';
+  }
+
+  @override
+  String get aiGradeD =>
+      'لسٹنگ گریڈ سے کم (D)۔ پراسیسنگ کے لیے فروخت پر غور کریں۔';
+
+  @override
+  String get aiUnavailable =>
+      'اے آئی سروس ابھی دستیاب نہیں ہے۔ آپ پھر بھی اپنی لسٹنگ شائع کر سکتے ہیں۔';
+
+  @override
+  String get aiTooManyRequests =>
+      'بہت زیادہ درخواستیں۔ ایک منٹ انتظار کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get aiInvalidPhoto =>
+      'یہ تصویر استعمال نہیں ہو سکی۔ 8 MB سے کم واضح JPEG یا PNG آزمائیں۔';
+
+  @override
+  String get aiFailed => 'کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get cropWheat => 'گندم';
+
+  @override
+  String get cropRice => 'چاول';
+
+  @override
+  String get cropMango => 'آم';
+
+  @override
+  String get cropMaize => 'مکئی';
+
+  @override
+  String get cropCotton => 'کپاس';
+
+  @override
+  String get cropSugarcane => 'گنا';
+
+  @override
+  String get ledgerConfirmed => 'لیجر پر درج';
+
+  @override
+  String get ledgerPending => 'لیجر زیرِ التوا';
+
+  @override
+  String get ledgerFailed => 'لیجر ناکام';
+
+  @override
+  String get ledgerMissing => 'کوئی لیجر ریکارڈ نہیں';
+
+  @override
+  String get farmStreet => 'گلی / گاؤں';
+
+  @override
+  String get farmStreetHint => 'مثلاً چک 5، نہر روڈ';
+
+  @override
+  String get farmCity => 'شہر / ضلع';
+
+  @override
+  String get farmProvince => 'صوبہ';
+
+  @override
+  String get farmProvinceHint => 'صوبہ منتخب کریں';
+
+  @override
+  String get provincePunjab => 'پنجاب';
+
+  @override
+  String get provinceSindh => 'سندھ';
+
+  @override
+  String get provinceKpk => 'خیبر پختونخوا';
+
+  @override
+  String get provinceBalochistan => 'بلوچستان';
+
+  @override
+  String get provinceGilgitBaltistan => 'گلگت بلتستان';
+
+  @override
+  String get provinceAjk => 'آزاد جموں و کشمیر';
+
+  @override
+  String get provinceIslamabad => 'اسلام آباد';
+
+  @override
+  String get farmLocationPromptTitle => 'اپنے فارم کا پک اپ پتہ شامل کریں';
+
+  @override
+  String get farmLocationPromptBody =>
+      'جب تک آپ کے فارم کی گلی، شہر اور صوبہ محفوظ نہیں ہوتے، ٹرانسپورٹر آپ کے آرڈر نہ دیکھ سکتے ہیں نہ اٹھا سکتے ہیں۔';
+
+  @override
+  String get farmLocationSave => 'پتہ محفوظ کریں';
+
+  @override
+  String get farmLocationSaveFailed =>
+      'پتہ محفوظ نہیں ہو سکا۔ اپنا کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get pickFarmLocationTitle => 'اپنا فارم نقشے پر لگائیں';
+
+  @override
+  String get pickFarmLocationHint =>
+      'نقشہ اس طرح ہلائیں کہ پن آپ کے فارم کے گیٹ پر ہو۔ ٹرانسپورٹر اسی جگہ پر آئیں گے۔';
+
+  @override
+  String get pickDropoffTitle => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+
+  @override
+  String get pickDropoffHint =>
+      'نقشہ اس طرح ہلائیں کہ پن اس جگہ ہو جہاں آرڈر پہنچانا ہے۔ ڈلیوری فیس اسی جگہ سے طے ہوتی ہے۔';
+
+  @override
+  String get useMyLocation => 'میری موجودہ لوکیشن استعمال کریں';
+
+  @override
+  String get confirmLocation => 'یہ جگہ تصدیق کریں';
+
+  @override
+  String get locationOutsidePakistan =>
+      'براہ کرم پاکستان کے اندر کوئی جگہ منتخب کریں۔';
+
+  @override
+  String get locationServiceDisabled =>
+      'اس فون پر لوکیشن بند ہے۔ جاری رکھنے کے لیے اسے آن کریں۔';
+
+  @override
+  String get locationPermissionDenied =>
+      'اس کے لیے Farm2Fork کو لوکیشن کی اجازت چاہیے۔';
+
+  @override
+  String get locationPermissionDeniedForever =>
+      'لوکیشن کی اجازت بند ہے۔ جاری رکھنے کے لیے سیٹنگز میں اجازت دیں۔';
+
+  @override
+  String get locationUnavailable =>
+      'آپ کی لوکیشن نہیں مل سکی۔ کھلی جگہ پر جا کر دوبارہ کوشش کریں۔';
+
+  @override
+  String get openSettings => 'سیٹنگز';
+
+  @override
+  String get pinFarmOnMap => 'فارم نقشے پر لگائیں';
+
+  @override
+  String get pinDropoffOnMap => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+
+  @override
+  String get pinSet => 'لوکیشن لگ گئی';
+
+  @override
+  String get pinOpenMap => 'نقشہ کھولیں';
+
+  @override
+  String get pinChange => 'تبدیل کریں';
+
+  @override
+  String get pinRequired => 'لوکیشن نقشے پر لگائیں';
+
+  @override
+  String get deliveryFeePinFirst =>
+      'ڈلیوری فیس دیکھنے کے لیے ڈلیوری کی جگہ نقشے پر لگائیں۔';
+
+  @override
+  String get deliveryFeeCalculating => 'ڈلیوری فیس کا حساب ہو رہا ہے…';
+
+  @override
+  String get deliveryFeeUnavailable =>
+      'اس فارم کے لیے ابھی ڈلیوری فیس طے نہیں ہو سکتی، اس لیے ابھی آرڈر نہیں ہو سکتا۔';
+
+  @override
+  String deliveryFeeWithDistance(String km) {
+    return 'ڈلیوری ($km کلومیٹر)';
+  }
+
+  @override
+  String get navDeliveries => 'ڈلیوریاں';
+
+  @override
+  String get deliveriesTitle => 'ڈلیوریاں';
+
+  @override
+  String get deliveryHistoryTitle => 'ڈلیوری کی تاریخچہ';
+
+  @override
+  String get noDeliveriesYet =>
+      'ابھی کوئی ڈلیوری نہیں۔ قبول کی گئی ڈلیوریاں یہاں نظر آئیں گی۔';
+
+  @override
+  String get youAreOnline => 'آپ آن لائن ہیں';
+
+  @override
+  String get youAreOffline => 'آپ آف لائن ہیں';
+
+  @override
+  String onlineSubtitle(String km) {
+    return 'آپ کو $km کلومیٹر کے اندر فارموں کے ادا شدہ آرڈر پیش کیے جائیں گے۔ ایپ کھلی رکھیں تاکہ آپ کی لوکیشن تازہ رہے۔';
+  }
+
+  @override
+  String get offlineSubtitle =>
+      'اپنے قریب ڈلیوری کی پیشکشیں حاصل کرنے کے لیے آن لائن ہوں۔';
+
+  @override
+  String get locationStaleWarning =>
+      'آپ کی لوکیشن پرانی ہے، اس لیے پیشکشیں رہ سکتی ہیں۔ تازہ کرنے کے لیے ایپ کھولیں۔';
+
+  @override
+  String get offlineHint =>
+      'آپ آف لائن ہیں۔ ڈلیوریاں حاصل کرنے کے لیے اوپر والا سوئچ آن کریں۔';
+
+  @override
+  String noOffersNearby(String km) {
+    return 'ابھی $km کلومیٹر کے اندر کوئی ڈلیوری نہیں۔ نئی ڈلیوری آنے پر ہم آپ کو اطلاع دیں گے۔';
+  }
+
+  @override
+  String get offersNearYou => 'آپ کے قریب ڈلیوریاں';
+
+  @override
+  String offerRoute(String farm, String from, String to) {
+    return '$farm ($from) ← $to';
+  }
+
+  @override
+  String offerDistances(String toPickup, String trip) {
+    return 'پک اپ تک $toPickup کلومیٹر · سفر $trip کلومیٹر';
+  }
+
+  @override
+  String get viewOnMap => 'نقشہ';
+
+  @override
+  String get acceptDelivery => 'قبول کریں';
+
+  @override
+  String get declineDelivery => 'رد کریں';
+
+  @override
+  String get offerNoLongerAvailable =>
+      'یہ ڈلیوری اب دستیاب نہیں — شاید کسی اور نے قبول کر لی ہے یا آپ حد سے باہر ہیں۔';
+
+  @override
+  String get dispatchActionFailed =>
+      'یہ کام نہیں ہو سکا۔ کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get dropoffApproximateNote =>
+      'ڈلیوری کی جگہ تقریباً دکھائی گئی ہے (تقریباً 1 کلومیٹر کے اندر)۔ قبول کرنے کے بعد مکمل پتہ نظر آئے گا۔';
+
+  @override
+  String get activeDeliveryTitle => 'آپ کی موجودہ ڈلیوری';
+
+  @override
+  String youEarn(String amount) {
+    return 'آپ کی آمدنی $amount';
+  }
+
+  @override
+  String get navigateToPickup => 'پک اپ تک راستہ';
+
+  @override
+  String get navigateToDropoff => 'ڈلیوری کی جگہ تک راستہ';
+
+  @override
+  String get markAllRead => 'سب پڑھ لیے';
+
+  @override
+  String get noNotificationsYet => 'ابھی کوئی اطلاع نہیں۔';
+
+  @override
+  String get myAccount => 'میرا اکاؤنٹ';
+
+  @override
+  String get newPost => 'نئی پوسٹ';
+
+  @override
+  String get communityEmpty => 'ابھی کوئی پوسٹ نہیں۔ بات چیت شروع کریں!';
+
+  @override
+  String get communityActionFailed =>
+      'یہ کام نہیں ہو سکا۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get communityRoleFarmer => 'کسان';
+
+  @override
+  String get communityRoleBuyer => 'خریدار';
+
+  @override
+  String get communityRoleTeam => 'Farm2Fork ٹیم';
+
+  @override
+  String get postTitleLabel => 'عنوان';
+
+  @override
+  String get postContentLabel => 'آپ کیا شیئر کرنا چاہتے ہیں؟';
+
+  @override
+  String get postTagsLabel => 'ٹیگز (اختیاری)';
+
+  @override
+  String get postTagsHint => 'مثلاً گندم، بوائی';
+
+  @override
+  String postTooManyTags(int max) {
+    return 'زیادہ سے زیادہ $max ٹیگز استعمال کریں';
+  }
+
+  @override
+  String postPhotosLabel(int max) {
+    return 'تصاویر ($max تک)';
+  }
+
+  @override
+  String get takePhoto => 'کیمرہ';
+
+  @override
+  String get chooseFromGallery => 'گیلری';
+
+  @override
+  String get publishPost => 'شائع کریں';
+
+  @override
+  String get remove => 'ہٹائیں';
+
+  @override
+  String get removePostConfirm => 'یہ پوسٹ سب کے لیے ہٹا دیں؟';
+
+  @override
+  String get removeCommentConfirm => 'یہ تبصرہ ہٹا دیں؟';
+
+  @override
+  String get send => 'بھیجیں';
+
+  @override
+  String get loanStatusPending => 'جمع شدہ';
+
+  @override
+  String get loanStatusUnderReview => 'زیر جائزہ';
+
+  @override
+  String get loanStatusApproved => 'منظور';
+
+  @override
+  String get loanStatusRejected => 'منظور نہیں ہوا';
+
+  @override
+  String get loanStatusRepaid => 'ادا شدہ';
+
+  @override
+  String get loansFarmerIntroTitle => 'آپ کے فارم کے لیے مائیکرو فنانس';
+
+  @override
+  String get loansFarmerIntroBody =>
+      'بیج، کھاد یا آلات کے لیے درخواست دیں۔ ایک مالیاتی پارٹنر آپ کے فارم اور Farm2Fork پر فروخت کی تاریخ دیکھ کر ماہانہ ادائیگی کا منصوبہ منظور کرتا ہے یا وجہ بتاتا ہے۔';
+
+  @override
+  String get loanApply => 'قرض کے لیے درخواست دیں';
+
+  @override
+  String get loanOneAtATime =>
+      'ایک وقت میں صرف ایک درخواست زیر عمل یا زیر ادائیگی ہو سکتی ہے۔';
+
+  @override
+  String get loansNone => 'ابھی کوئی درخواست نہیں۔';
+
+  @override
+  String loanTermsSummary(int months, String date) {
+    return '$months ماہ · درخواست $date';
+  }
+
+  @override
+  String loanReviewerNote(String note) {
+    return 'جائزہ کار: $note';
+  }
+
+  @override
+  String loanRepaidProgress(String paid, String total) {
+    return '$total میں سے $paid ادا';
+  }
+
+  @override
+  String loanInstalment(int n, String amount) {
+    return 'قسط $n: $amount';
+  }
+
+  @override
+  String loanDueOn(String date) {
+    return 'واجب الادا $date';
+  }
+
+  @override
+  String loanPaidOn(String date) {
+    return 'ادا کی $date';
+  }
+
+  @override
+  String get loanMarkPaid => 'ادا شدہ';
+
+  @override
+  String get loanAmountLabel => 'رقم (روپے)';
+
+  @override
+  String loanAmountRange(String min, String max) {
+    return '$min سے $max روپے کے درمیان';
+  }
+
+  @override
+  String get loanDurationLabel => 'ادائیگی کی مدت';
+
+  @override
+  String loanMonths(int months) {
+    return '$months ماہ';
+  }
+
+  @override
+  String get loanPurposeLabel => 'قرض کس لیے ہے؟';
+
+  @override
+  String get loanPurposeHint => 'مثلاً گندم کے سیزن کے لیے بیج اور کھاد';
+
+  @override
+  String get loanDocumentsLabel => 'دستاویزات';
+
+  @override
+  String get loanDocumentsHint =>
+      'شناختی کارڈ اور زمین کے کاغذات کی تصاویر سے جائزہ جلد ہوتا ہے۔ انہیں صرف جائزہ کار دیکھ سکتے ہیں۔';
+
+  @override
+  String get loanSubmit => 'درخواست جمع کریں';
+
+  @override
+  String get loanSubmitted =>
+      'درخواست جمع ہو گئی۔ جائزے پر ہم آپ کو اطلاع دیں گے۔';
+
+  @override
+  String get loanSubmitFailed =>
+      'جمع نہیں ہو سکی۔ رقم اور کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get loanFilterAll => 'سب';
+
+  @override
+  String get loanQueueEmpty => 'یہاں کوئی درخواست نہیں۔';
+
+  @override
+  String get loanReviewTitle => 'قرض کی درخواست';
+
+  @override
+  String loanLandSize(String acres) {
+    return 'زمین: $acres ایکڑ';
+  }
+
+  @override
+  String loanCrops(String crops) {
+    return 'فصلیں: $crops';
+  }
+
+  @override
+  String loanSalesHistory(int count, String revenue) {
+    return '$count مکمل آرڈر · $revenue';
+  }
+
+  @override
+  String loanDocumentN(int n) {
+    return 'دستاویز $n';
+  }
+
+  @override
+  String get loanDocumentsExpire =>
+      'لنکس تقریباً 10 منٹ بعد ختم ہو جاتے ہیں؛ نئے لنکس کے لیے درخواست دوبارہ کھولیں۔';
+
+  @override
+  String get loanStartReview => 'جائزہ شروع کریں';
+
+  @override
+  String get loanApprove => 'منظور کریں';
+
+  @override
+  String get loanReject => 'مسترد کریں';
+
+  @override
+  String get loanRejectTitle => 'مسترد کرنے کی وجہ';
+
+  @override
+  String get loanRejectHint => 'کسان یہ وجہ دیکھے گا';
+
+  @override
+  String get loanActionFailed =>
+      'یہ کام نہیں ہو سکا۔ ریفریش کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get traceScannerSimulateScan => 'اسکین سمولیٹ کریں (ٹماٹر اسکین کریں)';
+
+  @override
+  String get traceScannerDemoProductName => 'آرگینک ٹماٹر';
+
+  @override
+  String get traceScannerVerifiedLedger => 'تصدیق شدہ بلاک چین ٹریس لیجر';
+
+  @override
+  String get continueSafepay => 'Safepay کے ساتھ جاری رکھیں';
+
+  @override
+  String get paymentServerStatus =>
+      'ادائیگی کی حالت سرور سے تصدیق ہوتی ہے۔ چیک آؤٹ کے بعد یہاں واپس آئیں اور اگر تصدیق باقی ہو تو تازہ کریں۔';
+
+  @override
+  String get paymentCheckoutClosed =>
+      'چیک آؤٹ بند کر دیا گیا۔ آپ کا محفوظ آرڈر اب بھی ادائیگی کے لیے دستیاب ہے۔';
+
+  @override
+  String get paymentActionFailed =>
+      'چیک آؤٹ کھولا یا تازہ نہیں کیا جا سکا۔ آپ کا آرڈر محفوظ ہے۔ دوبارہ کوشش کریں یا اپنے آرڈرز دیکھیں۔';
+
+  @override
+  String paymentOrderNumber(int number) {
+    return 'آرڈر $number';
+  }
+
+  @override
+  String get deliveryLatitude => 'ترسیل کی جگہ کا عرض بلد';
+
+  @override
+  String get deliveryLongitude => 'ترسیل کی جگہ کا طول بلد';
+
+  @override
+  String get locationLatitude => 'عرض بلد';
+
+  @override
+  String get locationLongitude => 'طول بلد';
+
+  @override
+  String get locationInvalid => 'پاکستان کے اندر درست نقاط درج کریں۔';
+
+  @override
+  String get locationCoordinatesHelp =>
+      'اپنی نقشہ ایپ سے اس پتے کے نقاط کاپی کریں۔';
+
+  @override
+  String get getDeliveryQuote => 'ترسیل کی قیمت معلوم کریں';
+
+  @override
+  String get deliveryQuoteRequired => 'آرڈر دینے سے پہلے ترسیل کی قیمت دیکھیں۔';
+
+  @override
+  String get deliveryQuoteFailed =>
+      'ترسیل کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get deliveryFee => 'ترسیل کی فیس';
+
+  @override
+  String deliveryDistance(String distance) {
+    return 'ترسیل کا تخمینی فاصلہ: $distance کلومیٹر';
+  }
+
+  @override
+  String get farmPickupLocation => 'فارم سے وصولی کی جگہ';
+
+  @override
+  String get farmPickupHelp =>
+      'اپنے فارم کا پتہ اور نقاط محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
+
+  @override
+  String get farmPickupSave => 'وصولی کی جگہ محفوظ کریں';
+
+  @override
+  String get farmPickupSaved => 'وصولی کی جگہ محفوظ ہو گئی۔';
+
+  @override
+  String get farmPickupFailed =>
+      'فارم کی جگہ لوڈ یا محفوظ نہیں ہو سکی۔ معلومات چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get farmPickupAfterSignup =>
+      'اکاؤنٹ بنانے کے بعد لسٹنگز میں اپنے فارم سے وصولی کا پتہ اور نقشے کے نقاط محفوظ کریں۔';
+
+  @override
+  String get dispatchTitle => 'ترسیل کی دستیابی';
+
+  @override
+  String get dispatchLoading => 'دستیابی لوڈ ہو رہی ہے…';
+
+  @override
+  String get dispatchOnline => 'آن لائن';
+
+  @override
+  String get dispatchOffline => 'آف لائن';
+
+  @override
+  String get dispatchFresh => 'موجودہ مقام قریبی پیشکشوں کے لیے تیار ہے۔';
+
+  @override
+  String get dispatchStale =>
+      'پیشکشیں وصول اور قبول کرنے کے لیے اپنا موجودہ مقام شیئر کریں۔';
+
+  @override
+  String get dispatchRadius => 'وصولی کا دائرہ';
+
+  @override
+  String get dispatchActive =>
+      'دوسری ترسیل قبول کرنے سے پہلے موجودہ ترسیل مکمل کریں۔';
+
+  @override
+  String get dispatchUpdated => 'مقام آخری بار شیئر کیا گیا';
+
+  @override
+  String get dispatchHelp =>
+      'اپنی نقشہ ایپ سے موجودہ نقاط کاپی کریں۔ جگہ بدلنے یا مقام کی مدت ختم ہونے پر انہیں اپ ڈیٹ کریں۔';
+
+  @override
+  String get dispatchLatitude => 'موجودہ عرض بلد';
+
+  @override
+  String get dispatchLongitude => 'موجودہ طول بلد';
+
+  @override
+  String get dispatchGoOnline => 'آن لائن جائیں';
+
+  @override
+  String get dispatchGoOffline => 'آف لائن جائیں';
+
+  @override
+  String get dispatchUpdateLocation => 'موجودہ مقام شیئر کریں';
+
+  @override
+  String get dispatchRefresh => 'حالت اور پیشکشیں تازہ کریں';
+
+  @override
+  String get dispatchError =>
+      'دستیابی اپ ڈیٹ نہیں ہو سکی۔ کنکشن چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get dispatchDecline => 'پیشکش مسترد کریں';
+
+  @override
+  String get dispatchEarning => 'ترسیل کی آمدنی';
+
+  @override
+  String get dispatchPickupDistance => 'فارم تک فاصلہ';
+
+  @override
+  String get dispatchDeliveryDistance => 'ترسیل کا تخمینی فاصلہ';
+
+  @override
+  String get pushDescription =>
+      'اس آلے پر پش الرٹس فعال کریں۔ اطلاعات ہمیشہ ان باکس میں دستیاب ہیں۔ ہر اکاؤنٹ پر ایک آلہ پش الرٹس وصول کرتا ہے۔';
+
+  @override
+  String get pushEnable => 'پش اطلاعات فعال کریں';
+
+  @override
+  String get pushDisable => 'پش اطلاعات بند کریں';
+
+  @override
+  String get pushDenied =>
+      'آلے کی ترتیبات میں اطلاعات کی اجازت دیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get pushSignIn => 'اطلاعات فعال کرنے کے لیے سائن ان کریں۔';
+
+  @override
+  String get pushInbox => 'اطلاعات کا ان باکس';
+
+  @override
+  String get pushReadAll => 'سب پڑھی ہوئی نشان زد کریں';
+
+  @override
+  String get pushEmpty => 'ابھی کوئی اطلاع نہیں۔';
+
+  @override
+  String get enterCoordinates => 'مقام کے نقاط درج کریں';
+
+  @override
+  String get save => 'محفوظ کریں';
+
+  @override
+  String get saveChanges => 'تبدیلیاں محفوظ کریں';
+
+  @override
+  String get showPassword => 'پاس ورڈ دکھائیں';
+
+  @override
+  String get hidePassword => 'پاس ورڈ چھپائیں';
+
+  @override
+  String get verifiedBadge => 'تصدیق شدہ';
+
+  @override
+  String get notVerifiedBadge => 'تصدیق باقی';
+
+  @override
+  String fieldOptional(String label) {
+    return '$label (اختیاری)';
+  }
+
+  @override
+  String get loginTitle => 'خوش آمدید';
+
+  @override
+  String get loginSubtitle =>
+      'تازہ پیداوار خریدنے، بیچنے یا پہنچانے کے لیے لاگ ان کریں۔';
+
+  @override
+  String get authOrUseEmail => 'یا ای میل سے';
+
+  @override
+  String get loginPasswordRequired => 'اپنا پاس ورڈ درج کریں';
+
+  @override
+  String onboardingStepLabel(int current, int total) {
+    return 'مرحلہ $current از $total';
+  }
+
+  @override
+  String get onboardingRoleTitle => 'آپ فارم ٹو فورک کیسے استعمال کریں گے؟';
+
+  @override
+  String get onboardingRoleSubtitle =>
+      'اپنے مطابق کردار منتخب کریں۔ اس سے آپ کے لیے درست سہولیات سیٹ ہوں گی۔';
+
+  @override
+  String get onboardingAccountTitle => 'اپنا لاگ ان بنائیں';
+
+  @override
+  String get onboardingAccountSubtitle =>
+      'ایسی ای میل استعمال کریں جو آپ کھول سکیں۔ ہم تصدیقی لنک بھیجیں گے۔';
+
+  @override
+  String get onboardingBuyerTitle => 'آپ کے بارے میں';
+
+  @override
+  String get onboardingBuyerSubtitle => 'ہمیں بتائیں کہ خریداری کون کر رہا ہے۔';
+
+  @override
+  String get onboardingFarmTitle => 'آپ اور آپ کا فارم';
+
+  @override
+  String get onboardingFarmSubtitle =>
+      'خریداروں کو آپ کی پیداوار کے ساتھ آپ کے فارم کا نام نظر آتا ہے۔';
+
+  @override
+  String get onboardingVehicleTitle => 'آپ اور آپ کی گاڑی';
+
+  @override
+  String get onboardingVehicleSubtitle =>
+      'گاڑی کی تفصیلات سے آپ کو مناسب ڈیلیوری ملتی ہے۔';
+
+  @override
+  String get onboardingPickupTitle => 'آپ پیداوار کہاں سے لوڈ کرتے ہیں؟';
+
+  @override
+  String get onboardingPickupSubtitle =>
+      'ٹرانسپورٹر اسی پتے سے مال اٹھائیں گے۔ آپ اسے بعد میں لسٹنگز میں بدل سکتے ہیں۔';
+
+  @override
+  String get onboardingIdentityTitle => 'آپ کی شناخت';
+
+  @override
+  String get onboardingIdentitySubtitle =>
+      'آپ کا شناختی کارڈ نمبر ایپ میں ہمیشہ چھپا ہوا دکھایا جاتا ہے۔';
+
+  @override
+  String get onboardingSignedInWithGoogle => 'گوگل سے لاگ ان';
+
+  @override
+  String get fullNameHint => 'وہ نام جو آپ پروفائل پر دکھانا چاہتے ہیں';
+
+  @override
+  String get validationNameShort => 'اپنا پورا نام درج کریں (کم از کم 2 حروف)';
+
+  @override
+  String get businessIndividualNote =>
+      'اپنے یا گھر کے لیے خریداری۔ کاروبار کے نام کی ضرورت نہیں۔';
+
+  @override
+  String get validationAcres => 'ایکڑ عدد میں درج کریں، جیسے 12.5';
+
+  @override
+  String get validationVehicleNumber => 'نمبر پلیٹ درج کریں (3 سے 20 حروف)';
+
+  @override
+  String get cnicHint => '35202-1234567-1';
+
+  @override
+  String cnicDigitsProgress(int count) {
+    return '13 میں سے $count ہندسے';
+  }
+
+  @override
+  String get cnicComplete => '13 ہندسے درج ہو گئے';
+
+  @override
+  String get phoneHint => '0300 1234567';
+
+  @override
+  String phoneSavedAs(String number) {
+    return '$number کے طور پر محفوظ ہوگا';
+  }
+
+  @override
+  String get validationPhoneInvalid =>
+      'درست فون نمبر درج کریں، جیسے 0300 1234567';
+
+  @override
+  String get passwordRuleHint =>
+      'کم از کم 8 حروف۔ حروف اور ہندسے ملانے سے پاس ورڈ مضبوط ہوتا ہے۔';
+
+  @override
+  String get passwordStrengthWeak => 'کمزور';
+
+  @override
+  String get passwordStrengthFair => 'ٹھیک ہے';
+
+  @override
+  String get passwordStrengthStrong => 'مضبوط';
+
+  @override
+  String passwordStrengthIs(String strength) {
+    return 'پاس ورڈ کی مضبوطی: $strength';
+  }
+
+  @override
+  String verifyResendIn(int seconds) {
+    return '$seconds سیکنڈ بعد دوبارہ بھیجیں';
+  }
+
+  @override
+  String get verifyCheckSpam => 'نہیں مل رہی؟ اسپیم یا جنک فولڈر دیکھیں۔';
+
+  @override
+  String get verifyUseDifferentEmail => 'دوسری ای میل استعمال کریں';
+
+  @override
+  String get profileSectionAccount => 'اکاؤنٹ';
+
+  @override
+  String get profileSectionPreferences => 'ترجیحات';
+
+  @override
+  String get editProfile => 'پروفائل میں ترمیم';
+
+  @override
+  String get profileLoadFailed =>
+      'آپ کی پروفائل لوڈ نہیں ہو سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get profileSectionPersonal => 'ذاتی معلومات';
+
+  @override
+  String get profileSectionBusiness => 'کاروبار';
+
+  @override
+  String get profileSectionFarm => 'فارم';
+
+  @override
+  String get profileSectionVehicle => 'گاڑی';
+
+  @override
+  String get profileSectionIdentity => 'لاگ ان اور شناخت';
+
+  @override
+  String get profileIdentityLocked =>
+      'یہ معلومات ایپ میں تبدیل نہیں ہو سکتیں۔ کوئی غلطی ہو تو سپورٹ سے رابطہ کریں۔';
+
+  @override
+  String get profileFarmLocationNotSet => 'ابھی مقرر نہیں';
+
+  @override
+  String get profileSaved => 'پروفائل اپ ڈیٹ ہو گئی۔';
+
+  @override
+  String get profileSaveFailed =>
+      'تبدیلیاں محفوظ نہیں ہو سکیں۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String profileFieldRejected(String field) {
+    return '“$field” قبول نہیں ہوا۔ اسے چیک کر کے دوبارہ کوشش کریں۔';
+  }
+
+  @override
+  String get discardChangesTitle => 'تبدیلیاں رد کریں؟';
+
+  @override
+  String get discardChangesMessage =>
+      'آپ کی تبدیلیاں محفوظ نہیں ہوئیں۔ ابھی جانے سے وہ ضائع ہو جائیں گی۔';
+
+  @override
+  String get discardChanges => 'رد کریں';
+
+  @override
+  String get keepEditing => 'ترمیم جاری رکھیں';
+
+  @override
+  String get profilePhotoChange => 'تصویر بدلیں';
+
+  @override
+  String get profilePhotoAdd => 'تصویر لگائیں';
+
+  @override
+  String get profilePhotoRemove => 'تصویر ہٹائیں';
+
+  @override
+  String get profilePhotoGallery => 'گیلری سے منتخب کریں';
+
+  @override
+  String get profilePhotoCamera => 'تصویر کھینچیں';
+
+  @override
+  String get profilePhotoCropTitle => 'تصویر کاٹیں';
+
+  @override
+  String get profilePhotoUploading => 'تصویر اپ لوڈ ہو رہی ہے…';
+
+  @override
+  String get profilePhotoUpdated => 'تصویر اپ ڈیٹ ہو گئی۔';
+
+  @override
+  String get profilePhotoRemoved => 'تصویر ہٹا دی گئی۔';
+
+  @override
+  String get profilePhotoFailed =>
+      'آپ کی تصویر اپ ڈیٹ نہیں ہو سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
+
+  @override
+  String get profilePhotoPickFailed =>
+      'تصاویر یا کیمرا نہیں کھل سکا۔ سیٹنگز میں ایپ کی اجازتیں دیکھیں۔';
+
+  @override
+  String profilePhotoOf(String name) {
+    return '$name کی پروفائل تصویر';
+  }
+
+  @override
+  String get cropOther => 'دیگر';
+
+  @override
+  String get aiOtherCropNoGrading =>
+      'اس فصل کے لیے اے آئی گریڈنگ دستیاب نہیں۔ آپ پھر بھی اسے فروخت کے لیے درج کر سکتے ہیں اور معیار کا گریڈ خود منتخب کر سکتے ہیں۔';
+
+  @override
+  String get aiGradeAdvisory =>
+      'یہ گریڈ ماڈل کی تجویز ہے۔ اسے استعمال کرنے سے پہلے جائزہ لیں۔';
 }

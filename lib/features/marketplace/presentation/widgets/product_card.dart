@@ -5,6 +5,7 @@ import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
+import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
@@ -48,34 +49,41 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ── Image area ──────────────────────────────────────────────
-              Stack(
-                children: [
-                  _ProductImage(images: product.images),
-                  if (!isAvailable)
-                    Positioned.fill(
-                      child: Container(
-                        color: AppColors.black.withValues(alpha: 0.45),
-                        alignment: Alignment.center,
-                        child: Text(
-                          productStatusLabel(context, product.status),
-                          style: AppTextStyles.small.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w700,
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppRadius.md),
+                ),
+                child: Stack(
+                  children: [
+                    _ProductImage(images: product.images),
+                    if (!isAvailable)
+                      Positioned.fill(
+                        child: Container(
+                          color: AppColors.black.withValues(alpha: 0.45),
+                          alignment: Alignment.center,
+                          child: Text(
+                            productStatusLabel(context, product.status),
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
+                    PositionedDirectional(
+                      top: AppSpacing.sm,
+                      start: AppSpacing.sm,
+                      child: AppBadge(
+                        label: qualityGradeLabel(context, product.qualityGrade),
+                        icon: Icons.verified_rounded,
+                        backgroundColor: AppColors.white.withValues(
+                          alpha: 0.92,
+                        ),
+                        foregroundColor: _gradeColor(product.qualityGrade),
+                      ),
                     ),
-                  PositionedDirectional(
-                    top: AppSpacing.sm,
-                    start: AppSpacing.sm,
-                    child: AppBadge(
-                      label: qualityGradeLabel(context, product.qualityGrade),
-                      icon: Icons.verified_rounded,
-                      backgroundColor: AppColors.white.withValues(alpha: 0.92),
-                      foregroundColor: _gradeColor(product.qualityGrade),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               // ── Info area ───────────────────────────────────────────────
@@ -129,7 +137,13 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
-                        _AddButton(enabled: isAvailable, onTap: onAddToCart),
+                        AppIconCircleButton(
+                          icon: Icons.add_rounded,
+                          onTap: onAddToCart,
+                          enabled: isAvailable,
+                          filled: true,
+                          visibleSize: 30,
+                        ),
                       ],
                     ),
                   ],
@@ -174,35 +188,4 @@ Color _gradeColor(QualityGrade grade) {
     QualityGrade.b => AppColors.accentYellow,
     QualityGrade.c => AppColors.errorRed,
   };
-}
-
-class _AddButton extends StatelessWidget {
-  const _AddButton({required this.enabled, required this.onTap});
-  final bool enabled;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          color: enabled
-              ? AppColors.primaryGreen
-              : AppColors.textDark.withValues(alpha: 0.2),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          Icons.add_rounded,
-          size: 18,
-          color: enabled
-              ? AppColors.white
-              : AppColors.textDark.withValues(alpha: 0.4),
-        ),
-      ),
-    );
-  }
 }

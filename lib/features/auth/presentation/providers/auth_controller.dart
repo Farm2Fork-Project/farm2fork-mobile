@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository.dart';
-import 'package:farm2fork_mobile/features/auth/data/repositories/mock_auth_repository.dart';
+import 'package:farm2fork_mobile/features/auth/data/repositories/auth_repository_provider.dart';
 
 final authControllerProvider = AsyncNotifierProvider<AuthController, AuthState>(
   AuthController.new,
@@ -18,10 +20,7 @@ class AuthController extends AsyncNotifier<AuthState> {
     return const AuthState(status: AuthStatus.guest);
   }
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final user = await ref
@@ -41,7 +40,87 @@ class AuthController extends AsyncNotifier<AuthState> {
     });
   }
 
+  /// Google sign-in. On success the state becomes authenticated; when the
+  /// identity has no account yet the returned outcome is
+  /// [FirebaseOnboardingRequired] and the caller routes into onboarding.
+  Future<FirebaseSignInOutcome> signInWithGoogle() {
+    return _runFirebaseSignIn(
+      () => ref.read(authRepositoryProvider).signInWithGoogle(),
+    );
+  }
+
+  /// Email/password sign-in for a returning user (same outcome semantics).
+  Future<FirebaseSignInOutcome> signInWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _runFirebaseSignIn(
+      () => ref
+          .read(authRepositoryProvider)
+          .signInWithEmail(email: email, password: password),
+    );
+  }
+
+  /// Refreshes the Firebase user after email verification and re-exchanges the
+  /// ID token with the backend.
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession() {
+    return _runFirebaseSignIn(
+      () => ref.read(authRepositoryProvider).refreshVerifiedEmailSession(),
+    );
+  }
+
+  Future<void> resendEmailVerification() {
+    return ref.read(authRepositoryProvider).resendEmailVerification();
+  }
+
+  Future<void> sendPasswordReset({required String email}) {
+    return ref.read(authRepositoryProvider).sendPasswordReset(email: email);
+  }
+
+  /// Complete first-time onboarding, then authenticate.
+  Future<void> completeOnboarding(OnboardingRequest request) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final user = await ref
+          .read(authRepositoryProvider)
+          .completeOnboarding(request);
+      return AuthState(status: AuthStatus.authenticated, user: user);
+    });
+  }
+
+  /// Swaps in a refreshed copy of the signed-in user (after a profile or photo
+  /// edit) so every header that reads the user updates, without a loading flash.
+  void updateCurrentUser(AuthUser user) {
+    final current = state.value;
+    if (current == null || current.user == null) return;
+    state = AsyncData(AuthState(status: current.status, user: user));
+  }
+
+  Future<FirebaseSignInOutcome> _runFirebaseSignIn(
+    Future<FirebaseSignInOutcome> Function() action,
+  ) async {
+    state = const AsyncLoading();
+    try {
+      final outcome = await action();
+      // A verification/onboarding requirement keeps the user in the guest
+      // shell; the screen routes from the returned outcome.
+      state = AsyncData(
+        outcome is FirebaseSignedIn
+            ? AuthState(status: AuthStatus.authenticated, user: outcome.user)
+            : const AuthState(status: AuthStatus.guest),
+      );
+      return outcome;
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+      rethrow;
+    }
+  }
+
   Future<void> signOut() async {
+    final userId = state.value?.user?.id;
+    if (userId != null) {
+      await ref.read(pushLogoutCleanupProvider)(userId);
+    }
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signOut();
