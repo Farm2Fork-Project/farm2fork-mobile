@@ -1,4 +1,31 @@
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
+import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
+
+/// Result of exchanging a verified Firebase identity with the backend.
+sealed class FirebaseSignInOutcome {
+  const FirebaseSignInOutcome();
+}
+
+/// The identity is linked to a Farm2Fork account and is now signed in.
+class FirebaseSignedIn extends FirebaseSignInOutcome {
+  const FirebaseSignedIn(this.user);
+  final AuthUser user;
+}
+
+/// Authenticated with Firebase, but no Farm2Fork account exists yet — the user
+/// must complete onboarding (choose a role and provide profile/KYC).
+class FirebaseOnboardingRequired extends FirebaseSignInOutcome {
+  const FirebaseOnboardingRequired({required this.email, this.displayName});
+  final String email;
+  final String? displayName;
+}
+
+/// Firebase accepted the credential, but the backend will not issue a session
+/// until the account's Firebase email is verified.
+class FirebaseVerificationRequired extends FirebaseSignInOutcome {
+  const FirebaseVerificationRequired({required this.email});
+  final String email;
+}
 
 sealed class SignUpRequest {
   const SignUpRequest({
@@ -58,8 +85,34 @@ class TransporterSignUpRequest extends SignUpRequest {
 }
 
 abstract class AuthRepository {
+  /// Restore a persisted backend session (validates the stored JWT via /auth/me).
   Future<AuthUser?> restoreSession();
-  Future<AuthUser> signIn({required String email, required String password});
-  Future<AuthUser> signUp({required SignUpRequest request});
+
+  /// Google sign-in → backend session, or onboarding-required for a new identity.
+  Future<FirebaseSignInOutcome> signInWithGoogle();
+
+  /// Email/password sign-in → backend session, or onboarding-required.
+  Future<FirebaseSignInOutcome> signInWithEmail({
+    required String email,
+    required String password,
+  });
+
+  /// Re-check Firebase's current user after the user follows a verification
+  /// link, then exchange the refreshed identity token with the backend.
+  Future<FirebaseSignInOutcome> refreshVerifiedEmailSession();
+
+  Future<void> sendPasswordReset({required String email});
+
+  Future<void> resendEmailVerification();
+
+  /// Complete first-time onboarding for the current Firebase identity.
+  Future<AuthUser> completeOnboarding(OnboardingRequest request);
+
   Future<void> signOut();
+
+  // --- Legacy mock-era API (retired once the Firebase UI lands). ---
+  @Deprecated('Use signInWithEmail / signInWithGoogle')
+  Future<AuthUser> signIn({required String email, required String password});
+  @Deprecated('Use completeOnboarding')
+  Future<AuthUser> signUp({required SignUpRequest request});
 }

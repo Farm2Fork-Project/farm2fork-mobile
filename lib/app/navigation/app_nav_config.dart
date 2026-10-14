@@ -10,6 +10,7 @@ enum AppNavDestination {
   trace,
   cart,
   orders,
+  deliveries,
   shipments,
   loans,
   feed,
@@ -76,10 +77,12 @@ abstract final class AppNavConfig {
         _item(role, AppNavDestination.feed),
         _item(role, AppNavDestination.profile),
       ],
+      // Transporters are mobile-only: nearby offers first, then their
+      // delivery history.
       AppUserRole.transporter => [
+        _item(role, AppNavDestination.deliveries),
         _item(role, AppNavDestination.shipments),
         _item(role, AppNavDestination.trace),
-        _item(role, AppNavDestination.orders),
         _item(role, AppNavDestination.profile),
       ],
       AppUserRole.financialPartner => [
@@ -87,17 +90,81 @@ abstract final class AppNavConfig {
         _item(role, AppNavDestination.feed),
         _item(role, AppNavDestination.profile),
       ],
-      AppUserRole.admin => [
-        _item(role, AppNavDestination.marketplace),
-        _item(role, AppNavDestination.orders),
-        _item(role, AppNavDestination.loans),
-        _item(role, AppNavDestination.feed),
-        _item(role, AppNavDestination.profile),
-      ],
+      AppUserRole.admin => const <AppNavItem>[],
     };
   }
 
   static String homeRouteForRole(AppUserRole role) => forRole(role).first.route;
+
+  /// Farmer microfinance (not a tab: reached from Profile and notifications).
+  static const String farmerLoansRoute = '/farmer/loans';
+
+  /// Community feed for buyers (farmers and partners have it as a tab).
+  static const String buyerCommunityRoute = '/buyer/community';
+
+  static const String notificationsRoute = '/notifications';
+  static const String newPostRoute = '/community/new';
+  static String postRoute(String postId) => '/community/posts/$postId';
+
+  /// Public provenance journey for one product (also the mobile target for a
+  /// scanned QR trace link).
+  static String traceRouteForProduct(String productId) =>
+      '/trace/products/$productId';
+
+  static String roleRoutePrefix(AppUserRole role) {
+    return switch (role) {
+      AppUserRole.farmer => '/farmer',
+      AppUserRole.buyer => '/buyer',
+      AppUserRole.transporter => '/transporter',
+      AppUserRole.financialPartner => '/finance',
+      AppUserRole.admin => '/admin',
+    };
+  }
+
+  static bool isPublicRoute(String location) {
+    return location.startsWith('/auth') ||
+        location.startsWith('/guest') ||
+        location.startsWith('/marketplace/products/') ||
+        location.startsWith('/trace/products/') ||
+        (location.startsWith('/settings/') && !_isAccountSettings(location)) ||
+        // Farmer onboarding pins the farm before the backend session exists.
+        location == '/pick-location';
+  }
+
+  // Settings pages that need a signed-in account (guests are sent away).
+  static bool _isAccountSettings(String location) =>
+      location == '/settings/profile';
+
+  static bool canAccessRouteForRole({
+    required AppUserRole role,
+    required String location,
+  }) {
+    if (role == AppUserRole.admin) return false;
+    if (location.startsWith('/marketplace/products/')) return true;
+    // A product's provenance is public; any signed-in role may open it.
+    if (location.startsWith('/trace/products/')) return true;
+    if (location == '/pick-location') return true;
+    if (location == notificationsRoute) return true;
+    if (location.startsWith('/community/')) {
+      return role == AppUserRole.farmer ||
+          role == AppUserRole.buyer ||
+          role == AppUserRole.financialPartner;
+    }
+    // Settings, profile editing and help pages are shared by every role.
+    if (location.startsWith('/settings/')) return true;
+    if (role == AppUserRole.buyer &&
+        (location == '/checkout' || location == '/payments')) {
+      return true;
+    }
+    if ((role == AppUserRole.buyer ||
+            role == AppUserRole.farmer ||
+            role == AppUserRole.transporter) &&
+        location.startsWith('/shipments/')) {
+      return true;
+    }
+    final prefix = roleRoutePrefix(role);
+    return location == prefix || location.startsWith('$prefix/');
+  }
 
   static AppNavItem _item(AppUserRole role, AppNavDestination destination) {
     return AppNavItem(
@@ -123,6 +190,7 @@ abstract final class AppNavConfig {
       AppNavDestination.trace => 'trace',
       AppNavDestination.cart => 'cart',
       AppNavDestination.orders => 'orders',
+      AppNavDestination.deliveries => 'deliveries',
       AppNavDestination.shipments => 'shipments',
       AppNavDestination.loans => 'loans',
       AppNavDestination.feed => 'feed',
@@ -139,7 +207,8 @@ abstract final class AppNavConfig {
       AppNavDestination.trace => Icons.qr_code_scanner_rounded,
       AppNavDestination.cart => Icons.shopping_basket_rounded,
       AppNavDestination.orders => Icons.receipt_long_rounded,
-      AppNavDestination.shipments => Icons.local_shipping_rounded,
+      AppNavDestination.deliveries => Icons.delivery_dining_rounded,
+      AppNavDestination.shipments => Icons.history_rounded,
       AppNavDestination.loans => Icons.account_balance_rounded,
       AppNavDestination.feed => Icons.forum_rounded,
       AppNavDestination.profile => Icons.person_rounded,
@@ -156,6 +225,7 @@ abstract final class AppNavConfig {
       AppNavDestination.trace => _traceLabel,
       AppNavDestination.cart => _cartLabel,
       AppNavDestination.orders => _ordersLabel,
+      AppNavDestination.deliveries => _deliveriesLabel,
       AppNavDestination.shipments => _shipmentsLabel,
       AppNavDestination.loans => _loansLabel,
       AppNavDestination.feed => _feedLabel,
@@ -172,6 +242,7 @@ String _traceLabel(BuildContext context) => context.l10n.navTrace;
 String _cartLabel(BuildContext context) => context.l10n.navCart;
 String _ordersLabel(BuildContext context) => context.l10n.navOrders;
 String _shipmentsLabel(BuildContext context) => context.l10n.navShipments;
+String _deliveriesLabel(BuildContext context) => context.l10n.navDeliveries;
 String _loansLabel(BuildContext context) => context.l10n.navLoans;
 String _feedLabel(BuildContext context) => context.l10n.navFeed;
 String _profileLabel(BuildContext context) => context.l10n.navProfile;

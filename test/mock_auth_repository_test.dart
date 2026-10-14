@@ -27,21 +27,27 @@ void main() {
 
   group('MockAuthRepository.signIn', () {
     test('buyer@test.com returns buyer role', () async {
-      final user =
-          await repo.signIn(email: 'buyer@test.com', password: 'test1234');
+      final user = await repo.signIn(
+        email: 'buyer@test.com',
+        password: 'test1234',
+      );
       expect(user.role, AppUserRole.buyer);
       expect(user.email, 'buyer@test.com');
     });
 
     test('farmer@test.com returns farmer role', () async {
-      final user =
-          await repo.signIn(email: 'farmer@test.com', password: 'test1234');
+      final user = await repo.signIn(
+        email: 'farmer@test.com',
+        password: 'test1234',
+      );
       expect(user.role, AppUserRole.farmer);
     });
 
     test('transporter@test.com returns transporter role', () async {
       final user = await repo.signIn(
-          email: 'transporter@test.com', password: 'test1234');
+        email: 'transporter@test.com',
+        password: 'test1234',
+      );
       expect(user.role, AppUserRole.transporter);
     });
 

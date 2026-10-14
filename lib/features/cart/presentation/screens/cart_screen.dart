@@ -10,9 +10,12 @@ import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/core/widgets/app_badge.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
+import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/cart_item.dart';
 import 'package:farm2fork_mobile/features/cart/data/models/farmer_cart_group.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/utils/product_l10n.dart';
 
 class CartScreen extends ConsumerWidget {
@@ -30,10 +33,9 @@ class CartScreen extends ConsumerWidget {
         actions: [
           if (groups.isNotEmpty)
             TextButton(
-              onPressed: () =>
-                  ref.read(cartControllerProvider.notifier).clear(),
+              onPressed: () => _confirmClearCart(context, ref),
               child: Text(
-                context.l10n.removeItem,
+                context.l10n.clearCart,
                 style: AppTextStyles.small.copyWith(
                   color: AppColors.errorRed,
                   fontWeight: FontWeight.w600,
@@ -63,6 +65,44 @@ class CartScreen extends ConsumerWidget {
             ),
     );
   }
+
+  void _confirmClearCart(BuildContext context, WidgetRef ref) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          context.l10n.clearCartConfirmTitle,
+          style: AppTextStyles.h3,
+        ),
+        content: Text(
+          context.l10n.clearCartConfirmMessage,
+          style: AppTextStyles.body,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              context.l10n.cancel,
+              style: const TextStyle(color: AppColors.textMuted),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(cartControllerProvider.notifier).clear();
+              Navigator.pop(ctx);
+            },
+            child: Text(
+              context.l10n.clearCart,
+              style: const TextStyle(
+                color: AppColors.errorRed,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ─── Farmer Group Card ────────────────────────────────────────────────────────
@@ -73,6 +113,7 @@ class _FarmerGroupCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authControllerProvider).asData?.value;
     return AppCard(
       padding: EdgeInsets.zero,
       child: Column(
@@ -185,22 +226,16 @@ class _FarmerGroupCard extends ConsumerWidget {
                   icon: Icons.lock_outline_rounded,
                   expand: true,
                   onPressed: () {
-                    // Placeholder: real checkout will navigate to payment flow
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          context.l10n.checkoutForFarmer(group.farmerName),
-                          style: AppTextStyles.small.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-                        backgroundColor: AppColors.secondaryBlue,
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
-                        ),
-                      ),
-                    );
+                    if (authState?.isAuthenticated != true) {
+                      showAuthRequiredSheet(
+                        context,
+                        title: context.l10n.loginRequired,
+                        message: context.l10n.loginToCheckout,
+                        icon: Icons.lock_outline_rounded,
+                      );
+                      return;
+                    }
+                    context.push('/checkout?farmerId=${group.farmerId}');
                   },
                 ),
               ],
@@ -282,10 +317,11 @@ class _CartItemRow extends StatelessWidget {
           // Quantity controls
           Row(
             children: [
-              _SmallQBtn(
+              AppIconCircleButton(
                 icon: Icons.remove_rounded,
                 onTap: onDecrement,
                 enabled: item.quantity > 1,
+                visibleSize: 26,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
@@ -296,15 +332,13 @@ class _CartItemRow extends StatelessWidget {
                   ),
                 ),
               ),
-              _SmallQBtn(
+              AppIconCircleButton(
                 icon: Icons.add_rounded,
                 onTap: onIncrement,
-                enabled: true,
+                visibleSize: 26,
               ),
             ],
           ),
-
-          const SizedBox(width: AppSpacing.sm),
 
           // Remove button
           IconButton(
@@ -322,52 +356,13 @@ class _CartItemRow extends StatelessWidget {
                     style: AppTextStyles.small.copyWith(color: AppColors.white),
                   ),
                   backgroundColor: AppColors.errorRed,
-                  duration: const Duration(milliseconds: 800),
+                  duration: AppDurations.quickConfirmation,
                   behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SmallQBtn extends StatelessWidget {
-  const _SmallQBtn({
-    required this.icon,
-    required this.onTap,
-    required this.enabled,
-  });
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        width: 26,
-        height: 26,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: enabled
-                ? AppColors.primaryGreen.withValues(alpha: 0.5)
-                : AppColors.surfaceMedium,
-          ),
-        ),
-        child: Icon(
-          icon,
-          size: 14,
-          color: enabled
-              ? AppColors.primaryGreen
-              : AppColors.textDark.withValues(alpha: 0.3),
-        ),
       ),
     );
   }

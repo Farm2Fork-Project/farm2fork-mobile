@@ -4,28 +4,45 @@ import 'package:go_router/go_router.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/buyer_signup_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/farmer_signup_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/email_verification_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/guest_account_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/login_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/signup_screen.dart';
-import 'package:farm2fork_mobile/features/auth/presentation/screens/transporter_signup_screen.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/screens/onboarding_flow_screen.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_screen.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/screens/checkout_screen.dart';
 import 'package:farm2fork_mobile/features/feed/presentation/screens/feed_screen.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_edit_screen.dart';
 import 'package:farm2fork_mobile/features/finance/presentation/screens/loans_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/listings_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marketplace_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/screens/orders_screen.dart';
+import 'package:farm2fork_mobile/features/payments/presentation/screens/payment_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/notification_settings_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/language_display_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/contact_us_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/about_us_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/privacy_policy_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/terms_conditions_screen.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/screens/faq_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipments_screen.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/deliveries_screen.dart';
+import 'package:farm2fork_mobile/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:farm2fork_mobile/features/loans/presentation/screens/farmer_loans_screen.dart';
+import 'package:farm2fork_mobile/features/loans/presentation/screens/loan_review_screen.dart';
+import 'package:farm2fork_mobile/features/community/presentation/screens/create_post_screen.dart';
+import 'package:farm2fork_mobile/features/community/presentation/screens/post_detail_screen.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipment_tracking_screen.dart';
 import 'package:farm2fork_mobile/features/traceability/presentation/screens/trace_scanner_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -57,14 +74,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (status == AuthStatus.authenticated) {
+        if (authState?.role == AppUserRole.admin) {
+          return AppNavConfig.guestHomeRoute;
+        }
         if (isAuthRoute || isGuestRoute) {
           return AppNavConfig.homeRouteForRole(authState!.role!);
+        }
+        if (!AppNavConfig.canAccessRouteForRole(
+          role: authState!.role!,
+          location: state.matchedLocation,
+        )) {
+          return AppNavConfig.homeRouteForRole(authState.role!);
         }
         return null;
       }
 
       // guest / unauthenticated / sessionExpired → guest shell
-      if (!isGuestRoute && !isAuthRoute) {
+      if (!AppNavConfig.isPublicRoute(state.matchedLocation)) {
         return AppNavConfig.guestHomeRoute;
       }
       return null;
@@ -76,23 +102,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
-        path: '/auth/signup',
+        path: '/auth/verify',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, _) => const SignupScreen(),
-        routes: [
-          GoRoute(
-            path: 'buyer',
-            builder: (_, _) => const BuyerSignupScreen(),
-          ),
-          GoRoute(
-            path: 'farmer',
-            builder: (_, _) => const FarmerSignupScreen(),
-          ),
-          GoRoute(
-            path: 'transporter',
-            builder: (_, _) => const TransporterSignupScreen(),
-          ),
-        ],
+        builder: (_, _) => const EmailVerificationScreen(),
+      ),
+      GoRoute(
+        path: '/auth/onboarding',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const OnboardingFlowScreen(),
       ),
       GoRoute(
         path: '/marketplace/products/:id',
@@ -101,6 +118,118 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           return ProductDetailScreen(productId: id);
         },
+      ),
+      GoRoute(
+        path: '/trace/products/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            TraceScannerScreen(initialProductId: state.pathParameters['id']),
+      ),
+      GoRoute(
+        path: '/checkout',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            CheckoutScreen(farmerId: state.uri.queryParameters['farmerId']),
+      ),
+      GoRoute(
+        path: '/payments',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) => PaymentScreen(
+          orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
+          returnResult: state.uri.queryParameters['result'],
+        ),
+      ),
+      GoRoute(
+        path: '/shipments/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            ShipmentTrackingScreen(shipmentId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: AppNavConfig.notificationsRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppNavConfig.farmerLoansRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FarmerLoansScreen(),
+      ),
+      GoRoute(
+        path: '/finance/loans/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            LoanReviewScreen(loanId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: AppNavConfig.buyerCommunityRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FeedScreen(),
+      ),
+      GoRoute(
+        path: AppNavConfig.newPostRoute,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const CreatePostScreen(),
+      ),
+      GoRoute(
+        path: '/community/posts/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            PostDetailScreen(postId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: LocationPickerScreen.route,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) => LocationPickerScreen(
+          args:
+              state.extra as LocationPickerArgs? ??
+              const LocationPickerArgs(purpose: LocationPickerPurpose.dropoff),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/farm-location',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FarmLocationEditScreen(),
+      ),
+      GoRoute(
+        path: '/settings/profile',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/language-display',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const LanguageDisplayScreen(),
+      ),
+      GoRoute(
+        path: '/settings/contact-us',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const ContactUsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/about',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const AboutUsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/privacy',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: '/settings/terms',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const TermsConditionsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/faqs',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const FaqScreen(),
       ),
       _guestShell(),
       _roleShell(AppUserRole.buyer),
@@ -147,10 +276,8 @@ Widget _guestScreenFor(AppNavDestination destination) {
 StatefulShellRoute _roleShell(AppUserRole role) {
   final navItems = AppNavConfig.forRole(role);
   return StatefulShellRoute.indexedStack(
-    builder: (context, state, navigationShell) => Farm2ForkTabShell(
-      navigationShell: navigationShell,
-      role: role,
-    ),
+    builder: (context, state, navigationShell) =>
+        Farm2ForkTabShell(navigationShell: navigationShell, role: role),
     branches: [
       for (final item in navItems)
         StatefulShellBranch(
@@ -173,6 +300,7 @@ Widget _screenFor(AppNavDestination destination) {
     AppNavDestination.trace => const TraceScannerScreen(),
     AppNavDestination.cart => const CartScreen(),
     AppNavDestination.orders => const OrdersScreen(),
+    AppNavDestination.deliveries => const DeliveriesScreen(),
     AppNavDestination.shipments => const ShipmentsScreen(),
     AppNavDestination.loans => const LoansScreen(),
     AppNavDestination.feed => const FeedScreen(),
@@ -198,7 +326,10 @@ class _GuestTabShellState extends ConsumerState<GuestTabShell> {
       final status = next.asData?.value.status;
       if (status == AuthStatus.sessionExpired && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.sessionExpiredMessage)),
+          SnackBar(
+            content: Text(context.l10n.sessionExpiredMessage),
+            duration: AppDurations.standardMessage,
+          ),
         );
       }
     });
@@ -206,10 +337,10 @@ class _GuestTabShellState extends ConsumerState<GuestTabShell> {
 
   @override
   Widget build(BuildContext context) => _buildTabView(
-        context,
-        navigationShell: widget.navigationShell,
-        navItems: AppNavConfig.forGuest(),
-      );
+    context,
+    navigationShell: widget.navigationShell,
+    navItems: AppNavConfig.forGuest(),
+  );
 }
 
 class Farm2ForkTabShell extends StatelessWidget {
@@ -224,10 +355,10 @@ class Farm2ForkTabShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _buildTabView(
-        context,
-        navigationShell: navigationShell,
-        navItems: AppNavConfig.forRole(role),
-      );
+    context,
+    navigationShell: navigationShell,
+    navItems: AppNavConfig.forRole(role),
+  );
 }
 
 Widget _buildTabView(

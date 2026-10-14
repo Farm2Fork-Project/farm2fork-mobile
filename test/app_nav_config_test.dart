@@ -35,15 +35,34 @@ void main() {
       );
     });
 
-    test('transporter navigation focuses on shipments and QR scan', () {
+    test('transporter navigation opens on nearby deliveries', () {
       final tabs = AppNavConfig.forRole(AppUserRole.transporter);
 
       expect(tabs.map((tab) => tab.destination).toList(), [
+        AppNavDestination.deliveries,
         AppNavDestination.shipments,
         AppNavDestination.trace,
-        AppNavDestination.orders,
         AppNavDestination.profile,
       ]);
+    });
+
+    test('shared routes are scoped to the roles that use them', () {
+      bool can(AppUserRole role, String location) =>
+          AppNavConfig.canAccessRouteForRole(role: role, location: location);
+
+      expect(can(AppUserRole.farmer, AppNavConfig.farmerLoansRoute), isTrue);
+      expect(can(AppUserRole.buyer, AppNavConfig.farmerLoansRoute), isFalse);
+      expect(can(AppUserRole.buyer, AppNavConfig.postRoute('p1')), isTrue);
+      expect(can(AppUserRole.transporter, AppNavConfig.newPostRoute), isFalse);
+      for (final role in [
+        AppUserRole.farmer,
+        AppUserRole.buyer,
+        AppUserRole.transporter,
+        AppUserRole.financialPartner,
+      ]) {
+        expect(can(role, AppNavConfig.notificationsRoute), isTrue);
+        expect(can(role, '/pick-location'), isTrue);
+      }
     });
 
     test('home routes are role-scoped for separate tab shells', () {
@@ -57,12 +76,16 @@ void main() {
       );
       expect(
         AppNavConfig.homeRouteForRole(AppUserRole.transporter),
-        '/transporter/shipments',
+        '/transporter/deliveries',
       );
       expect(
         AppNavConfig.homeRouteForRole(AppUserRole.financialPartner),
         '/finance/loans',
       );
+    });
+
+    test('admin has no mobile navigation tabs', () {
+      expect(AppNavConfig.forRole(AppUserRole.admin), isEmpty);
     });
 
     test('guest shell has 4 tabs: marketplace, trace, cart, profile', () {
@@ -77,6 +100,72 @@ void main() {
 
     test('guest home route is /guest/marketplace', () {
       expect(AppNavConfig.guestHomeRoute, '/guest/marketplace');
+    });
+
+    test('settings pages are open to every signed-in role, not to guests', () {
+      for (final role in [
+        AppUserRole.buyer,
+        AppUserRole.farmer,
+        AppUserRole.transporter,
+        AppUserRole.financialPartner,
+      ]) {
+        for (final location in [
+          '/settings/profile',
+          '/settings/notifications',
+          '/settings/language-display',
+        ]) {
+          expect(
+            AppNavConfig.canAccessRouteForRole(role: role, location: location),
+            isTrue,
+            reason: '$role $location',
+          );
+        }
+      }
+      expect(AppNavConfig.isPublicRoute('/settings/faqs'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/settings/profile'), isFalse);
+    });
+
+    test('guest and role route guards are centralized', () {
+      expect(AppNavConfig.isPublicRoute('/auth/login'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/guest/trace'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/marketplace/products/abc'), isTrue);
+      expect(AppNavConfig.isPublicRoute('/buyer/cart'), isFalse);
+
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/buyer/cart',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/farmer/listings',
+        ),
+        isFalse,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/checkout',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.buyer,
+          location: '/payments',
+        ),
+        isTrue,
+      );
+      expect(
+        AppNavConfig.canAccessRouteForRole(
+          role: AppUserRole.farmer,
+          location: '/payments',
+        ),
+        isFalse,
+      );
     });
   });
 }
