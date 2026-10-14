@@ -2277,4 +2277,15 @@ class AppLocalizationsUr extends AppLocalizations {
   String profilePhotoOf(String name) {
     return '$name کی پروفائل تصویر';
   }
+
+  @override
+  String get cropOther => 'دیگر';
+
+  @override
+  String get aiOtherCropNoGrading =>
+      'اس فصل کے لیے اے آئی گریڈنگ دستیاب نہیں۔ آپ پھر بھی اسے فروخت کے لیے درج کر سکتے ہیں اور معیار کا گریڈ خود منتخب کر سکتے ہیں۔';
+
+  @override
+  String get aiGradeAdvisory =>
+      'یہ گریڈ ماڈل کی تجویز ہے۔ اسے استعمال کرنے سے پہلے جائزہ لیں۔';
 }

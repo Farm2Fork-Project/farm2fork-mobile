@@ -38,7 +38,29 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
 
   ProductCategory _category = ProductCategory.vegetables;
   QualityGrade _qualityGrade = QualityGrade.a;
+  QualityGrade? _gradeBeforeAi;
+  String _gradingProductName = '';
   ProductUnit _unit = ProductUnit.kg;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() {
+      final name = _nameController.text;
+      if (name == _gradingProductName) return;
+      _gradingProductName = name;
+      _invalidateAiGrade();
+    });
+  }
+
+  void _invalidateAiGrade() {
+    final previous = _gradeBeforeAi;
+    if (previous == null) return;
+    setState(() {
+      _qualityGrade = previous;
+      _gradeBeforeAi = null;
+    });
+  }
 
   @override
   void dispose() {
@@ -317,7 +339,12 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                     ),
                   ],
                   onChanged: (val) {
-                    if (val != null) setState(() => _qualityGrade = val);
+                    if (val != null) {
+                      setState(() {
+                        _qualityGrade = val;
+                        _gradeBeforeAi = null;
+                      });
+                    }
                   },
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -327,8 +354,11 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   valueListenable: _nameController,
                   builder: (context, name, _) => QualityCheckCard(
                     productName: name.text,
-                    onApplyGrade: (grade) =>
-                        setState(() => _qualityGrade = grade),
+                    onInvalidateGrade: _invalidateAiGrade,
+                    onApplyGrade: (grade) => setState(() {
+                      _gradeBeforeAi ??= _qualityGrade;
+                      _qualityGrade = grade;
+                    }),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),

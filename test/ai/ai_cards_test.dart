@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:farm2fork_mobile/core/localization/generated/app_localizations.dart';
 import 'package:farm2fork_mobile/features/ai/data/models/ai_models.dart';
@@ -15,7 +16,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 
 class _Repo implements AiRepository {
-  _Repo({this.quality, this.priceError});
+  _Repo({this.quality, this.priceError, this.pending});
+
+  final Completer<QualityCheck>? pending;
 
   final QualityCheck? quality;
   final AiErrorKind? priceError;
@@ -49,7 +52,7 @@ class _Repo implements AiRepository {
     required GradableCrop crop,
   }) async {
     gradedCrop = crop;
-    return quality!;
+    return pending == null ? quality! : await pending!.future;
   }
 }
 
@@ -122,40 +125,48 @@ void main() {
     expect(find.textContaining('No price rule'), findsOneWidget);
   });
 
-  testWidgets('quality card guesses the crop, labels previews and applies', (
-    tester,
-  ) async {
-    QualityGrade? applied;
-    final repo = _Repo(
-      quality: const QualityCheck(
-        modelGrade: 'B',
-        suggestedListingGrade: QualityGrade.b,
-        confidence: 0.26,
-        cropSupported: true,
-        lowConfidence: true,
-        modelStatus: AiModelStatus.untrained,
-      ),
-    );
-    await _pump(
-      tester,
-      repo,
-      QualityCheckCard(
-        productName: 'Chaunsa Mango',
-        onApplyGrade: (grade) => applied = grade,
-        pickPhoto: _fakePhoto,
-      ),
-    );
+  testWidgets(
+    'quality card requires explicit crop, labels previews and applies',
+    (tester) async {
+      QualityGrade? applied;
+      final repo = _Repo(
+        quality: const QualityCheck(
+          modelGrade: 'B',
+          suggestedListingGrade: QualityGrade.b,
+          confidence: 0.26,
+          cropSupported: true,
+          lowConfidence: true,
+          modelStatus: AiModelStatus.untrained,
+        ),
+      );
+      await _pump(
+        tester,
+        repo,
+        QualityCheckCard(
+          productName: 'Chaunsa Mango',
+          onApplyGrade: (grade) => applied = grade,
+          pickPhoto: _fakePhoto,
+        ),
+      );
 
-    expect(find.textContaining("isn't trained yet"), findsOneWidget);
-    await tester.tap(find.text('Choose from gallery'));
-    await tester.pumpAndSettle();
+      expect(find.textContaining("isn't trained yet"), findsOneWidget);
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pumpAndSettle();
+      expect(repo.gradedCrop, isNull);
+      await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Mango').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pumpAndSettle();
 
-    expect(repo.gradedCrop, GradableCrop.mango);
-    expect(find.text('Grade B · 26% confidence'), findsOneWidget);
-    expect(find.textContaining('Preview only'), findsOneWidget);
-    await tester.tap(find.text('Use grade B'));
-    expect(applied, QualityGrade.b);
-  });
+      expect(repo.gradedCrop, GradableCrop.mango);
+      expect(find.text('Grade B · 26% confidence'), findsOneWidget);
+      expect(find.textContaining('Preview only'), findsOneWidget);
+      await tester.tap(find.text('Use grade B'));
+      expect(applied, QualityGrade.b);
+    },
+  );
 
   testWidgets('quality card asks for the crop and offers no grade for a D', (
     tester,
@@ -195,5 +206,154 @@ void main() {
     expect(repo.gradedCrop, GradableCrop.rice);
     expect(find.textContaining('Below listing grades'), findsOneWidget);
     expect(find.textContaining('Use grade'), findsNothing);
+  });
+  testWidgets('Other never picks a photo or calls grading', (tester) async {
+    final repo = _Repo();
+    var picks = 0;
+    await _pump(
+      tester,
+      repo,
+      QualityCheckCard(
+        productName: 'Cotton',
+        onApplyGrade: (_) {},
+        pickPhoto: (_) async {
+          picks++;
+          return _fakePhoto(ImageSource.gallery);
+        },
+      ),
+    );
+    await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Other').last);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('AI grading is not available'), findsOneWidget);
+    expect(find.text('Choose from gallery'), findsNothing);
+    expect(picks, 0);
+    expect(repo.gradedCrop, isNull);
+  });
+
+  testWidgets('crop change ignores an in-flight grade', (tester) async {
+    final pending = Completer<QualityCheck>();
+    final repo = _Repo(pending: pending);
+    await _pump(
+      tester,
+      repo,
+      QualityCheckCard(
+        productName: 'Wheat',
+        onApplyGrade: (_) {},
+        pickPhoto: _fakePhoto,
+      ),
+    );
+    await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Wheat').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Choose from gallery'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(repo.gradedCrop, GradableCrop.wheat);
+    await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.tap(find.text('Other').last);
+    await tester.pumpAndSettle();
+    pending.complete(
+      const QualityCheck(
+        modelGrade: 'A',
+        suggestedListingGrade: QualityGrade.a,
+        confidence: .9,
+        cropSupported: true,
+        lowConfidence: false,
+        modelStatus: AiModelStatus.trained,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Grade A'), findsNothing);
+    expect(find.text('Use grade A'), findsNothing);
+  });
+  testWidgets(
+    'renaming the product clears a result and ignores pending grading',
+    (tester) async {
+      final pending = Completer<QualityCheck>();
+      final repo = _Repo(pending: pending);
+      final name = ValueNotifier('Wheat');
+      addTearDown(name.dispose);
+      await _pump(
+        tester,
+        repo,
+        ValueListenableBuilder<String>(
+          valueListenable: name,
+          builder: (_, value, _) => QualityCheckCard(
+            productName: value,
+            onApplyGrade: (_) {},
+            pickPhoto: _fakePhoto,
+          ),
+        ),
+      );
+      await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Wheat').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      name.value = 'Mango';
+      await tester.pumpAndSettle();
+      pending.complete(
+        const QualityCheck(
+          modelGrade: 'A',
+          suggestedListingGrade: QualityGrade.a,
+          confidence: .9,
+          cropSupported: true,
+          lowConfidence: false,
+          modelStatus: AiModelStatus.trained,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Use grade A'), findsNothing);
+      expect(find.textContaining('Grade A'), findsNothing);
+    },
+  );
+
+  testWidgets('choosing a replacement photo clears the prior suggestion', (
+    tester,
+  ) async {
+    final repo = _Repo(
+      quality: const QualityCheck(
+        modelGrade: 'B',
+        suggestedListingGrade: QualityGrade.b,
+        confidence: .9,
+        cropSupported: true,
+        lowConfidence: false,
+        modelStatus: AiModelStatus.trained,
+      ),
+    );
+    final replacement = Completer<XFile?>();
+    var picks = 0;
+    var invalidations = 0;
+    await _pump(
+      tester,
+      repo,
+      QualityCheckCard(
+        productName: 'Wheat',
+        onApplyGrade: (_) {},
+        onInvalidateGrade: () => invalidations++,
+        pickPhoto: (source) =>
+            ++picks == 1 ? _fakePhoto(source) : replacement.future,
+      ),
+    );
+    await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Wheat').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Choose from gallery'));
+    await tester.pumpAndSettle();
+    expect(find.text('Use grade B'), findsOneWidget);
+    final before = invalidations;
+    await tester.tap(find.text('Choose from gallery'));
+    await tester.pump();
+    expect(find.text('Use grade B'), findsNothing);
+    expect(invalidations, before + 1);
+    replacement.complete(null);
+    await tester.pumpAndSettle();
   });
 }

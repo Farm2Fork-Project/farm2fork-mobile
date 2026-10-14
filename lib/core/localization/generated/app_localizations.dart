@@ -4069,6 +4069,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile photo of {name}'**
   String profilePhotoOf(String name);
+
+  /// No description provided for @cropOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get cropOther;
+
+  /// No description provided for @aiOtherCropNoGrading.
+  ///
+  /// In en, this message translates to:
+  /// **'AI grading is not available for this crop. You can still list it and choose a quality grade manually.'**
+  String get aiOtherCropNoGrading;
+
+  /// No description provided for @aiGradeAdvisory.
+  ///
+  /// In en, this message translates to:
+  /// **'This grade is a model suggestion. Review it before choosing to use it.'**
+  String get aiGradeAdvisory;
 }
 
 class _AppLocalizationsDelegate

@@ -1687,5 +1687,8 @@
   "profilePhotoPickFailed": "Couldn't open your photos or camera. Check the app's permissions in Settings.",
   "@profilePhotoPickFailed": {"description": "Photo picker error"},
   "profilePhotoOf": "Profile photo of {name}",
-  "@profilePhotoOf": {"description": "Accessibility label of an avatar", "placeholders": {"name": {"type": "String"}}}
+  "@profilePhotoOf": {"description": "Accessibility label of an avatar", "placeholders": {"name": {"type": "String"}}},
+  "cropOther": "Other",
+  "aiOtherCropNoGrading": "AI grading is not available for this crop. You can still list it and choose a quality grade manually.",
+  "aiGradeAdvisory": "This grade is a model suggestion. Review it before choosing to use it."
 }

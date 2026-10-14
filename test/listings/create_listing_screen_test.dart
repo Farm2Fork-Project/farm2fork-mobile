@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/listings/data/models/new_listing.dart';
+import 'package:farm2fork_mobile/features/ai/data/models/ai_models.dart';
+import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +13,16 @@ import 'package:farm2fork_mobile/features/listings/data/repositories/listings_re
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
 import 'listings_controller_test.dart' show FarmerAuth, RecordingListings;
 
+class _CropListings extends RecordingListings {
+  NewListing? lastSubmitted;
+
+  @override
+  Future<Product> createListing(String farmerId, NewListing listing) {
+    lastSubmitted = listing;
+    return super.createListing(farmerId, listing);
+  }
+}
+
 void main() {
   for (final language in ['en', 'ur']) {
     testWidgets(
@@ -19,7 +32,7 @@ void main() {
         tester.view.devicePixelRatio = 1;
         addTearDown(tester.view.resetPhysicalSize);
         addTearDown(tester.view.resetDevicePixelRatio);
-        final repository = RecordingListings()..fail = true;
+        final repository = _CropListings()..fail = true;
         final router = GoRouter(
           routes: [
             GoRoute(
@@ -70,7 +83,24 @@ void main() {
           await tester.pumpAndSettle();
         }
 
-        await fill(l10n.produceName, 'Mangoes');
+        await fill(l10n.produceName, 'Cotton');
+        final cropSelector = find.byType(DropdownButtonFormField<GradableCrop>);
+        await tester.ensureVisible(cropSelector);
+        await tester.tap(cropSelector);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(l10n.cropOther).last);
+        await tester.pumpAndSettle();
+        expect(find.text(l10n.aiOtherCropNoGrading), findsOneWidget);
+        final gradeSelector = find.byType(
+          DropdownButtonFormField<QualityGrade>,
+        );
+        await tester.ensureVisible(gradeSelector);
+        await tester.tap(gradeSelector);
+        await tester.pumpAndSettle();
+        await tester.tap(
+          find.text('${l10n.qualityGrade}: ${l10n.gradeC}').last,
+        );
+        await tester.pumpAndSettle();
         await fill(l10n.description, 'Fresh harvest');
         await tester.tap(find.text(l10n.next));
         await tester.pumpAndSettle();
@@ -96,6 +126,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(CreateListingScreen), findsNothing);
         expect(repository.created!.id, 'server-id');
+        expect(repository.lastSubmitted!.qualityGrade, QualityGrade.c);
         expect(repository.creates, 2);
       },
     );

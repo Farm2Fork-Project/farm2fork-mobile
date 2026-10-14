@@ -2297,4 +2297,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String profilePhotoOf(String name) {
     return 'Profile photo of $name';
   }
+
+  @override
+  String get cropOther => 'Other';
+
+  @override
+  String get aiOtherCropNoGrading =>
+      'AI grading is not available for this crop. You can still list it and choose a quality grade manually.';
+
+  @override
+  String get aiGradeAdvisory =>
+      'This grade is a model suggestion. Review it before choosing to use it.';
 }
