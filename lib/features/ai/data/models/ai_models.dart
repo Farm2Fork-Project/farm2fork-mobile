@@ -1,7 +1,15 @@
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 
 /// Crops the grading model knows (farm2fork-ai constants.CROP_CLASSES).
-enum GradableCrop { wheat, rice, mango, maize, cotton, sugarcane }
+enum GradableCrop {
+  wheat,
+  rice,
+  mango,
+  maize,
+  other;
+
+  bool get supportsGrading => this != other;
+}
 
 enum AiModelStatus { trained, untrained, unavailable }
 
@@ -58,6 +66,7 @@ enum AiErrorKind {
   tooManyRequests,
   noPriceRule,
   invalidPhoto,
+  unsupportedCrop,
   failed,
 }
 

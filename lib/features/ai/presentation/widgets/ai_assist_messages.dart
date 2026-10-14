@@ -10,6 +10,7 @@ String aiErrorMessage(BuildContext context, AiErrorKind kind) => switch (kind) {
   AiErrorKind.tooManyRequests => context.l10n.aiTooManyRequests,
   AiErrorKind.noPriceRule => context.l10n.aiPriceNoRule,
   AiErrorKind.invalidPhoto => context.l10n.aiInvalidPhoto,
+  AiErrorKind.unsupportedCrop => context.l10n.aiOtherCropNoGrading,
   AiErrorKind.failed => context.l10n.aiFailed,
 };
 

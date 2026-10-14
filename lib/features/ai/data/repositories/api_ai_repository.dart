@@ -56,6 +56,9 @@ class ApiAiRepository implements AiRepository {
     required String mimeType,
     required GradableCrop crop,
   }) async {
+    if (!crop.supportsGrading) {
+      throw const AiException(AiErrorKind.unsupportedCrop);
+    }
     final dto = await _guard(
       () => _api.checkQuality(
         bytes: bytes,

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/features/ai/data/models/ai_models.dart';
 import 'package:farm2fork_mobile/features/ai/data/repositories/api_ai_repository.dart';
+import 'package:farm2fork_mobile/features/ai/data/repositories/mock_ai_repository.dart';
 import 'package:farm2fork_mobile/features/ai/data/services/ai_api_service.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
@@ -115,6 +116,75 @@ void main() {
       expect(result.modelStatus, AiModelStatus.trained);
     },
   );
+
+  test('Other rejects grading without calling the API', () async {
+    final api = _Api();
+    await expectLater(
+      ApiAiRepository(api).checkQuality(
+        bytes: [1],
+        filename: 'other.jpg',
+        mimeType: 'image/jpeg',
+        crop: GradableCrop.other,
+      ),
+      throwsA(
+        isA<AiException>().having(
+          (e) => e.kind,
+          'kind',
+          AiErrorKind.unsupportedCrop,
+        ),
+      ),
+    );
+    expect(api.uploadedCrop, isNull);
+  });
+
+  test('mock repository also rejects Other', () async {
+    await expectLater(
+      MockAiRepository().checkQuality(
+        bytes: [1],
+        filename: 'other.jpg',
+        mimeType: 'image/jpeg',
+        crop: GradableCrop.other,
+      ),
+      throwsA(
+        isA<AiException>().having(
+          (e) => e.kind,
+          'kind',
+          AiErrorKind.unsupportedCrop,
+        ),
+      ),
+    );
+  });
+
+  test('transport rejects unsupported crops before a request', () {
+    final dio = Dio();
+    var requests = 0;
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          requests++;
+          handler.reject(DioException(requestOptions: options));
+        },
+      ),
+    );
+    for (final crop in ['other', 'cotton', 'sugarcane', 'banana', '']) {
+      expect(
+        () => AiApiService(dio).checkQuality(
+          bytes: [1],
+          filename: 'crop.jpg',
+          mimeType: 'image/jpeg',
+          crop: crop,
+        ),
+        throwsA(
+          isA<AiException>().having(
+            (e) => e.kind,
+            'kind',
+            AiErrorKind.unsupportedCrop,
+          ),
+        ),
+      );
+    }
+    expect(requests, 0);
+  });
 
   test('turns transport errors into actionable kinds', () async {
     expect(

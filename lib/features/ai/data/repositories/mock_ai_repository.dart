@@ -37,13 +37,15 @@ class MockAiRepository implements AiRepository {
     required String mimeType,
     required GradableCrop crop,
   }) async {
+    if (!crop.supportsGrading) {
+      throw const AiException(AiErrorKind.unsupportedCrop);
+    }
     await Future<void>.delayed(const Duration(milliseconds: 500));
     return QualityCheck(
       modelGrade: 'B',
       suggestedListingGrade: QualityGrade.b,
       confidence: 0.27,
-      cropSupported:
-          crop != GradableCrop.cotton && crop != GradableCrop.sugarcane,
+      cropSupported: true,
       lowConfidence: true,
       modelStatus: AiModelStatus.untrained,
     );

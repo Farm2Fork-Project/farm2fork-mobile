@@ -21,15 +21,6 @@ Future<XFile?> _defaultPicker(ImageSource source) => ImagePicker().pickImage(
   imageQuality: 85,
 );
 
-/// Best guess of the crop from the listing title, to pre-select it.
-GradableCrop? guessCrop(String productName) {
-  final text = productName.toLowerCase();
-  for (final crop in GradableCrop.values) {
-    if (text.contains(crop.name)) return crop;
-  }
-  return null;
-}
-
 String _mimeFor(String filename) {
   final name = filename.toLowerCase();
   if (name.endsWith('.png')) return 'image/png';
@@ -45,11 +36,13 @@ class QualityCheckCard extends ConsumerStatefulWidget {
     required this.productName,
     required this.onApplyGrade,
     this.pickPhoto = _defaultPicker,
+    this.onInvalidateGrade,
   });
 
   final String productName;
   final ValueChanged<QualityGrade> onApplyGrade;
   final PhotoPicker pickPhoto;
+  final VoidCallback? onInvalidateGrade;
 
   @override
   ConsumerState<QualityCheckCard> createState() => _QualityCheckCardState();
@@ -62,16 +55,35 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
   bool _needCrop = false;
   bool _loading = false;
 
-  GradableCrop? get _selectedCrop => _crop ?? guessCrop(widget.productName);
+  int _requestVersion = 0;
+
+  void _invalidate() {
+    _requestVersion++;
+    _result = null;
+    _error = null;
+    _loading = false;
+    widget.onInvalidateGrade?.call();
+  }
+
+  @override
+  void didUpdateWidget(covariant QualityCheckCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.productName != widget.productName) {
+      _invalidate();
+    }
+  }
 
   Future<void> _check(ImageSource source) async {
-    final crop = _selectedCrop;
+    final crop = _crop;
     if (crop == null) {
       setState(() => _needCrop = true);
       return;
     }
+    if (!crop.supportsGrading) return;
+    setState(_invalidate);
+    final version = _requestVersion;
     final photo = await widget.pickPhoto(source);
-    if (photo == null || !mounted) return;
+    if (photo == null || !mounted || version != _requestVersion) return;
     setState(() {
       _loading = true;
       _error = null;
@@ -79,21 +91,31 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
       _result = null;
     });
     try {
+      final bytes = await photo.readAsBytes();
+      if (!mounted || version != _requestVersion) return;
       final result = await ref
           .read(aiRepositoryProvider)
           .checkQuality(
-            bytes: await photo.readAsBytes(),
+            bytes: bytes,
             filename: photo.name,
             mimeType: _mimeFor(photo.name),
             crop: crop,
           );
-      if (mounted) setState(() => _result = result);
+      if (mounted && version == _requestVersion) {
+        setState(() => _result = result);
+      }
     } on AiException catch (e) {
-      if (mounted) setState(() => _error = e.kind);
+      if (mounted && version == _requestVersion) {
+        setState(() => _error = e.kind);
+      }
     } catch (_) {
-      if (mounted) setState(() => _error = AiErrorKind.failed);
+      if (mounted && version == _requestVersion) {
+        setState(() => _error = AiErrorKind.failed);
+      }
     } finally {
-      if (mounted) setState(() => _loading = false);
+      if (mounted && version == _requestVersion) {
+        setState(() => _loading = false);
+      }
     }
   }
 
@@ -102,8 +124,7 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
     GradableCrop.rice => context.l10n.cropRice,
     GradableCrop.mango => context.l10n.cropMango,
     GradableCrop.maize => context.l10n.cropMaize,
-    GradableCrop.cotton => context.l10n.cropCotton,
-    GradableCrop.sugarcane => context.l10n.cropSugarcane,
+    GradableCrop.other => context.l10n.cropOther,
   };
 
   @override
@@ -140,8 +161,8 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
           ],
           const SizedBox(height: AppSpacing.md),
           DropdownButtonFormField<GradableCrop>(
-            key: ValueKey(_selectedCrop),
-            initialValue: _selectedCrop,
+            key: ValueKey(_crop),
+            initialValue: _crop,
             decoration: InputDecoration(
               labelText: l10n.aiCropLabel,
               errorText: _needCrop ? l10n.aiNeedCrop : null,
@@ -156,26 +177,30 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
             onChanged: (crop) => setState(() {
               _crop = crop;
               _needCrop = false;
-              _result = null;
+              _invalidate();
             }),
           ),
           const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: l10n.aiTakePhoto,
-            icon: Icons.photo_camera_rounded,
-            variant: AppButtonVariant.secondary,
-            expand: true,
-            isLoading: _loading,
-            onPressed: _loading ? null : () => _check(ImageSource.camera),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          AppButton(
-            label: l10n.aiChoosePhoto,
-            icon: Icons.photo_library_outlined,
-            variant: AppButtonVariant.quiet,
-            expand: true,
-            onPressed: _loading ? null : () => _check(ImageSource.gallery),
-          ),
+          if (_crop == GradableCrop.other)
+            AiNote(text: l10n.aiOtherCropNoGrading),
+          if (_crop != GradableCrop.other) ...[
+            AppButton(
+              label: l10n.aiTakePhoto,
+              icon: Icons.photo_camera_rounded,
+              variant: AppButtonVariant.secondary,
+              expand: true,
+              isLoading: _loading,
+              onPressed: _loading ? null : () => _check(ImageSource.camera),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppButton(
+              label: l10n.aiChoosePhoto,
+              icon: Icons.photo_library_outlined,
+              variant: AppButtonVariant.quiet,
+              expand: true,
+              onPressed: _loading ? null : () => _check(ImageSource.gallery),
+            ),
+          ],
           if (_error != null) ...[
             const SizedBox(height: AppSpacing.sm),
             AiNote(
@@ -185,6 +210,7 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
           ],
           if (result != null) ...[
             const SizedBox(height: AppSpacing.md),
+            AiNote(text: l10n.aiGradeAdvisory),
             Text(
               l10n.aiGradeResult(
                 result.modelGrade,
