@@ -124,7 +124,18 @@ class _Repo extends ShipmentsRepository {
 
   @override
   Future<Shipment> reportIssue(String id, String reason, String note) async =>
-      active = active!.copyWith(status: ShipmentStatus.failed);
+      active = active!.copyWith(
+        status: ShipmentStatus.failed,
+        issue: {
+          'stage': switch (active!.status) {
+            ShipmentStatus.pickedUp => 'picked_up',
+            ShipmentStatus.inTransit => 'in_transit',
+            _ => 'assigned',
+          },
+          'reason': reason,
+          'note': note,
+        },
+      );
   @override
   Future<List<Shipment>> getMine() async => [?active];
 
@@ -174,6 +185,81 @@ ProviderContainer _container(_Repo repo, {LocationFailure? failure}) {
 }
 
 void main() {
+  test('a pre-pickup issue releases custody even when refresh fails', () async {
+    final repo = _Repo()..online = true..active = _shipment('order-1');
+    final container = _container(repo);
+    await container.read(dispatchControllerProvider.future);
+    repo.statusFails = true;
+
+    await container.read(dispatchControllerProvider.notifier).reportIssue(
+      'shipment-1', 'pickup_unavailable', '',
+    );
+
+    final result = container.read(dispatchControllerProvider).requireValue;
+    expect(result.refreshFailed, isTrue);
+    expect(result.active, isNull);
+    expect(result.status.activeShipmentId, isNull);
+  });
+
+  test('reconciling an issue resolved by operations releases custody', () async {
+    final original = _shipment('order-1').copyWith(status: ShipmentStatus.inTransit);
+    final repo = _Repo()..online = true..active = original;
+    final container = _container(repo);
+    await container.read(dispatchControllerProvider.future);
+    repo
+      ..active = original.copyWith(
+        status: ShipmentStatus.failed,
+        issue: {
+          'stage': 'in_transit',
+          'resolvedAt': '2026-10-16T00:00:00.000Z',
+          'resolution': 'return_to_farmer',
+        },
+      )
+      ..invalidCode = true
+      ..statusFails = true;
+
+    await expectLater(
+      container.read(dispatchControllerProvider.notifier).complete('shipment-1', '123456', ''),
+      throwsStateError,
+    );
+
+    final result = container.read(dispatchControllerProvider).requireValue;
+    expect(result.refreshFailed, isTrue);
+    expect(result.active, isNull);
+    expect(result.status.activeShipmentId, isNull);
+  });
+
+  for (final stage in [ShipmentStatus.pickedUp, ShipmentStatus.inTransit]) {
+    test('a reported $stage issue retains custody when refresh fails', () async {
+      final original = _shipment('order-1').copyWith(
+        status: stage,
+        pickupContact: {'name': 'Farmer', 'phone': '03001234567'},
+        deliveryContact: {'name': 'Buyer', 'phone': '03007654321'},
+      );
+      final repo = _Repo()..online = true..active = original;
+      final container = _container(repo);
+      await container.read(dispatchControllerProvider.future);
+      repo.statusFails = true;
+
+      await container.read(dispatchControllerProvider.notifier).reportIssue(
+        original.id,
+        'vehicle_issue',
+        'Awaiting operations assistance',
+      );
+
+      final result = container.read(dispatchControllerProvider).requireValue;
+      expect(result.refreshFailed, isTrue);
+      expect(result.active?.id, original.id);
+      expect(result.status.activeShipmentId, original.id);
+      expect(result.active?.status, ShipmentStatus.failed);
+      expect(result.active?.pickupAddress, original.pickupAddress);
+      expect(result.active?.deliveryAddress, original.deliveryAddress);
+      expect(result.active?.pickupContact, original.pickupContact);
+      expect(result.active?.deliveryContact, original.deliveryContact);
+      expect(result.offers, isEmpty);
+    });
+  }
+
   test('a timed-out committed pickup is reconciled before another action', () async {
     final repo = _Repo()..online = true..active = _shipment('order-1')..statusCommitsThenTimesOut = true;
     final container = _container(repo);

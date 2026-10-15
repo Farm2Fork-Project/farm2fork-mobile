@@ -233,9 +233,17 @@ class DispatchController extends AsyncNotifier<DispatchState> {
     _generation++;
     final current = state.asData?.value;
     if (current == null) return;
+    // Match the backend's activeDeliveryFilter: a failed delivery still
+    // reserves the transporter while goods remain in their custody.
+    final issue = shipment.issue;
+    final retainsCustody =
+        shipment.status == ShipmentStatus.failed &&
+        issue != null &&
+        (issue['stage'] == 'picked_up' || issue['stage'] == 'in_transit') &&
+        !issue.containsKey('resolvedAt');
     final terminal =
         shipment.status == ShipmentStatus.delivered ||
-        shipment.status == ShipmentStatus.failed;
+        (shipment.status == ShipmentStatus.failed && !retainsCustody);
     state = AsyncData(
       DispatchState(
         status: TransporterStatus(
