@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/config/app_config.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
@@ -87,18 +88,31 @@ class ApiNotificationsRepository implements NotificationsRepository {
 
   @override
   Future<List<AppNotification>> list() async {
-    final data = (await _dio.get<Map<String, dynamic>>(
-      '/notifications',
-      queryParameters: {'limit': 50},
-    )).data;
-    final items = data?['data'];
-    if (items is! List) throw const ApiException(ApiErrorKind.unknown);
-    return items
-        .whereType<Map>()
-        .map(
-          (item) => AppNotification.fromJson(Map<String, dynamic>.from(item)),
-        )
-        .toList(growable: false);
+    final result = <AppNotification>[];
+    var page = 1;
+    var totalPages = 1;
+    do {
+      final data = (await _dio.get<Map<String, dynamic>>(
+        '/notifications',
+        queryParameters: {'limit': 50, 'page': page},
+      )).data;
+      final items = data?['data'];
+      if (items is! List) throw const ApiException(ApiErrorKind.unknown);
+      result.addAll(
+        items.map(
+          (item) =>
+              AppNotification.fromJson(Map<String, dynamic>.from(item as Map)),
+        ),
+      );
+      final limit = (data?['limit'] as num?)?.toInt() ?? 50;
+      totalPages =
+          (data?['totalPages'] as num?)?.toInt() ??
+          (((data?['total'] as num?)?.toInt() ?? result.length) /
+                  (limit > 0 ? limit : 50))
+              .ceil();
+      page++;
+    } while (page <= totalPages);
+    return result;
   }
 
   @override
@@ -172,9 +186,39 @@ final notificationsRepositoryProvider = Provider<NotificationsRepository>((
 });
 
 final notificationsProvider = FutureProvider.autoDispose<List<AppNotification>>(
-  (ref) => ref.watch(notificationsRepositoryProvider).list(),
+  (ref) {
+    final userId = ref.watch(
+      authControllerProvider.select((state) => state.value?.user?.id),
+    );
+    if (userId == null) return [];
+    return ref.watch(notificationsRepositoryProvider).list();
+  },
 );
 
-final unreadNotificationsProvider = FutureProvider.autoDispose<int>(
-  (ref) => ref.watch(notificationsRepositoryProvider).unreadCount(),
+final unreadNotificationsProvider = FutureProvider.autoDispose<int>((ref) {
+  final userId = ref.watch(
+    authControllerProvider.select((state) => state.value?.user?.id),
+  );
+  if (userId == null) return 0;
+  return ref.watch(notificationsRepositoryProvider).unreadCount();
+});
+
+/// Confirmed writes refresh every inbox and bell, including after a screen closes.
+final notificationActionsProvider = Provider<NotificationActions>(
+  NotificationActions.new,
 );
+
+class NotificationActions {
+  NotificationActions(this._ref);
+  final Ref _ref;
+  Future<void> markRead(String id) =>
+      _write(() => _ref.read(notificationsRepositoryProvider).markRead(id));
+  Future<void> markAllRead() =>
+      _write(() => _ref.read(notificationsRepositoryProvider).markAllRead());
+  Future<void> _write(Future<void> Function() action) async {
+    await action();
+    if (!_ref.mounted) return;
+    _ref.invalidate(notificationsProvider);
+    _ref.invalidate(unreadNotificationsProvider);
+  }
+}

@@ -2349,4 +2349,59 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get orderCancelFailed =>
       'Could not cancel this order. Refresh its status; a started payment must be handled through support.';
+
+  @override
+  String get pushUnread => 'Unread';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get notificationAll => 'All';
+
+  @override
+  String get notificationInboxHint => 'Order, delivery and account updates.';
+
+  @override
+  String get notificationUpdating => 'Updating…';
+
+  @override
+  String get notificationUpdateFailed =>
+      'Could not mark notifications as read. Please try again.';
+
+  @override
+  String get notificationCaughtUp => 'You’re all caught up';
+
+  @override
+  String get notificationEmptyHint =>
+      'New order, delivery and account updates will appear here.';
+
+  @override
+  String get notificationViewRelated => 'View related activity';
+
+  @override
+  String get notificationViewInbox => 'Open notification inbox';
+
+  @override
+  String get notificationDeviceAlerts => 'Device alerts';
+
+  @override
+  String get notificationEnabled => 'Enabled on this device';
+
+  @override
+  String get notificationDisabled => 'Disabled on this device';
+
+  @override
+  String get profileOverviewHint =>
+      'Manage your details, preferences and notifications.';
+
+  @override
+  String get profileEditHint =>
+      'Your contact details, business or farm information.';
+
+  @override
+  String get profileNotificationHint => 'Read your order and delivery updates.';
+
+  @override
+  String get profilePreferencesHint => 'Choose how Farm2Fork works for you.';
 }

@@ -40,6 +40,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Ayesha Khan'), findsOneWidget);
+      await tester.ensureVisible(find.text('Edit profile'));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.tap(find.text('Edit profile'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));

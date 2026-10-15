@@ -1702,5 +1702,22 @@
   "listingUseCover": "Use as cover",
   "cancelUnpaidOrder": "Cancel unpaid order",
   "cancelUnpaidOrderConfirm": "Cancel this unpaid draft order? No payment has been started.",
-  "orderCancelFailed": "Could not cancel this order. Refresh its status; a started payment must be handled through support."
+  "orderCancelFailed": "Could not cancel this order. Refresh its status; a started payment must be handled through support.",
+  "pushUnread": "Unread",
+  "close": "Close",
+  "notificationAll": "All",
+  "notificationInboxHint": "Order, delivery and account updates.",
+  "notificationUpdating": "Updating…",
+  "notificationUpdateFailed": "Could not mark notifications as read. Please try again.",
+  "notificationCaughtUp": "You’re all caught up",
+  "notificationEmptyHint": "New order, delivery and account updates will appear here.",
+  "notificationViewRelated": "View related activity",
+  "notificationViewInbox": "Open notification inbox",
+  "notificationDeviceAlerts": "Device alerts",
+  "notificationEnabled": "Enabled on this device",
+  "notificationDisabled": "Disabled on this device",
+  "profileOverviewHint": "Manage your details, preferences and notifications.",
+  "profileEditHint": "Your contact details, business or farm information.",
+  "profileNotificationHint": "Read your order and delivery updates.",
+  "profilePreferencesHint": "Choose how Farm2Fork works for you."
 }

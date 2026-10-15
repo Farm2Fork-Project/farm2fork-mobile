@@ -4159,6 +4159,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not cancel this order. Refresh its status; a started payment must be handled through support.'**
   String get orderCancelFailed;
+
+  /// No description provided for @pushUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get pushUnread;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @notificationAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationAll;
+
+  /// No description provided for @notificationInboxHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Order, delivery and account updates.'**
+  String get notificationInboxHint;
+
+  /// No description provided for @notificationUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating…'**
+  String get notificationUpdating;
+
+  /// No description provided for @notificationUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not mark notifications as read. Please try again.'**
+  String get notificationUpdateFailed;
+
+  /// No description provided for @notificationCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re all caught up'**
+  String get notificationCaughtUp;
+
+  /// No description provided for @notificationEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New order, delivery and account updates will appear here.'**
+  String get notificationEmptyHint;
+
+  /// No description provided for @notificationViewRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'View related activity'**
+  String get notificationViewRelated;
+
+  /// No description provided for @notificationViewInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open notification inbox'**
+  String get notificationViewInbox;
+
+  /// No description provided for @notificationDeviceAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Device alerts'**
+  String get notificationDeviceAlerts;
+
+  /// No description provided for @notificationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled on this device'**
+  String get notificationEnabled;
+
+  /// No description provided for @notificationDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled on this device'**
+  String get notificationDisabled;
+
+  /// No description provided for @profileOverviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your details, preferences and notifications.'**
+  String get profileOverviewHint;
+
+  /// No description provided for @profileEditHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact details, business or farm information.'**
+  String get profileEditHint;
+
+  /// No description provided for @profileNotificationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Read your order and delivery updates.'**
+  String get profileNotificationHint;
+
+  /// No description provided for @profilePreferencesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how Farm2Fork works for you.'**
+  String get profilePreferencesHint;
 }
 
 class _AppLocalizationsDelegate

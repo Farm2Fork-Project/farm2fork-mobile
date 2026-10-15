@@ -11,11 +11,13 @@ class AppSettingsTile extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
+    this.subtitle,
   });
 
   final String title;
   final IconData icon;
   final VoidCallback onTap;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,19 @@ class AppSettingsTile extends StatelessWidget {
         title,
         style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
       ),
-      trailing: const Icon(
-        Icons.chevron_right_rounded,
+      subtitle: subtitle == null
+          ? null
+          : Text(
+              subtitle!,
+              style: AppTextStyles.small.copyWith(
+                color: AppColors.textMuted,
+                height: 1.5,
+              ),
+            ),
+      trailing: Icon(
+        Directionality.of(context) == TextDirection.rtl
+            ? Icons.chevron_left_rounded
+            : Icons.chevron_right_rounded,
         color: AppColors.textMuted,
       ),
       onTap: onTap,

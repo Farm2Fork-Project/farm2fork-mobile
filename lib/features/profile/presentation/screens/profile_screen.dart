@@ -27,7 +27,9 @@ class ProfileScreen extends ConsumerWidget {
     final user = ref.watch(authControllerProvider).asData?.value.user;
     // The backend's display name also falls back to the business or farm name;
     // until it loads (or if it fails) the signed-in user's own name is used.
-    final profile = ref.watch(profileControllerProvider).asData?.value;
+    final profileState = ref.watch(profileControllerProvider);
+    final loaded = profileState.asData?.value;
+    final profile = loaded?.user.id == user?.id ? loaded : null;
     final displayName = profile?.displayName ?? user?.displayName;
 
     return Scaffold(
@@ -39,92 +41,140 @@ class ProfileScreen extends ConsumerWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpacing.pagePadding),
-          children: [
-            if (user != null && displayName != null) ...[
-              _ProfileHeader(
-                user: user,
-                displayName: displayName,
-                onTap: () => context.push('/settings/profile'),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 760),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                ref.invalidate(profileControllerProvider);
+                try {
+                  await ref.read(profileControllerProvider.future);
+                } catch (_) {}
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(AppSpacing.pagePadding),
+                children: [
+                  Text(
+                    l10n.profileOverviewHint,
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textMuted,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  if (profileState.isLoading) ...[
+                    const LinearProgressIndicator(),
+                    const SizedBox(height: AppSpacing.lg),
+                  ],
+                  if (profileState.hasError) ...[
+                    AppNoticeBanner(message: l10n.profileLoadFailed),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: TextButton(
+                        onPressed: () =>
+                            ref.invalidate(profileControllerProvider),
+                        child: Text(l10n.retry),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                  ],
+                  if (user != null && displayName != null) ...[
+                    _ProfileHeader(
+                      user: user.copyWith(
+                        avatarUrl: profile?.user.avatarUrl,
+                        clearAvatar:
+                            profile != null && profile.user.avatarUrl == null,
+                      ),
+                      displayName: displayName,
+                      onTap: () => context.push('/settings/profile'),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                  ],
+                  _Section(
+                    title: l10n.profileSectionAccount,
+                    children: [
+                      AppSettingsTile(
+                        title: l10n.editProfile,
+                        subtitle: l10n.profileEditHint,
+                        icon: Icons.person_outline_rounded,
+                        onTap: () => context.push('/settings/profile'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.notificationsTitle,
+                        subtitle: l10n.profileNotificationHint,
+                        icon: Icons.notifications_rounded,
+                        onTap: () =>
+                            context.push(AppNavConfig.notificationsRoute),
+                      ),
+                      if (user?.role == AppUserRole.farmer)
+                        AppSettingsTile(
+                          title: l10n.loansTitle,
+                          icon: Icons.account_balance_rounded,
+                          onTap: () =>
+                              context.push(AppNavConfig.farmerLoansRoute),
+                        ),
+                      if (user?.role == AppUserRole.buyer)
+                        AppSettingsTile(
+                          title: l10n.feedTitle,
+                          icon: Icons.forum_rounded,
+                          onTap: () =>
+                              context.push(AppNavConfig.buyerCommunityRoute),
+                        ),
+                    ],
+                  ),
+                  _Section(
+                    title: l10n.profileSectionPreferences,
+                    children: [
+                      AppSettingsTile(
+                        title: l10n.notificationSettings,
+                        icon: Icons.notifications_none_rounded,
+                        onTap: () => context.push('/settings/notifications'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.languageDisplay,
+                        subtitle: l10n.profilePreferencesHint,
+                        icon: Icons.language_rounded,
+                        onTap: () => context.push('/settings/language-display'),
+                      ),
+                    ],
+                  ),
+                  _Section(
+                    title: l10n.helpInformation,
+                    children: [
+                      AppSettingsTile(
+                        title: l10n.contactUs,
+                        icon: Icons.chat_bubble_outline_rounded,
+                        onTap: () => context.push('/settings/contact-us'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.faqs,
+                        icon: Icons.help_outline_rounded,
+                        onTap: () => context.push('/settings/faqs'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.aboutUs,
+                        icon: Icons.info_outline_rounded,
+                        onTap: () => context.push('/settings/about'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.privacyPolicy,
+                        icon: Icons.security_rounded,
+                        onTap: () => context.push('/settings/privacy'),
+                      ),
+                      AppSettingsTile(
+                        title: l10n.termsConditions,
+                        icon: Icons.description_outlined,
+                        onTap: () => context.push('/settings/terms'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  const _SignOutSection(),
+                ],
               ),
-              const SizedBox(height: AppSpacing.xl),
-            ],
-            _Section(
-              title: l10n.profileSectionAccount,
-              children: [
-                AppSettingsTile(
-                  title: l10n.editProfile,
-                  icon: Icons.person_outline_rounded,
-                  onTap: () => context.push('/settings/profile'),
-                ),
-                AppSettingsTile(
-                  title: l10n.notificationsTitle,
-                  icon: Icons.notifications_rounded,
-                  onTap: () => context.push(AppNavConfig.notificationsRoute),
-                ),
-                if (user?.role == AppUserRole.farmer)
-                  AppSettingsTile(
-                    title: l10n.loansTitle,
-                    icon: Icons.account_balance_rounded,
-                    onTap: () => context.push(AppNavConfig.farmerLoansRoute),
-                  ),
-                if (user?.role == AppUserRole.buyer)
-                  AppSettingsTile(
-                    title: l10n.feedTitle,
-                    icon: Icons.forum_rounded,
-                    onTap: () => context.push(AppNavConfig.buyerCommunityRoute),
-                  ),
-              ],
             ),
-            _Section(
-              title: l10n.profileSectionPreferences,
-              children: [
-                AppSettingsTile(
-                  title: l10n.notificationSettings,
-                  icon: Icons.notifications_none_rounded,
-                  onTap: () => context.push('/settings/notifications'),
-                ),
-                AppSettingsTile(
-                  title: l10n.languageDisplay,
-                  icon: Icons.language_rounded,
-                  onTap: () => context.push('/settings/language-display'),
-                ),
-              ],
-            ),
-            _Section(
-              title: l10n.helpInformation,
-              children: [
-                AppSettingsTile(
-                  title: l10n.contactUs,
-                  icon: Icons.chat_bubble_outline_rounded,
-                  onTap: () => context.push('/settings/contact-us'),
-                ),
-                AppSettingsTile(
-                  title: l10n.faqs,
-                  icon: Icons.help_outline_rounded,
-                  onTap: () => context.push('/settings/faqs'),
-                ),
-                AppSettingsTile(
-                  title: l10n.aboutUs,
-                  icon: Icons.info_outline_rounded,
-                  onTap: () => context.push('/settings/about'),
-                ),
-                AppSettingsTile(
-                  title: l10n.privacyPolicy,
-                  icon: Icons.security_rounded,
-                  onTap: () => context.push('/settings/privacy'),
-                ),
-                AppSettingsTile(
-                  title: l10n.termsConditions,
-                  icon: Icons.description_outlined,
-                  onTap: () => context.push('/settings/terms'),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            const _SignOutSection(),
-          ],
+          ),
         ),
       ),
     );
@@ -199,7 +249,12 @@ class _ProfileHeader extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
+          Icon(
+            Directionality.of(context) == TextDirection.rtl
+                ? Icons.chevron_left_rounded
+                : Icons.chevron_right_rounded,
+            color: AppColors.textMuted,
+          ),
         ],
       ),
     );

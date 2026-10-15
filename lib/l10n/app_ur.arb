@@ -698,5 +698,22 @@
   "listingUseCover": "مرکزی تصویر بنائیں",
   "cancelUnpaidOrder": "غیر ادا شدہ آرڈر منسوخ کریں",
   "cancelUnpaidOrderConfirm": "یہ غیر ادا شدہ آرڈر منسوخ کریں؟ ابھی ادائیگی شروع نہیں ہوئی۔",
-  "orderCancelFailed": "آرڈر منسوخ نہیں ہو سکا۔ صورتحال تازہ کریں؛ شروع شدہ ادائیگی کے لیے معاونت سے رابطہ کریں۔"
+  "orderCancelFailed": "آرڈر منسوخ نہیں ہو سکا۔ صورتحال تازہ کریں؛ شروع شدہ ادائیگی کے لیے معاونت سے رابطہ کریں۔",
+  "pushUnread": "ان پڑھی",
+  "close": "بند کریں",
+  "notificationAll": "سب",
+  "notificationInboxHint": "آرڈر، ترسیل اور اکاؤنٹ کی خبریں۔",
+  "notificationUpdating": "اپ ڈیٹ ہو رہا ہے…",
+  "notificationUpdateFailed": "اطلاعات پڑھی ہوئی نشان زد نہیں ہو سکیں۔ دوبارہ کوشش کریں۔",
+  "notificationCaughtUp": "تمام اطلاعات پڑھ لی گئی ہیں",
+  "notificationEmptyHint": "آرڈر، ترسیل اور اکاؤنٹ کی نئی اطلاعات یہاں نظر آئیں گی۔",
+  "notificationViewRelated": "متعلقہ سرگرمی دیکھیں",
+  "notificationViewInbox": "اطلاعات کا ان باکس کھولیں",
+  "notificationDeviceAlerts": "اس آلے کی اطلاعات",
+  "notificationEnabled": "اس آلے پر فعال",
+  "notificationDisabled": "اس آلے پر بند",
+  "profileOverviewHint": "اپنی تفصیلات، ترجیحات اور اطلاعات کا انتظام کریں۔",
+  "profileEditHint": "آپ کی رابطے، کاروبار یا فارم کی تفصیلات۔",
+  "profileNotificationHint": "اپنے آرڈر اور ترسیل کی اطلاعات پڑھیں۔",
+  "profilePreferencesHint": "Farm2Fork اپنی پسند کے مطابق ترتیب دیں۔"
 }

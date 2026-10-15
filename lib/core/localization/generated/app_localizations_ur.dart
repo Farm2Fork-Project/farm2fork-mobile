@@ -2329,4 +2329,59 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get orderCancelFailed =>
       'آرڈر منسوخ نہیں ہو سکا۔ صورتحال تازہ کریں؛ شروع شدہ ادائیگی کے لیے معاونت سے رابطہ کریں۔';
+
+  @override
+  String get pushUnread => 'ان پڑھی';
+
+  @override
+  String get close => 'بند کریں';
+
+  @override
+  String get notificationAll => 'سب';
+
+  @override
+  String get notificationInboxHint => 'آرڈر، ترسیل اور اکاؤنٹ کی خبریں۔';
+
+  @override
+  String get notificationUpdating => 'اپ ڈیٹ ہو رہا ہے…';
+
+  @override
+  String get notificationUpdateFailed =>
+      'اطلاعات پڑھی ہوئی نشان زد نہیں ہو سکیں۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get notificationCaughtUp => 'تمام اطلاعات پڑھ لی گئی ہیں';
+
+  @override
+  String get notificationEmptyHint =>
+      'آرڈر، ترسیل اور اکاؤنٹ کی نئی اطلاعات یہاں نظر آئیں گی۔';
+
+  @override
+  String get notificationViewRelated => 'متعلقہ سرگرمی دیکھیں';
+
+  @override
+  String get notificationViewInbox => 'اطلاعات کا ان باکس کھولیں';
+
+  @override
+  String get notificationDeviceAlerts => 'اس آلے کی اطلاعات';
+
+  @override
+  String get notificationEnabled => 'اس آلے پر فعال';
+
+  @override
+  String get notificationDisabled => 'اس آلے پر بند';
+
+  @override
+  String get profileOverviewHint =>
+      'اپنی تفصیلات، ترجیحات اور اطلاعات کا انتظام کریں۔';
+
+  @override
+  String get profileEditHint => 'آپ کی رابطے، کاروبار یا فارم کی تفصیلات۔';
+
+  @override
+  String get profileNotificationHint => 'اپنے آرڈر اور ترسیل کی اطلاعات پڑھیں۔';
+
+  @override
+  String get profilePreferencesHint =>
+      'Farm2Fork اپنی پسند کے مطابق ترتیب دیں۔';
 }
