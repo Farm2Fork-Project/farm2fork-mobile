@@ -1,3 +1,5 @@
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/earnings_screen.dart';
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
@@ -58,7 +60,14 @@ class _PushBindingState extends ConsumerState<PushBinding> {
     ref
       ..invalidate(unreadNotificationsProvider)
       ..invalidate(notificationsProvider);
-    if (data['type'] == 'delivery_offer') {
+    if (data['type'] == 'payout_recorded') {
+      ref.invalidate(deliveryEarningsProvider);
+    }
+    if ([
+      'delivery_offer',
+      'delivery_update',
+      'shipment_assigned',
+    ].contains(data['type'])) {
       ref.invalidate(dispatchControllerProvider);
     }
   }
@@ -70,6 +79,12 @@ class _PushBindingState extends ConsumerState<PushBinding> {
     if (auth == null || !auth.isAuthenticated || auth.role == null) {
       if (auth?.status != AuthStatus.guest) _pendingTap = data;
       return;
+    }
+    if (auth.role == AppUserRole.transporter) {
+      ref.invalidate(dispatchControllerProvider);
+    }
+    if (data['type'] == 'payout_recorded') {
+      ref.invalidate(deliveryEarningsProvider);
     }
     final notificationId = data['notificationId'];
     if (notificationId is String) {

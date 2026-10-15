@@ -53,6 +53,37 @@ class ShipmentsApiService {
     ),
   );
 
+  Future<Map<String, dynamic>> getDeliveryCode(
+    String id, {
+    bool reissue = false,
+  }) => _unwrap(
+    () => reissue
+        ? _dio.post<Map<String, dynamic>>(
+            '/delivery/shipments/$id/code/reissue',
+          )
+        : _dio.get<Map<String, dynamic>>('/delivery/shipments/$id/code'),
+  );
+
+  Future<Map<String, dynamic>> complete(String id, String code, String note) =>
+      _unwrap(
+        () => _dio.post<Map<String, dynamic>>(
+          '/delivery/shipments/$id/complete',
+          data: {'code': code, 'note': note},
+        ),
+      );
+  Future<Map<String, dynamic>> reportIssue(
+    String id,
+    String reason,
+    String note,
+  ) => _unwrap(
+    () => _dio.post<Map<String, dynamic>>(
+      '/delivery/shipments/$id/issue',
+      data: {'reason': reason, 'note': note},
+    ),
+  );
+  Future<Map<String, dynamic>> getEarnings() =>
+      _unwrap(() => _dio.get<Map<String, dynamic>>('/delivery/earnings'));
+
   Future<Map<String, dynamic>> _unwrap(
     Future<Response<Map<String, dynamic>>> Function() request,
   ) async {

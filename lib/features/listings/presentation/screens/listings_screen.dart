@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/widgets/product_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -130,12 +131,32 @@ class ListingsScreen extends ConsumerWidget {
   }
 }
 
-class _ListingCard extends ConsumerWidget {
+class _ListingCard extends ConsumerStatefulWidget {
   const _ListingCard({required this.product});
   final Product product;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ListingCard> createState() => _ListingCardState();
+}
+
+class _ListingCardState extends ConsumerState<_ListingCard> {
+  Product get product => widget.product;
+  bool _busy = false;
+  Future<void> _run(Future<bool> Function() action) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    final ok = await action();
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (!ok) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.listingActionFailed)));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final statusColor = product.status == ProductStatus.active
         ? AppColors.primaryGreen
         : AppColors.textMuted;
@@ -164,13 +185,16 @@ class _ListingCard extends ConsumerWidget {
               color: AppColors.primaryGreenSoft,
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
-            child: const Center(
-              child: Icon(
-                Icons.spa_rounded,
-                color: AppColors.primaryGreenDark,
-                size: 38,
-              ),
-            ),
+            clipBehavior: Clip.antiAlias,
+            child: product.images.isNotEmpty
+                ? ProductPhoto(url: product.images.first, label: product.name)
+                : const Center(
+                    child: Icon(
+                      Icons.spa_rounded,
+                      color: AppColors.primaryGreenDark,
+                      size: 38,
+                    ),
+                  ),
           ),
           const SizedBox(width: AppSpacing.md),
 
@@ -248,11 +272,29 @@ class _ListingCard extends ConsumerWidget {
                       ],
                     ),
 
+                    if (_busy)
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
                     // Actions - 48dp targets with labels: this is a
                     // farmer task screen (design-language doc).
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        IconButton(
+                          tooltip: context.l10n.listingEdit,
+                          icon: const Icon(
+                            Icons.edit_outlined,
+                            color: AppColors.primaryGreen,
+                          ),
+                          onPressed: _busy
+                              ? null
+                              : () => context.push(
+                                  '/farmer/listings/edit/${product.id}',
+                                ),
+                        ),
                         IconButton(
                           tooltip: context.l10n.listingViewJourney,
                           icon: const Icon(
@@ -275,9 +317,13 @@ class _ListingCard extends ConsumerWidget {
                             color: AppColors.secondaryBlue,
                             size: 22,
                           ),
-                          onPressed: () => ref
-                              .read(listingsControllerProvider.notifier)
-                              .toggleStatus(product.id, product.status),
+                          onPressed: _busy
+                              ? null
+                              : () => _run(
+                                  () => ref
+                                      .read(listingsControllerProvider.notifier)
+                                      .toggleStatus(product.id, product.status),
+                                ),
                         ),
                         IconButton(
                           tooltip: context.l10n.listingDelete,
@@ -286,7 +332,9 @@ class _ListingCard extends ConsumerWidget {
                             color: AppColors.errorRed,
                             size: 22,
                           ),
-                          onPressed: () => _confirmDelete(context, ref),
+                          onPressed: _busy
+                              ? null
+                              : () => _confirmDelete(context, ref),
                         ),
                       ],
                     ),
@@ -322,10 +370,12 @@ class _ListingCard extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              ref
-                  .read(listingsControllerProvider.notifier)
-                  .deleteProduct(product.id);
               Navigator.pop(ctx);
+              _run(
+                () => ref
+                    .read(listingsControllerProvider.notifier)
+                    .deleteProduct(product.id),
+              );
             },
             child: Text(
               context.l10n.removeItem,

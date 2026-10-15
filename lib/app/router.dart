@@ -1,4 +1,6 @@
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/earnings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -21,6 +23,7 @@ import 'package:farm2fork_mobile/features/feed/presentation/screens/feed_screen.
 import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_edit_screen.dart';
 import 'package:farm2fork_mobile/features/finance/presentation/screens/loans_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/create_listing_screen.dart';
+import 'package:farm2fork_mobile/features/listings/presentation/screens/edit_listing_screen.dart';
 import 'package:farm2fork_mobile/features/listings/presentation/screens/listings_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/marketplace_screen.dart';
 import 'package:farm2fork_mobile/features/marketplace/presentation/screens/product_detail_screen.dart';
@@ -57,6 +60,17 @@ final _routerRefreshProvider = Provider<Listenable>((ref) {
 });
 
 final goRouterProvider = Provider<GoRouter>((ref) {
+  ref.listen(authControllerProvider, (_, next) {
+    final auth = next.asData?.value;
+    if (auth == null) return;
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref
+            .read(cartControllerProvider.notifier)
+            .bindUser(auth.isAuthenticated ? auth.user?.id : null);
+      }
+    });
+  }, fireImmediately: true);
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: AppNavConfig.guestHomeRoute,
@@ -96,6 +110,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/farmer/listings/edit/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            EditListingScreen(productId: state.pathParameters['id']!),
+      ),
       GoRoute(
         path: '/auth/login',
         parentNavigatorKey: _rootNavigatorKey,
@@ -138,6 +158,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
           returnResult: state.uri.queryParameters['result'],
         ),
+      ),
+      GoRoute(
+        path: '/transporter/earnings',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const EarningsScreen(),
       ),
       GoRoute(
         path: '/shipments/:id',

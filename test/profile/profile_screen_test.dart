@@ -5,6 +5,9 @@ import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'profile_test_support.dart';
+import 'package:farm2fork_mobile/features/profile/presentation/providers/profile_controller.dart';
+import 'package:farm2fork_mobile/features/profile/data/models/user_profile.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 
 Future<TestAuth> _pump(
   WidgetTester tester, {
@@ -35,7 +38,50 @@ Future<TestAuth> _pump(
   return auth;
 }
 
+class RecoverableProfile extends ProfileController {
+  bool fail = true;
+  @override
+  Future<UserProfile> build() async {
+    if (fail) throw StateError('offline');
+    return buyerProfile();
+  }
+}
+
 void main() {
+  testWidgets(
+    'profile load failure is visible and retry preserves account controls',
+    (tester) async {
+      final profile = RecoverableProfile();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            authControllerProvider.overrideWith(() => TestAuth()),
+            profileControllerProvider.overrideWith(() => profile),
+          ],
+          child: testApp(child: const ProfileScreen()),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          "Couldn't load your profile. Check your connection and try again.",
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Ayesha Khan'), findsOneWidget);
+      profile.fail = false;
+      await tester.tap(find.text('Retry'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          "Couldn't load your profile. Check your connection and try again.",
+        ),
+        findsNothing,
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   testWidgets('header shows name, role, email, verified state and initials', (
     tester,
   ) async {

@@ -1,3 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/providers/dispatch_controller.dart';
+import 'dart:async';
+import 'package:farm2fork_mobile/core/location/location_service.dart';
+import 'dispatch_test_support.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/features/notifications/data/notifications_repository.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
@@ -11,9 +17,11 @@ import 'package:flutter_test/flutter_test.dart';
 import '../support/harness.dart';
 
 class _Repo extends ShipmentsRepository {
+  Completer<void>? statusGate;
   bool online = false;
   GeoPoint? location;
   Shipment? active;
+  final reports = <GeoPoint>[];
   final declined = <String>[];
 
   AvailableDelivery _offer(String id, String farm) => AvailableDelivery(
@@ -34,12 +42,15 @@ class _Repo extends ShipmentsRepository {
   );
 
   @override
-  Future<TransporterStatus> getStatus() async => TransporterStatus(
-    online: online,
-    locationFresh: location != null,
-    radiusKm: 25,
-    activeShipmentId: active?.id,
-  );
+  Future<TransporterStatus> getStatus() async {
+    await statusGate?.future;
+    return TransporterStatus(
+      online: online,
+      locationFresh: location != null,
+      radiusKm: 25,
+      activeShipmentId: active?.id,
+    );
+  }
 
   @override
   Future<TransporterStatus> setAvailability({
@@ -52,7 +63,9 @@ class _Repo extends ShipmentsRepository {
   }
 
   @override
-  Future<void> reportLocation(GeoPoint location) async {}
+  Future<void> reportLocation(GeoPoint location) async {
+    reports.add(location);
+  }
 
   @override
   Future<void> decline(String orderId) async => declined.add(orderId);
@@ -104,7 +117,100 @@ class _Repo extends ShipmentsRepository {
   }) async => active = active!.copyWith(status: status);
 }
 
+class _PendingGps implements LocationService {
+  final requests = <Completer<GeoPoint>>[];
+  int watches = 0;
+  @override
+  Future<GeoPoint> current() {
+    final request = Completer<GeoPoint>();
+    requests.add(request);
+    return request.future;
+  }
+
+  @override
+  Stream<GeoPoint> watch({int distanceFilterMeters = 200}) {
+    watches++;
+    return const Stream.empty();
+  }
+
+  @override
+  Future<void> openSettingsFor(LocationFailure failure) async {}
+}
+
 void main() {
+  testWidgets(
+    'pending foreground GPS cannot report or restart tracking while paused; resume measures again',
+    (tester) async {
+      final repo = _Repo()..online = true;
+      final gps = _PendingGps();
+      await pumpScreen(
+        tester,
+        const DeliveriesScreen(),
+        location: gps,
+        overrides: [
+          authControllerProvider.overrideWith(DriverAuth.new),
+          shipmentsRepositoryProvider.overrideWithValue(repo),
+          notificationsRepositoryProvider.overrideWithValue(
+            MockNotificationsRepository(),
+          ),
+        ],
+      );
+      expect(gps.requests, hasLength(1));
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      gps.requests.first.complete(const GeoPoint(10, 20));
+      await tester.pumpAndSettle();
+      expect(repo.reports, isEmpty);
+      expect(gps.watches, 1);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pumpAndSettle();
+      expect(gps.requests, hasLength(2));
+      gps.requests.last.complete(const GeoPoint(30, 40));
+      await tester.pumpAndSettle();
+      expect(repo.reports, [const GeoPoint(30, 40)]);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
+  testWidgets('a refresh completing while paused cannot restart GPS', (
+    tester,
+  ) async {
+    final repo = _Repo()..online = true;
+    final gps = _PendingGps();
+    await pumpScreen(
+      tester,
+      const DeliveriesScreen(),
+      location: gps,
+      overrides: [
+        authControllerProvider.overrideWith(DriverAuth.new),
+        shipmentsRepositoryProvider.overrideWithValue(repo),
+        notificationsRepositoryProvider.overrideWithValue(
+          MockNotificationsRepository(),
+        ),
+      ],
+    );
+    gps.requests.first.complete(testGps);
+    await tester.pumpAndSettle();
+    repo.statusGate = Completer<void>();
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(DeliveriesScreen)),
+    );
+    final refresh = container
+        .read(dispatchControllerProvider.notifier)
+        .refresh();
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    repo.statusGate!.complete();
+    await refresh;
+    await tester.pumpAndSettle();
+    expect(gps.watches, 1);
+    expect(gps.requests, hasLength(1));
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+    expect(gps.requests, hasLength(2));
+    gps.requests.last.complete(testGps);
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets(
     'go online, see priced offers, decline one, accept one, then drive it',
     (tester) async {
@@ -113,6 +219,7 @@ void main() {
         tester,
         const DeliveriesScreen(),
         overrides: [
+          authControllerProvider.overrideWith(DriverAuth.new),
           shipmentsRepositoryProvider.overrideWithValue(repo),
           notificationsRepositoryProvider.overrideWithValue(
             MockNotificationsRepository(),

@@ -26,6 +26,11 @@ class _RecordingApi implements ListingsApiService {
   };
 
   @override
+  Future<List<String>> uploadPhotos(List<ListingPhoto> photos) async => [
+    "https://cdn.test/photo.jpg",
+  ];
+
+  @override
   Future<Map<String, dynamic>> fetchMine([int page = 1]) async => {
     'data': [_product(), _product(status: 'inactive')],
   };
@@ -42,7 +47,7 @@ class _RecordingApi implements ListingsApiService {
     Map<String, dynamic> body,
   ) async {
     updated = (productId, body);
-    return _product(status: body['status'] as String);
+    return _product(status: body['status'] as String? ?? 'active');
   }
 
   @override
@@ -60,6 +65,35 @@ void main() {
     ]);
     expect(listings.first.initialBlockchainRecordId, isNotNull);
   });
+
+  test(
+    'editing other details omits stock and visibility; stock edits carry their baseline',
+    () async {
+      final api = _RecordingApi();
+      final repo = ApiListingsRepository(api);
+      final original = (await repo.getFarmerListings('farmer')).first;
+      NewListing draft(double quantity) => NewListing(
+        name: original.name,
+        category: original.category,
+        description: 'Changed',
+        price: original.price,
+        quantity: quantity,
+        unit: original.unit,
+        qualityGrade: original.qualityGrade,
+        images: original.images,
+        status: original.status,
+        original: original,
+      );
+      await repo.updateListing(original.id, draft(original.quantity));
+      expect(api.updated!.$2, {'description': 'Changed'});
+      await repo.updateListing(original.id, draft(500));
+      expect(api.updated!.$2, {
+        'description': 'Changed',
+        'quantity': 500.0,
+        'expectedQuantity': 400.0,
+      });
+    },
+  );
 
   test('publishes exactly the backend CreateProductDto shape', () async {
     final api = _RecordingApi();

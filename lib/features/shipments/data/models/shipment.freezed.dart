@@ -565,7 +565,7 @@ as String,
 /// @nodoc
 mixin _$Shipment {
 
-@JsonKey(name: '_id') String get id; String get orderId; String get transporterId; ShipmentStatus get status; ShipmentAddress get pickupAddress; ShipmentAddress get deliveryAddress; List<ShipmentStatusUpdate> get statusHistory; DateTime? get estimatedDelivery; DateTime? get actualDelivery; double? get deliveryFee; DateTime get createdAt; DateTime get updatedAt;
+@JsonKey(name: '_id') String get id; String get orderId; String get transporterId; ShipmentStatus get status; ShipmentAddress get pickupAddress; ShipmentAddress get deliveryAddress; List<ShipmentStatusUpdate> get statusHistory; DateTime? get estimatedDelivery; DateTime? get actualDelivery; double? get deliveryFee; Map<String, String?>? get pickupContact; Map<String, String?>? get deliveryContact; Map<String, dynamic>? get issue; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Shipment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -578,16 +578,16 @@ $ShipmentCopyWith<Shipment> get copyWith => _$ShipmentCopyWithImpl<Shipment>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Shipment&&(identical(other.id, id) || other.id == id)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.transporterId, transporterId) || other.transporterId == transporterId)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupAddress, pickupAddress) || other.pickupAddress == pickupAddress)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&const DeepCollectionEquality().equals(other.statusHistory, statusHistory)&&(identical(other.estimatedDelivery, estimatedDelivery) || other.estimatedDelivery == estimatedDelivery)&&(identical(other.actualDelivery, actualDelivery) || other.actualDelivery == actualDelivery)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Shipment&&(identical(other.id, id) || other.id == id)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.transporterId, transporterId) || other.transporterId == transporterId)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupAddress, pickupAddress) || other.pickupAddress == pickupAddress)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&const DeepCollectionEquality().equals(other.statusHistory, statusHistory)&&(identical(other.estimatedDelivery, estimatedDelivery) || other.estimatedDelivery == estimatedDelivery)&&(identical(other.actualDelivery, actualDelivery) || other.actualDelivery == actualDelivery)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&const DeepCollectionEquality().equals(other.pickupContact, pickupContact)&&const DeepCollectionEquality().equals(other.deliveryContact, deliveryContact)&&const DeepCollectionEquality().equals(other.issue, issue)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,orderId,transporterId,status,pickupAddress,deliveryAddress,const DeepCollectionEquality().hash(statusHistory),estimatedDelivery,actualDelivery,deliveryFee,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,orderId,transporterId,status,pickupAddress,deliveryAddress,const DeepCollectionEquality().hash(statusHistory),estimatedDelivery,actualDelivery,deliveryFee,const DeepCollectionEquality().hash(pickupContact),const DeepCollectionEquality().hash(deliveryContact),const DeepCollectionEquality().hash(issue),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Shipment(id: $id, orderId: $orderId, transporterId: $transporterId, status: $status, pickupAddress: $pickupAddress, deliveryAddress: $deliveryAddress, statusHistory: $statusHistory, estimatedDelivery: $estimatedDelivery, actualDelivery: $actualDelivery, deliveryFee: $deliveryFee, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Shipment(id: $id, orderId: $orderId, transporterId: $transporterId, status: $status, pickupAddress: $pickupAddress, deliveryAddress: $deliveryAddress, statusHistory: $statusHistory, estimatedDelivery: $estimatedDelivery, actualDelivery: $actualDelivery, deliveryFee: $deliveryFee, pickupContact: $pickupContact, deliveryContact: $deliveryContact, issue: $issue, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -598,7 +598,7 @@ abstract mixin class $ShipmentCopyWith<$Res>  {
   factory $ShipmentCopyWith(Shipment value, $Res Function(Shipment) _then) = _$ShipmentCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: '_id') String id, String orderId, String transporterId, ShipmentStatus status, ShipmentAddress pickupAddress, ShipmentAddress deliveryAddress, List<ShipmentStatusUpdate> statusHistory, DateTime? estimatedDelivery, DateTime? actualDelivery, double? deliveryFee, DateTime createdAt, DateTime updatedAt
+@JsonKey(name: '_id') String id, String orderId, String transporterId, ShipmentStatus status, ShipmentAddress pickupAddress, ShipmentAddress deliveryAddress, List<ShipmentStatusUpdate> statusHistory, DateTime? estimatedDelivery, DateTime? actualDelivery, double? deliveryFee, Map<String, String?>? pickupContact, Map<String, String?>? deliveryContact, Map<String, dynamic>? issue, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -615,7 +615,7 @@ class _$ShipmentCopyWithImpl<$Res>
 
 /// Create a copy of Shipment
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? orderId = null,Object? transporterId = null,Object? status = null,Object? pickupAddress = null,Object? deliveryAddress = null,Object? statusHistory = null,Object? estimatedDelivery = freezed,Object? actualDelivery = freezed,Object? deliveryFee = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? orderId = null,Object? transporterId = null,Object? status = null,Object? pickupAddress = null,Object? deliveryAddress = null,Object? statusHistory = null,Object? estimatedDelivery = freezed,Object? actualDelivery = freezed,Object? deliveryFee = freezed,Object? pickupContact = freezed,Object? deliveryContact = freezed,Object? issue = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
@@ -627,7 +627,10 @@ as ShipmentAddress,statusHistory: null == statusHistory ? _self.statusHistory : 
 as List<ShipmentStatusUpdate>,estimatedDelivery: freezed == estimatedDelivery ? _self.estimatedDelivery : estimatedDelivery // ignore: cast_nullable_to_non_nullable
 as DateTime?,actualDelivery: freezed == actualDelivery ? _self.actualDelivery : actualDelivery // ignore: cast_nullable_to_non_nullable
 as DateTime?,deliveryFee: freezed == deliveryFee ? _self.deliveryFee : deliveryFee // ignore: cast_nullable_to_non_nullable
-as double?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as double?,pickupContact: freezed == pickupContact ? _self.pickupContact : pickupContact // ignore: cast_nullable_to_non_nullable
+as Map<String, String?>?,deliveryContact: freezed == deliveryContact ? _self.deliveryContact : deliveryContact // ignore: cast_nullable_to_non_nullable
+as Map<String, String?>?,issue: freezed == issue ? _self.issue : issue // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -732,10 +735,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  Map<String, String?>? pickupContact,  Map<String, String?>? deliveryContact,  Map<String, dynamic>? issue,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Shipment() when $default != null:
-return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.pickupContact,_that.deliveryContact,_that.issue,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -753,10 +756,10 @@ return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  Map<String, String?>? pickupContact,  Map<String, String?>? deliveryContact,  Map<String, dynamic>? issue,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Shipment():
-return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.pickupContact,_that.deliveryContact,_that.issue,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -773,10 +776,10 @@ return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: '_id')  String id,  String orderId,  String transporterId,  ShipmentStatus status,  ShipmentAddress pickupAddress,  ShipmentAddress deliveryAddress,  List<ShipmentStatusUpdate> statusHistory,  DateTime? estimatedDelivery,  DateTime? actualDelivery,  double? deliveryFee,  Map<String, String?>? pickupContact,  Map<String, String?>? deliveryContact,  Map<String, dynamic>? issue,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Shipment() when $default != null:
-return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pickupAddress,_that.deliveryAddress,_that.statusHistory,_that.estimatedDelivery,_that.actualDelivery,_that.deliveryFee,_that.pickupContact,_that.deliveryContact,_that.issue,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -788,7 +791,7 @@ return $default(_that.id,_that.orderId,_that.transporterId,_that.status,_that.pi
 @JsonSerializable()
 
 class _Shipment implements Shipment {
-  const _Shipment({@JsonKey(name: '_id') required this.id, required this.orderId, required this.transporterId, required this.status, required this.pickupAddress, required this.deliveryAddress, required final  List<ShipmentStatusUpdate> statusHistory, this.estimatedDelivery, this.actualDelivery, this.deliveryFee, required this.createdAt, required this.updatedAt}): _statusHistory = statusHistory;
+  const _Shipment({@JsonKey(name: '_id') required this.id, required this.orderId, required this.transporterId, required this.status, required this.pickupAddress, required this.deliveryAddress, required final  List<ShipmentStatusUpdate> statusHistory, this.estimatedDelivery, this.actualDelivery, this.deliveryFee, final  Map<String, String?>? pickupContact, final  Map<String, String?>? deliveryContact, final  Map<String, dynamic>? issue, required this.createdAt, required this.updatedAt}): _statusHistory = statusHistory,_pickupContact = pickupContact,_deliveryContact = deliveryContact,_issue = issue;
   factory _Shipment.fromJson(Map<String, dynamic> json) => _$ShipmentFromJson(json);
 
 @override@JsonKey(name: '_id') final  String id;
@@ -807,6 +810,33 @@ class _Shipment implements Shipment {
 @override final  DateTime? estimatedDelivery;
 @override final  DateTime? actualDelivery;
 @override final  double? deliveryFee;
+ final  Map<String, String?>? _pickupContact;
+@override Map<String, String?>? get pickupContact {
+  final value = _pickupContact;
+  if (value == null) return null;
+  if (_pickupContact is EqualUnmodifiableMapView) return _pickupContact;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+ final  Map<String, String?>? _deliveryContact;
+@override Map<String, String?>? get deliveryContact {
+  final value = _deliveryContact;
+  if (value == null) return null;
+  if (_deliveryContact is EqualUnmodifiableMapView) return _deliveryContact;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+ final  Map<String, dynamic>? _issue;
+@override Map<String, dynamic>? get issue {
+  final value = _issue;
+  if (value == null) return null;
+  if (_issue is EqualUnmodifiableMapView) return _issue;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -823,16 +853,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Shipment&&(identical(other.id, id) || other.id == id)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.transporterId, transporterId) || other.transporterId == transporterId)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupAddress, pickupAddress) || other.pickupAddress == pickupAddress)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&const DeepCollectionEquality().equals(other._statusHistory, _statusHistory)&&(identical(other.estimatedDelivery, estimatedDelivery) || other.estimatedDelivery == estimatedDelivery)&&(identical(other.actualDelivery, actualDelivery) || other.actualDelivery == actualDelivery)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Shipment&&(identical(other.id, id) || other.id == id)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.transporterId, transporterId) || other.transporterId == transporterId)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupAddress, pickupAddress) || other.pickupAddress == pickupAddress)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&const DeepCollectionEquality().equals(other._statusHistory, _statusHistory)&&(identical(other.estimatedDelivery, estimatedDelivery) || other.estimatedDelivery == estimatedDelivery)&&(identical(other.actualDelivery, actualDelivery) || other.actualDelivery == actualDelivery)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&const DeepCollectionEquality().equals(other._pickupContact, _pickupContact)&&const DeepCollectionEquality().equals(other._deliveryContact, _deliveryContact)&&const DeepCollectionEquality().equals(other._issue, _issue)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,orderId,transporterId,status,pickupAddress,deliveryAddress,const DeepCollectionEquality().hash(_statusHistory),estimatedDelivery,actualDelivery,deliveryFee,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,orderId,transporterId,status,pickupAddress,deliveryAddress,const DeepCollectionEquality().hash(_statusHistory),estimatedDelivery,actualDelivery,deliveryFee,const DeepCollectionEquality().hash(_pickupContact),const DeepCollectionEquality().hash(_deliveryContact),const DeepCollectionEquality().hash(_issue),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Shipment(id: $id, orderId: $orderId, transporterId: $transporterId, status: $status, pickupAddress: $pickupAddress, deliveryAddress: $deliveryAddress, statusHistory: $statusHistory, estimatedDelivery: $estimatedDelivery, actualDelivery: $actualDelivery, deliveryFee: $deliveryFee, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Shipment(id: $id, orderId: $orderId, transporterId: $transporterId, status: $status, pickupAddress: $pickupAddress, deliveryAddress: $deliveryAddress, statusHistory: $statusHistory, estimatedDelivery: $estimatedDelivery, actualDelivery: $actualDelivery, deliveryFee: $deliveryFee, pickupContact: $pickupContact, deliveryContact: $deliveryContact, issue: $issue, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -843,7 +873,7 @@ abstract mixin class _$ShipmentCopyWith<$Res> implements $ShipmentCopyWith<$Res>
   factory _$ShipmentCopyWith(_Shipment value, $Res Function(_Shipment) _then) = __$ShipmentCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: '_id') String id, String orderId, String transporterId, ShipmentStatus status, ShipmentAddress pickupAddress, ShipmentAddress deliveryAddress, List<ShipmentStatusUpdate> statusHistory, DateTime? estimatedDelivery, DateTime? actualDelivery, double? deliveryFee, DateTime createdAt, DateTime updatedAt
+@JsonKey(name: '_id') String id, String orderId, String transporterId, ShipmentStatus status, ShipmentAddress pickupAddress, ShipmentAddress deliveryAddress, List<ShipmentStatusUpdate> statusHistory, DateTime? estimatedDelivery, DateTime? actualDelivery, double? deliveryFee, Map<String, String?>? pickupContact, Map<String, String?>? deliveryContact, Map<String, dynamic>? issue, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -860,7 +890,7 @@ class __$ShipmentCopyWithImpl<$Res>
 
 /// Create a copy of Shipment
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? orderId = null,Object? transporterId = null,Object? status = null,Object? pickupAddress = null,Object? deliveryAddress = null,Object? statusHistory = null,Object? estimatedDelivery = freezed,Object? actualDelivery = freezed,Object? deliveryFee = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? orderId = null,Object? transporterId = null,Object? status = null,Object? pickupAddress = null,Object? deliveryAddress = null,Object? statusHistory = null,Object? estimatedDelivery = freezed,Object? actualDelivery = freezed,Object? deliveryFee = freezed,Object? pickupContact = freezed,Object? deliveryContact = freezed,Object? issue = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Shipment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
@@ -872,7 +902,10 @@ as ShipmentAddress,statusHistory: null == statusHistory ? _self._statusHistory :
 as List<ShipmentStatusUpdate>,estimatedDelivery: freezed == estimatedDelivery ? _self.estimatedDelivery : estimatedDelivery // ignore: cast_nullable_to_non_nullable
 as DateTime?,actualDelivery: freezed == actualDelivery ? _self.actualDelivery : actualDelivery // ignore: cast_nullable_to_non_nullable
 as DateTime?,deliveryFee: freezed == deliveryFee ? _self.deliveryFee : deliveryFee // ignore: cast_nullable_to_non_nullable
-as double?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as double?,pickupContact: freezed == pickupContact ? _self._pickupContact : pickupContact // ignore: cast_nullable_to_non_nullable
+as Map<String, String?>?,deliveryContact: freezed == deliveryContact ? _self._deliveryContact : deliveryContact // ignore: cast_nullable_to_non_nullable
+as Map<String, String?>?,issue: freezed == issue ? _self._issue : issue // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

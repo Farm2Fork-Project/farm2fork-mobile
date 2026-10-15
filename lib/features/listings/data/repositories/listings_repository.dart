@@ -6,6 +6,8 @@ abstract class ListingsRepository {
   /// API derives the farmer from the session.
   Future<List<Product>> getFarmerListings(String farmerId);
   Future<Product> createListing(String farmerId, NewListing listing);
+  Future<Product> updateListing(String productId, NewListing listing);
+  Future<List<String>> uploadPhotos(List<ListingPhoto> photos);
   Future<Product> updateListingStatus(String productId, ProductStatus status);
   Future<void> deleteListing(String productId);
 }

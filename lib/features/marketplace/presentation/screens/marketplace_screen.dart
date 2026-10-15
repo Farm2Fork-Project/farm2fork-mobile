@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/notifications/presentation/widgets/notification_bell.dart';
@@ -25,9 +26,11 @@ class MarketplaceScreen extends ConsumerStatefulWidget {
 
 class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
   final _searchController = TextEditingController();
+  Timer? _searchTimer;
 
   @override
   void dispose() {
+    _searchTimer?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -107,8 +110,14 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
           ),
           _SearchBar(
             controller: _searchController,
-            onChanged: (value) =>
-                ref.read(searchQueryProvider.notifier).update(value),
+            onChanged: (value) {
+              _searchTimer?.cancel();
+              _searchTimer = Timer(const Duration(milliseconds: 250), () {
+                if (mounted) {
+                  ref.read(searchQueryProvider.notifier).update(value);
+                }
+              });
+            },
             onClear: () {
               _searchController.clear();
               ref.read(searchQueryProvider.notifier).clear();

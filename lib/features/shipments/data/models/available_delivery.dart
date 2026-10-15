@@ -1,10 +1,15 @@
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 
 class OfferItem {
-  const OfferItem({required this.productName, required this.quantity});
+  const OfferItem({
+    required this.productName,
+    required this.quantity,
+    this.unit,
+  });
 
   final String productName;
   final double quantity;
+  final String? unit;
 }
 
 /// A delivery offered to a nearby online transporter at a fixed price. The

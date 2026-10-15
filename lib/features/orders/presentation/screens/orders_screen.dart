@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
@@ -32,6 +33,17 @@ class OrdersScreen extends ConsumerWidget {
           elevation: 0,
           backgroundColor: AppColors.backgroundLight,
           centerTitle: true,
+          actions: [
+            IconButton(
+              tooltip: context.l10n.retry,
+              icon: const Icon(Icons.refresh),
+              onPressed: ordersAsync.isLoading
+                  ? null
+                  : () => ref
+                        .read(ordersControllerProvider.notifier)
+                        .fetchOrders(),
+            ),
+          ],
           bottom: TabBar(
             indicatorColor: AppColors.primaryGreen,
             labelColor: AppColors.primaryGreen,
@@ -129,10 +141,55 @@ class _OrdersList extends StatelessWidget {
   }
 }
 
-class _OrderCard extends StatelessWidget {
+class _OrderCard extends ConsumerStatefulWidget {
   const _OrderCard({required this.order, required this.role});
   final Order order;
   final dynamic role; // AppUserRole
+
+  @override
+  ConsumerState<_OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends ConsumerState<_OrderCard> {
+  Order get order => widget.order;
+  dynamic get role => widget.role;
+  bool _cancelling = false;
+  Future<void> _cancel() async {
+    if (_cancelling) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(ctx.l10n.cancelUnpaidOrder),
+        content: Text(ctx.l10n.cancelUnpaidOrderConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => ctx.pop(false),
+            child: Text(ctx.l10n.back),
+          ),
+          TextButton(
+            onPressed: () => ctx.pop(true),
+            child: Text(ctx.l10n.cancelUnpaidOrder),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _cancelling = true);
+    final ok = await ref
+        .read(ordersControllerProvider.notifier)
+        .updateStatus(order.id, OrderStatus.cancelled);
+    if (!mounted) return;
+    setState(() => _cancelling = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          ok
+              ? context.l10n.orderStatusCancelled
+              : context.l10n.orderCancelFailed,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,29 +218,32 @@ class _OrderCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.orderNumber(isolateLtr(order.id)),
-                    style: AppTextStyles.h3.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryGreenDark,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.orderNumber(isolateLtr(order.id)),
+                      style: AppTextStyles.h3.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryGreenDark,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    formatShortDate(
-                      order.createdAt,
-                      Localizations.localeOf(context),
+                    const SizedBox(height: 4),
+                    Text(
+                      formatShortDate(
+                        order.createdAt,
+                        Localizations.localeOf(context),
+                      ),
+                      style: AppTextStyles.small.copyWith(
+                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    style: AppTextStyles.small.copyWith(
-                      color: AppColors.textMuted,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: AppSpacing.sm),
               AppBadge(
                 label: statusText,
                 backgroundColor: statusColor.withValues(alpha: 0.12),
@@ -246,94 +306,38 @@ class _OrderCard extends StatelessWidget {
           const Divider(color: AppColors.surfaceMedium, height: 1),
           const SizedBox(height: AppSpacing.md),
 
-          // Totals
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.subtotal,
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textMuted,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                context.l10n.currencyAmount(
-                  order.totalAmount.toStringAsFixed(0),
-                ),
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textDark,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
+          // Flexible labels and amounts tolerate Urdu and larger text sizes.
+          _OrderAmountRow(
+            label: context.l10n.subtotal,
+            amount: context.l10n.currencyAmount(
+              order.totalAmount.toStringAsFixed(0),
+            ),
           ),
           const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.platformFeeWithPercent(
-                  order.platformFeePercent.toStringAsFixed(0),
-                ),
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textMuted,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                context.l10n.currencyAmount(
-                  order.platformFeeAmount.toStringAsFixed(0),
-                ),
-                style: AppTextStyles.small.copyWith(
-                  color: AppColors.textDark,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
+          _OrderAmountRow(
+            label: context.l10n.platformFeeWithPercent(
+              order.platformFeePercent.toStringAsFixed(0),
+            ),
+            amount: context.l10n.currencyAmount(
+              order.platformFeeAmount.toStringAsFixed(0),
+            ),
           ),
           if (order.deliveryFee > 0) ...[
             const SizedBox(height: 6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.deliveryFee,
-                  style: AppTextStyles.small.copyWith(
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  context.l10n.currencyAmount(
-                    order.deliveryFee.toStringAsFixed(0),
-                  ),
-                  style: AppTextStyles.small.copyWith(
-                    color: AppColors.textDark,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+            _OrderAmountRow(
+              label: context.l10n.deliveryFee,
+              amount: context.l10n.currencyAmount(
+                order.deliveryFee.toStringAsFixed(0),
+              ),
             ),
           ],
           const SizedBox(height: AppSpacing.md),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.grandTotal,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                context.l10n.currencyAmount(
-                  order.grandTotal.toStringAsFixed(0),
-                ),
-                style: AppTextStyles.h2.copyWith(
-                  color: AppColors.primaryGreenDark,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
+          _OrderAmountRow(
+            label: context.l10n.grandTotal,
+            amount: context.l10n.currencyAmount(
+              order.grandTotal.toStringAsFixed(0),
+            ),
+            total: true,
           ),
 
           // Role-specific fields
@@ -345,13 +349,24 @@ class _OrderCard extends StatelessWidget {
               order.status == OrderStatus.pending) ...[
             const SizedBox(height: AppSpacing.md),
             OutlinedButton(
-              onPressed: () => context.push(
-                Uri(
-                  path: '/payments',
-                  queryParameters: {'orderId': order.id},
-                ).toString(),
-              ),
+              onPressed: _cancelling
+                  ? null
+                  : () => context.push(
+                      Uri(
+                        path: '/payments',
+                        queryParameters: {'orderId': order.id},
+                      ).toString(),
+                    ),
               child: Text(context.l10n.continueSafepay),
+            ),
+          ],
+          if (role == AppUserRole.buyer && order.canCancel) ...[
+            const SizedBox(height: AppSpacing.sm),
+            AppButton(
+              label: context.l10n.cancelUnpaidOrder,
+              variant: AppButtonVariant.quiet,
+              isLoading: _cancelling,
+              onPressed: _cancel,
             ),
           ],
           if ((role == AppUserRole.buyer || role == AppUserRole.farmer) &&
@@ -406,4 +421,41 @@ class _OrderCard extends StatelessWidget {
       ],
     );
   }
+}
+
+class _OrderAmountRow extends StatelessWidget {
+  const _OrderAmountRow({
+    required this.label,
+    required this.amount,
+    this.total = false,
+  });
+  final String label;
+  final String amount;
+  final bool total;
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(
+        child: Text(
+          label,
+          style: (total ? AppTextStyles.body : AppTextStyles.small).copyWith(
+            color: total ? AppColors.textDark : AppColors.textMuted,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      const SizedBox(width: AppSpacing.sm),
+      Flexible(
+        child: Text(
+          amount,
+          textAlign: TextAlign.end,
+          style: (total ? AppTextStyles.h2 : AppTextStyles.small).copyWith(
+            color: total ? AppColors.primaryGreenDark : AppColors.textDark,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    ],
+  );
 }

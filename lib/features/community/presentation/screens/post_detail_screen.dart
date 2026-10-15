@@ -155,7 +155,15 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                         child: Center(child: CircularProgressIndicator()),
                       ),
                     ],
-                    error: (_, _) => [Text(l10n.communityActionFailed)],
+                    error: (_, _) => [
+                      Text(l10n.communityActionFailed),
+                      TextButton(
+                        onPressed: () => ref.invalidate(
+                          communityCommentsProvider(widget.postId),
+                        ),
+                        child: Text(l10n.retry),
+                      ),
+                    ],
                     data: (list) => list.isEmpty
                         ? [
                             Padding(

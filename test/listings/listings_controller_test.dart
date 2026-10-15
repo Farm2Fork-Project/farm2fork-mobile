@@ -67,6 +67,17 @@ class _Repo implements ListingsRepository {
   }
 
   @override
+  Future<Product> updateListing(String id, NewListing listing) async =>
+      _product(id).copyWith(
+        name: listing.name,
+        price: listing.price,
+        quantity: listing.quantity,
+        images: listing.images,
+      );
+  @override
+  Future<List<String>> uploadPhotos(List<ListingPhoto> photos) async => [];
+
+  @override
   Future<Product> updateListingStatus(String id, ProductStatus s) =>
       throw UnimplementedError();
 

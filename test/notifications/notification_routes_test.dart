@@ -3,6 +3,20 @@ import 'package:farm2fork_mobile/features/notifications/presentation/notificatio
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('payout notifications open earnings only for a transporter', () {
+    expect(
+      routeForNotification(
+        role: AppUserRole.transporter,
+        type: 'payout_recorded',
+      ),
+      '/transporter/earnings',
+    );
+    expect(
+      routeForNotification(role: AppUserRole.buyer, type: 'payout_recorded'),
+      isNull,
+    );
+  });
+
   String? route(AppUserRole role, String type, [String? model, String? id]) =>
       routeForNotification(
         role: role,

@@ -1,3 +1,5 @@
+import 'dispatch_test_support.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,6 +77,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authControllerProvider.overrideWith(DriverAuth.new),
           shipmentsRepositoryProvider.overrideWithValue(_TrackingRepository()),
         ],
         child: ScreenUtilInit(

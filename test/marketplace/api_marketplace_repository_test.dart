@@ -141,11 +141,16 @@ void main() {
       expect(() => repo.getProductById('x'), throwsA(isA<ApiException>()));
     });
 
-    test('returns an empty list when data is missing/malformed', () async {
-      final repo = ApiMarketplaceRepository(_StubApi(list: const {'total': 0}));
+    test(
+      'reports malformed responses instead of presenting an empty marketplace',
+      () async {
+        final repo = ApiMarketplaceRepository(
+          _StubApi(list: const {'total': 0}),
+        );
 
-      expect(await repo.getProducts(), isEmpty);
-    });
+        await expectLater(repo.getProducts(), throwsFormatException);
+      },
+    );
   });
 
   group('ErrorInterceptor mapping (sanity)', () {

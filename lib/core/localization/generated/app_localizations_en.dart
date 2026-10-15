@@ -617,7 +617,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteListingConfirmMessage =>
-      'This removes the listing from the marketplace. This can\'t be undone.';
+      'This removes the product from the marketplace. Your listing and history are kept. You can show it again.';
 
   @override
   String get rating => 'Rating';
@@ -2308,4 +2308,202 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiGradeAdvisory =>
       'This grade is a model suggestion. Review it before choosing to use it.';
+
+  @override
+  String get editListingTitle => 'Edit listing';
+
+  @override
+  String get listingEdit => 'Edit';
+
+  @override
+  String get listingUpdated => 'Listing updated';
+
+  @override
+  String get listingActionFailed =>
+      'Could not save this change. Please try again.';
+
+  @override
+  String get listingPhotos => 'Product photos';
+
+  @override
+  String get listingPhotosHint =>
+      'Up to 4 JPEG, PNG or WebP photos, 5 MB each. The first photo is the cover.';
+
+  @override
+  String get listingAddPhoto => 'Add photo';
+
+  @override
+  String get listingPhotoError =>
+      'Choose a JPEG, PNG or WebP photo under 5 MB. Check photo access and try again.';
+
+  @override
+  String get listingUseCover => 'Use as cover';
+
+  @override
+  String get cancelUnpaidOrder => 'Cancel unpaid order';
+
+  @override
+  String get cancelUnpaidOrderConfirm =>
+      'Cancel this unpaid draft order? No payment has been started.';
+
+  @override
+  String get orderCancelFailed =>
+      'Could not cancel this order. Refresh its status; a started payment must be handled through support.';
+
+  @override
+  String get pushUnread => 'Unread';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get notificationAll => 'All';
+
+  @override
+  String get notificationInboxHint => 'Order, delivery and account updates.';
+
+  @override
+  String get notificationUpdating => 'Updating…';
+
+  @override
+  String get notificationUpdateFailed =>
+      'Could not mark notifications as read. Please try again.';
+
+  @override
+  String get notificationCaughtUp => 'You’re all caught up';
+
+  @override
+  String get notificationEmptyHint =>
+      'New order, delivery and account updates will appear here.';
+
+  @override
+  String get notificationViewRelated => 'View related activity';
+
+  @override
+  String get notificationViewInbox => 'Open notification inbox';
+
+  @override
+  String get notificationDeviceAlerts => 'Device alerts';
+
+  @override
+  String get notificationEnabled => 'Enabled on this device';
+
+  @override
+  String get notificationDisabled => 'Disabled on this device';
+
+  @override
+  String get profileOverviewHint =>
+      'Manage your details, preferences and notifications.';
+
+  @override
+  String get profileEditHint =>
+      'Your contact details, business or farm information.';
+
+  @override
+  String get profileNotificationHint => 'Read your order and delivery updates.';
+
+  @override
+  String get profilePreferencesHint => 'Choose how Farm2Fork works for you.';
+
+  @override
+  String get foregroundLocationNote =>
+      'Location is shared only while this app is open. Keep it open to receive work and update your delivery location.';
+
+  @override
+  String get deliveryCodeTitle => 'Delivery code';
+
+  @override
+  String get deliveryCodeHelp =>
+      'Ask the buyer for their current code after handing over the goods.';
+
+  @override
+  String get buyerCodeHelp =>
+      'Share this code with your driver only after you receive the goods. A new code invalidates the previous code.';
+
+  @override
+  String get revealDeliveryCode => 'Show delivery code';
+
+  @override
+  String get reissueDeliveryCode => 'Issue a new code';
+
+  @override
+  String get verifyDelivery => 'Verify code and complete';
+
+  @override
+  String get deliveryCodeError =>
+      'Could not verify this code. Check the current code with the buyer and try again. The delivery remains active until verified.';
+
+  @override
+  String get reportDeliveryProblem => 'Report a delivery problem';
+
+  @override
+  String get problemBeforePickup =>
+      'This report stops this assignment. An administrator must resolve it before reassignment.';
+
+  @override
+  String get problemInCustody =>
+      'You have picked up the goods. Keep them safe; an administrator must resolve custody before another driver can be assigned.';
+
+  @override
+  String get pickupUnavailable => 'Pickup unavailable';
+
+  @override
+  String get recipientUnavailable => 'Recipient unavailable';
+
+  @override
+  String get vehicleIssue => 'Vehicle issue';
+
+  @override
+  String get otherDeliveryProblem => 'Other problem';
+
+  @override
+  String get optionalDeliveryNote => 'Note (optional)';
+
+  @override
+  String get problemReportSuccess =>
+      'Problem recorded. Awaiting administrator resolution.';
+
+  @override
+  String get navigationUnavailable =>
+      'Could not open navigation. Use the address shown on this delivery.';
+
+  @override
+  String get deliveryEarnings => 'Delivery earnings';
+
+  @override
+  String get earnedTotal => 'Earned';
+
+  @override
+  String get unpaidTotal => 'Unpaid';
+
+  @override
+  String get paidTotal => 'Paid';
+
+  @override
+  String get manualPayoutNote =>
+      'Payouts shown here are payments recorded by an administrator after an external transfer.';
+
+  @override
+  String get payoutRecords => 'Payout records';
+
+  @override
+  String get noEarningsYet => 'No verified delivery earnings yet.';
+
+  @override
+  String get noPayoutsYet => 'No payouts recorded yet.';
+
+  @override
+  String get deliveryUnitUnavailable => 'unit unavailable';
+
+  @override
+  String get earningsLedgerScope =>
+      'Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.';
+
+  @override
+  String get payoutCorrectionRecord =>
+      'Record correction; no bank transfer was reversed';
+
+  @override
+  String get deliveryReconcileRequired =>
+      'The last action could not be confirmed. Refresh the delivery before trying another action.';
 }

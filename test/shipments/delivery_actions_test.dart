@@ -62,46 +62,31 @@ class _Deliveries extends ShipmentsController {
 }
 
 void main() {
-  testWidgets(
-    'failed pickup stays retryable and a retry advances the displayed shipment',
-    (tester) async {
-      await tester.binding.setSurfaceSize(const Size(390, 844));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
-      final deliveries = _Deliveries();
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            shipmentsControllerProvider.overrideWith(() => deliveries),
-            transporterDispatchServiceProvider.overrideWithValue(_Status()),
-          ],
-          child: ScreenUtilInit(
-            designSize: const Size(390, 844),
-            builder: (_, _) => const MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: ShipmentsScreen(),
-            ),
+  testWidgets('active deliveries are excluded from read-only history', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final deliveries = _Deliveries();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          shipmentsControllerProvider.overrideWith(() => deliveries),
+          transporterDispatchServiceProvider.overrideWithValue(_Status()),
+        ],
+        child: ScreenUtilInit(
+          designSize: const Size(390, 844),
+          builder: (_, _) => const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: ShipmentsScreen(),
           ),
         ),
-      );
-      await tester.pumpAndSettle();
-      await tester.scrollUntilVisible(
-        find.text('Confirm crop pickup'),
-        300,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.ensureVisible(find.text('Confirm crop pickup'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Confirm crop pickup'));
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-      expect(find.text('An error occurred. Please try again.'), findsOneWidget);
-      expect(find.text('Confirm crop pickup'), findsOneWidget);
-      deliveries.fail = false;
-      await tester.tap(find.text('Confirm crop pickup'));
-      await tester.pumpAndSettle();
-      expect(find.text('Confirm crop pickup'), findsNothing);
-      expect(find.text('Depart — in transit'), findsOneWidget);
-    },
-  );
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Confirm crop pickup'), findsNothing);
+    expect(find.textContaining('No deliveries yet'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }

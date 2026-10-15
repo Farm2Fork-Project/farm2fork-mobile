@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../profile/profile_test_support.dart' show testApp;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
@@ -40,6 +41,8 @@ class _Push extends PushController {
 
 class _Adapter implements HttpClientAdapter {
   bool read = false;
+  int fetches = 0;
+  bool failInbox = false;
   @override
   Future<ResponseBody> fetch(
     RequestOptions options,
@@ -47,6 +50,7 @@ class _Adapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     if (options.path == '/notifications/read-all') read = true;
+    if (options.path == '/notifications') fetches++;
     return ResponseBody.fromString(
       jsonEncode(
         options.path == '/notifications'
@@ -62,7 +66,7 @@ class _Adapter implements HttpClientAdapter {
               }
             : {},
       ),
-      200,
+      options.path == '/notifications' && failInbox ? 500 : 200,
       headers: {
         'content-type': ['application/json'],
       },
@@ -88,18 +92,18 @@ void main() {
               pushControllerProvider.overrideWith(() => push),
               dioProvider.overrideWithValue(dio),
             ],
-            child: MaterialApp(
+            child: testApp(
+              child: const NotificationSettingsScreen(),
               locale: Locale(locale),
-              supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              home: const NotificationSettingsScreen(),
             ),
           ),
         );
         await tester.pumpAndSettle();
         final context = tester.element(find.byType(NotificationSettingsScreen));
         final l10n = AppLocalizations.of(context);
+        await tester.scrollUntilVisible(find.text('Delivery complete'), 200);
         expect(find.text('Delivery complete'), findsOneWidget);
+        await tester.scrollUntilVisible(find.text(l10n.pushEnable), -200);
         await tester.tap(find.text(l10n.pushEnable));
         await tester.pumpAndSettle();
         expect(find.text(l10n.errorOccurred), findsOneWidget);
@@ -108,9 +112,26 @@ void main() {
         await tester.tap(find.text(l10n.pushEnable));
         await tester.pumpAndSettle();
         expect(find.text(l10n.pushDisable), findsOneWidget);
+        await tester.ensureVisible(find.text(l10n.pushReadAll));
         await tester.tap(find.text(l10n.pushReadAll));
         await tester.pumpAndSettle();
         expect(adapter.read, true);
+        final beforeRefresh = adapter.fetches;
+        await tester.ensureVisible(find.text(l10n.dispatchRefresh));
+        await tester.tap(find.text(l10n.dispatchRefresh));
+        await tester.pumpAndSettle();
+        expect(adapter.fetches, beforeRefresh + 1);
+        adapter.failInbox = true;
+        await tester.tap(find.text(l10n.dispatchRefresh));
+        await tester.pumpAndSettle();
+        expect(find.text(l10n.retry), findsOneWidget);
+        adapter.failInbox = false;
+        final beforeRetry = adapter.fetches;
+        await tester.ensureVisible(find.text(l10n.retry));
+        await tester.tap(find.text(l10n.retry));
+        await tester.pumpAndSettle();
+        expect(adapter.fetches, beforeRetry + 1);
+
         expect(find.byIcon(Icons.circle), findsNothing);
         expect(tester.takeException(), isNull);
       },

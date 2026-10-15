@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// Confirmation dialog message before deleting a farmer's product listing
   ///
   /// In en, this message translates to:
-  /// **'This removes the listing from the marketplace. This can\'t be undone.'**
+  /// **'This removes the product from the marketplace. Your listing and history are kept. You can show it again.'**
   String get deleteListingConfirmMessage;
 
   /// Label for farmer/product rating
@@ -4087,6 +4087,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This grade is a model suggestion. Review it before choosing to use it.'**
   String get aiGradeAdvisory;
+
+  /// No description provided for @editListingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit listing'**
+  String get editListingTitle;
+
+  /// No description provided for @listingEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get listingEdit;
+
+  /// No description provided for @listingUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing updated'**
+  String get listingUpdated;
+
+  /// No description provided for @listingActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save this change. Please try again.'**
+  String get listingActionFailed;
+
+  /// No description provided for @listingPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Product photos'**
+  String get listingPhotos;
+
+  /// No description provided for @listingPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4 JPEG, PNG or WebP photos, 5 MB each. The first photo is the cover.'**
+  String get listingPhotosHint;
+
+  /// No description provided for @listingAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get listingAddPhoto;
+
+  /// No description provided for @listingPhotoError.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a JPEG, PNG or WebP photo under 5 MB. Check photo access and try again.'**
+  String get listingPhotoError;
+
+  /// No description provided for @listingUseCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Use as cover'**
+  String get listingUseCover;
+
+  /// No description provided for @cancelUnpaidOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel unpaid order'**
+  String get cancelUnpaidOrder;
+
+  /// No description provided for @cancelUnpaidOrderConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this unpaid draft order? No payment has been started.'**
+  String get cancelUnpaidOrderConfirm;
+
+  /// No description provided for @orderCancelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not cancel this order. Refresh its status; a started payment must be handled through support.'**
+  String get orderCancelFailed;
+
+  /// No description provided for @pushUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get pushUnread;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @notificationAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationAll;
+
+  /// No description provided for @notificationInboxHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Order, delivery and account updates.'**
+  String get notificationInboxHint;
+
+  /// No description provided for @notificationUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating…'**
+  String get notificationUpdating;
+
+  /// No description provided for @notificationUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not mark notifications as read. Please try again.'**
+  String get notificationUpdateFailed;
+
+  /// No description provided for @notificationCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re all caught up'**
+  String get notificationCaughtUp;
+
+  /// No description provided for @notificationEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New order, delivery and account updates will appear here.'**
+  String get notificationEmptyHint;
+
+  /// No description provided for @notificationViewRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'View related activity'**
+  String get notificationViewRelated;
+
+  /// No description provided for @notificationViewInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open notification inbox'**
+  String get notificationViewInbox;
+
+  /// No description provided for @notificationDeviceAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Device alerts'**
+  String get notificationDeviceAlerts;
+
+  /// No description provided for @notificationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled on this device'**
+  String get notificationEnabled;
+
+  /// No description provided for @notificationDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled on this device'**
+  String get notificationDisabled;
+
+  /// No description provided for @profileOverviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your details, preferences and notifications.'**
+  String get profileOverviewHint;
+
+  /// No description provided for @profileEditHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact details, business or farm information.'**
+  String get profileEditHint;
+
+  /// No description provided for @profileNotificationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Read your order and delivery updates.'**
+  String get profileNotificationHint;
+
+  /// No description provided for @profilePreferencesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how Farm2Fork works for you.'**
+  String get profilePreferencesHint;
+
+  /// No description provided for @foregroundLocationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is shared only while this app is open. Keep it open to receive work and update your delivery location.'**
+  String get foregroundLocationNote;
+
+  /// No description provided for @deliveryCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery code'**
+  String get deliveryCodeTitle;
+
+  /// No description provided for @deliveryCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the buyer for their current code after handing over the goods.'**
+  String get deliveryCodeHelp;
+
+  /// No description provided for @buyerCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this code with your driver only after you receive the goods. A new code invalidates the previous code.'**
+  String get buyerCodeHelp;
+
+  /// No description provided for @revealDeliveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Show delivery code'**
+  String get revealDeliveryCode;
+
+  /// No description provided for @reissueDeliveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue a new code'**
+  String get reissueDeliveryCode;
+
+  /// No description provided for @verifyDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify code and complete'**
+  String get verifyDelivery;
+
+  /// No description provided for @deliveryCodeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not verify this code. Check the current code with the buyer and try again. The delivery remains active until verified.'**
+  String get deliveryCodeError;
+
+  /// No description provided for @reportDeliveryProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a delivery problem'**
+  String get reportDeliveryProblem;
+
+  /// No description provided for @problemBeforePickup.
+  ///
+  /// In en, this message translates to:
+  /// **'This report stops this assignment. An administrator must resolve it before reassignment.'**
+  String get problemBeforePickup;
+
+  /// No description provided for @problemInCustody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have picked up the goods. Keep them safe; an administrator must resolve custody before another driver can be assigned.'**
+  String get problemInCustody;
+
+  /// No description provided for @pickupUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup unavailable'**
+  String get pickupUnavailable;
+
+  /// No description provided for @recipientUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient unavailable'**
+  String get recipientUnavailable;
+
+  /// No description provided for @vehicleIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle issue'**
+  String get vehicleIssue;
+
+  /// No description provided for @otherDeliveryProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Other problem'**
+  String get otherDeliveryProblem;
+
+  /// No description provided for @optionalDeliveryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get optionalDeliveryNote;
+
+  /// No description provided for @problemReportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem recorded. Awaiting administrator resolution.'**
+  String get problemReportSuccess;
+
+  /// No description provided for @navigationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open navigation. Use the address shown on this delivery.'**
+  String get navigationUnavailable;
+
+  /// No description provided for @deliveryEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery earnings'**
+  String get deliveryEarnings;
+
+  /// No description provided for @earnedTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get earnedTotal;
+
+  /// No description provided for @unpaidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid'**
+  String get unpaidTotal;
+
+  /// No description provided for @paidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paidTotal;
+
+  /// No description provided for @manualPayoutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts shown here are payments recorded by an administrator after an external transfer.'**
+  String get manualPayoutNote;
+
+  /// No description provided for @payoutRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout records'**
+  String get payoutRecords;
+
+  /// No description provided for @noEarningsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified delivery earnings yet.'**
+  String get noEarningsYet;
+
+  /// No description provided for @noPayoutsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No payouts recorded yet.'**
+  String get noPayoutsYet;
+
+  /// No description provided for @deliveryUnitUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'unit unavailable'**
+  String get deliveryUnitUnavailable;
+
+  /// No description provided for @earningsLedgerScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.'**
+  String get earningsLedgerScope;
+
+  /// No description provided for @payoutCorrectionRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record correction; no bank transfer was reversed'**
+  String get payoutCorrectionRecord;
+
+  /// No description provided for @deliveryReconcileRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The last action could not be confirmed. Refresh the delivery before trying another action.'**
+  String get deliveryReconcileRequired;
 }
 
 class _AppLocalizationsDelegate
