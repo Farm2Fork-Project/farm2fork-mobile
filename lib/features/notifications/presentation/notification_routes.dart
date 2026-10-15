@@ -7,6 +7,9 @@ String? routeForNotification({
   String? relatedEntityId,
   String? relatedEntityModel,
 }) {
+  if (type == 'payout_recorded') {
+    return role == AppUserRole.transporter ? '/transporter/earnings' : null;
+  }
   if (type == 'delivery_offer') {
     return role == AppUserRole.transporter
         ? AppNavConfig.routeFor(role, AppNavDestination.deliveries)

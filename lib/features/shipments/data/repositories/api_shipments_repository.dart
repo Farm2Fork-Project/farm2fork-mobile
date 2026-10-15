@@ -60,6 +60,9 @@ class ApiShipmentsRepository extends ShipmentsRepository {
     required ShipmentStatus status,
     required String note,
   }) async {
+    if (status == ShipmentStatus.delivered || status == ShipmentStatus.failed) {
+      throw ArgumentError('Use verified completion or a reasoned issue report');
+    }
     return _shipmentFromDto(
       await _api.updateShipmentStatus(
         shipmentId: shipmentId,
@@ -68,6 +71,29 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       ),
     );
   }
+
+  @override
+  Future<String> getDeliveryCode(
+    String shipmentId, {
+    bool reissue = false,
+  }) async => _requiredString(
+    await _api.getDeliveryCode(shipmentId, reissue: reissue),
+    'code',
+  );
+  @override
+  Future<Shipment> complete(
+    String shipmentId,
+    String code,
+    String note,
+  ) async => _shipmentFromDto(await _api.complete(shipmentId, code, note));
+  @override
+  Future<Shipment> reportIssue(
+    String shipmentId,
+    String reason,
+    String note,
+  ) async => _shipmentFromDto(await _api.reportIssue(shipmentId, reason, note));
+  @override
+  Future<Map<String, dynamic>> getEarnings() => _api.getEarnings();
 
   AvailableDelivery _availableFromDto(Map<String, dynamic> dto) {
     final items = dto['items'];
@@ -92,6 +118,7 @@ class ApiShipmentsRepository extends ShipmentsRepository {
                   (item) => OfferItem(
                     productName: (item['productName'] as String?) ?? '',
                     quantity: _number(item['quantity']),
+                    unit: item['unit'] as String?,
                   ),
                 )
                 .toList(growable: false)
@@ -134,6 +161,15 @@ class ApiShipmentsRepository extends ShipmentsRepository {
           ? null
           : _date(dto['actualDelivery']),
       deliveryFee: (dto['deliveryFee'] as num?)?.toDouble(),
+      pickupContact: dto['pickupContact'] == null
+          ? null
+          : Map<String, String?>.from(dto['pickupContact'] as Map),
+      deliveryContact: dto['deliveryContact'] == null
+          ? null
+          : Map<String, String?>.from(dto['deliveryContact'] as Map),
+      issue: dto['issue'] == null
+          ? null
+          : Map<String, dynamic>.from(dto['issue'] as Map),
       createdAt: _date(dto['createdAt']),
       updatedAt: _date(dto['updatedAt']),
     );

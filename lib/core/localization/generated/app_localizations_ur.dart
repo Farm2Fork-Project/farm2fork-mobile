@@ -2384,4 +2384,106 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get profilePreferencesHint =>
       'Farm2Fork اپنی پسند کے مطابق ترتیب دیں۔';
+
+  @override
+  String get foregroundLocationNote =>
+      'مقام صرف اس وقت شیئر ہوتا ہے جب یہ ایپ کھلی ہو۔ کام حاصل کرنے اور ڈیلیوری کا مقام تازہ رکھنے کے لیے ایپ کھلی رکھیں۔';
+
+  @override
+  String get deliveryCodeTitle => 'ڈیلیوری کوڈ';
+
+  @override
+  String get deliveryCodeHelp =>
+      'سامان حوالے کرنے کے بعد خریدار سے موجودہ کوڈ مانگیں۔';
+
+  @override
+  String get buyerCodeHelp =>
+      'سامان وصول کرنے کے بعد ہی یہ کوڈ ڈرائیور کو دیں۔ نیا کوڈ پچھلے کوڈ کو منسوخ کر دیتا ہے۔';
+
+  @override
+  String get revealDeliveryCode => 'ڈیلیوری کوڈ دکھائیں';
+
+  @override
+  String get reissueDeliveryCode => 'نیا کوڈ جاری کریں';
+
+  @override
+  String get verifyDelivery => 'کوڈ کی تصدیق اور تکمیل';
+
+  @override
+  String get deliveryCodeError =>
+      'کوڈ کی تصدیق نہیں ہو سکی۔ خریدار سے موجودہ کوڈ چیک کر کے دوبارہ کوشش کریں۔ تصدیق تک ڈیلیوری فعال رہے گی۔';
+
+  @override
+  String get reportDeliveryProblem => 'ڈیلیوری کا مسئلہ رپورٹ کریں';
+
+  @override
+  String get problemBeforePickup =>
+      'یہ رپورٹ اس اسائنمنٹ کو روک دے گی۔ دوبارہ اسائن کرنے سے پہلے منتظم کو اسے حل کرنا ہوگا۔';
+
+  @override
+  String get problemInCustody =>
+      'آپ سامان اٹھا چکے ہیں۔ اسے محفوظ رکھیں؛ دوسرا ڈرائیور مقرر کرنے سے پہلے منتظم کو سامان کی تحویل کا معاملہ حل کرنا ہوگا۔';
+
+  @override
+  String get pickupUnavailable => 'پک اپ دستیاب نہیں';
+
+  @override
+  String get recipientUnavailable => 'وصول کنندہ دستیاب نہیں';
+
+  @override
+  String get vehicleIssue => 'گاڑی کا مسئلہ';
+
+  @override
+  String get otherDeliveryProblem => 'دیگر مسئلہ';
+
+  @override
+  String get optionalDeliveryNote => 'نوٹ (اختیاری)';
+
+  @override
+  String get problemReportSuccess =>
+      'مسئلہ درج ہو گیا۔ منتظم کے حل کا انتظار ہے۔';
+
+  @override
+  String get navigationUnavailable =>
+      'نیویگیشن نہیں کھل سکی۔ اس ڈیلیوری پر دکھایا گیا پتہ استعمال کریں۔';
+
+  @override
+  String get deliveryEarnings => 'ڈیلیوری کی کمائی';
+
+  @override
+  String get earnedTotal => 'کمائی';
+
+  @override
+  String get unpaidTotal => 'غیر ادا شدہ';
+
+  @override
+  String get paidTotal => 'ادا شدہ';
+
+  @override
+  String get manualPayoutNote =>
+      'یہاں ادائیگیاں بیرونی منتقلی کے بعد منتظم کی درج کردہ ادائیگیاں ہیں۔';
+
+  @override
+  String get payoutRecords => 'ادائیگیوں کا ریکارڈ';
+
+  @override
+  String get noEarningsYet => 'ابھی تصدیق شدہ ڈیلیوری کی کمائی موجود نہیں۔';
+
+  @override
+  String get noPayoutsYet => 'ابھی کوئی ادائیگی درج نہیں ہوئی۔';
+
+  @override
+  String get deliveryUnitUnavailable => 'اکائی دستیاب نہیں';
+
+  @override
+  String get earningsLedgerScope =>
+      'کل رقم میں خریدار کی تصدیق کے ساتھ مکمل ہونے والی ڈیلیوریاں شامل ہیں۔ پہلے کی ڈیلیوریوں کے حساب کی پڑتال درکار ہے۔';
+
+  @override
+  String get payoutCorrectionRecord =>
+      'ریکارڈ کی تصحیح؛ بینک منتقلی واپس نہیں ہوئی';
+
+  @override
+  String get deliveryReconcileRequired =>
+      'پچھلے عمل کی تصدیق نہیں ہو سکی۔ اگلا عمل کرنے سے پہلے ڈیلیوری تازہ کریں۔';
 }

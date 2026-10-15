@@ -323,7 +323,6 @@ void main() {
           for (final status in [
             ShipmentStatus.pickedUp,
             ShipmentStatus.inTransit,
-            ShipmentStatus.delivered,
           ]) {
             await deliveryController.updateShipmentStatus(
               shipmentId: shipment.id,
@@ -331,6 +330,8 @@ void main() {
               note: 'Fixture ${status.name}',
             );
           }
+          final code = await ApiShipmentsRepository(ShipmentsApiService(dio)).getDeliveryCode(shipment.id);
+          await transportRepo.complete(shipment.id, code, 'Buyer code verified by fixture');
           expect(
             (await transportRepo.getById(shipment.id)).statusHistory,
             hasLength(4),

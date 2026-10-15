@@ -1,4 +1,6 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
+import 'package:farm2fork_mobile/features/shipments/presentation/widgets/delivery_actions.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +24,7 @@ import 'package:farm2fork_mobile/features/shipments/data/models/available_delive
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/providers/dispatch_controller.dart';
 
-/// How often an online transporter's location is re-sent even when they
-/// haven't moved, so the server keeps treating it as fresh.
+/// Obtain a new foreground position periodically, even while stationary.
 const _heartbeatInterval = Duration(minutes: 4);
 
 /// Transporter home: online toggle, the delivery in progress, and nearby
@@ -39,13 +40,20 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
     with WidgetsBindingObserver {
   StreamSubscription<GeoPoint>? _positionSub;
   Timer? _heartbeat;
-  GeoPoint? _lastPosition;
+  Timer? _offersTimer;
+  bool _foreground = true;
+  int? _locatingGeneration;
+  bool _locationFailed = false;
+  int _trackingGeneration = 0;
   bool _toggling = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _foreground =
+        WidgetsBinding.instance.lifecycleState == null ||
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
   }
 
   @override
@@ -59,48 +67,85 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
   // resumes (with a refresh) when it comes back.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    _foreground = state == AppLifecycleState.resumed;
+    if (_foreground) {
       ref.read(dispatchControllerProvider.notifier).refresh();
       _syncTracking();
-    } else if (state == AppLifecycleState.paused) {
+    } else {
       _stopTracking();
     }
   }
 
   void _syncTracking() {
+    if (!mounted) return;
     final online =
         ref.read(dispatchControllerProvider).asData?.value.status.online ??
         false;
-    if (online) {
+    if (_foreground && online) {
       _startTracking();
     } else {
       _stopTracking();
     }
   }
 
+  Future<void> _sharePosition(int generation, [GeoPoint? position]) async {
+    if (!_foreground ||
+        _locatingGeneration == generation ||
+        generation != _trackingGeneration) {
+      return;
+    }
+    _locatingGeneration = generation;
+    try {
+      final fresh =
+          position ?? await ref.read(locationServiceProvider).current();
+      if (!mounted || !_foreground || generation != _trackingGeneration) return;
+      await ref.read(dispatchControllerProvider.notifier).reportLocation(fresh);
+      if (mounted && generation == _trackingGeneration && _locationFailed) {
+        setState(() => _locationFailed = false);
+      }
+    } on Object {
+      if (mounted && generation == _trackingGeneration && !_locationFailed) {
+        setState(() => _locationFailed = true);
+      }
+    } finally {
+      if (_locatingGeneration == generation) _locatingGeneration = null;
+    }
+  }
+
   void _startTracking() {
-    if (_positionSub != null) return;
-    final controller = ref.read(dispatchControllerProvider.notifier);
-    _positionSub = ref.read(locationServiceProvider).watch().listen(
-      (position) {
-        _lastPosition = position;
-        controller.reportLocation(position);
-      },
-      // Permission revoked mid-session: stay online, the heartbeat
-      // stops refreshing and the server lets the location go stale.
-      onError: (_) {},
+    if (!_foreground || _positionSub != null) return;
+    final generation = ++_trackingGeneration;
+    _positionSub = ref
+        .read(locationServiceProvider)
+        .watch()
+        .listen(
+          (position) => unawaited(_sharePosition(generation, position)),
+          onError: (Object _) {
+            if (mounted && generation == _trackingGeneration) {
+              setState(() => _locationFailed = true);
+            }
+          },
+        );
+    unawaited(_sharePosition(generation));
+    _heartbeat = Timer.periodic(
+      _heartbeatInterval,
+      (_) => unawaited(_sharePosition(generation)),
     );
-    _heartbeat = Timer.periodic(_heartbeatInterval, (_) {
-      final position = _lastPosition;
-      if (position != null) controller.reportLocation(position);
+    _offersTimer = Timer.periodic(const Duration(seconds: 30), (_) {
+      if (mounted && _foreground && generation == _trackingGeneration) {
+        ref.read(dispatchControllerProvider.notifier).refresh();
+      }
     });
   }
 
   void _stopTracking() {
+    _trackingGeneration++;
     _positionSub?.cancel();
     _positionSub = null;
     _heartbeat?.cancel();
     _heartbeat = null;
+    _offersTimer?.cancel();
+    _offersTimer = null;
   }
 
   Future<void> _toggle(bool online) async {
@@ -143,7 +188,14 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
         title: Text(l10n.deliveriesTitle, style: AppTextStyles.h2),
         backgroundColor: AppColors.backgroundLight,
         centerTitle: true,
-        actions: const [NotificationBell()],
+        actions: [
+          IconButton(
+            tooltip: l10n.deliveryEarnings,
+            icon: const Icon(Icons.receipt_long),
+            onPressed: () => context.push('/transporter/earnings'),
+          ),
+          const NotificationBell(),
+        ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -151,6 +203,7 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
           onRefresh: () =>
               ref.read(dispatchControllerProvider.notifier).refresh(),
           child: dispatch.when(
+            skipLoadingOnReload: false,
             loading: () => const Center(
               child: CircularProgressIndicator(color: AppColors.primaryGreen),
             ),
@@ -159,8 +212,42 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
                   ref.read(dispatchControllerProvider.notifier).refresh(),
             ),
             data: (state) => ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(AppSpacing.pagePadding),
               children: [
+                if (state.needsReconciliation) Padding(padding: const EdgeInsets.only(bottom: AppSpacing.md), child: Text(l10n.deliveryReconcileRequired)),
+                if (state.refreshFailed)
+                  AppErrorState(
+                    onRetry: () =>
+                        ref.read(dispatchControllerProvider.notifier).refresh(),
+                  ),
+                if (_locationFailed ||
+                    (state.status.online && !state.status.locationFresh))
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(l10n.locationStaleWarning),
+                        Wrap(
+                          children: [
+                            TextButton(
+                              onPressed: () =>
+                                  _sharePosition(_trackingGeneration),
+                              child: Text(l10n.retry),
+                            ),
+                            TextButton(
+                              onPressed: () => ref
+                                  .read(locationServiceProvider)
+                                  .openSettingsFor(
+                                    LocationFailure.deniedForever,
+                                  ),
+                              child: Text(l10n.settings),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 _OnlineCard(
                   status: state.status,
                   busy: _toggling,
@@ -258,6 +345,7 @@ class _OnlineCard extends StatelessWidget {
                 : l10n.offlineSubtitle,
             style: AppTextStyles.small.copyWith(height: 1.4),
           ),
+          Text(l10n.foregroundLocationNote, style: AppTextStyles.small),
           if (online && !status.locationFresh) ...[
             const SizedBox(height: AppSpacing.xs),
             Text(
@@ -399,7 +487,14 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
     final items = offer.items
         .map(
           (i) =>
-              '${i.productName} ×${i.quantity % 1 == 0 ? i.quantity.toInt() : i.quantity}',
+              '${i.productName} ×${i.quantity % 1 == 0 ? i.quantity.toInt() : i.quantity} ${switch (i.unit) {
+                'kg' => l10n.unitKg,
+                'ton' => l10n.unitTon,
+                'dozen' => l10n.unitDozen,
+                'piece' => l10n.unitPiece,
+                'litre' => l10n.unitLitre,
+                _ => l10n.deliveryUnitUnavailable,
+              }}',
         )
         .join(', ');
     return AppCard(
@@ -603,6 +698,40 @@ class _ActiveDeliveryState extends ConsumerState<_ActiveDelivery> {
                 label: l10n.deliveryDestination,
                 address: shipment.deliveryAddress,
               ),
+              for (final contact in [
+                shipment.pickupContact,
+                shipment.deliveryContact,
+              ])
+                if (contact != null)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(contact['name'] ?? ''),
+                    subtitle: Text(contact['phone'] ?? ''),
+                    trailing: contact['phone'] == null
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.call_outlined),
+                            onPressed: () async {
+                              try {
+                                if (await launchUrl(
+                                  Uri(scheme: 'tel', path: contact['phone']),
+                                  mode: LaunchMode.externalApplication,
+                                )) {
+                                  return;
+                                }
+                              } on Object {
+                                /* The phone number remains visible for manual dialing. */
+                              }
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(l10n.dispatchActionFailed),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                  ),
               const SizedBox(height: AppSpacing.md),
               if (target != null)
                 AppButton(
@@ -612,7 +741,18 @@ class _ActiveDeliveryState extends ConsumerState<_ActiveDelivery> {
                   icon: Icons.navigation_rounded,
                   variant: AppButtonVariant.secondary,
                   expand: true,
-                  onPressed: () => openDirections(target),
+                  onPressed: () async {
+                    try {
+                      if (await openDirections(target)) return;
+                    } on Object {
+                      /* Show the visible address fallback below. */
+                    }
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.navigationUnavailable)),
+                      );
+                    }
+                  },
                 ),
               if (next != null) ...[
                 const SizedBox(height: AppSpacing.sm),
@@ -620,9 +760,35 @@ class _ActiveDeliveryState extends ConsumerState<_ActiveDelivery> {
                   label: nextLabel,
                   expand: true,
                   isLoading: _busy,
-                  onPressed: _busy ? null : () => _advance(next),
+                  onPressed: _busy
+                      ? null
+                      : () async {
+                          if (next == ShipmentStatus.delivered) {
+                            await showDeliveryAction(context, shipment);
+                          } else {
+                            await _advance(next);
+                          }
+                        },
                 ),
               ],
+              TextButton.icon(
+                onPressed: _busy
+                    ? null
+                    : () async {
+                        final reported = await showDeliveryAction(
+                          context,
+                          shipment,
+                          issue: true,
+                        );
+                        if (reported == true && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.problemReportSuccess)),
+                          );
+                        }
+                      },
+                icon: const Icon(Icons.report_problem_outlined),
+                label: Text(l10n.reportDeliveryProblem),
+              ),
               const SizedBox(height: AppSpacing.xs),
               Center(
                 child: TextButton(

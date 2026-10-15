@@ -39,6 +39,7 @@ Future<List<String>> pumpScreen(
   Widget home, {
   List<Override> overrides = const [],
   Locale locale = const Locale('en'),
+  LocationService? location,
 }) async {
   tester.view.physicalSize = const Size(390, 1800);
   tester.view.devicePixelRatio = 1;
@@ -65,7 +66,9 @@ Future<List<String>> pumpScreen(
     ProviderScope(
       overrides: [
         appMapBuilderProvider.overrideWithValue(fakeMap),
-        locationServiceProvider.overrideWithValue(FakeLocationService()),
+        locationServiceProvider.overrideWithValue(
+          location ?? FakeLocationService(),
+        ),
         ...overrides,
       ],
       child: ScreenUtilInit(

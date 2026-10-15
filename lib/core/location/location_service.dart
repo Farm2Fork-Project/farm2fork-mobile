@@ -40,8 +40,6 @@ class GeolocatorLocationService implements LocationService {
       );
       return GeoPoint(position.latitude, position.longitude);
     } on TimeoutException {
-      final last = await Geolocator.getLastKnownPosition();
-      if (last != null) return GeoPoint(last.latitude, last.longitude);
       throw const LocationException(LocationFailure.unavailable);
     }
   }

@@ -1,3 +1,7 @@
+import 'package:farm2fork_mobile/core/error/api_exception.dart';
+import 'dart:async';
+import 'dispatch_test_support.dart';
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/core/location/location_service.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/available_delivery.dart';
@@ -53,18 +57,28 @@ Shipment _shipment(String orderId) => Shipment(
 
 class _Repo extends ShipmentsRepository {
   bool online = false;
+  bool statusCommitsThenTimesOut = false;
+  bool declineFails = false;
+  bool statusFails = false;
+  Completer<Shipment>? claimGate;
+  int claims = 0;
+  int completions = 0;
+  bool invalidCode = false;
   GeoPoint? sentLocation;
   Shipment? active;
   final declined = <String>[];
   var offers = [_offer('order-1'), _offer('order-2')];
 
   @override
-  Future<TransporterStatus> getStatus() async => TransporterStatus(
-    online: online,
-    locationFresh: sentLocation != null,
-    radiusKm: 25,
-    activeShipmentId: active?.id,
-  );
+  Future<TransporterStatus> getStatus() async {
+    if (statusFails) throw StateError("network");
+    return TransporterStatus(
+      online: online,
+      locationFresh: sentLocation != null,
+      radiusKm: 25,
+      activeShipmentId: active?.id,
+    );
+  }
 
   @override
   Future<TransporterStatus> setAvailability({
@@ -81,7 +95,10 @@ class _Repo extends ShipmentsRepository {
       sentLocation = location;
 
   @override
-  Future<void> decline(String orderId) async => declined.add(orderId);
+  Future<void> decline(String orderId) async {
+    if (declineFails) throw StateError("network");
+    declined.add(orderId);
+  }
 
   @override
   Future<List<AvailableDelivery>> getAvailable() async =>
@@ -89,6 +106,8 @@ class _Repo extends ShipmentsRepository {
 
   @override
   Future<Shipment> claim(String orderId) async {
+    claims++;
+    if (claimGate != null) return claimGate!.future;
     offers = [];
     return active = _shipment(orderId);
   }
@@ -97,6 +116,16 @@ class _Repo extends ShipmentsRepository {
   Future<Shipment> getById(String shipmentId) async => active!;
 
   @override
+  Future<Shipment> complete(String id, String code, String note) async {
+    completions++;
+    if (invalidCode) throw StateError('Invalid code');
+    return active = active!.copyWith(status: ShipmentStatus.delivered);
+  }
+
+  @override
+  Future<Shipment> reportIssue(String id, String reason, String note) async =>
+      active = active!.copyWith(status: ShipmentStatus.failed);
+  @override
   Future<List<Shipment>> getMine() async => [?active];
 
   @override
@@ -104,7 +133,11 @@ class _Repo extends ShipmentsRepository {
     required String shipmentId,
     required ShipmentStatus status,
     required String note,
-  }) async => active = active!.copyWith(status: status);
+  }) async {
+    active = active!.copyWith(status: status);
+    if (statusCommitsThenTimesOut) throw const ApiException(ApiErrorKind.timeout);
+    return active!;
+  }
 }
 
 class _FakeLocation implements LocationService {
@@ -129,6 +162,7 @@ class _FakeLocation implements LocationService {
 ProviderContainer _container(_Repo repo, {LocationFailure? failure}) {
   final container = ProviderContainer(
     overrides: [
+      authControllerProvider.overrideWith(DriverAuth.new),
       shipmentsRepositoryProvider.overrideWithValue(repo),
       locationServiceProvider.overrideWithValue(
         _FakeLocation(failure: failure),
@@ -140,6 +174,99 @@ ProviderContainer _container(_Repo repo, {LocationFailure? failure}) {
 }
 
 void main() {
+  test('a timed-out committed pickup is reconciled before another action', () async {
+    final repo = _Repo()..online = true..active = _shipment('order-1')..statusCommitsThenTimesOut = true;
+    final container = _container(repo);
+    await container.read(dispatchControllerProvider.future);
+    await container.read(dispatchControllerProvider.notifier).advance(shipmentId: 'shipment-1', status: ShipmentStatus.pickedUp, note: 'Collected');
+    expect(container.read(dispatchControllerProvider).requireValue.active?.status, ShipmentStatus.pickedUp);
+  });
+
+  test(
+    'invalid code leaves the active delivery unchanged; successful write survives failed refresh',
+    () async {
+      final repo = _Repo()
+        ..online = true
+        ..active = _shipment(
+          'order-1',
+        ).copyWith(status: ShipmentStatus.inTransit)
+        ..invalidCode = true;
+      final container = _container(repo);
+      await container.read(dispatchControllerProvider.future);
+      final controller = container.read(dispatchControllerProvider.notifier);
+      await expectLater(
+        controller.complete('shipment-1', 'wrong', ''),
+        throwsStateError,
+      );
+      expect(
+        container.read(dispatchControllerProvider).requireValue.active?.status,
+        ShipmentStatus.inTransit,
+      );
+      repo.invalidCode = false;
+      repo.statusFails = true;
+      await controller.complete('shipment-1', '123456', '');
+      expect(repo.active?.status, ShipmentStatus.delivered);
+      expect(
+        container.read(dispatchControllerProvider).requireValue.refreshFailed,
+        isTrue,
+      );
+      expect(repo.completions, 2);
+    },
+  );
+
+  test('failed decline retains the offer for retry', () async {
+    final repo = _Repo()
+      ..online = true
+      ..declineFails = true;
+    final container = _container(repo);
+    await container.read(dispatchControllerProvider.future);
+    await expectLater(
+      container.read(dispatchControllerProvider.notifier).decline('order-1'),
+      throwsStateError,
+    );
+    expect(
+      container.read(dispatchControllerProvider).requireValue.offers.length,
+      2,
+    );
+  });
+  test(
+    'a failed refresh preserves the active job and signals stale data',
+    () async {
+      final repo = _Repo()
+        ..online = true
+        ..active = _shipment('order-1');
+      final container = _container(repo);
+      await container.read(dispatchControllerProvider.future);
+      repo.statusFails = true;
+      await container.read(dispatchControllerProvider.notifier).refresh();
+      expect(
+        container.read(dispatchControllerProvider).requireValue.active?.id,
+        'shipment-1',
+      );
+      expect(
+        container.read(dispatchControllerProvider).requireValue.refreshFailed,
+        isTrue,
+      );
+    },
+  );
+  test('two accept actions cannot run simultaneously', () async {
+    final repo = _Repo()
+      ..online = true
+      ..claimGate = Completer<Shipment>();
+    final container = _container(repo);
+    await container.read(dispatchControllerProvider.future);
+    final first = container
+        .read(dispatchControllerProvider.notifier)
+        .accept('order-1');
+    await expectLater(
+      container.read(dispatchControllerProvider.notifier).accept('order-2'),
+      throwsStateError,
+    );
+    expect(repo.claims, 1);
+    repo.claimGate!.complete(_shipment('order-1'));
+    await first;
+  });
+
   test(
     'offline transporters see no offers; going online sends the location',
     () async {

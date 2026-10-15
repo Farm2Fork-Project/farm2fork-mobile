@@ -10,6 +10,7 @@ IconData notificationIcon(NotificationKind kind) => switch (kind) {
   NotificationKind.orderPlaced => Icons.receipt_long_rounded,
   NotificationKind.paymentConfirmed => Icons.payments_rounded,
   NotificationKind.shipmentAssigned => Icons.person_pin_circle_rounded,
+  NotificationKind.payoutRecorded => Icons.payments_outlined,
   NotificationKind.deliveryUpdate => Icons.local_shipping_rounded,
   NotificationKind.loanUpdate => Icons.account_balance_rounded,
   NotificationKind.deliveryOffer => Icons.campaign_rounded,

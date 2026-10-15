@@ -73,6 +73,13 @@ _Shipment _$ShipmentFromJson(Map<String, dynamic> json) => _Shipment(
       ? null
       : DateTime.parse(json['actualDelivery'] as String),
   deliveryFee: (json['deliveryFee'] as num?)?.toDouble(),
+  pickupContact: (json['pickupContact'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String?),
+  ),
+  deliveryContact: (json['deliveryContact'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String?),
+  ),
+  issue: json['issue'] as Map<String, dynamic>?,
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -88,6 +95,9 @@ Map<String, dynamic> _$ShipmentToJson(_Shipment instance) => <String, dynamic>{
   'estimatedDelivery': instance.estimatedDelivery?.toIso8601String(),
   'actualDelivery': instance.actualDelivery?.toIso8601String(),
   'deliveryFee': instance.deliveryFee,
+  'pickupContact': instance.pickupContact,
+  'deliveryContact': instance.deliveryContact,
+  'issue': instance.issue,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
 };

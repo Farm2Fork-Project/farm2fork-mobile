@@ -1,3 +1,6 @@
+import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
+import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/widgets/buyer_delivery_code.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -10,7 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final shipmentTrackingProvider = FutureProvider.autoDispose
-    .family<Shipment, String>((ref, shipmentId) {
+    .family<Shipment, String>((ref, shipmentId) async {
+      final auth = await ref.watch(authControllerProvider.future);
+      if (!auth.isAuthenticated) throw StateError('Authentication required');
       return ref.read(shipmentsRepositoryProvider).getById(shipmentId);
     });
 
@@ -21,6 +26,7 @@ class ShipmentTrackingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authControllerProvider).asData?.value;
     final shipmentAsync = ref.watch(shipmentTrackingProvider(shipmentId));
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
@@ -29,6 +35,8 @@ class ShipmentTrackingScreen extends ConsumerWidget {
         backgroundColor: AppColors.backgroundLight,
       ),
       body: shipmentAsync.when(
+        skipLoadingOnRefresh: false,
+        skipLoadingOnReload: false,
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.primaryGreen),
         ),
@@ -38,6 +46,15 @@ class ShipmentTrackingScreen extends ConsumerWidget {
         data: (shipment) => ListView(
           padding: const EdgeInsets.all(AppSpacing.pagePadding),
           children: [
+            if (auth?.user?.role == AppUserRole.buyer &&
+                shipment.status != ShipmentStatus.delivered &&
+                shipment.status != ShipmentStatus.failed)
+              BuyerDeliveryCode(
+                key: ValueKey(
+                  '${auth?.user?.id}:${shipment.id}:${shipment.transporterId}',
+                ),
+                shipmentId: shipmentId,
+              ),
             AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,6 +67,12 @@ class ShipmentTrackingScreen extends ConsumerWidget {
                       style: AppTextStyles.label,
                     ),
                     const SizedBox(height: 2),
+                    Text(
+                      MaterialLocalizations.of(
+                        context,
+                      ).formatMediumDate(entry.timestamp.toLocal()),
+                      style: AppTextStyles.small,
+                    ),
                     Text(entry.note, style: AppTextStyles.body),
                     const SizedBox(height: AppSpacing.md),
                   ],

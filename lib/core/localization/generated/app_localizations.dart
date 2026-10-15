@@ -4261,6 +4261,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose how Farm2Fork works for you.'**
   String get profilePreferencesHint;
+
+  /// No description provided for @foregroundLocationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is shared only while this app is open. Keep it open to receive work and update your delivery location.'**
+  String get foregroundLocationNote;
+
+  /// No description provided for @deliveryCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery code'**
+  String get deliveryCodeTitle;
+
+  /// No description provided for @deliveryCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the buyer for their current code after handing over the goods.'**
+  String get deliveryCodeHelp;
+
+  /// No description provided for @buyerCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this code with your driver only after you receive the goods. A new code invalidates the previous code.'**
+  String get buyerCodeHelp;
+
+  /// No description provided for @revealDeliveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Show delivery code'**
+  String get revealDeliveryCode;
+
+  /// No description provided for @reissueDeliveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue a new code'**
+  String get reissueDeliveryCode;
+
+  /// No description provided for @verifyDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify code and complete'**
+  String get verifyDelivery;
+
+  /// No description provided for @deliveryCodeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not verify this code. Check the current code with the buyer and try again. The delivery remains active until verified.'**
+  String get deliveryCodeError;
+
+  /// No description provided for @reportDeliveryProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a delivery problem'**
+  String get reportDeliveryProblem;
+
+  /// No description provided for @problemBeforePickup.
+  ///
+  /// In en, this message translates to:
+  /// **'This report stops this assignment. An administrator must resolve it before reassignment.'**
+  String get problemBeforePickup;
+
+  /// No description provided for @problemInCustody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have picked up the goods. Keep them safe; an administrator must resolve custody before another driver can be assigned.'**
+  String get problemInCustody;
+
+  /// No description provided for @pickupUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup unavailable'**
+  String get pickupUnavailable;
+
+  /// No description provided for @recipientUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient unavailable'**
+  String get recipientUnavailable;
+
+  /// No description provided for @vehicleIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle issue'**
+  String get vehicleIssue;
+
+  /// No description provided for @otherDeliveryProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Other problem'**
+  String get otherDeliveryProblem;
+
+  /// No description provided for @optionalDeliveryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get optionalDeliveryNote;
+
+  /// No description provided for @problemReportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem recorded. Awaiting administrator resolution.'**
+  String get problemReportSuccess;
+
+  /// No description provided for @navigationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open navigation. Use the address shown on this delivery.'**
+  String get navigationUnavailable;
+
+  /// No description provided for @deliveryEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery earnings'**
+  String get deliveryEarnings;
+
+  /// No description provided for @earnedTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get earnedTotal;
+
+  /// No description provided for @unpaidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid'**
+  String get unpaidTotal;
+
+  /// No description provided for @paidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paidTotal;
+
+  /// No description provided for @manualPayoutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts shown here are payments recorded by an administrator after an external transfer.'**
+  String get manualPayoutNote;
+
+  /// No description provided for @payoutRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout records'**
+  String get payoutRecords;
+
+  /// No description provided for @noEarningsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified delivery earnings yet.'**
+  String get noEarningsYet;
+
+  /// No description provided for @noPayoutsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No payouts recorded yet.'**
+  String get noPayoutsYet;
+
+  /// No description provided for @deliveryUnitUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'unit unavailable'**
+  String get deliveryUnitUnavailable;
+
+  /// No description provided for @earningsLedgerScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.'**
+  String get earningsLedgerScope;
+
+  /// No description provided for @payoutCorrectionRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record correction; no bank transfer was reversed'**
+  String get payoutCorrectionRecord;
+
+  /// No description provided for @deliveryReconcileRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The last action could not be confirmed. Refresh the delivery before trying another action.'**
+  String get deliveryReconcileRequired;
 }
 
 class _AppLocalizationsDelegate

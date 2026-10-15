@@ -33,7 +33,11 @@ class ShipmentsScreen extends ConsumerWidget {
           color: AppColors.primaryGreen,
           child: shipmentsAsync.when(
             data: (dashboard) {
-              if (dashboard.mine.isEmpty) {
+              if (!dashboard.mine.any(
+                (s) =>
+                    s.status == ShipmentStatus.delivered ||
+                    s.status == ShipmentStatus.failed,
+              )) {
                 return AppEmptyState(
                   message: context.l10n.noDeliveriesYet,
                   icon: Icons.local_shipping_rounded,
@@ -43,7 +47,11 @@ class ShipmentsScreen extends ConsumerWidget {
               return ListView(
                 padding: const EdgeInsets.all(AppSpacing.pagePadding),
                 children: [
-                  for (final shipment in dashboard.mine)
+                  for (final shipment in dashboard.mine.where(
+                    (s) =>
+                        s.status == ShipmentStatus.delivered ||
+                        s.status == ShipmentStatus.failed,
+                  ))
                     Padding(
                       padding: const EdgeInsets.only(bottom: AppSpacing.md),
                       child: _ShipmentCard(shipment: shipment),
@@ -76,28 +84,6 @@ class _ShipmentCard extends ConsumerStatefulWidget {
 
 class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
   Shipment get shipment => widget.shipment;
-  bool _busy = false, _error = false;
-  Future<void> _update(ShipmentStatus status, String note) async {
-    if (_busy) return;
-    setState(() {
-      _busy = true;
-      _error = false;
-    });
-    try {
-      await ref
-          .read(shipmentsControllerProvider.notifier)
-          .updateShipmentStatus(
-            shipmentId: shipment.id,
-            status: status,
-            note: note,
-          );
-    } on Object {
-      if (mounted) setState(() => _error = true);
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final statusColor = switch (shipment.status) {
@@ -161,15 +147,6 @@ class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
           _buildTimeline(context),
 
           const SizedBox(height: AppSpacing.lg),
-
-          // Update Status Action Buttons
-          if (shipment.status != ShipmentStatus.delivered &&
-              shipment.status != ShipmentStatus.failed) ...[
-            const Divider(color: AppColors.surfaceMedium),
-            const SizedBox(height: AppSpacing.md),
-            if (_error) Text(context.l10n.errorOccurred),
-            _buildUpdateControls(context),
-          ],
         ],
       ),
     );
@@ -270,54 +247,6 @@ class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildUpdateControls(BuildContext context) {
-    final nextStatus = switch (shipment.status) {
-      ShipmentStatus.assigned => ShipmentStatus.pickedUp,
-      ShipmentStatus.pickedUp => ShipmentStatus.inTransit,
-      ShipmentStatus.inTransit => ShipmentStatus.delivered,
-      _ => null,
-    };
-
-    if (nextStatus == null) return const SizedBox.shrink();
-
-    final actionLabel = switch (nextStatus) {
-      ShipmentStatus.pickedUp => context.l10n.confirmPickup,
-      ShipmentStatus.inTransit => context.l10n.startTransit,
-      ShipmentStatus.delivered => context.l10n.confirmDelivery,
-      _ => '',
-    };
-
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: _busy
-            ? null
-            : () => _update(
-                nextStatus,
-                context.l10n.shipmentStatusUpdate(
-                  _statusLabel(context, nextStatus),
-                ),
-              ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryGreen,
-          foregroundColor: AppColors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-          ),
-        ),
-        child: Text(
-          actionLabel,
-          style: AppTextStyles.body.copyWith(
-            fontWeight: FontWeight.w700,
-            color: AppColors.white,
-          ),
-        ),
-      ),
     );
   }
 

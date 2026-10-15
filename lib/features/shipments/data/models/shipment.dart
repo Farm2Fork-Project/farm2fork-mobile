@@ -56,6 +56,9 @@ abstract class Shipment with _$Shipment {
     DateTime? actualDelivery,
     // Fixed fee the transporter earns (PKR); absent on legacy shipments.
     double? deliveryFee,
+    Map<String, String?>? pickupContact,
+    Map<String, String?>? deliveryContact,
+    Map<String, dynamic>? issue,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Shipment;

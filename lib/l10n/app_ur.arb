@@ -93,19 +93,15 @@
   "loansTitle": "قرضے",
   "loansDescription": "کسانوں کی مالی مدد، قرض کی واپسی کی صورتحال اور شراکت داروں کے فیصلے دیکھیں۔",
   "changeLanguage": "Change Language (زبان تبدیل کریں)",
-
   "allCategories": "سب",
   "categoryVegetables": "سبزیاں",
   "categoryFruits": "پھل",
   "categoryGrains": "اناج",
   "categoryDairy": "دودھ کی مصنوعات",
-
   "searchHint": "مصنوعات، فارم تلاش کریں...",
-
   "addToCart": "کارٹ میں شامل کریں",
   "addedToCart": "کارٹ میں شامل ہو گیا",
   "outOfStock": "ختم ہو چکا ہے",
-
   "productDetails": "مصنوع کی تفصیل",
   "farmerInfo": "کسان کی معلومات",
   "priceAmountWithUnit": "{amount} روپے / {unit}",
@@ -123,7 +119,6 @@
   "gradeA": "اے",
   "gradeB": "بی",
   "gradeC": "سی",
-
   "yourCart": "آپ کا کارٹ",
   "cartEmpty": "آپ کا کارٹ خالی ہے",
   "cartEmptySubtitle": "مارکیٹ پلیس دیکھیں اور تازہ مصنوعات شامل کریں۔",
@@ -132,7 +127,6 @@
   "clearCartConfirmTitle": "کارٹ خالی کریں؟",
   "clearCartConfirmMessage": "اس سے آپ کے کارٹ کی تمام اشیاء حذف ہو جائیں گی۔ یہ عمل واپس نہیں ہو سکتا۔",
   "cancel": "منسوخ کریں",
-
   "subtotal": "ذیلی کل",
   "platformFeeWithPercent": "پلیٹ فارم فیس ({percent}%)",
   "grandTotal": "کل رقم",
@@ -175,7 +169,6 @@
   "itemRemoved": "آئٹم ہٹا دیا گیا",
   "deleteListingConfirmTitle": "لسٹنگ حذف کریں؟",
   "deleteListingConfirmMessage": "اس سے پیداوار مارکیٹ سے ہٹ جائے گی۔ فہرست اور سابقہ ریکارڈ محفوظ رہیں گے۔ آپ اسے دوبارہ دکھا سکتے ہیں۔",
-
   "rating": "درجہ بندی",
   "soldBy": "فروخت کنندہ",
   "location": "مقام",
@@ -183,7 +176,6 @@
   "productStatusActive": "دستیاب",
   "productStatusInactive": "غیر فعال",
   "productStatusSoldOut": "اسٹاک ختم",
-
   "signUp": "اکاؤنٹ بنائیں",
   "createAccount": "اکاؤنٹ بنائیں",
   "continueAsGuest": "مہمان کے طور پر جاری رکھیں",
@@ -607,7 +599,6 @@
   "pushReadAll": "سب پڑھی ہوئی نشان زد کریں",
   "pushEmpty": "ابھی کوئی اطلاع نہیں۔",
   "enterCoordinates": "مقام کے نقاط درج کریں",
-
   "save": "محفوظ کریں",
   "saveChanges": "تبدیلیاں محفوظ کریں",
   "showPassword": "پاس ورڈ دکھائیں",
@@ -715,5 +706,35 @@
   "profileOverviewHint": "اپنی تفصیلات، ترجیحات اور اطلاعات کا انتظام کریں۔",
   "profileEditHint": "آپ کی رابطے، کاروبار یا فارم کی تفصیلات۔",
   "profileNotificationHint": "اپنے آرڈر اور ترسیل کی اطلاعات پڑھیں۔",
-  "profilePreferencesHint": "Farm2Fork اپنی پسند کے مطابق ترتیب دیں۔"
+  "profilePreferencesHint": "Farm2Fork اپنی پسند کے مطابق ترتیب دیں۔",
+  "foregroundLocationNote": "مقام صرف اس وقت شیئر ہوتا ہے جب یہ ایپ کھلی ہو۔ کام حاصل کرنے اور ڈیلیوری کا مقام تازہ رکھنے کے لیے ایپ کھلی رکھیں۔",
+  "deliveryCodeTitle": "ڈیلیوری کوڈ",
+  "deliveryCodeHelp": "سامان حوالے کرنے کے بعد خریدار سے موجودہ کوڈ مانگیں۔",
+  "buyerCodeHelp": "سامان وصول کرنے کے بعد ہی یہ کوڈ ڈرائیور کو دیں۔ نیا کوڈ پچھلے کوڈ کو منسوخ کر دیتا ہے۔",
+  "revealDeliveryCode": "ڈیلیوری کوڈ دکھائیں",
+  "reissueDeliveryCode": "نیا کوڈ جاری کریں",
+  "verifyDelivery": "کوڈ کی تصدیق اور تکمیل",
+  "deliveryCodeError": "کوڈ کی تصدیق نہیں ہو سکی۔ خریدار سے موجودہ کوڈ چیک کر کے دوبارہ کوشش کریں۔ تصدیق تک ڈیلیوری فعال رہے گی۔",
+  "reportDeliveryProblem": "ڈیلیوری کا مسئلہ رپورٹ کریں",
+  "problemBeforePickup": "یہ رپورٹ اس اسائنمنٹ کو روک دے گی۔ دوبارہ اسائن کرنے سے پہلے منتظم کو اسے حل کرنا ہوگا۔",
+  "problemInCustody": "آپ سامان اٹھا چکے ہیں۔ اسے محفوظ رکھیں؛ دوسرا ڈرائیور مقرر کرنے سے پہلے منتظم کو سامان کی تحویل کا معاملہ حل کرنا ہوگا۔",
+  "pickupUnavailable": "پک اپ دستیاب نہیں",
+  "recipientUnavailable": "وصول کنندہ دستیاب نہیں",
+  "vehicleIssue": "گاڑی کا مسئلہ",
+  "otherDeliveryProblem": "دیگر مسئلہ",
+  "optionalDeliveryNote": "نوٹ (اختیاری)",
+  "problemReportSuccess": "مسئلہ درج ہو گیا۔ منتظم کے حل کا انتظار ہے۔",
+  "navigationUnavailable": "نیویگیشن نہیں کھل سکی۔ اس ڈیلیوری پر دکھایا گیا پتہ استعمال کریں۔",
+  "deliveryEarnings": "ڈیلیوری کی کمائی",
+  "earnedTotal": "کمائی",
+  "unpaidTotal": "غیر ادا شدہ",
+  "paidTotal": "ادا شدہ",
+  "manualPayoutNote": "یہاں ادائیگیاں بیرونی منتقلی کے بعد منتظم کی درج کردہ ادائیگیاں ہیں۔",
+  "payoutRecords": "ادائیگیوں کا ریکارڈ",
+  "noEarningsYet": "ابھی تصدیق شدہ ڈیلیوری کی کمائی موجود نہیں۔",
+  "noPayoutsYet": "ابھی کوئی ادائیگی درج نہیں ہوئی۔",
+  "deliveryUnitUnavailable": "اکائی دستیاب نہیں",
+  "earningsLedgerScope": "کل رقم میں خریدار کی تصدیق کے ساتھ مکمل ہونے والی ڈیلیوریاں شامل ہیں۔ پہلے کی ڈیلیوریوں کے حساب کی پڑتال درکار ہے۔",
+  "payoutCorrectionRecord": "ریکارڈ کی تصحیح؛ بینک منتقلی واپس نہیں ہوئی",
+  "deliveryReconcileRequired": "پچھلے عمل کی تصدیق نہیں ہو سکی۔ اگلا عمل کرنے سے پہلے ڈیلیوری تازہ کریں۔"
 }

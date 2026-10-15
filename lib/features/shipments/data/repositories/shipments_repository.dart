@@ -33,6 +33,15 @@ abstract class ShipmentsRepository {
     required String note,
   });
 
+  Future<String> getDeliveryCode(String shipmentId, {bool reissue = false}) =>
+      throw UnsupportedError('Delivery codes unavailable');
+  Future<Shipment> complete(String shipmentId, String code, String note) =>
+      throw UnsupportedError('Verified completion unavailable');
+  Future<Shipment> reportIssue(String shipmentId, String reason, String note) =>
+      throw UnsupportedError('Issue reporting unavailable');
+  Future<Map<String, dynamic>> getEarnings() =>
+      throw UnsupportedError('Earnings unavailable');
+
   /// Temporary compatibility for the existing transporter screen. The backend
   /// identifies the caller from the JWT; no transporter id is sent by clients.
   Future<List<Shipment>> getShipmentsByTransporter(String transporterId) =>

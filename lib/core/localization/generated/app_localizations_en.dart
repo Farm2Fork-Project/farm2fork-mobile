@@ -2404,4 +2404,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePreferencesHint => 'Choose how Farm2Fork works for you.';
+
+  @override
+  String get foregroundLocationNote =>
+      'Location is shared only while this app is open. Keep it open to receive work and update your delivery location.';
+
+  @override
+  String get deliveryCodeTitle => 'Delivery code';
+
+  @override
+  String get deliveryCodeHelp =>
+      'Ask the buyer for their current code after handing over the goods.';
+
+  @override
+  String get buyerCodeHelp =>
+      'Share this code with your driver only after you receive the goods. A new code invalidates the previous code.';
+
+  @override
+  String get revealDeliveryCode => 'Show delivery code';
+
+  @override
+  String get reissueDeliveryCode => 'Issue a new code';
+
+  @override
+  String get verifyDelivery => 'Verify code and complete';
+
+  @override
+  String get deliveryCodeError =>
+      'Could not verify this code. Check the current code with the buyer and try again. The delivery remains active until verified.';
+
+  @override
+  String get reportDeliveryProblem => 'Report a delivery problem';
+
+  @override
+  String get problemBeforePickup =>
+      'This report stops this assignment. An administrator must resolve it before reassignment.';
+
+  @override
+  String get problemInCustody =>
+      'You have picked up the goods. Keep them safe; an administrator must resolve custody before another driver can be assigned.';
+
+  @override
+  String get pickupUnavailable => 'Pickup unavailable';
+
+  @override
+  String get recipientUnavailable => 'Recipient unavailable';
+
+  @override
+  String get vehicleIssue => 'Vehicle issue';
+
+  @override
+  String get otherDeliveryProblem => 'Other problem';
+
+  @override
+  String get optionalDeliveryNote => 'Note (optional)';
+
+  @override
+  String get problemReportSuccess =>
+      'Problem recorded. Awaiting administrator resolution.';
+
+  @override
+  String get navigationUnavailable =>
+      'Could not open navigation. Use the address shown on this delivery.';
+
+  @override
+  String get deliveryEarnings => 'Delivery earnings';
+
+  @override
+  String get earnedTotal => 'Earned';
+
+  @override
+  String get unpaidTotal => 'Unpaid';
+
+  @override
+  String get paidTotal => 'Paid';
+
+  @override
+  String get manualPayoutNote =>
+      'Payouts shown here are payments recorded by an administrator after an external transfer.';
+
+  @override
+  String get payoutRecords => 'Payout records';
+
+  @override
+  String get noEarningsYet => 'No verified delivery earnings yet.';
+
+  @override
+  String get noPayoutsYet => 'No payouts recorded yet.';
+
+  @override
+  String get deliveryUnitUnavailable => 'unit unavailable';
+
+  @override
+  String get earningsLedgerScope =>
+      'Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.';
+
+  @override
+  String get payoutCorrectionRecord =>
+      'Record correction; no bank transfer was reversed';
+
+  @override
+  String get deliveryReconcileRequired =>
+      'The last action could not be confirmed. Refresh the delivery before trying another action.';
 }

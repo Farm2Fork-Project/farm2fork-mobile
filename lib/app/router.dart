@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/features/shipments/presentation/screens/earnings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -157,6 +158,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           orderIds: state.uri.queryParametersAll['orderId'] ?? const [],
           returnResult: state.uri.queryParameters['result'],
         ),
+      ),
+      GoRoute(
+        path: '/transporter/earnings',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const EarningsScreen(),
       ),
       GoRoute(
         path: '/shipments/:id',

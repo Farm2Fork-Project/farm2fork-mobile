@@ -10,6 +10,7 @@ enum NotificationKind {
   paymentConfirmed('payment_confirmed'),
   shipmentAssigned('shipment_assigned'),
   deliveryUpdate('delivery_update'),
+  payoutRecorded('payout_recorded'),
   loanUpdate('loan_update'),
   adminAction('admin_action'),
   deliveryOffer('delivery_offer');
