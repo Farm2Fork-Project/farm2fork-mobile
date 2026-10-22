@@ -2354,11 +2354,23 @@ abstract class AppLocalizations {
   /// **'Rs {min} – {max} per {unit}'**
   String aiPriceRange(String min, String max, String unit);
 
-  /// Caveat: price is rule-based
+  /// Price source: the farmer's own market
   ///
   /// In en, this message translates to:
-  /// **'Rule-based estimate from reference ranges, season and grade — not live market data.'**
-  String get aiPriceRuleBased;
+  /// **'Wholesale mandi price in {market} on {date}.'**
+  String aiPriceLocal(String market, String date);
+
+  /// Price source: Punjab-wide markets
+  ///
+  /// In en, this message translates to:
+  /// **'Middle half of wholesale mandi prices across {count} Punjab markets on {date}.'**
+  String aiPricePunjab(int count, String date);
+
+  /// Official price source and caveat
+  ///
+  /// In en, this message translates to:
+  /// **'Source: AMIS Punjab ({commodity}). Wholesale prices; your selling price can differ.'**
+  String aiPriceSource(String commodity);
 
   /// Button applying the suggested price
   ///
@@ -2369,7 +2381,7 @@ abstract class AppLocalizations {
   /// No rule for this unit/category
   ///
   /// In en, this message translates to:
-  /// **'No price rule covers this unit or category yet.'**
+  /// **'No official mandi price covers this product or unit.'**
   String get aiPriceNoRule;
 
   /// AI quality check title
@@ -2425,6 +2437,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The model has no training data for this crop yet.'**
   String get aiCropNotTrained;
+
+  /// Quality check result when no grade can be shown
+  ///
+  /// In en, this message translates to:
+  /// **'No grade from this photo'**
+  String get aiReviewTitle;
+
+  /// Review reason: low model confidence
+  ///
+  /// In en, this message translates to:
+  /// **'The model wasn\'t sure enough about this photo to suggest a grade.'**
+  String get aiReviewLowConfidence;
+
+  /// Review reason: photo unlike training photos
+  ///
+  /// In en, this message translates to:
+  /// **'This photo looks different from the photos the model learned from, so a grade could be wrong.'**
+  String get aiReviewUnfamiliarPhoto;
+
+  /// Review reason: photo checks unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Photo checks aren\'t available right now, so no grade is shown.'**
+  String get aiReviewUnavailable;
+
+  /// Tips for retaking a produce photo
+  ///
+  /// In en, this message translates to:
+  /// **'For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.'**
+  String get aiReviewTips;
+
+  /// Button: take another photo
+  ///
+  /// In en, this message translates to:
+  /// **'Retake photo'**
+  String get aiReviewRetake;
+
+  /// Hint: pick the grade manually
+  ///
+  /// In en, this message translates to:
+  /// **'Or choose the listing grade yourself.'**
+  String get aiReviewManual;
 
   /// Result caveat: low confidence
   ///

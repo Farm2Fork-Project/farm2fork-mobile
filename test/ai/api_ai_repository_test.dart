@@ -61,14 +61,17 @@ Future<Object?> _priceError(Object error) async {
 
 void main() {
   test(
-    'sends the backend price contract and reads a rule-based range',
+    'sends the backend price contract and reads a dated official range',
     () async {
       final api = _Api(
         response: {
           'predictedMinPrice': 154,
           'predictedMaxPrice': 352,
-          'confidenceScore': 0.45,
-          'method': 'rule_based',
+          'method': 'official_wholesale',
+          'commodity': 'Mango(Chounsa)',
+          'observedOn': '2026-08-15',
+          'marketScope': 'Multan',
+          'marketCount': 1,
         },
       );
       final price = await ApiAiRepository(api).suggestPrice(
@@ -86,7 +89,9 @@ void main() {
       });
       expect(price.minPrice, 154);
       expect(price.midpoint, 253);
-      expect(price.ruleBased, isTrue);
+      expect(price.observedOn, DateTime(2026, 8, 15));
+      expect(price.marketScope, 'Multan');
+      expect(price.punjabWide, isFalse);
     },
   );
 

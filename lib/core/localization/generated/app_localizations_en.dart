@@ -1292,8 +1292,19 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get aiPriceRuleBased =>
-      'Rule-based estimate from reference ranges, season and grade — not live market data.';
+  String aiPriceLocal(String market, String date) {
+    return 'Wholesale mandi price in $market on $date.';
+  }
+
+  @override
+  String aiPricePunjab(int count, String date) {
+    return 'Middle half of wholesale mandi prices across $count Punjab markets on $date.';
+  }
+
+  @override
+  String aiPriceSource(String commodity) {
+    return 'Source: AMIS Punjab ($commodity). Wholesale prices; your selling price can differ.';
+  }
 
   @override
   String aiUsePrice(String price) {
@@ -1301,7 +1312,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get aiPriceNoRule => 'No price rule covers this unit or category yet.';
+  String get aiPriceNoRule =>
+      'No official mandi price covers this product or unit.';
 
   @override
   String get aiQualityTitle => 'Photo quality check';
@@ -1334,6 +1346,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiCropNotTrained =>
       'The model has no training data for this crop yet.';
+
+  @override
+  String get aiReviewTitle => 'No grade from this photo';
+
+  @override
+  String get aiReviewLowConfidence =>
+      'The model wasn\'t sure enough about this photo to suggest a grade.';
+
+  @override
+  String get aiReviewUnfamiliarPhoto =>
+      'This photo looks different from the photos the model learned from, so a grade could be wrong.';
+
+  @override
+  String get aiReviewUnavailable =>
+      'Photo checks aren\'t available right now, so no grade is shown.';
+
+  @override
+  String get aiReviewTips =>
+      'For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.';
+
+  @override
+  String get aiReviewRetake => 'Retake photo';
+
+  @override
+  String get aiReviewManual => 'Or choose the listing grade yourself.';
 
   @override
   String get aiLowConfidence => 'Low confidence — check the grade yourself.';

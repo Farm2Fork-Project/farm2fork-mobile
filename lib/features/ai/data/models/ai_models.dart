@@ -20,21 +20,32 @@ class AiStatus {
   final AiModelStatus? qualityModel;
 }
 
+/// Observed AMIS Punjab wholesale mandi prices for a dated trading day.
 class PriceSuggestion {
   const PriceSuggestion({
     required this.minPrice,
     required this.maxPrice,
-    required this.confidence,
-    required this.ruleBased,
+    required this.commodity,
+    required this.observedOn,
+    required this.marketScope,
+    required this.marketCount,
   });
 
   /// PKR per unit.
   final double minPrice;
   final double maxPrice;
-  final double confidence;
 
-  /// True for the master-context 10.3 rule-based estimate (not market data).
-  final bool ruleBased;
+  /// Official commodity name(s) the range comes from.
+  final String commodity;
+
+  /// Mandi trading day.
+  final DateTime observedOn;
+
+  /// The farmer's own market, or "Punjab" for the middle half of markets.
+  final String marketScope;
+  final int marketCount;
+
+  bool get punjabWide => marketScope == 'Punjab';
 
   double get midpoint => ((minPrice + maxPrice) / 2).roundToDouble();
 }
@@ -47,10 +58,11 @@ class QualityCheck {
     required this.cropSupported,
     required this.lowConfidence,
     required this.modelStatus,
+    this.reviewReason,
   });
 
-  /// Raw model output, A-D.
-  final String modelGrade;
+  /// Raw model output, A-D; null when the photo needs review.
+  final String? modelGrade;
 
   /// Null when the model says D (below any listable grade).
   final QualityGrade? suggestedListingGrade;
@@ -58,7 +70,14 @@ class QualityCheck {
   final bool cropSupported;
   final bool lowConfidence;
   final AiModelStatus modelStatus;
+
+  /// Set when no grade may be shown: the farmer retakes or grades manually.
+  final QualityReviewReason? reviewReason;
+
+  bool get needsReview => reviewReason != null || modelGrade == null;
 }
+
+enum QualityReviewReason { lowConfidence, unfamiliarPhoto, photoCheckUnavailable }
 
 /// Thrown for errors the farmer can act on; [kind] picks the message.
 enum AiErrorKind {

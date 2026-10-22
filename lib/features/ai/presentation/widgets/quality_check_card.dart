@@ -208,12 +208,41 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
               tone: AiNoteTone.error,
             ),
           ],
-          if (result != null) ...[
+          if (result != null && result.needsReview) ...[
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              l10n.aiReviewTitle,
+              style: AppTextStyles.h3.copyWith(
+                color: AppColors.primaryGreenDark,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            AiNote(
+              text: switch (result.reviewReason) {
+                QualityReviewReason.unfamiliarPhoto =>
+                  l10n.aiReviewUnfamiliarPhoto,
+                QualityReviewReason.photoCheckUnavailable =>
+                  l10n.aiReviewUnavailable,
+                _ => l10n.aiReviewLowConfidence,
+              },
+              tone: AiNoteTone.warning,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            AiNote(text: l10n.aiReviewTips),
+            const SizedBox(height: AppSpacing.sm),
+            AppButton(
+              label: l10n.aiReviewRetake,
+              icon: Icons.photo_camera_rounded,
+              variant: AppButtonVariant.quiet,
+              onPressed: _loading ? null : () => _check(ImageSource.camera),
+            ),
+            AiNote(text: l10n.aiReviewManual),
+          ] else if (result != null) ...[
             const SizedBox(height: AppSpacing.md),
             AiNote(text: l10n.aiGradeAdvisory),
             Text(
               l10n.aiGradeResult(
-                result.modelGrade,
+                result.modelGrade!,
                 (result.confidence * 100).round(),
               ),
               style: AppTextStyles.h3.copyWith(
@@ -233,7 +262,7 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
             const SizedBox(height: AppSpacing.sm),
             if (result.suggestedListingGrade != null)
               AppButton(
-                label: l10n.aiUseGrade(result.modelGrade),
+                label: l10n.aiUseGrade(result.modelGrade!),
                 variant: AppButtonVariant.quiet,
                 onPressed: () =>
                     widget.onApplyGrade(result.suggestedListingGrade!),

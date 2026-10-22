@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -127,7 +128,22 @@ class _PriceSuggestionCardState extends ConsumerState<PriceSuggestionCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
-            if (suggestion.ruleBased) AiNote(text: l10n.aiPriceRuleBased),
+            AiNote(
+              text: suggestion.punjabWide
+                  ? l10n.aiPricePunjab(
+                      suggestion.marketCount,
+                      DateFormat.yMMMd(
+                        locale.toLanguageTag(),
+                      ).format(suggestion.observedOn),
+                    )
+                  : l10n.aiPriceLocal(
+                      suggestion.marketScope,
+                      DateFormat.yMMMd(
+                        locale.toLanguageTag(),
+                      ).format(suggestion.observedOn),
+                    ),
+            ),
+            AiNote(text: l10n.aiPriceSource(suggestion.commodity)),
             const SizedBox(height: AppSpacing.sm),
             AppButton(
               label: l10n.aiUsePrice(
