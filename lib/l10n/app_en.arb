@@ -1561,9 +1561,28 @@
       }
     }
   },
-  "aiPriceRuleBased": "Rule-based estimate from reference ranges, season and grade — not live market data.",
-  "@aiPriceRuleBased": {
-    "description": "Caveat: price is rule-based"
+  "aiPriceLocal": "Wholesale mandi price in {market} on {date}.",
+  "@aiPriceLocal": {
+    "description": "Price source: the farmer's own market",
+    "placeholders": {
+      "market": {"type": "String"},
+      "date": {"type": "String"}
+    }
+  },
+  "aiPricePunjab": "Middle half of wholesale mandi prices across {count} Punjab markets on {date}.",
+  "@aiPricePunjab": {
+    "description": "Price source: Punjab-wide markets",
+    "placeholders": {
+      "count": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "aiPriceSource": "Source: AMIS Punjab ({commodity}). Wholesale prices; your selling price can differ.",
+  "@aiPriceSource": {
+    "description": "Official price source and caveat",
+    "placeholders": {
+      "commodity": {"type": "String"}
+    }
   },
   "aiUsePrice": "Use Rs {price}",
   "@aiUsePrice": {
@@ -1575,7 +1594,7 @@
       }
     }
   },
-  "aiPriceNoRule": "No price rule covers this unit or category yet.",
+  "aiPriceNoRule": "No official mandi price covers this product or unit.",
   "@aiPriceNoRule": {
     "description": "No rule for this unit/category"
   },
@@ -1624,6 +1643,34 @@
   "aiCropNotTrained": "The model has no training data for this crop yet.",
   "@aiCropNotTrained": {
     "description": "Result caveat: crop not trained"
+  },
+  "aiReviewTitle": "No grade from this photo",
+  "@aiReviewTitle": {
+    "description": "Quality check result when no grade can be shown"
+  },
+  "aiReviewLowConfidence": "The model wasn't sure enough about this photo to suggest a grade.",
+  "@aiReviewLowConfidence": {
+    "description": "Review reason: low model confidence"
+  },
+  "aiReviewUnfamiliarPhoto": "This photo looks different from the photos the model learned from, so a grade could be wrong.",
+  "@aiReviewUnfamiliarPhoto": {
+    "description": "Review reason: photo unlike training photos"
+  },
+  "aiReviewUnavailable": "Photo checks aren't available right now, so no grade is shown.",
+  "@aiReviewUnavailable": {
+    "description": "Review reason: photo checks unavailable"
+  },
+  "aiReviewTips": "For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.",
+  "@aiReviewTips": {
+    "description": "Tips for retaking a produce photo"
+  },
+  "aiReviewRetake": "Retake photo",
+  "@aiReviewRetake": {
+    "description": "Button: take another photo"
+  },
+  "aiReviewManual": "Or choose the listing grade yourself.",
+  "@aiReviewManual": {
+    "description": "Hint: pick the grade manually"
   },
   "aiLowConfidence": "Low confidence — check the grade yourself.",
   "@aiLowConfidence": {

@@ -1290,8 +1290,19 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get aiPriceRuleBased =>
-      'حوالہ جاتی حدود، موسم اور گریڈ پر مبنی اندازہ — یہ لائیو منڈی کا ڈیٹا نہیں ہے۔';
+  String aiPriceLocal(String market, String date) {
+    return '$market منڈی میں $date کی تھوک قیمت۔';
+  }
+
+  @override
+  String aiPricePunjab(int count, String date) {
+    return '$date کو پنجاب کی $count منڈیوں کی تھوک قیمتوں کا درمیانی نصف۔';
+  }
+
+  @override
+  String aiPriceSource(String commodity) {
+    return 'ماخذ: AMIS پنجاب ($commodity)۔ یہ تھوک قیمتیں ہیں؛ آپ کی فروخت کی قیمت مختلف ہو سکتی ہے۔';
+  }
 
   @override
   String aiUsePrice(String price) {
@@ -1300,7 +1311,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get aiPriceNoRule =>
-      'اس اکائی یا زمرے کے لیے ابھی کوئی قیمت کا اصول موجود نہیں۔';
+      'اس پروڈکٹ یا اکائی کے لیے کوئی سرکاری منڈی قیمت موجود نہیں۔';
 
   @override
   String get aiQualityTitle => 'تصویر سے معیار کی جانچ';
@@ -1333,6 +1344,31 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get aiCropNotTrained =>
       'ماڈل کے پاس ابھی اس فصل کا تربیتی ڈیٹا نہیں ہے۔';
+
+  @override
+  String get aiReviewTitle => 'اس تصویر سے گریڈ نہیں ملا';
+
+  @override
+  String get aiReviewLowConfidence =>
+      'ماڈل اس تصویر پر گریڈ تجویز کرنے کے لیے کافی پُر یقین نہیں تھا۔';
+
+  @override
+  String get aiReviewUnfamiliarPhoto =>
+      'یہ تصویر اُن تصاویر سے مختلف ہے جن سے ماڈل نے سیکھا ہے، اس لیے گریڈ غلط ہو سکتا ہے۔';
+
+  @override
+  String get aiReviewUnavailable =>
+      'تصویر کی جانچ ابھی دستیاب نہیں، اس لیے کوئی گریڈ نہیں دکھایا گیا۔';
+
+  @override
+  String get aiReviewTips =>
+      'بہتر تصویر کے لیے: تھوڑا سا نمونہ سادہ، ہلکے رنگ کی سطح پر پھیلائیں، دن کی روشنی میں اوپر سے تصویر لیں، اور فریم بھر دیں۔';
+
+  @override
+  String get aiReviewRetake => 'دوبارہ تصویر لیں';
+
+  @override
+  String get aiReviewManual => 'یا لسٹنگ گریڈ خود منتخب کریں۔';
 
   @override
   String get aiLowConfidence => 'کم اعتماد — گریڈ خود بھی جانچ لیں۔';

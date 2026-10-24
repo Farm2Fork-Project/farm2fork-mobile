@@ -44,8 +44,10 @@ class ApiAiRepository implements AiRepository {
     return PriceSuggestion(
       minPrice: _number(dto['predictedMinPrice']),
       maxPrice: _number(dto['predictedMaxPrice']),
-      confidence: _number(dto['confidenceScore']),
-      ruleBased: dto['method'] == 'rule_based',
+      commodity: '${dto['commodity'] ?? ''}',
+      observedOn: DateTime.parse('${dto['observedOn']}'),
+      marketScope: '${dto['marketScope'] ?? 'Punjab'}',
+      marketCount: _number(dto['marketCount']).toInt(),
     );
   }
 
@@ -70,7 +72,15 @@ class ApiAiRepository implements AiRepository {
     );
     final suggested = dto['suggestedListingGrade'] as String?;
     return QualityCheck(
-      modelGrade: (dto['modelGrade'] as String?) ?? '?',
+      modelGrade: dto['modelGrade'] as String?,
+      reviewReason: dto['needsReview'] == true
+          ? switch (dto['reviewReason']) {
+              'unfamiliar_photo' => QualityReviewReason.unfamiliarPhoto,
+              'photo_check_unavailable' =>
+                QualityReviewReason.photoCheckUnavailable,
+              _ => QualityReviewReason.lowConfidence,
+            }
+          : null,
       suggestedListingGrade: suggested == null
           ? null
           : ProductDtoMapper.gradeFromWire(suggested),

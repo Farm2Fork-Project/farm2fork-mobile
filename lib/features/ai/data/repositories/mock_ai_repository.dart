@@ -25,8 +25,10 @@ class MockAiRepository implements AiRepository {
     return PriceSuggestion(
       minPrice: 100.0 * factor,
       maxPrice: 180.0 * factor,
-      confidence: 0.35,
-      ruleBased: true,
+      commodity: 'Wheat',
+      observedOn: DateTime(2026, 10, 22),
+      marketScope: 'Punjab',
+      marketCount: 12,
     );
   }
 
