@@ -59,7 +59,7 @@ class TraceJourneyView extends StatelessWidget {
           )
         else
           for (var i = 0; i < trace.events.length; i++)
-            _TimelineItem(
+            TraceTimelineItem(
               event: trace.events[i],
               isLast: i == trace.events.length - 1,
             ),
@@ -238,8 +238,12 @@ class _DetailRow extends StatelessWidget {
 
 enum _Role { farmer, buyer, transporter }
 
-class _TimelineItem extends StatelessWidget {
-  const _TimelineItem({required this.event, required this.isLast});
+class TraceTimelineItem extends StatelessWidget {
+  const TraceTimelineItem({
+    super.key,
+    required this.event,
+    required this.isLast,
+  });
 
   final TraceEvent event;
   final bool isLast;
@@ -486,7 +490,11 @@ class _LedgerProof extends StatelessWidget {
               const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
-                  label,
+                  ledger.onChain == 'mismatch' || ledger.onChain == 'not_found'
+                      ? l10n.orderTraceLedgerMismatch
+                      : ledger.onChain == 'unavailable'
+                      ? l10n.orderTraceLedgerUnavailable
+                      : label,
                   style: AppTextStyles.small.copyWith(
                     color: foreground,
                     fontWeight: FontWeight.w600,

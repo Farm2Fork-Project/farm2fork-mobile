@@ -78,10 +78,12 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
 
   void _syncTracking() {
     if (!mounted) return;
-    final online =
-        ref.read(dispatchControllerProvider).asData?.value.status.online ??
-        false;
-    if (_foreground && online) {
+    final status = ref.read(dispatchControllerProvider).asData?.value.status;
+    // Keep sharing during a delivery even when offline for new offers: the
+    // farmer and buyer follow the active job on their tracking map.
+    final share =
+        status != null && (status.online || status.activeShipmentId != null);
+    if (_foreground && share) {
       _startTracking();
     } else {
       _stopTracking();

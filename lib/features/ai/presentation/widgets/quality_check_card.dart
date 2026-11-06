@@ -211,15 +211,16 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
           if (result != null) ...[
             const SizedBox(height: AppSpacing.md),
             AiNote(text: l10n.aiGradeAdvisory),
-            Text(
-              l10n.aiGradeResult(
-                result.modelGrade,
-                (result.confidence * 100).round(),
+            if (result.canApply)
+              Text(
+                l10n.aiGradeResult(
+                  result.modelGrade,
+                  (result.confidence * 100).round(),
+                ),
+                style: AppTextStyles.h3.copyWith(
+                  color: AppColors.primaryGreenDark,
+                ),
               ),
-              style: AppTextStyles.h3.copyWith(
-                color: AppColors.primaryGreenDark,
-              ),
-            ),
             const SizedBox(height: AppSpacing.xs),
             if (result.modelStatus == AiModelStatus.untrained)
               AiNote(text: l10n.aiPreviewResult, tone: AiNoteTone.warning),
@@ -231,7 +232,7 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
                 result.lowConfidence)
               AiNote(text: l10n.aiLowConfidence),
             const SizedBox(height: AppSpacing.sm),
-            if (result.suggestedListingGrade != null)
+            if (result.canApply)
               AppButton(
                 label: l10n.aiUseGrade(result.modelGrade),
                 variant: AppButtonVariant.quiet,
@@ -239,7 +240,7 @@ class _QualityCheckCardState extends ConsumerState<QualityCheckCard> {
                     widget.onApplyGrade(result.suggestedListingGrade!),
               )
             else
-              AiNote(text: l10n.aiGradeD, tone: AiNoteTone.warning),
+              AiNote(text: l10n.aiReviewRecovery, tone: AiNoteTone.warning),
           ],
         ],
       ),

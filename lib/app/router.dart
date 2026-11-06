@@ -1,3 +1,6 @@
+import 'navigation/order_auth_recovery.dart';
+import 'package:farm2fork_mobile/features/traceability/presentation/screens/order_trace_screen.dart';
+import 'package:farm2fork_mobile/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/earnings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
@@ -71,6 +74,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
     });
   }, fireImmediately: true);
+  final orderRecovery = OrderAuthRecovery();
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: AppNavConfig.guestHomeRoute,
@@ -80,6 +84,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final authState = authAsync.asData?.value;
       final status = authState?.status ?? AuthStatus.guest;
 
+      orderRecovery.observe(
+        state.uri,
+        authenticated: status == AuthStatus.authenticated,
+      );
       final isAuthRoute = state.matchedLocation.startsWith('/auth');
       final isGuestRoute = state.matchedLocation.startsWith('/guest');
 
@@ -88,6 +96,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (status == AuthStatus.authenticated) {
+        if (state.matchedLocation.startsWith('/trace/') ||
+            state.matchedLocation.startsWith('/orders/')) {
+          return null;
+        }
+        if (isAuthRoute) {
+          final next =
+              OrderAuthRecovery.validate(state.uri.queryParameters['next']) ??
+              orderRecovery.consume();
+          if (next != null) {
+            orderRecovery.consume();
+            return next;
+          }
+        }
         if (authState?.role == AppUserRole.admin) {
           return AppNavConfig.guestHomeRoute;
         }
@@ -104,6 +125,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       // guest / unauthenticated / sessionExpired → guest shell
+      if (state.matchedLocation.startsWith('/orders/')) {
+        return Uri(
+          path: '/auth/login',
+          queryParameters: {'next': state.uri.toString()},
+        ).toString();
+      }
       if (!AppNavConfig.isPublicRoute(state.matchedLocation)) {
         return AppNavConfig.guestHomeRoute;
       }
@@ -138,6 +165,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           return ProductDetailScreen(productId: id);
         },
+      ),
+      GoRoute(
+        path: '/trace/orders/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            OrderTraceScreen(orderId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/orders/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            OrderDetailScreen(orderId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/trace/:id',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) =>
+            TraceScannerScreen(initialProductId: state.pathParameters['id']),
       ),
       GoRoute(
         path: '/trace/products/:id',

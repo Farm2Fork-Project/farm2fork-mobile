@@ -1,10 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 
-enum AppMarkerKind { pickup, dropoff, me }
+enum AppMarkerKind { pickup, dropoff, me, transporter }
 
 class AppMarker {
   const AppMarker({
@@ -49,8 +55,83 @@ typedef AppMapBuilder = Widget Function(AppMapConfig config);
 /// Tests override this: platform map views cannot render in widget tests.
 final appMapBuilderProvider = Provider<AppMapBuilder>(
   (ref) =>
-      (config) => _GoogleAppMap(config: config),
+      (config) => _ConfiguredMap(config: config),
 );
+
+/// Whether this build carries a Maps SDK key. Without one Android draws a blank
+/// map and iOS crashes on the first map view, so callers get a fallback.
+final mapsConfiguredProvider = FutureProvider<bool>((ref) async {
+  if (kIsWeb) return false;
+  try {
+    return await const MethodChannel(
+          'farm2fork/maps',
+        ).invokeMethod<bool>('isConfigured') ??
+        false;
+  } on MissingPluginException {
+    return false;
+  } on PlatformException {
+    return false;
+  }
+});
+
+class _ConfiguredMap extends ConsumerWidget {
+  const _ConfiguredMap({required this.config});
+
+  final AppMapConfig config;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) =>
+      switch (ref.watch(mapsConfiguredProvider)) {
+        AsyncData(value: true) => _GoogleAppMap(config: config),
+        AsyncData() || AsyncError() => MapUnavailable(config: config),
+        _ => const ColoredBox(color: AppColors.surfaceLight),
+      };
+}
+
+/// Shown instead of a map when the build has no Maps key: the places stay
+/// reachable through the Google Maps app.
+class MapUnavailable extends StatelessWidget {
+  const MapUnavailable({super.key, required this.config});
+
+  final AppMapConfig config;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final target = config.markers.isEmpty
+        ? config.center
+        : config.markers
+              .firstWhere(
+                (m) => m.kind == AppMarkerKind.dropoff,
+                orElse: () => config.markers.first,
+              )
+              .at;
+    return ColoredBox(
+      color: AppColors.surfaceLight,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.map_outlined, color: AppColors.textMuted),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                l10n.mapUnavailable,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.small,
+              ),
+              TextButton(
+                onPressed: () => openInMaps(target),
+                child: Text(l10n.openInGoogleMaps),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /// The only place the app touches google_maps_flutter.
 class AppMap extends ConsumerWidget {
@@ -81,6 +162,7 @@ class _GoogleAppMapState extends State<_GoogleAppMap> {
     AppMarkerKind.pickup => BitmapDescriptor.hueGreen,
     AppMarkerKind.dropoff => BitmapDescriptor.hueOrange,
     AppMarkerKind.me => BitmapDescriptor.hueAzure,
+    AppMarkerKind.transporter => BitmapDescriptor.hueViolet,
   };
 
   @override
@@ -161,6 +243,15 @@ class _GoogleAppMapState extends State<_GoogleAppMap> {
             ),
     );
   }
+}
+
+/// Shows a place in the Google Maps app (or browser); needs no API key.
+Future<bool> openInMaps(GeoPoint place) {
+  final uri = Uri.https('www.google.com', '/maps/search/', {
+    'api': '1',
+    'query': '${place.lat},${place.lng}',
+  });
+  return launchUrl(uri, mode: LaunchMode.externalApplication);
 }
 
 /// Opens turn-by-turn directions in the Google Maps app (or browser).

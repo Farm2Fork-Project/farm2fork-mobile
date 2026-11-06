@@ -24,18 +24,29 @@ class PriceSuggestion {
   const PriceSuggestion({
     required this.minPrice,
     required this.maxPrice,
-    required this.confidence,
-    required this.ruleBased,
+    required this.unit,
+    required this.currency,
+    required this.modelVersion,
+    required this.commodity,
+    required this.observedOn,
+    required this.marketScope,
+    required this.marketCount,
+    required this.source,
+    required this.sourceUrl,
+    required this.predictionId,
   });
-
-  /// PKR per unit.
   final double minPrice;
   final double maxPrice;
-  final double confidence;
-
-  /// True for the master-context 10.3 rule-based estimate (not market data).
-  final bool ruleBased;
-
+  final String unit,
+      currency,
+      modelVersion,
+      commodity,
+      observedOn,
+      marketScope,
+      source,
+      sourceUrl,
+      predictionId;
+  final int marketCount;
   double get midpoint => ((minPrice + maxPrice) / 2).roundToDouble();
 }
 
@@ -47,6 +58,9 @@ class QualityCheck {
     required this.cropSupported,
     required this.lowConfidence,
     required this.modelStatus,
+    this.needsReview = true,
+    this.reviewReason,
+    this.photoSimilarity,
   });
 
   /// Raw model output, A-D.
@@ -58,6 +72,25 @@ class QualityCheck {
   final bool cropSupported;
   final bool lowConfidence;
   final AiModelStatus modelStatus;
+  final bool needsReview;
+  final String? reviewReason;
+  final double? photoSimilarity;
+  bool get canApply =>
+      !needsReview &&
+      reviewReason == null &&
+      cropSupported &&
+      !lowConfidence &&
+      confidence.isFinite &&
+      confidence >= 0.7 &&
+      confidence <= 1 &&
+      modelStatus == AiModelStatus.trained &&
+      photoSimilarity != null &&
+      photoSimilarity!.isFinite &&
+      photoSimilarity! >= -1 &&
+      photoSimilarity! <= 1 &&
+      const ['A', 'B', 'C'].contains(modelGrade) &&
+      suggestedListingGrade != null &&
+      suggestedListingGrade!.name.toUpperCase() == modelGrade;
 }
 
 /// Thrown for errors the farmer can act on; [kind] picks the message.

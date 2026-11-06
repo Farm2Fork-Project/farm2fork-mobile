@@ -2369,7 +2369,7 @@ abstract class AppLocalizations {
   /// No rule for this unit/category
   ///
   /// In en, this message translates to:
-  /// **'No price rule covers this unit or category yet.'**
+  /// **'No official wholesale observation covers this crop or unit. Enter your price manually.'**
   String get aiPriceNoRule;
 
   /// AI quality check title
@@ -4441,6 +4441,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The last action could not be confirmed. Refresh the delivery before trying another action.'**
   String get deliveryReconcileRequired;
+
+  /// Fallback when the build has no Maps key
+  ///
+  /// In en, this message translates to:
+  /// **'The map isn\'t available in this version of the app.'**
+  String get mapUnavailable;
+
+  /// Button: show the place in Google Maps
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Google Maps'**
+  String get openInGoogleMaps;
+
+  /// deliveryMapTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Live delivery map'**
+  String get deliveryMapTitle;
+
+  /// mapYourFarm
+  ///
+  /// In en, this message translates to:
+  /// **'Your farm'**
+  String get mapYourFarm;
+
+  /// mapYourDropoff
+  ///
+  /// In en, this message translates to:
+  /// **'Your drop-off'**
+  String get mapYourDropoff;
+
+  /// mapTransporter
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get mapTransporter;
+
+  /// transporterLocationWaiting
+  ///
+  /// In en, this message translates to:
+  /// **'The transporter\'s position appears here while their app is open.'**
+  String get transporterLocationWaiting;
+
+  /// transporterLocationJustNow
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter position updated just now.'**
+  String get transporterLocationJustNow;
+
+  /// Age of the transporter position
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter position updated {minutes} min ago.'**
+  String transporterLocationMinutes(int minutes);
+
+  /// No description provided for @orderQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order QR'**
+  String get orderQrTitle;
+
+  /// No description provided for @orderQrDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to follow this order from farm to delivery.'**
+  String get orderQrDescription;
+
+  /// No description provided for @orderJourneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order journey'**
+  String get orderJourneyTitle;
+
+  /// No description provided for @orderJourneyPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'This public journey keeps addresses, payment amounts and personal details private.'**
+  String get orderJourneyPublic;
+
+  /// No description provided for @orderQrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The QR is unavailable. Payment may still be processing or the order may have been refunded.'**
+  String get orderQrUnavailable;
+
+  /// No description provided for @orderQrCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Order link copied'**
+  String get orderQrCopied;
+
+  /// No description provided for @orderQrCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get orderQrCopy;
+
+  /// No description provided for @orderQrShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share QR'**
+  String get orderQrShare;
+
+  /// No description provided for @orderQrView.
+  ///
+  /// In en, this message translates to:
+  /// **'View journey'**
+  String get orderQrView;
+
+  /// No description provided for @orderTraceNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Order journey unavailable'**
+  String get orderTraceNotFound;
+
+  /// No description provided for @orderTraceNotFoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the QR link. Only confirmed, paid orders have a public journey.'**
+  String get orderTraceNotFoundDesc;
+
+  /// No description provided for @orderTracePaidAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed'**
+  String get orderTracePaidAt;
+
+  /// No description provided for @orderTraceLedgerUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.'**
+  String get orderTraceLedgerUnavailable;
+
+  /// No description provided for @orderTraceLedgerChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger records checked'**
+  String get orderTraceLedgerChecked;
+
+  /// No description provided for @orderPrivateDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Private order details'**
+  String get orderPrivateDetails;
+
+  /// No description provided for @qrScanCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR code'**
+  String get qrScanCamera;
+
+  /// No description provided for @qrCameraHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Point your camera at a Farm2Fork product or order QR code.'**
+  String get qrCameraHint;
+
+  /// No description provided for @qrCameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera unavailable. Allow camera access in Settings, or paste your QR link below.'**
+  String get qrCameraUnavailable;
+
+  /// No description provided for @qrCameraTorch.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle torch'**
+  String get qrCameraTorch;
+
+  /// No description provided for @qrInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a Farm2Fork QR code. Try another code or paste a valid link.'**
+  String get qrInvalidCode;
+
+  /// No description provided for @qrUseLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a link instead'**
+  String get qrUseLink;
+
+  /// No description provided for @qrScanAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan again'**
+  String get qrScanAgain;
+
+  /// No description provided for @orderTraceLedgerMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger readback did not match this event. Verification is incomplete.'**
+  String get orderTraceLedgerMismatch;
+
+  /// No description provided for @aiReviewRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo needs review. Retake a clear crop photo or choose the grade manually.'**
+  String get aiReviewRecovery;
+
+  /// No description provided for @aiWholesaleBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Official wholesale reference, not a farm-gate or live price. Set your own listing price.'**
+  String get aiWholesaleBasis;
+
+  /// No description provided for @aiWholesaleObservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Historical observation: {date} · {source} · {market} ({count} markets) · {currency}'**
+  String aiWholesaleObservation(
+    String date,
+    String source,
+    String market,
+    int count,
+    String currency,
+  );
 }
 
 class _AppLocalizationsDelegate

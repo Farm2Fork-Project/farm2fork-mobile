@@ -1,23 +1,57 @@
+import 'package:farm2fork_mobile/core/config/app_config.dart';
+
 final RegExp _objectId = RegExp(r'^[a-fA-F0-9]{24}$');
 
-/// Accepts what a person can actually paste or scan: a bare product id, or a
-/// full QR trace URL (`https://…/trace/<id>`, with or without a trailing
-/// slash, query or fragment). Returns null when the input can't be a product
-/// id, so the UI can say so without a network round trip.
-String? parseTraceProductId(String input) {
-  final value = input.trim();
-  if (value.isEmpty) return null;
-  if (_objectId.hasMatch(value)) return value.toLowerCase();
+enum TraceLinkKind { product, order }
 
-  final path = value
-      .split(RegExp(r'[?#]'))
-      .first
-      .replaceAll(RegExp(r'/+$'), '');
-  final candidate = path.split('/').last;
-  return _objectId.hasMatch(candidate) ? candidate.toLowerCase() : null;
+class TraceLink {
+  const TraceLink(this.kind, this.id);
+  final TraceLinkKind kind;
+  final String id;
+  String get path =>
+      kind == TraceLinkKind.order ? '/trace/orders/$id' : '/trace/products/$id';
 }
 
-/// First and last characters of a Fabric tx id: readable, still checkable.
+/// Recognizes only Farm2Fork trace destinations. A foreign QR is never opened.
+TraceLink? parseTraceLink(String input) {
+  final value = input.trim();
+  if (_objectId.hasMatch(value)) {
+    return TraceLink(TraceLinkKind.product, value.toLowerCase());
+  }
+  final uri = Uri.tryParse(value);
+  if (uri == null || uri.userInfo.isNotEmpty) return null;
+  final configured = Uri.parse(AppConfig.publicTraceOrigin);
+  final isWeb =
+      uri.scheme == configured.scheme &&
+      uri.host == configured.host &&
+      uri.port == configured.port;
+  final isLegacy =
+      uri.scheme == 'https' && uri.host == 'farm2fork.com' && !uri.hasPort;
+  final isScheme =
+      uri.scheme == 'farm2fork' && uri.host == 'app' && !uri.hasPort;
+  if (!isWeb && !isLegacy && !isScheme) return null;
+  final parts = uri.pathSegments.toList();
+  if (parts.isNotEmpty && parts.last.isEmpty) parts.removeLast();
+  if (parts.isEmpty || parts.first != 'trace') return null;
+  if (parts.length == 2 && _objectId.hasMatch(parts[1])) {
+    return TraceLink(TraceLinkKind.product, parts[1].toLowerCase());
+  }
+  if (parts.length == 3 && _objectId.hasMatch(parts[2])) {
+    if (parts[1] == 'products') {
+      return TraceLink(TraceLinkKind.product, parts[2].toLowerCase());
+    }
+    if (parts[1] == 'orders') {
+      return TraceLink(TraceLinkKind.order, parts[2].toLowerCase());
+    }
+  }
+  return null;
+}
+
+String? parseTraceProductId(String input) {
+  final link = parseTraceLink(input);
+  return link?.kind == TraceLinkKind.product ? link!.id : null;
+}
+
 String shortenTxHash(String txHash) => txHash.length <= 20
     ? txHash
     : '${txHash.substring(0, 10)}…${txHash.substring(txHash.length - 8)}';

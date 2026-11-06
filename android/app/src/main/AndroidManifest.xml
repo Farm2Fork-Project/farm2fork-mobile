@@ -9,6 +9,8 @@
     <!-- Android 13+ runtime permission for delivery and order notifications. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <application
         android:label="Farm2Fork"
         android:name="${applicationName}"
@@ -39,6 +41,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="farm2fork" android:host="app" android:path="/payments" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="${traceLinkHost}" android:pathPrefix="/trace/" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="farm2fork" android:host="app" android:pathPrefix="/trace/" />
             </intent-filter>
         </activity>
         <!-- Profile photo cropper (image_cropper / uCrop). -->

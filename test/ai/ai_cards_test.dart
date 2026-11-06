@@ -39,8 +39,16 @@ class _Repo implements AiRepository {
     return const PriceSuggestion(
       minPrice: 154,
       maxPrice: 352,
-      confidence: 0.45,
-      ruleBased: true,
+      unit: 'kg',
+      currency: 'PKR',
+      modelVersion: 'official-v1',
+      commodity: 'Mango',
+      observedOn: '2026-10-01',
+      marketScope: 'Punjab',
+      marketCount: 2,
+      source: 'AMIS',
+      sourceUrl: 'https://amis.pk/prices',
+      predictionId: 'test-id',
     );
   }
 
@@ -81,7 +89,7 @@ Future<XFile?> _fakePhoto(ImageSource _) async =>
 
 void main() {
   testWidgets(
-    'price card labels the rule-based range and applies the midpoint',
+    'price card labels historical wholesale provenance and applies the midpoint',
     (tester) async {
       double? applied;
       await _pump(
@@ -101,7 +109,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Rs 154 – 352 per kg'), findsOneWidget);
-      expect(find.textContaining('not live market data'), findsOneWidget);
+      expect(
+        find.textContaining('not a farm-gate or live price'),
+        findsOneWidget,
+      );
       await tester.tap(find.text('Use Rs 253'));
       expect(applied, 253);
     },
@@ -122,11 +133,14 @@ void main() {
     );
     await tester.tap(find.text('Suggest a price'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('No price rule'), findsOneWidget);
+    expect(
+      find.textContaining('No official wholesale observation'),
+      findsOneWidget,
+    );
   });
 
   testWidgets(
-    'quality card requires explicit crop, labels previews and applies',
+    'quality card requires explicit crop and blocks preview recommendations',
     (tester) async {
       QualityGrade? applied;
       final repo = _Repo(
@@ -161,10 +175,11 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(repo.gradedCrop, GradableCrop.mango);
-      expect(find.text('Grade B · 26% confidence'), findsOneWidget);
+      expect(find.text('Grade B · 26% confidence'), findsNothing);
       expect(find.textContaining('Preview only'), findsOneWidget);
-      await tester.tap(find.text('Use grade B'));
-      expect(applied, QualityGrade.b);
+      expect(find.text('Use grade B'), findsNothing);
+      expect(find.textContaining('Retake a clear crop photo'), findsOneWidget);
+      expect(applied, isNull);
     },
   );
 
@@ -179,6 +194,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     await _pump(
@@ -204,7 +221,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.gradedCrop, GradableCrop.rice);
-    expect(find.textContaining('Below listing grades'), findsOneWidget);
+    expect(find.textContaining('Retake a clear crop photo'), findsOneWidget);
     expect(find.textContaining('Use grade'), findsNothing);
   });
   testWidgets('Other never picks a photo or calls grading', (tester) async {
@@ -264,6 +281,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     await tester.pumpAndSettle();
@@ -306,6 +325,8 @@ void main() {
           cropSupported: true,
           lowConfidence: false,
           modelStatus: AiModelStatus.trained,
+          needsReview: false,
+          photoSimilarity: 0.95,
         ),
       );
       await tester.pumpAndSettle();
@@ -325,6 +346,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     final replacement = Completer<XFile?>();

@@ -1301,7 +1301,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get aiPriceNoRule => 'No price rule covers this unit or category yet.';
+  String get aiPriceNoRule =>
+      'No official wholesale observation covers this crop or unit. Enter your price manually.';
 
   @override
   String get aiQualityTitle => 'Photo quality check';
@@ -2506,4 +2507,133 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deliveryReconcileRequired =>
       'The last action could not be confirmed. Refresh the delivery before trying another action.';
+
+  @override
+  String get mapUnavailable =>
+      'The map isn\'t available in this version of the app.';
+
+  @override
+  String get openInGoogleMaps => 'Open in Google Maps';
+
+  @override
+  String get deliveryMapTitle => 'Live delivery map';
+
+  @override
+  String get mapYourFarm => 'Your farm';
+
+  @override
+  String get mapYourDropoff => 'Your drop-off';
+
+  @override
+  String get mapTransporter => 'Transporter';
+
+  @override
+  String get transporterLocationWaiting =>
+      'The transporter\'s position appears here while their app is open.';
+
+  @override
+  String get transporterLocationJustNow =>
+      'Transporter position updated just now.';
+
+  @override
+  String transporterLocationMinutes(int minutes) {
+    return 'Transporter position updated $minutes min ago.';
+  }
+
+  @override
+  String get orderQrTitle => 'Order QR';
+
+  @override
+  String get orderQrDescription =>
+      'Scan to follow this order from farm to delivery.';
+
+  @override
+  String get orderJourneyTitle => 'Order journey';
+
+  @override
+  String get orderJourneyPublic =>
+      'This public journey keeps addresses, payment amounts and personal details private.';
+
+  @override
+  String get orderQrUnavailable =>
+      'The QR is unavailable. Payment may still be processing or the order may have been refunded.';
+
+  @override
+  String get orderQrCopied => 'Order link copied';
+
+  @override
+  String get orderQrCopy => 'Copy link';
+
+  @override
+  String get orderQrShare => 'Share QR';
+
+  @override
+  String get orderQrView => 'View journey';
+
+  @override
+  String get orderTraceNotFound => 'Order journey unavailable';
+
+  @override
+  String get orderTraceNotFoundDesc =>
+      'Check the QR link. Only confirmed, paid orders have a public journey.';
+
+  @override
+  String get orderTracePaidAt => 'Payment confirmed';
+
+  @override
+  String get orderTraceLedgerUnavailable =>
+      'Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.';
+
+  @override
+  String get orderTraceLedgerChecked => 'Ledger records checked';
+
+  @override
+  String get orderPrivateDetails => 'Private order details';
+
+  @override
+  String get qrScanCamera => 'Scan QR code';
+
+  @override
+  String get qrCameraHint =>
+      'Point your camera at a Farm2Fork product or order QR code.';
+
+  @override
+  String get qrCameraUnavailable =>
+      'Camera unavailable. Allow camera access in Settings, or paste your QR link below.';
+
+  @override
+  String get qrCameraTorch => 'Toggle torch';
+
+  @override
+  String get qrInvalidCode =>
+      'This is not a Farm2Fork QR code. Try another code or paste a valid link.';
+
+  @override
+  String get qrUseLink => 'Paste a link instead';
+
+  @override
+  String get qrScanAgain => 'Scan again';
+
+  @override
+  String get orderTraceLedgerMismatch =>
+      'Ledger readback did not match this event. Verification is incomplete.';
+
+  @override
+  String get aiReviewRecovery =>
+      'Photo needs review. Retake a clear crop photo or choose the grade manually.';
+
+  @override
+  String get aiWholesaleBasis =>
+      'Official wholesale reference, not a farm-gate or live price. Set your own listing price.';
+
+  @override
+  String aiWholesaleObservation(
+    String date,
+    String source,
+    String market,
+    int count,
+    String currency,
+  ) {
+    return 'Historical observation: $date · $source · $market ($count markets) · $currency';
+  }
 }

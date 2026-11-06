@@ -22,7 +22,7 @@ class ApiOrdersRepository implements OrdersRepository {
       items: items,
       shippingAddress: _addressToDto(shippingAddress),
     );
-    return _orderFromDto(json);
+    return orderFromDto(json);
   }
 
   @override
@@ -60,7 +60,7 @@ class ApiOrdersRepository implements OrdersRepository {
       final body = await _api.fetchOrders(page: page);
       final data = body['data'];
       if (data is! List) throw const FormatException('Invalid orders response');
-      orders.addAll(data.cast<Map<String, dynamic>>().map(_orderFromDto));
+      orders.addAll(data.cast<Map<String, dynamic>>().map(orderFromDto));
       totalPages = (body['totalPages'] as num?)?.toInt() ?? 1;
       page++;
     } while (page <= totalPages);
@@ -72,12 +72,12 @@ class ApiOrdersRepository implements OrdersRepository {
     // Only cancellation is buyer-driven today; other transitions are
     // server-side (payment, shipment). Map cancel to the cancel endpoint.
     if (status == OrderStatus.cancelled) {
-      return _orderFromDto(await _api.cancelOrder(orderId));
+      return orderFromDto(await _api.cancelOrder(orderId));
     }
     throw UnsupportedError('Only cancellation is supported from the client');
   }
 
-  Order _orderFromDto(Map<String, dynamic> dto) {
+  Order orderFromDto(Map<String, dynamic> dto) {
     return Order(
       id: (dto['id'] as String?) ?? (dto['_id'] as String?) ?? '',
       buyerId: (dto['buyerId'] as String?) ?? '',
@@ -92,6 +92,7 @@ class ApiOrdersRepository implements OrdersRepository {
       shippingAddress: _address(dto['shippingAddress']),
       status: _statusFromString(dto['status'] as String?),
       canCancel: dto['canCancel'] == true,
+      canViewQr: dto['canViewQr'] == true,
       paymentId: dto['paymentId'] as String?,
       shipmentId: dto['shipmentId'] as String?,
       createdAt: _toDate(dto['createdAt']),
@@ -109,7 +110,7 @@ class ApiOrdersRepository implements OrdersRepository {
             farmerId: (i['farmerId'] as String?) ?? '',
             productName: (i['productName'] as String?) ?? '',
             quantity: _toDouble(i['quantity']),
-            // Backend OrderItem has no unit; default to empty (display handles it).
+            // Older orders may not include a unit.
             unit: (i['unit'] as String?) ?? '',
             unitPrice: _toDouble(i['unitPrice']),
             subtotal: _toDouble(i['subtotal']),

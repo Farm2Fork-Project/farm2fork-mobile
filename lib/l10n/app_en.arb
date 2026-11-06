@@ -1575,7 +1575,7 @@
       }
     }
   },
-  "aiPriceNoRule": "No price rule covers this unit or category yet.",
+  "aiPriceNoRule": "No official wholesale observation covers this crop or unit. Enter your price manually.",
   "@aiPriceNoRule": {
     "description": "No rule for this unit/category"
   },
@@ -2813,5 +2813,91 @@
   "deliveryUnitUnavailable": "unit unavailable",
   "earningsLedgerScope": "Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.",
   "payoutCorrectionRecord": "Record correction; no bank transfer was reversed",
-  "deliveryReconcileRequired": "The last action could not be confirmed. Refresh the delivery before trying another action."
+  "deliveryReconcileRequired": "The last action could not be confirmed. Refresh the delivery before trying another action.",
+  "mapUnavailable": "The map isn't available in this version of the app.",
+  "@mapUnavailable": {
+    "description": "Fallback when the build has no Maps key"
+  },
+  "openInGoogleMaps": "Open in Google Maps",
+  "@openInGoogleMaps": {
+    "description": "Button: show the place in Google Maps"
+  },
+  "deliveryMapTitle": "Live delivery map",
+  "@deliveryMapTitle": {
+    "description": "deliveryMapTitle"
+  },
+  "mapYourFarm": "Your farm",
+  "@mapYourFarm": {
+    "description": "mapYourFarm"
+  },
+  "mapYourDropoff": "Your drop-off",
+  "@mapYourDropoff": {
+    "description": "mapYourDropoff"
+  },
+  "mapTransporter": "Transporter",
+  "@mapTransporter": {
+    "description": "mapTransporter"
+  },
+  "transporterLocationWaiting": "The transporter's position appears here while their app is open.",
+  "@transporterLocationWaiting": {
+    "description": "transporterLocationWaiting"
+  },
+  "transporterLocationJustNow": "Transporter position updated just now.",
+  "@transporterLocationJustNow": {
+    "description": "transporterLocationJustNow"
+  },
+  "transporterLocationMinutes": "Transporter position updated {minutes} min ago.",
+  "@transporterLocationMinutes": {
+    "description": "Age of the transporter position",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "orderQrTitle": "Order QR",
+  "orderQrDescription": "Scan to follow this order from farm to delivery.",
+  "orderJourneyTitle": "Order journey",
+  "orderJourneyPublic": "This public journey keeps addresses, payment amounts and personal details private.",
+  "orderQrUnavailable": "The QR is unavailable. Payment may still be processing or the order may have been refunded.",
+  "orderQrCopied": "Order link copied",
+  "orderQrCopy": "Copy link",
+  "orderQrShare": "Share QR",
+  "orderQrView": "View journey",
+  "orderTraceNotFound": "Order journey unavailable",
+  "orderTraceNotFoundDesc": "Check the QR link. Only confirmed, paid orders have a public journey.",
+  "orderTracePaidAt": "Payment confirmed",
+  "orderTraceLedgerUnavailable": "Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.",
+  "orderTraceLedgerChecked": "Ledger records checked",
+  "orderPrivateDetails": "Private order details",
+  "qrScanCamera": "Scan QR code",
+  "qrCameraHint": "Point your camera at a Farm2Fork product or order QR code.",
+  "qrCameraUnavailable": "Camera unavailable. Allow camera access in Settings, or paste your QR link below.",
+  "qrCameraTorch": "Toggle torch",
+  "qrInvalidCode": "This is not a Farm2Fork QR code. Try another code or paste a valid link.",
+  "qrUseLink": "Paste a link instead",
+  "qrScanAgain": "Scan again",
+  "orderTraceLedgerMismatch": "Ledger readback did not match this event. Verification is incomplete.",
+  "aiReviewRecovery": "Photo needs review. Retake a clear crop photo or choose the grade manually.",
+  "aiWholesaleBasis": "Official wholesale reference, not a farm-gate or live price. Set your own listing price.",
+  "aiWholesaleObservation": "Historical observation: {date} · {source} · {market} ({count} markets) · {currency}",
+  "@aiWholesaleObservation": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      },
+      "market": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }
