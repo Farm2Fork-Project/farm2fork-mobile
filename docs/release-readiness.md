@@ -45,3 +45,7 @@
 The final full suite before interruption passed **313 tests, 2 skipped**. The subsequent analyzer is clean (8.3s), and Android debug APK rebuilt successfully (48.5s). Durable receipts are `mobile-analyze.log`, `android-build.log` and `ios-build.log` beside this report. Signed release builds remain gated on the documented operator configuration.
 
 Final iOS simulator build succeeded on 2026-11-06: Runner.app, Xcode152.8s. The existing google_maps_flutter_ios Swift Package Manager adoption warning remains nonblocking with the current Flutter toolchain; native signed/device acceptance remains separate.
+
+## Develop integration — 2026-11-06
+
+Merged the release work onto develop based on freshly fetched origin/main. Final merged-tree validation passed: 313 tests, 2 skipped, analyzer clean. Production was not contacted or deployed. Signing/device/provider acceptance gates remain as recorded above.
