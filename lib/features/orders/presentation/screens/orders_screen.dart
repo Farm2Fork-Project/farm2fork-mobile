@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/traceability/presentation/widgets/order_qr_sheet.dart';
 import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -134,23 +135,23 @@ class _OrdersList extends StatelessWidget {
         final order = orders[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.md),
-          child: _OrderCard(order: order, role: role),
+          child: OrderCard(order: order, role: role),
         );
       },
     );
   }
 }
 
-class _OrderCard extends ConsumerStatefulWidget {
-  const _OrderCard({required this.order, required this.role});
+class OrderCard extends ConsumerStatefulWidget {
+  const OrderCard({super.key, required this.order, required this.role});
   final Order order;
   final dynamic role; // AppUserRole
 
   @override
-  ConsumerState<_OrderCard> createState() => _OrderCardState();
+  ConsumerState<OrderCard> createState() => OrderCardState();
 }
 
-class _OrderCardState extends ConsumerState<_OrderCard> {
+class OrderCardState extends ConsumerState<OrderCard> {
   Order get order => widget.order;
   dynamic get role => widget.role;
   bool _cancelling = false;
@@ -340,6 +341,10 @@ class _OrderCardState extends ConsumerState<_OrderCard> {
             total: true,
           ),
 
+          if (order.canViewQr) ...[
+            const SizedBox(height: AppSpacing.md),
+            OutlinedButton.icon(onPressed: () => showOrderQr(context, order.id), icon: const Icon(Icons.qr_code_2_rounded), label: Text(context.l10n.orderQrTitle)),
+          ],
           // Role-specific fields
           const SizedBox(height: AppSpacing.md),
           const Divider(color: AppColors.surfaceMedium, height: 1),

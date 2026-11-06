@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/network/network_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/features/notifications/push_controller.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
@@ -113,6 +114,17 @@ class AuthController extends AsyncNotifier<AuthState> {
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
       rethrow;
+    }
+  }
+
+  /// Reject the stale backend session immediately, without waiting on remote
+  /// push cleanup or Firebase sign-out before showing login.
+  Future<void> expireSession() async {
+    state = const AsyncData(AuthState(status: AuthStatus.sessionExpired));
+    try {
+      await ref.read(tokenStorageProvider).clear();
+    } catch (_) {
+      // Storage failure must not restore an authenticated in-memory session.
     }
   }
 

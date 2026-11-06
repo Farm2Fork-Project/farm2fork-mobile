@@ -20,33 +20,33 @@ class AiStatus {
   final AiModelStatus? qualityModel;
 }
 
-/// Observed AMIS Punjab wholesale mandi prices for a dated trading day.
 class PriceSuggestion {
   const PriceSuggestion({
     required this.minPrice,
     required this.maxPrice,
+    required this.unit,
+    required this.currency,
+    required this.modelVersion,
     required this.commodity,
     required this.observedOn,
     required this.marketScope,
     required this.marketCount,
+    required this.source,
+    required this.sourceUrl,
+    required this.predictionId,
   });
-
-  /// PKR per unit.
   final double minPrice;
   final double maxPrice;
-
-  /// Official commodity name(s) the range comes from.
-  final String commodity;
-
-  /// Mandi trading day.
-  final DateTime observedOn;
-
-  /// The farmer's own market, or "Punjab" for the middle half of markets.
-  final String marketScope;
+  final String unit,
+      currency,
+      modelVersion,
+      commodity,
+      observedOn,
+      marketScope,
+      source,
+      sourceUrl,
+      predictionId;
   final int marketCount;
-
-  bool get punjabWide => marketScope == 'Punjab';
-
   double get midpoint => ((minPrice + maxPrice) / 2).roundToDouble();
 }
 
@@ -58,11 +58,13 @@ class QualityCheck {
     required this.cropSupported,
     required this.lowConfidence,
     required this.modelStatus,
+    this.needsReview = true,
     this.reviewReason,
+    this.photoSimilarity,
   });
 
-  /// Raw model output, A-D; null when the photo needs review.
-  final String? modelGrade;
+  /// Raw model output, A-D.
+  final String modelGrade;
 
   /// Null when the model says D (below any listable grade).
   final QualityGrade? suggestedListingGrade;
@@ -70,14 +72,26 @@ class QualityCheck {
   final bool cropSupported;
   final bool lowConfidence;
   final AiModelStatus modelStatus;
-
-  /// Set when no grade may be shown: the farmer retakes or grades manually.
-  final QualityReviewReason? reviewReason;
-
-  bool get needsReview => reviewReason != null || modelGrade == null;
+  final bool needsReview;
+  final String? reviewReason;
+  final double? photoSimilarity;
+  bool get canApply =>
+      !needsReview &&
+      reviewReason == null &&
+      cropSupported &&
+      !lowConfidence &&
+      confidence.isFinite &&
+      confidence >= 0.7 &&
+      confidence <= 1 &&
+      modelStatus == AiModelStatus.trained &&
+      photoSimilarity != null &&
+      photoSimilarity!.isFinite &&
+      photoSimilarity! >= -1 &&
+      photoSimilarity! <= 1 &&
+      const ['A', 'B', 'C'].contains(modelGrade) &&
+      suggestedListingGrade != null &&
+      suggestedListingGrade!.name.toUpperCase() == modelGrade;
 }
-
-enum QualityReviewReason { lowConfidence, unfamiliarPhoto, photoCheckUnavailable }
 
 /// Thrown for errors the farmer can act on; [kind] picks the message.
 enum AiErrorKind {

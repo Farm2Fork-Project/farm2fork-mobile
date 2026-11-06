@@ -36,13 +36,19 @@ class _Repo implements AiRepository {
     required QualityGrade grade,
   }) async {
     if (priceError != null) throw AiException(priceError!);
-    return PriceSuggestion(
+    return const PriceSuggestion(
       minPrice: 154,
       maxPrice: 352,
-      commodity: 'Mango(Chounsa)',
-      observedOn: DateTime(2026, 8, 15),
+      unit: 'kg',
+      currency: 'PKR',
+      modelVersion: 'official-v1',
+      commodity: 'Mango',
+      observedOn: '2026-10-01',
       marketScope: 'Punjab',
-      marketCount: 39,
+      marketCount: 2,
+      source: 'AMIS',
+      sourceUrl: 'https://amis.pk/prices',
+      predictionId: 'test-id',
     );
   }
 
@@ -83,7 +89,7 @@ Future<XFile?> _fakePhoto(ImageSource _) async =>
 
 void main() {
   testWidgets(
-    'price card shows the dated official source and applies the midpoint',
+    'price card labels historical wholesale provenance and applies the midpoint',
     (tester) async {
       double? applied;
       await _pump(
@@ -104,10 +110,9 @@ void main() {
 
       expect(find.text('Rs 154 – 352 per kg'), findsOneWidget);
       expect(
-        find.textContaining('across 39 Punjab markets on Aug 15, 2026'),
+        find.textContaining('not a farm-gate or live price'),
         findsOneWidget,
       );
-      expect(find.textContaining('Source: AMIS Punjab'), findsOneWidget);
       await tester.tap(find.text('Use Rs 253'));
       expect(applied, 253);
     },
@@ -128,11 +133,14 @@ void main() {
     );
     await tester.tap(find.text('Suggest a price'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('No official mandi price'), findsOneWidget);
+    expect(
+      find.textContaining('No official wholesale observation'),
+      findsOneWidget,
+    );
   });
 
   testWidgets(
-    'quality card requires explicit crop, labels previews and applies',
+    'quality card requires explicit crop and blocks preview recommendations',
     (tester) async {
       QualityGrade? applied;
       final repo = _Repo(
@@ -167,55 +175,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(repo.gradedCrop, GradableCrop.mango);
-      expect(find.text('Grade B · 26% confidence'), findsOneWidget);
+      expect(find.text('Grade B · 26% confidence'), findsNothing);
       expect(find.textContaining('Preview only'), findsOneWidget);
-      await tester.tap(find.text('Use grade B'));
-      expect(applied, QualityGrade.b);
+      expect(find.text('Use grade B'), findsNothing);
+      expect(find.textContaining('Retake a clear crop photo'), findsOneWidget);
+      expect(applied, isNull);
     },
   );
-
-  testWidgets('a referred photo shows no grade and offers a retake', (
-    tester,
-  ) async {
-    var grades = 0;
-    final repo = _Repo(
-      quality: const QualityCheck(
-        modelGrade: null,
-        suggestedListingGrade: null,
-        confidence: 0.97,
-        cropSupported: true,
-        lowConfidence: true,
-        modelStatus: AiModelStatus.trained,
-        reviewReason: QualityReviewReason.unfamiliarPhoto,
-      ),
-    );
-    await _pump(
-      tester,
-      repo,
-      QualityCheckCard(
-        productName: 'Chaunsa Mango',
-        onApplyGrade: (_) => grades++,
-        pickPhoto: _fakePhoto,
-      ),
-    );
-    await tester.tap(find.byType(DropdownButtonFormField<GradableCrop>));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Mango').last);
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Choose from gallery'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('No grade from this photo'), findsOneWidget);
-    expect(find.textContaining('looks different from the photos'), findsOneWidget);
-    expect(find.textContaining('choose the listing grade yourself'), findsOneWidget);
-    expect(find.textContaining('Grade A'), findsNothing);
-    expect(find.textContaining('Use grade'), findsNothing);
-    repo.gradedCrop = null;
-    await tester.tap(find.text('Retake photo'));
-    await tester.pumpAndSettle();
-    expect(repo.gradedCrop, GradableCrop.mango);
-    expect(grades, 0);
-  });
 
   testWidgets('quality card asks for the crop and offers no grade for a D', (
     tester,
@@ -228,6 +194,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     await _pump(
@@ -253,7 +221,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.gradedCrop, GradableCrop.rice);
-    expect(find.textContaining('Below listing grades'), findsOneWidget);
+    expect(find.textContaining('Retake a clear crop photo'), findsOneWidget);
     expect(find.textContaining('Use grade'), findsNothing);
   });
   testWidgets('Other never picks a photo or calls grading', (tester) async {
@@ -313,6 +281,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     await tester.pumpAndSettle();
@@ -355,6 +325,8 @@ void main() {
           cropSupported: true,
           lowConfidence: false,
           modelStatus: AiModelStatus.trained,
+          needsReview: false,
+          photoSimilarity: 0.95,
         ),
       );
       await tester.pumpAndSettle();
@@ -374,6 +346,8 @@ void main() {
         cropSupported: true,
         lowConfidence: false,
         modelStatus: AiModelStatus.trained,
+        needsReview: false,
+        photoSimilarity: 0.95,
       ),
     );
     final replacement = Completer<XFile?>();

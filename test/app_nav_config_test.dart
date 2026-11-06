@@ -2,6 +2,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 
 void main() {
+  test(
+    'all roles can open public order and product links and authorized details',
+    () {
+      for (final path in [
+        '/trace/orders/abc',
+        '/trace/abc',
+        '/trace/products/abc',
+      ]) {
+        expect(AppNavConfig.isPublicRoute(path), isTrue);
+        for (final role in AppUserRole.values) {
+          expect(
+            AppNavConfig.canAccessRouteForRole(role: role, location: path),
+            isTrue,
+          );
+        }
+      }
+      expect(AppNavConfig.isPublicRoute('/orders/abc'), isFalse);
+      for (final role in AppUserRole.values) {
+        expect(
+          AppNavConfig.canAccessRouteForRole(
+            role: role,
+            location: '/orders/abc',
+          ),
+          isTrue,
+        );
+      }
+    },
+  );
   group('AppNavConfig', () {
     test(
       'buyer navigation includes marketplace, QR trace, cart, orders, and profile',

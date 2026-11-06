@@ -111,7 +111,7 @@ class FirebaseAuthGatewayImpl implements FirebaseAuthGateway {
     );
     try {
       final result = await _auth.signInWithCredential(credential);
-      return _requireIdToken(result.user);
+      return await _requireIdToken(result.user);
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
     }
@@ -127,7 +127,7 @@ class FirebaseAuthGatewayImpl implements FirebaseAuthGateway {
         email: email,
         password: password,
       );
-      return _requireIdToken(result.user);
+      return await _requireIdToken(result.user);
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
     }
@@ -143,7 +143,7 @@ class FirebaseAuthGatewayImpl implements FirebaseAuthGateway {
         email: email,
         password: password,
       );
-      return _requireIdToken(result.user);
+      return await _requireIdToken(result.user);
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
     }
@@ -162,7 +162,7 @@ class FirebaseAuthGatewayImpl implements FirebaseAuthGateway {
     if (user == null) return null;
     try {
       await user.reload();
-      return _auth.currentUser?.getIdToken(true);
+      return await _auth.currentUser?.getIdToken(true);
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
     }

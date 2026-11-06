@@ -1290,19 +1290,8 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String aiPriceLocal(String market, String date) {
-    return '$market منڈی میں $date کی تھوک قیمت۔';
-  }
-
-  @override
-  String aiPricePunjab(int count, String date) {
-    return '$date کو پنجاب کی $count منڈیوں کی تھوک قیمتوں کا درمیانی نصف۔';
-  }
-
-  @override
-  String aiPriceSource(String commodity) {
-    return 'ماخذ: AMIS پنجاب ($commodity)۔ یہ تھوک قیمتیں ہیں؛ آپ کی فروخت کی قیمت مختلف ہو سکتی ہے۔';
-  }
+  String get aiPriceRuleBased =>
+      'حوالہ جاتی حدود، موسم اور گریڈ پر مبنی اندازہ — یہ لائیو منڈی کا ڈیٹا نہیں ہے۔';
 
   @override
   String aiUsePrice(String price) {
@@ -1311,7 +1300,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get aiPriceNoRule =>
-      'اس پروڈکٹ یا اکائی کے لیے کوئی سرکاری منڈی قیمت موجود نہیں۔';
+      'اس فصل یا اکائی کے لیے سرکاری تھوک مشاہدہ دستیاب نہیں۔ قیمت خود درج کریں۔';
 
   @override
   String get aiQualityTitle => 'تصویر سے معیار کی جانچ';
@@ -1344,31 +1333,6 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get aiCropNotTrained =>
       'ماڈل کے پاس ابھی اس فصل کا تربیتی ڈیٹا نہیں ہے۔';
-
-  @override
-  String get aiReviewTitle => 'اس تصویر سے گریڈ نہیں ملا';
-
-  @override
-  String get aiReviewLowConfidence =>
-      'ماڈل اس تصویر پر گریڈ تجویز کرنے کے لیے کافی پُر یقین نہیں تھا۔';
-
-  @override
-  String get aiReviewUnfamiliarPhoto =>
-      'یہ تصویر اُن تصاویر سے مختلف ہے جن سے ماڈل نے سیکھا ہے، اس لیے گریڈ غلط ہو سکتا ہے۔';
-
-  @override
-  String get aiReviewUnavailable =>
-      'تصویر کی جانچ ابھی دستیاب نہیں، اس لیے کوئی گریڈ نہیں دکھایا گیا۔';
-
-  @override
-  String get aiReviewTips =>
-      'بہتر تصویر کے لیے: تھوڑا سا نمونہ سادہ، ہلکے رنگ کی سطح پر پھیلائیں، دن کی روشنی میں اوپر سے تصویر لیں، اور فریم بھر دیں۔';
-
-  @override
-  String get aiReviewRetake => 'دوبارہ تصویر لیں';
-
-  @override
-  String get aiReviewManual => 'یا لسٹنگ گریڈ خود منتخب کریں۔';
 
   @override
   String get aiLowConfidence => 'کم اعتماد — گریڈ خود بھی جانچ لیں۔';
@@ -2522,4 +2486,132 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get deliveryReconcileRequired =>
       'پچھلے عمل کی تصدیق نہیں ہو سکی۔ اگلا عمل کرنے سے پہلے ڈیلیوری تازہ کریں۔';
+
+  @override
+  String get mapUnavailable => 'ایپ کے اس ورژن میں نقشہ دستیاب نہیں۔';
+
+  @override
+  String get openInGoogleMaps => 'گوگل میپس میں کھولیں';
+
+  @override
+  String get deliveryMapTitle => 'ترسیل کا براہِ راست نقشہ';
+
+  @override
+  String get mapYourFarm => 'آپ کا فارم';
+
+  @override
+  String get mapYourDropoff => 'آپ کا ڈراپ آف';
+
+  @override
+  String get mapTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String get transporterLocationWaiting =>
+      'ٹرانسپورٹر کی ایپ کھلی ہونے پر اُن کا مقام یہاں نظر آتا ہے۔';
+
+  @override
+  String get transporterLocationJustNow =>
+      'ٹرانسپورٹر کا مقام ابھی اپ ڈیٹ ہوا۔';
+
+  @override
+  String transporterLocationMinutes(int minutes) {
+    return 'ٹرانسپورٹر کا مقام $minutes منٹ پہلے اپ ڈیٹ ہوا۔';
+  }
+
+  @override
+  String get orderQrTitle => 'آرڈر کا QR کوڈ';
+
+  @override
+  String get orderQrDescription =>
+      'اس آرڈر کا فارم سے ڈیلیوری تک سفر دیکھنے کے لیے اسکین کریں۔';
+
+  @override
+  String get orderJourneyTitle => 'آرڈر کا سفر';
+
+  @override
+  String get orderJourneyPublic =>
+      'اس عوامی سفر میں پتے، ادائیگی کی رقم اور ذاتی معلومات ظاہر نہیں کی جاتیں۔';
+
+  @override
+  String get orderQrUnavailable =>
+      'QR دستیاب نہیں۔ ادائیگی کی تصدیق جاری ہو سکتی ہے یا آرڈر کی رقم واپس کی جا چکی ہے۔';
+
+  @override
+  String get orderQrCopied => 'آرڈر کا لنک کاپی ہو گیا';
+
+  @override
+  String get orderQrCopy => 'لنک کاپی کریں';
+
+  @override
+  String get orderQrShare => 'QR شیئر کریں';
+
+  @override
+  String get orderQrView => 'سفر دیکھیں';
+
+  @override
+  String get orderTraceNotFound => 'آرڈر کا سفر دستیاب نہیں';
+
+  @override
+  String get orderTraceNotFoundDesc =>
+      'QR لنک چیک کریں۔ صرف تصدیق شدہ ادا کردہ آرڈرز کا عوامی سفر دستیاب ہوتا ہے۔';
+
+  @override
+  String get orderTracePaidAt => 'ادائیگی کی تصدیق';
+
+  @override
+  String get orderTraceLedgerUnavailable =>
+      'لیجر سے دوبارہ تصدیق دستیاب نہیں۔ درج شدہ مراحل نیچے دکھائے گئے ہیں؛ آزاد تصدیق باقی ہے۔';
+
+  @override
+  String get orderTraceLedgerChecked => 'لیجر ریکارڈ چیک کیے گئے';
+
+  @override
+  String get orderPrivateDetails => 'آرڈر کی نجی تفصیلات';
+
+  @override
+  String get qrScanCamera => 'QR کوڈ اسکین کریں';
+
+  @override
+  String get qrCameraHint =>
+      'کیمرہ Farm2Fork کے پروڈکٹ یا آرڈر کے QR کوڈ کی طرف کریں۔';
+
+  @override
+  String get qrCameraUnavailable =>
+      'کیمرہ دستیاب نہیں۔ سیٹنگز میں کیمرے کی اجازت دیں یا نیچے QR لنک پیسٹ کریں۔';
+
+  @override
+  String get qrCameraTorch => 'ٹارچ آن یا آف کریں';
+
+  @override
+  String get qrInvalidCode =>
+      'یہ Farm2Fork کا QR کوڈ نہیں ہے۔ دوسرا کوڈ اسکین کریں یا درست لنک پیسٹ کریں۔';
+
+  @override
+  String get qrUseLink => 'لنک پیسٹ کریں';
+
+  @override
+  String get qrScanAgain => 'دوبارہ اسکین کریں';
+
+  @override
+  String get orderTraceLedgerMismatch =>
+      'لیجر سے حاصل ریکارڈ اس واقعے سے میل نہیں کھاتا۔ تصدیق نامکمل ہے۔';
+
+  @override
+  String get aiReviewRecovery =>
+      'تصویر کی جانچ ضروری ہے۔ فصل کی واضح تصویر دوبارہ لیں یا گریڈ خود منتخب کریں۔';
+
+  @override
+  String get aiWholesaleBasis =>
+      'سرکاری تھوک حوالہ، کھیت یا براہ راست موجودہ قیمت نہیں۔ اپنی فروخت کی قیمت خود مقرر کریں۔';
+
+  @override
+  String aiWholesaleObservation(
+    String date,
+    String source,
+    String market,
+    int count,
+    String currency,
+  ) {
+    return 'تاریخی مشاہدہ: $date · $source · $market ($count منڈیاں) · $currency';
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../widgets/trace_camera.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
@@ -40,12 +42,6 @@ class _Loaded extends _LookupState {
   final ProductTrace trace;
 }
 
-/// Product trace lookup. Opened from the Trace tab (enter an id or paste a
-/// QR link) or from a product/QR deep link with [initialProductId], in which
-/// case it loads that journey straight away.
-///
-/// Camera scanning is not wired yet; the screen says so instead of showing
-/// a fake viewfinder.
 class TraceScannerScreen extends ConsumerStatefulWidget {
   const TraceScannerScreen({super.key, this.initialProductId});
 
@@ -76,38 +72,64 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
   }
 
   @override
+  void didUpdateWidget(covariant TraceScannerScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialProductId != widget.initialProductId) {
+      final id = parseTraceProductId(widget.initialProductId ?? "");
+      if (id != null) {
+        _lookup(id);
+      } else {
+        _lookupVersion++;
+        setState(() => _state = const _Idle());
+      }
+    }
+  }
+
+  int _lookupVersion = 0;
+
+  @override
   void dispose() {
     _inputController.dispose();
     super.dispose();
   }
 
   Future<void> _lookup(String productId) async {
+    final version = ++_lookupVersion;
     setState(() => _state = const _Loading());
     try {
       final trace = await ref
           .read(traceabilityRepositoryProvider)
           .fetchProductTrace(productId);
-      if (!mounted) return;
+      if (!mounted || version != _lookupVersion) return;
       setState(
         () => _state = trace == null ? const _NotFound() : _Loaded(trace),
       );
     } catch (_) {
-      if (!mounted) return;
+      if (!mounted || version != _lookupVersion) return;
       setState(() => _state = _Failed(productId));
     }
   }
 
   void _submit() {
     FocusScope.of(context).unfocus();
-    final id = parseTraceProductId(_inputController.text);
-    if (id == null) {
+    _accept(_inputController.text);
+  }
+
+  void _accept(String value) {
+    final link = parseTraceLink(value);
+    if (link == null) {
       setState(() => _state = const _Idle(invalidInput: true));
       return;
     }
-    _lookup(id);
+    if (link.kind == TraceLinkKind.order) {
+      context.push(link.path);
+    } else {
+      _lookup(link.id);
+    }
   }
 
   void _reset() {
+    _lookupVersion++;
     _inputController.clear();
     setState(() => _state = const _Idle());
   }
@@ -164,6 +186,7 @@ class _TraceScannerScreenState extends ConsumerState<TraceScannerScreen> {
             controller: _inputController,
             invalidInput: invalidInput,
             onSubmit: _submit,
+            onScan: _accept,
           ),
         },
       ),
@@ -176,11 +199,13 @@ class _LookupForm extends StatelessWidget {
     required this.controller,
     required this.invalidInput,
     required this.onSubmit,
+    required this.onScan,
   });
 
   final TextEditingController controller;
   final bool invalidInput;
   final VoidCallback onSubmit;
+  final ValueChanged<String> onScan;
 
   @override
   Widget build(BuildContext context) {
@@ -189,16 +214,14 @@ class _LookupForm extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.pagePadding),
       children: [
         const SizedBox(height: AppSpacing.lg),
-        const Center(
-          child: CircleAvatar(
-            radius: 36,
-            backgroundColor: AppColors.primaryGreenSoft,
-            child: Icon(
-              Icons.qr_code_2_rounded,
-              size: 40,
-              color: AppColors.primaryGreen,
-            ),
-          ),
+        AppButton(
+          label: l10n.qrScanCamera,
+          icon: Icons.qr_code_scanner_rounded,
+          expand: true,
+          onPressed: () async {
+            final value = await showTraceCamera(context);
+            if (context.mounted && value != null) onScan(value);
+          },
         ),
         const SizedBox(height: AppSpacing.lg),
         Text(
@@ -249,7 +272,7 @@ class _LookupForm extends StatelessWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
-                  l10n.traceCameraComingSoon,
+                  l10n.qrCameraHint,
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.textMuted,
                     height: 1.4,
