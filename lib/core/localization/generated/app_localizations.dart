@@ -2669,25 +2669,25 @@ abstract class AppLocalizations {
   /// locationServiceDisabled
   ///
   /// In en, this message translates to:
-  /// **'Location is turned off on this phone. Turn it on to continue.'**
+  /// **'Location is turned off on this phone. Turn it on, or drag the map to place the pin.'**
   String get locationServiceDisabled;
 
   /// locationPermissionDenied
   ///
   /// In en, this message translates to:
-  /// **'Farm2Fork needs location permission for this.'**
+  /// **'Farm2Fork needs location permission to find you. You can also drag the map to place the pin.'**
   String get locationPermissionDenied;
 
   /// locationPermissionDeniedForever
   ///
   /// In en, this message translates to:
-  /// **'Location permission is blocked. Allow it in Settings to continue.'**
+  /// **'Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.'**
   String get locationPermissionDeniedForever;
 
   /// locationUnavailable
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t get your location. Move to open sky and try again.'**
+  /// **'Couldn\'t get your location. Move to open sky and try again. You can also drag the map to place the pin.'**
   String get locationUnavailable;
 
   /// openSettings
@@ -3344,29 +3344,11 @@ abstract class AppLocalizations {
   /// **'Delivery longitude'**
   String get deliveryLongitude;
 
-  /// No description provided for @locationLatitude.
-  ///
-  /// In en, this message translates to:
-  /// **'Latitude'**
-  String get locationLatitude;
-
-  /// No description provided for @locationLongitude.
-  ///
-  /// In en, this message translates to:
-  /// **'Longitude'**
-  String get locationLongitude;
-
   /// No description provided for @locationInvalid.
   ///
   /// In en, this message translates to:
   /// **'Enter valid coordinates inside Pakistan.'**
   String get locationInvalid;
-
-  /// No description provided for @locationCoordinatesHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Copy the coordinates of this address from your map app.'**
-  String get locationCoordinatesHelp;
 
   /// No description provided for @getDeliveryQuote.
   ///
@@ -3407,7 +3389,7 @@ abstract class AppLocalizations {
   /// No description provided for @farmPickupHelp.
   ///
   /// In en, this message translates to:
-  /// **'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.'**
+  /// **'Save your farm address and map pin so buyers can price delivery and transporters can collect orders.'**
   String get farmPickupHelp;
 
   /// No description provided for @farmPickupSave.
@@ -3607,12 +3589,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notifications yet.'**
   String get pushEmpty;
-
-  /// No description provided for @enterCoordinates.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter coordinates'**
-  String get enterCoordinates;
 
   /// Generic save button
   ///
@@ -4442,12 +4418,6 @@ abstract class AppLocalizations {
   /// **'The last action could not be confirmed. Refresh the delivery before trying another action.'**
   String get deliveryReconcileRequired;
 
-  /// Fallback when the build has no Maps key
-  ///
-  /// In en, this message translates to:
-  /// **'The map isn\'t available in this version of the app.'**
-  String get mapUnavailable;
-
   /// Button: show the place in Google Maps
   ///
   /// In en, this message translates to:
@@ -4657,6 +4627,108 @@ abstract class AppLocalizations {
     int count,
     String currency,
   );
+
+  /// cityPickerChooseProvince
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your province'**
+  String get cityPickerChooseProvince;
+
+  /// cityPickerSearchHint
+  ///
+  /// In en, this message translates to:
+  /// **'Search for your city'**
+  String get cityPickerSearchHint;
+
+  /// cityPickerClearSearch
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get cityPickerClearSearch;
+
+  /// cityPickerChangeProvince
+  ///
+  /// In en, this message translates to:
+  /// **'Change province'**
+  String get cityPickerChangeProvince;
+
+  /// cityPickerNoResults
+  ///
+  /// In en, this message translates to:
+  /// **'No city found. Check the spelling or pick another province.'**
+  String get cityPickerNoResults;
+
+  /// cityPickerLoadFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the city list. Please try again.'**
+  String get cityPickerLoadFailed;
+
+  /// cityPickerFieldHint
+  ///
+  /// In en, this message translates to:
+  /// **'Choose province and city'**
+  String get cityPickerFieldHint;
+
+  /// cityPickerRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose your city.'**
+  String get cityPickerRequired;
+
+  /// pinFarFromCityTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Is this the right place?'**
+  String get pinFarFromCityTitle;
+
+  /// pinFarFromCityKeep
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, use this spot'**
+  String get pinFarFromCityKeep;
+
+  /// pinFarFromCityMove
+  ///
+  /// In en, this message translates to:
+  /// **'No, move the pin'**
+  String get pinFarFromCityMove;
+
+  /// locationDataCredits
+  ///
+  /// In en, this message translates to:
+  /// **'Location data'**
+  String get locationDataCredits;
+
+  /// locationTimeout
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.'**
+  String get locationTimeout;
+
+  /// locationLowAccuracy
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is not exact. Check the pin and drag the map to fix it.'**
+  String get locationLowAccuracy;
+
+  /// mapAttributionOpenStreetMap
+  ///
+  /// In en, this message translates to:
+  /// **'© OpenStreetMap contributors'**
+  String get mapAttributionOpenStreetMap;
+
+  /// cityPickerCityCount
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 city} other{{count} cities}}'**
+  String cityPickerCityCount(int count);
+
+  /// pinFarFromCityBody
+  ///
+  /// In en, this message translates to:
+  /// **'This pin is about {km} km from {city}. Is this where you mean?'**
+  String pinFarFromCityBody(String km, String city);
 }
 
 class _AppLocalizationsDelegate

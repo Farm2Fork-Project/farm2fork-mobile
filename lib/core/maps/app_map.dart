@@ -1,14 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/location/location_service.dart';
+import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
-import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
-import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 
 enum AppMarkerKind { pickup, dropoff, me, transporter }
 
@@ -44,7 +44,7 @@ class AppMapConfig {
   /// Zooms out so every marker is visible.
   final bool fitMarkers;
 
-  /// Called with the map centre while the user pans (location picker).
+  /// Called with the map centre while the map moves (location picker).
   final ValueChanged<GeoPoint>? onCenterChanged;
   final bool showMyLocation;
   final bool interactive;
@@ -52,88 +52,18 @@ class AppMapConfig {
 
 typedef AppMapBuilder = Widget Function(AppMapConfig config);
 
-/// Tests override this: platform map views cannot render in widget tests.
+/// Tests override this: tile images cannot load in widget tests.
 final appMapBuilderProvider = Provider<AppMapBuilder>(
   (ref) =>
-      (config) => _ConfiguredMap(config: config),
+      (config) => _OsmMap(config: config),
 );
 
-/// Whether this build carries a Maps SDK key. Without one Android draws a blank
-/// map and iOS crashes on the first map view, so callers get a fallback.
-final mapsConfiguredProvider = FutureProvider<bool>((ref) async {
-  if (kIsWeb) return false;
-  try {
-    return await const MethodChannel(
-          'farm2fork/maps',
-        ).invokeMethod<bool>('isConfigured') ??
-        false;
-  } on MissingPluginException {
-    return false;
-  } on PlatformException {
-    return false;
-  }
-});
+/// OpenStreetMap tiles need no API key. Keep [osmUserAgentPackage] unique to
+/// the app: the tile policy requires an identifying User-Agent.
+const String osmTileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const String osmUserAgentPackage = 'com.farm2fork.app';
 
-class _ConfiguredMap extends ConsumerWidget {
-  const _ConfiguredMap({required this.config});
-
-  final AppMapConfig config;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) =>
-      switch (ref.watch(mapsConfiguredProvider)) {
-        AsyncData(value: true) => _GoogleAppMap(config: config),
-        AsyncData() || AsyncError() => MapUnavailable(config: config),
-        _ => const ColoredBox(color: AppColors.surfaceLight),
-      };
-}
-
-/// Shown instead of a map when the build has no Maps key: the places stay
-/// reachable through the Google Maps app.
-class MapUnavailable extends StatelessWidget {
-  const MapUnavailable({super.key, required this.config});
-
-  final AppMapConfig config;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final target = config.markers.isEmpty
-        ? config.center
-        : config.markers
-              .firstWhere(
-                (m) => m.kind == AppMarkerKind.dropoff,
-                orElse: () => config.markers.first,
-              )
-              .at;
-    return ColoredBox(
-      color: AppColors.surfaceLight,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.map_outlined, color: AppColors.textMuted),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                l10n.mapUnavailable,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.small,
-              ),
-              TextButton(
-                onPressed: () => openInMaps(target),
-                child: Text(l10n.openInGoogleMaps),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// The only place the app touches google_maps_flutter.
+/// The only place the app touches flutter_map.
 class AppMap extends ConsumerWidget {
   const AppMap({super.key, required this.config});
 
@@ -144,103 +74,195 @@ class AppMap extends ConsumerWidget {
       ref.watch(appMapBuilderProvider)(config);
 }
 
-class _GoogleAppMap extends StatefulWidget {
-  const _GoogleAppMap({required this.config});
+class _OsmMap extends ConsumerStatefulWidget {
+  const _OsmMap({required this.config});
 
   final AppMapConfig config;
 
   @override
-  State<_GoogleAppMap> createState() => _GoogleAppMapState();
+  ConsumerState<_OsmMap> createState() => _OsmMapState();
 }
 
-class _GoogleAppMapState extends State<_GoogleAppMap> {
-  GoogleMapController? _controller;
+class _OsmMapState extends ConsumerState<_OsmMap> {
+  final _controller = MapController();
+  bool _ready = false;
+  StreamSubscription<GeoPoint>? _gps;
+  GeoPoint? _here;
 
   LatLng _latLng(GeoPoint p) => LatLng(p.lat, p.lng);
 
-  double _hue(AppMarkerKind kind) => switch (kind) {
-    AppMarkerKind.pickup => BitmapDescriptor.hueGreen,
-    AppMarkerKind.dropoff => BitmapDescriptor.hueOrange,
-    AppMarkerKind.me => BitmapDescriptor.hueAzure,
-    AppMarkerKind.transporter => BitmapDescriptor.hueViolet,
-  };
-
   @override
-  void didUpdateWidget(covariant _GoogleAppMap old) {
-    super.didUpdateWidget(old);
-    if (widget.config.fitMarkers &&
-        old.config.markers != widget.config.markers) {
-      _fit();
-    } else if (old.config.center != widget.config.center) {
-      // A new centre (e.g. "use my location") moves the camera; panning
-      // itself reports through onCenterChanged and never changes `center`.
-      _controller?.animateCamera(
-        CameraUpdate.newLatLngZoom(
-          _latLng(widget.config.center),
-          widget.config.zoom,
-        ),
-      );
+  void initState() {
+    super.initState();
+    if (widget.config.showMyLocation) _watchMe();
+  }
+
+  /// Shows the device position as a blue dot (the SDK maps had one built in).
+  void _watchMe() {
+    try {
+      _gps = ref
+          .read(locationServiceProvider)
+          .watch(distanceFilterMeters: 25)
+          .listen(
+            (p) {
+              if (mounted) setState(() => _here = p);
+            },
+            onError: (_) {},
+            cancelOnError: false,
+          );
+    } on Object {
+      // No permission or no GPS: the map simply has no blue dot.
     }
   }
 
-  Future<void> _fit() async {
-    final controller = _controller;
+  @override
+  void dispose() {
+    _gps?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant _OsmMap old) {
+    super.didUpdateWidget(old);
+    if (!_ready) return;
+    final config = widget.config;
+    // Camera moves report through onPositionChanged, which may call setState
+    // in the owner; never do that while the tree is building.
+    if (config.fitMarkers && old.config.markers != config.markers) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _fit();
+      });
+    } else if (old.config.center != config.center) {
+      // A new centre (a chosen city, "use my location") moves the camera;
+      // panning itself reports through onCenterChanged and never changes
+      // `center`.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _controller.move(_latLng(config.center), config.zoom);
+      });
+    }
+  }
+
+  void _fit() {
     final markers = widget.config.markers;
-    if (controller == null || markers.length < 2) return;
-    final lats = markers.map((m) => m.at.lat);
-    final lngs = markers.map((m) => m.at.lng);
-    final bounds = LatLngBounds(
-      southwest: LatLng(
-        lats.reduce((a, b) => a < b ? a : b),
-        lngs.reduce((a, b) => a < b ? a : b),
-      ),
-      northeast: LatLng(
-        lats.reduce((a, b) => a > b ? a : b),
-        lngs.reduce((a, b) => a > b ? a : b),
+    if (markers.length < 2) return;
+    _controller.fitCamera(
+      CameraFit.coordinates(
+        coordinates: [for (final m in markers) _latLng(m.at)],
+        padding: const EdgeInsets.all(48),
+        maxZoom: 16,
       ),
     );
-    await controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 48));
+  }
+
+  static const _colors = {
+    AppMarkerKind.pickup: AppColors.success,
+    AppMarkerKind.dropoff: Color(0xFFE8890C),
+    AppMarkerKind.me: AppColors.secondaryBlue,
+    AppMarkerKind.transporter: Color(0xFF7B4FB3),
+  };
+
+  Marker _marker(AppMarker marker) {
+    final icon = switch (marker.kind) {
+      AppMarkerKind.transporter => Icons.local_shipping_rounded,
+      AppMarkerKind.me => Icons.my_location_rounded,
+      _ => Icons.location_on_rounded,
+    };
+    Widget child = Icon(icon, size: 40, color: _colors[marker.kind]);
+    if (marker.title != null) {
+      child = Tooltip(message: marker.title!, child: child);
+    }
+    return Marker(
+      key: ValueKey(marker.id),
+      point: _latLng(marker.at),
+      width: 40,
+      height: 40,
+      // The pin's tip sits on the point; round icons are centred on it.
+      alignment:
+          marker.kind == AppMarkerKind.pickup ||
+              marker.kind == AppMarkerKind.dropoff
+          ? Alignment.topCenter
+          : Alignment.center,
+      child: child,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final config = widget.config;
-    return GoogleMap(
-      initialCameraPosition: CameraPosition(
-        target: _latLng(config.center),
-        zoom: config.zoom,
+    final markers = config.markers;
+    AppMarker? ofKind(AppMarkerKind kind) {
+      for (final m in markers) {
+        if (m.kind == kind) return m;
+      }
+      return null;
+    }
+
+    final pickup = ofKind(AppMarkerKind.pickup);
+    final dropoff = ofKind(AppMarkerKind.dropoff);
+    return FlutterMap(
+      mapController: _controller,
+      options: MapOptions(
+        initialCenter: _latLng(config.center),
+        initialZoom: config.zoom,
+        minZoom: 4,
+        maxZoom: 18,
+        backgroundColor: AppColors.surfaceLight,
+        interactionOptions: InteractionOptions(
+          flags: config.interactive
+              ? InteractiveFlag.all & ~InteractiveFlag.rotate
+              : InteractiveFlag.none,
+        ),
+        onMapReady: () {
+          _ready = true;
+          if (config.fitMarkers) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _fit();
+            });
+          }
+        },
+        onPositionChanged: config.onCenterChanged == null
+            ? null
+            : (camera, _) => widget.config.onCenterChanged?.call(
+                GeoPoint(camera.center.latitude, camera.center.longitude),
+              ),
       ),
-      markers: {
-        for (final marker in config.markers)
-          Marker(
-            markerId: MarkerId(marker.id),
-            position: _latLng(marker.at),
-            icon: BitmapDescriptor.defaultMarkerWithHue(_hue(marker.kind)),
-            infoWindow: marker.title == null
-                ? InfoWindow.noText
-                : InfoWindow(title: marker.title),
+      children: [
+        TileLayer(
+          urlTemplate: osmTileUrl,
+          userAgentPackageName: osmUserAgentPackage,
+          maxNativeZoom: 19,
+        ),
+        if (pickup != null && dropoff != null)
+          PolylineLayer(
+            polylines: [
+              Polyline(
+                points: [_latLng(pickup.at), _latLng(dropoff.at)],
+                strokeWidth: 4,
+                color: AppColors.secondaryBlue.withValues(alpha: 0.8),
+                pattern: const StrokePattern.dotted(),
+              ),
+            ],
           ),
-      },
-      myLocationEnabled: config.showMyLocation,
-      myLocationButtonEnabled: config.showMyLocation,
-      zoomControlsEnabled: false,
-      mapToolbarEnabled: false,
-      scrollGesturesEnabled: config.interactive,
-      zoomGesturesEnabled: config.interactive,
-      rotateGesturesEnabled: false,
-      tiltGesturesEnabled: false,
-      onMapCreated: (controller) {
-        _controller = controller;
-        if (config.fitMarkers) {
-          // Bounds need the map laid out first.
-          WidgetsBinding.instance.addPostFrameCallback((_) => _fit());
-        }
-      },
-      onCameraMove: config.onCenterChanged == null
-          ? null
-          : (position) => config.onCenterChanged!(
-              GeoPoint(position.target.latitude, position.target.longitude),
+        MarkerLayer(
+          markers: [
+            if (_here != null)
+              _marker(AppMarker(id: 'gps', at: _here!, kind: AppMarkerKind.me)),
+            for (final marker in markers) _marker(marker),
+          ],
+        ),
+        RichAttributionWidget(
+          attributions: [
+            TextSourceAttribution(
+              context.l10n.mapAttributionOpenStreetMap,
+              onTap: () => launchUrl(
+                Uri.https('www.openstreetmap.org', '/copyright'),
+                mode: LaunchMode.externalApplication,
+              ),
             ),
+          ],
+        ),
+      ],
     );
   }
 }

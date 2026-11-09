@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
+import 'package:farm2fork_mobile/core/location/pakistan_locations.dart';
 import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -15,6 +17,8 @@ class LocationPinField extends FormField<GeoPoint> {
     super.initialValue,
     required ValueChanged<GeoPoint> onChanged,
     bool required = true,
+    String? city,
+    String? province,
   }) : super(
          validator: (value) {
            if (!required) return null;
@@ -26,9 +30,24 @@ class LocationPinField extends FormField<GeoPoint> {
            final l10n = context.l10n;
            final value = field.value;
            Future<void> pick() async {
+             final container = ProviderScope.containerOf(context);
+             PakistanCity? known;
+             try {
+               known = (await container.read(
+                 pakistanLocationsProvider.future,
+               )).find(province, city);
+             } on Object {
+               // No city list: the picker just opens at the default view.
+             }
+             if (!context.mounted) return;
              final picked = await context.push<GeoPoint>(
                LocationPickerScreen.route,
-               extra: LocationPickerArgs(initial: value, purpose: purpose),
+               extra: LocationPickerArgs(
+                 initial: value,
+                 purpose: purpose,
+                 cityName: known?.name,
+                 cityCentre: known?.centre,
+               ),
              );
              if (picked == null) return;
              field.didChange(picked);
@@ -84,14 +103,6 @@ class LocationPinField extends FormField<GeoPoint> {
                                  fontWeight: FontWeight.w600,
                                ),
                              ),
-                             if (value != null)
-                               Text(
-                                 value.toString(),
-                                 textDirection: TextDirection.ltr,
-                                 style: AppTextStyles.small.copyWith(
-                                   color: AppColors.textMuted,
-                                 ),
-                               ),
                            ],
                          ),
                        ),

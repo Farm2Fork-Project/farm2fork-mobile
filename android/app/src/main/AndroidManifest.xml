@@ -65,11 +65,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Google Maps SDK for Android key, injected from MAPS_API_KEY at
-             build time (see app/build.gradle.kts). -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
         <!-- FCM messages without an explicit channel use this one; the app
              creates it on start. -->
         <meta-data

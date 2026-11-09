@@ -8,27 +8,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Google Maps API key: never committed. Read from android/local.properties
-// (MAPS_API_KEY=...) or the MAPS_API_KEY environment variable (CI).
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
-}
-val mapsApiKey: String =
-    localProperties.getProperty("MAPS_API_KEY") ?: System.getenv("MAPS_API_KEY") ?: ""
-
-// A release without a key ships blank maps (the 14 Oct MVP APK did), so refuse
-// to build one unless ALLOW_MISSING_MAPS_KEY=true is set deliberately.
-gradle.taskGraph.whenReady {
-    val buildsRelease = allTasks.any { it.project == project && it.name.contains("Release") }
-    if (buildsRelease && mapsApiKey.isBlank() && System.getenv("ALLOW_MISSING_MAPS_KEY") != "true") {
-        throw GradleException(
-            "MAPS_API_KEY is missing: add it to android/local.properties or the environment " +
-                "(set ALLOW_MISSING_MAPS_KEY=true to build a release without maps).",
-        )
-    }
-}
-
 // Distribution signing is supplied locally or by CI; never fall back to debug keys.
 val releaseKeys = Properties().apply {
     val file = rootProject.file("key.properties")
@@ -75,12 +54,10 @@ android {
         applicationId = "com.farm2fork.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        // google_maps_flutter requires API 24+.
-        minSdk = maxOf(24, flutter.minSdkVersion)
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["mapsApiKey"] = mapsApiKey
         manifestPlaceholders["traceLinkHost"] = traceLinkHost
     }
 

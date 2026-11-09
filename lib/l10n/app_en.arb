@@ -1791,19 +1791,19 @@
   "@locationOutsidePakistan": {
     "description": "locationOutsidePakistan"
   },
-  "locationServiceDisabled": "Location is turned off on this phone. Turn it on to continue.",
+  "locationServiceDisabled": "Location is turned off on this phone. Turn it on, or drag the map to place the pin.",
   "@locationServiceDisabled": {
     "description": "locationServiceDisabled"
   },
-  "locationPermissionDenied": "Farm2Fork needs location permission for this.",
+  "locationPermissionDenied": "Farm2Fork needs location permission to find you. You can also drag the map to place the pin.",
   "@locationPermissionDenied": {
     "description": "locationPermissionDenied"
   },
-  "locationPermissionDeniedForever": "Location permission is blocked. Allow it in Settings to continue.",
+  "locationPermissionDeniedForever": "Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.",
   "@locationPermissionDeniedForever": {
     "description": "locationPermissionDeniedForever"
   },
-  "locationUnavailable": "Couldn't get your location. Move to open sky and try again.",
+  "locationUnavailable": "Couldn't get your location. Move to open sky and try again. You can also drag the map to place the pin.",
   "@locationUnavailable": {
     "description": "locationUnavailable"
   },
@@ -2353,17 +2353,14 @@
   },
   "deliveryLatitude": "Delivery latitude",
   "deliveryLongitude": "Delivery longitude",
-  "locationLatitude": "Latitude",
-  "locationLongitude": "Longitude",
   "locationInvalid": "Enter valid coordinates inside Pakistan.",
-  "locationCoordinatesHelp": "Copy the coordinates of this address from your map app.",
   "getDeliveryQuote": "Get delivery quote",
   "deliveryQuoteRequired": "Review a delivery quote before placing your order.",
   "deliveryQuoteFailed": "Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.",
   "deliveryFee": "Delivery fee",
   "deliveryDistance": "Estimated delivery distance: {distance} km",
   "farmPickupLocation": "Farm pickup location",
-  "farmPickupHelp": "Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.",
+  "farmPickupHelp": "Save your farm address and map pin so buyers can price delivery and transporters can collect orders.",
   "farmPickupSave": "Save pickup location",
   "farmPickupSaved": "Pickup location saved.",
   "farmPickupFailed": "Could not load or save your farm location. Check the details and retry.",
@@ -2404,7 +2401,6 @@
   "pushInbox": "Notification inbox",
   "pushReadAll": "Mark all as read",
   "pushEmpty": "No notifications yet.",
-  "enterCoordinates": "Enter coordinates",
   "save": "Save",
   "@save": {
     "description": "Generic save button"
@@ -2814,10 +2810,6 @@
   "earningsLedgerScope": "Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.",
   "payoutCorrectionRecord": "Record correction; no bank transfer was reversed",
   "deliveryReconcileRequired": "The last action could not be confirmed. Refresh the delivery before trying another action.",
-  "mapUnavailable": "The map isn't available in this version of the app.",
-  "@mapUnavailable": {
-    "description": "Fallback when the build has no Maps key"
-  },
   "openInGoogleMaps": "Open in Google Maps",
   "@openInGoogleMaps": {
     "description": "Button: show the place in Google Maps"
@@ -2896,6 +2888,87 @@
         "type": "int"
       },
       "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "cityPickerChooseProvince": "Choose your province",
+  "@cityPickerChooseProvince": {
+    "description": "cityPickerChooseProvince"
+  },
+  "cityPickerSearchHint": "Search for your city",
+  "@cityPickerSearchHint": {
+    "description": "cityPickerSearchHint"
+  },
+  "cityPickerClearSearch": "Clear search",
+  "@cityPickerClearSearch": {
+    "description": "cityPickerClearSearch"
+  },
+  "cityPickerChangeProvince": "Change province",
+  "@cityPickerChangeProvince": {
+    "description": "cityPickerChangeProvince"
+  },
+  "cityPickerNoResults": "No city found. Check the spelling or pick another province.",
+  "@cityPickerNoResults": {
+    "description": "cityPickerNoResults"
+  },
+  "cityPickerLoadFailed": "Couldn't load the city list. Please try again.",
+  "@cityPickerLoadFailed": {
+    "description": "cityPickerLoadFailed"
+  },
+  "cityPickerFieldHint": "Choose province and city",
+  "@cityPickerFieldHint": {
+    "description": "cityPickerFieldHint"
+  },
+  "cityPickerRequired": "Please choose your city.",
+  "@cityPickerRequired": {
+    "description": "cityPickerRequired"
+  },
+  "pinFarFromCityTitle": "Is this the right place?",
+  "@pinFarFromCityTitle": {
+    "description": "pinFarFromCityTitle"
+  },
+  "pinFarFromCityKeep": "Yes, use this spot",
+  "@pinFarFromCityKeep": {
+    "description": "pinFarFromCityKeep"
+  },
+  "pinFarFromCityMove": "No, move the pin",
+  "@pinFarFromCityMove": {
+    "description": "pinFarFromCityMove"
+  },
+  "locationDataCredits": "Location data",
+  "@locationDataCredits": {
+    "description": "locationDataCredits"
+  },
+  "locationTimeout": "Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.",
+  "@locationTimeout": {
+    "description": "locationTimeout"
+  },
+  "locationLowAccuracy": "Your location is not exact. Check the pin and drag the map to fix it.",
+  "@locationLowAccuracy": {
+    "description": "locationLowAccuracy"
+  },
+  "mapAttributionOpenStreetMap": "© OpenStreetMap contributors",
+  "@mapAttributionOpenStreetMap": {
+    "description": "mapAttributionOpenStreetMap"
+  },
+  "cityPickerCityCount": "{count, plural, =1{1 city} other{{count} cities}}",
+  "@cityPickerCityCount": {
+    "description": "cityPickerCityCount",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pinFarFromCityBody": "This pin is about {km} km from {city}. Is this where you mean?",
+  "@pinFarFromCityBody": {
+    "description": "pinFarFromCityBody",
+    "placeholders": {
+      "km": {
+        "type": "String"
+      },
+      "city": {
         "type": "String"
       }
     }

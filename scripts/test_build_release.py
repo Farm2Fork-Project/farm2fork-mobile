@@ -23,7 +23,7 @@ class ReleasePreflightTests(unittest.TestCase):
             store = root / 'release.jks'
             store.touch()  # Presence only; native signing verifies contents.
             env = {'API_BASE_URL': 'https://api.example.com/api', 'PUBLIC_TRACE_ORIGIN': 'https://example.com',
-                   'TRACE_LINK_HOST': 'example.com', 'MAPS_API_KEY': 'test-secret',
+                   'TRACE_LINK_HOST': 'example.com',
                    'ANDROID_KEYSTORE_PATH': str(store), 'ANDROID_KEYSTORE_PASSWORD': 'test-secret',
                    'ANDROID_KEY_ALIAS': 'test-alias', 'ANDROID_KEY_PASSWORD': 'test-secret'}
             with patch.object(build_release, 'ROOT', root):
@@ -34,7 +34,7 @@ class ReleasePreflightTests(unittest.TestCase):
                 self.assertTrue(errors)
                 self.assertNotIn('test-secret', str(errors))
 
-    def test_ios_native_host_and_maps_required(self):
+    def test_ios_native_host_required(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             folder = root / 'ios/Flutter'
@@ -43,7 +43,6 @@ class ReleasePreflightTests(unittest.TestCase):
             with patch.object(build_release, 'ROOT', root):
                 self.assertTrue(build_release.preflight('ios', env))
                 (folder / 'Release.xcconfig').write_text('TRACE_LINK_HOST = example.com\n')
-                (folder / 'Secrets.xcconfig').write_text('MAPS_API_KEY = test-secret\n')
                 self.assertEqual(build_release.preflight('ios', env), [])
 
 

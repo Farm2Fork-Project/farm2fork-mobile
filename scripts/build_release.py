@@ -42,7 +42,7 @@ def preflight(platform, env):
         if env.get(name, 'false') != 'false':
             errors.append(name + ': must be false.')
     if platform == 'android':
-        for name in ('MAPS_API_KEY', 'ANDROID_KEYSTORE_PATH', 'ANDROID_KEYSTORE_PASSWORD',
+        for name in ('ANDROID_KEYSTORE_PATH', 'ANDROID_KEYSTORE_PASSWORD',
                      'ANDROID_KEY_ALIAS', 'ANDROID_KEY_PASSWORD'):
             if not env.get(name, '').strip():
                 errors.append(name + ': required for Android release.')
@@ -72,9 +72,6 @@ def preflight(platform, env):
                         settings[key.strip()] = value.strip()
         if settings.get('TRACE_LINK_HOST') != host:
             errors.append('iOS TRACE_LINK_HOST in Release/Secrets.xcconfig must match requested host.')
-        key = settings.get('MAPS_API_KEY', '')
-        if not key or '$(' in key:
-            errors.append('iOS Secrets.xcconfig must provide MAPS_API_KEY.')
     return errors
 
 
