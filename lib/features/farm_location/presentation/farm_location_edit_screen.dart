@@ -13,7 +13,7 @@ import 'package:farm2fork_mobile/core/widgets/app_notice_banner.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
-import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 
 /// Change a farm's pickup address and map pin from Edit profile. The first
 /// save still happens at sign-up (or the Listings prompt); this is for moving
@@ -54,7 +54,7 @@ class _FarmLocationEditForm extends ConsumerStatefulWidget {
 class _FarmLocationEditFormState extends ConsumerState<_FarmLocationEditForm> {
   final _formKey = GlobalKey<FormState>();
   late final _address = TextEditingController(text: widget.initial.address);
-  late final _city = TextEditingController(text: widget.initial.city);
+  late String? _city = widget.initial.city;
   late PakistanProvince? _province = widget.initial.province;
   late GeoPoint? _pin = widget.initial.pin;
   bool _saving = false;
@@ -63,9 +63,13 @@ class _FarmLocationEditFormState extends ConsumerState<_FarmLocationEditForm> {
   @override
   void dispose() {
     _address.dispose();
-    _city.dispose();
     super.dispose();
   }
+
+  void _onCity(CityChoice choice) => setState(() {
+    _city = choice.city;
+    _province = choice.province;
+  });
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
@@ -79,7 +83,7 @@ class _FarmLocationEditFormState extends ConsumerState<_FarmLocationEditForm> {
           .update(
             FarmLocation(
               address: _address.text,
-              city: _city.text,
+              city: _city,
               province: _province,
               pin: _pin,
             ),
@@ -122,32 +126,27 @@ class _FarmLocationEditFormState extends ConsumerState<_FarmLocationEditForm> {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            AppTextField(
-              controller: _address,
-              label: l10n.farmStreet,
-              hintText: l10n.farmStreetHint,
-              textInputAction: TextInputAction.next,
-              textCapitalization: TextCapitalization.words,
-              validator: required,
-            ),
-            gap,
-            AppTextField(
-              controller: _city,
-              label: l10n.farmCity,
-              textInputAction: TextInputAction.next,
-              textCapitalization: TextCapitalization.words,
-              validator: required,
-            ),
-            gap,
-            ProvinceDropdown(
-              value: _province,
-              onChanged: (value) => setState(() => _province = value),
+            CityPickerField(
+              city: _city,
+              province: _province,
+              onChanged: _onCity,
             ),
             gap,
             LocationPinField(
               purpose: LocationPickerPurpose.farm,
               initialValue: _pin,
+              city: _city,
+              province: _province?.wire,
               onChanged: (pin) => setState(() => _pin = pin),
+            ),
+            gap,
+            AppTextField(
+              controller: _address,
+              label: l10n.farmStreet,
+              hintText: l10n.farmStreetHint,
+              textInputAction: TextInputAction.done,
+              textCapitalization: TextCapitalization.words,
+              validator: required,
             ),
             if (_failed) ...[
               const SizedBox(height: AppSpacing.lg),

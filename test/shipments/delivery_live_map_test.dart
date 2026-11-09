@@ -4,6 +4,7 @@ import 'package:farm2fork_mobile/core/maps/app_map.dart';
 import 'package:farm2fork_mobile/features/shipments/data/models/shipment.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/widgets/delivery_live_map.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -105,27 +106,44 @@ void main() {
     );
   });
 
-  testWidgets('maps without a key show a fallback with a Google Maps link', (
+  testWidgets('real map renders OpenStreetMap tiles without any API key', (
     tester,
   ) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [mapsConfiguredProvider.overrideWith((ref) async => false)],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: SizedBox(
               height: 200,
-              child: AppMap(config: AppMapConfig(center: _point)),
+              child: AppMap(
+                config: AppMapConfig(
+                  center: _point,
+                  markers: const [
+                    AppMarker(id: 'p', at: _point, kind: AppMarkerKind.pickup),
+                    AppMarker(
+                      id: 'd',
+                      at: GeoPoint(31.6, 74.4),
+                      kind: AppMarkerKind.dropoff,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
-    await tester.pumpAndSettle();
-    expect(find.textContaining("map isn't available"), findsOneWidget);
-    expect(find.text('Open in Google Maps'), findsOneWidget);
+    await tester.pump();
+    final tiles = tester.widget<TileLayer>(find.byType(TileLayer));
+    expect(tiles.urlTemplate, contains('tile.openstreetmap.org'));
+    expect(
+      tiles.tileProvider.headers['User-Agent'],
+      contains(osmUserAgentPackage),
+    );
+    expect(find.byType(PolylineLayer), findsOneWidget);
+    expect(find.byType(RichAttributionWidget), findsOneWidget);
   });
 }
 

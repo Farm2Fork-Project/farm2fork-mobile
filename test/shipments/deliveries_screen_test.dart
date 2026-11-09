@@ -121,6 +121,9 @@ class _PendingGps implements LocationService {
   final requests = <Completer<GeoPoint>>[];
   int watches = 0;
   @override
+  Future<GeoPoint> currentForPin() => current();
+
+  @override
   Future<GeoPoint> current() {
     final request = Completer<GeoPoint>();
     requests.add(request);

@@ -5,13 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/error/api_exception.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
-import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/auth/data/services/firebase_auth_gateway.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_draft.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_session.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/screens/onboarding_flow_screen.dart';
 import 'auth_test_support.dart';
+import '../support/harness.dart' show pickCity, testLocationsOverride;
 
 /// Stands in for the map picker: "Use pin" returns a fixed point, as the real
 /// screen does when the user confirms the centre pin.
@@ -49,7 +50,9 @@ Future<_Flow> _open(
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
   final repo = FakeAuthRepository();
-  final container = ProviderContainer(overrides: authOverrides(repo));
+  final container = ProviderContainer(
+    overrides: [...authOverrides(repo), testLocationsOverride],
+  );
   addTearDown(container.dispose);
   container.read(onboardingSessionProvider.notifier).start(session);
   final router = stubbedAuthRouter(
@@ -338,17 +341,15 @@ void main() {
     expect(find.text('Where do you load produce?'), findsOneWidget);
     expect(find.text('Step 4 of 5'), findsOneWidget);
     await _type(tester, 'Street Address', 'Chak 5, Canal Road');
-    await _type(tester, 'City', 'Multan');
     await _next(tester);
     expect(
       find.text('Pin the location on the map'),
       findsOneWidget,
       reason: 'the farm must be pinned before the account is created',
     );
-    expect(find.text('This field is required'), findsOneWidget);
+    expect(find.text('Please choose your city.'), findsOneWidget);
 
-    await _tap(tester, find.byType(ProvinceDropdown));
-    await _tap(tester, find.text('Punjab').last);
+    await pickCity(tester, find.byType(CityPickerField), 'Punjab', 'Multan');
     await _tap(tester, find.text('Pin farm on map'));
     await _tap(tester, find.text('Use pin'));
     await _next(tester);
@@ -491,7 +492,16 @@ void main() {
     await _tap(tester, find.widgetWithText(ElevatedButton, 'اگلا'));
     expect(tester.takeException(), isNull);
     await _type(tester, 'گلی کا پتہ', 'چک نمبر پانچ، نہر روڈ، ملتان');
-    await _type(tester, 'شہر', 'ملتان');
+    // The city picker fits at 1.3x Urdu text and returns a localised label.
+    await _tap(tester, find.byType(CityPickerField));
+    expect(tester.takeException(), isNull);
+    expect(find.text('اپنا صوبہ منتخب کریں'), findsOneWidget);
+    await _tap(tester, find.text('پنجاب').last);
+    expect(tester.takeException(), isNull);
+    await tester.enterText(find.byType(TextField).last, 'Multan');
+    await tester.pumpAndSettle();
+    await _tap(tester, find.text('Multan').last);
+    expect(find.text('Multan, پنجاب'), findsOneWidget);
     await _tap(tester, find.widgetWithText(ElevatedButton, 'اگلا'));
     expect(tester.takeException(), isNull);
   });

@@ -1467,19 +1467,19 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get locationServiceDisabled =>
-      'اس فون پر لوکیشن بند ہے۔ جاری رکھنے کے لیے اسے آن کریں۔';
+      'اس فون پر لوکیشن بند ہے۔ اسے آن کریں، یا نقشہ ہلا کر پن لگائیں۔';
 
   @override
   String get locationPermissionDenied =>
-      'اس کے لیے Farm2Fork کو لوکیشن کی اجازت چاہیے۔';
+      'آپ کو تلاش کرنے کے لیے Farm2Fork کو لوکیشن کی اجازت چاہیے۔ آپ نقشہ ہلا کر بھی پن لگا سکتے ہیں۔';
 
   @override
   String get locationPermissionDeniedForever =>
-      'لوکیشن کی اجازت بند ہے۔ جاری رکھنے کے لیے سیٹنگز میں اجازت دیں۔';
+      'لوکیشن کی اجازت بند ہے۔ سیٹنگز میں اجازت دیں۔ آپ نقشہ ہلا کر بھی پن لگا سکتے ہیں۔';
 
   @override
   String get locationUnavailable =>
-      'آپ کی لوکیشن نہیں مل سکی۔ کھلی جگہ پر جا کر دوبارہ کوشش کریں۔';
+      'آپ کی لوکیشن نہیں مل سکی۔ کھلی جگہ پر جا کر دوبارہ کوشش کریں۔ آپ نقشہ ہلا کر بھی پن لگا سکتے ہیں۔';
 
   @override
   String get openSettings => 'سیٹنگز';
@@ -1871,17 +1871,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get deliveryLongitude => 'ترسیل کی جگہ کا طول بلد';
 
   @override
-  String get locationLatitude => 'عرض بلد';
-
-  @override
-  String get locationLongitude => 'طول بلد';
-
-  @override
   String get locationInvalid => 'پاکستان کے اندر درست نقاط درج کریں۔';
-
-  @override
-  String get locationCoordinatesHelp =>
-      'اپنی نقشہ ایپ سے اس پتے کے نقاط کاپی کریں۔';
 
   @override
   String get getDeliveryQuote => 'ترسیل کی قیمت معلوم کریں';
@@ -1906,7 +1896,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get farmPickupHelp =>
-      'اپنے فارم کا پتہ اور نقاط محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
+      'اپنے فارم کا پتہ اور نقشے کا پن محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
 
   @override
   String get farmPickupSave => 'وصولی کی جگہ محفوظ کریں';
@@ -2014,9 +2004,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get pushEmpty => 'ابھی کوئی اطلاع نہیں۔';
-
-  @override
-  String get enterCoordinates => 'مقام کے نقاط درج کریں';
 
   @override
   String get save => 'محفوظ کریں';
@@ -2488,9 +2475,6 @@ class AppLocalizationsUr extends AppLocalizations {
       'پچھلے عمل کی تصدیق نہیں ہو سکی۔ اگلا عمل کرنے سے پہلے ڈیلیوری تازہ کریں۔';
 
   @override
-  String get mapUnavailable => 'ایپ کے اس ورژن میں نقشہ دستیاب نہیں۔';
-
-  @override
   String get openInGoogleMaps => 'گوگل میپس میں کھولیں';
 
   @override
@@ -2613,5 +2597,64 @@ class AppLocalizationsUr extends AppLocalizations {
     String currency,
   ) {
     return 'تاریخی مشاہدہ: $date · $source · $market ($count منڈیاں) · $currency';
+  }
+
+  @override
+  String get cityPickerChooseProvince => 'اپنا صوبہ منتخب کریں';
+
+  @override
+  String get cityPickerSearchHint => 'اپنا شہر تلاش کریں';
+
+  @override
+  String get cityPickerClearSearch => 'تلاش صاف کریں';
+
+  @override
+  String get cityPickerChangeProvince => 'صوبہ تبدیل کریں';
+
+  @override
+  String get cityPickerNoResults =>
+      'کوئی شہر نہیں ملا۔ ہجے دیکھیں یا دوسرا صوبہ منتخب کریں۔';
+
+  @override
+  String get cityPickerLoadFailed =>
+      'شہروں کی فہرست نہیں کھل سکی۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get cityPickerFieldHint => 'صوبہ اور شہر منتخب کریں';
+
+  @override
+  String get cityPickerRequired => 'براہِ کرم اپنا شہر منتخب کریں۔';
+
+  @override
+  String get pinFarFromCityTitle => 'کیا یہ صحیح جگہ ہے؟';
+
+  @override
+  String get pinFarFromCityKeep => 'جی ہاں، یہی جگہ';
+
+  @override
+  String get pinFarFromCityMove => 'نہیں، پن ہلائیں';
+
+  @override
+  String get locationDataCredits => 'مقامات کا ڈیٹا';
+
+  @override
+  String get locationTimeout =>
+      'آپ کی لوکیشن ملنے میں بہت دیر لگ رہی ہے۔ کھلی جگہ پر جا کر دوبارہ کوشش کریں، یا نقشہ ہلا کر پن لگائیں۔';
+
+  @override
+  String get locationLowAccuracy =>
+      'آپ کی لوکیشن درست نہیں ہے۔ پن دیکھیں اور نقشہ ہلا کر ٹھیک کریں۔';
+
+  @override
+  String get mapAttributionOpenStreetMap => '© اوپن اسٹریٹ میپ کے معاونین';
+
+  @override
+  String cityPickerCityCount(int count) {
+    return '$count شہر';
+  }
+
+  @override
+  String pinFarFromCityBody(String km, String city) {
+    return 'یہ پن $city سے تقریباً $km کلومیٹر دور ہے۔ کیا آپ یہی جگہ چاہتے ہیں؟';
   }
 }

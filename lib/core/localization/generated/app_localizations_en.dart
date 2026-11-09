@@ -1469,19 +1469,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationServiceDisabled =>
-      'Location is turned off on this phone. Turn it on to continue.';
+      'Location is turned off on this phone. Turn it on, or drag the map to place the pin.';
 
   @override
   String get locationPermissionDenied =>
-      'Farm2Fork needs location permission for this.';
+      'Farm2Fork needs location permission to find you. You can also drag the map to place the pin.';
 
   @override
   String get locationPermissionDeniedForever =>
-      'Location permission is blocked. Allow it in Settings to continue.';
+      'Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.';
 
   @override
   String get locationUnavailable =>
-      'Couldn\'t get your location. Move to open sky and try again.';
+      'Couldn\'t get your location. Move to open sky and try again. You can also drag the map to place the pin.';
 
   @override
   String get openSettings => 'Settings';
@@ -1890,17 +1890,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryLongitude => 'Delivery longitude';
 
   @override
-  String get locationLatitude => 'Latitude';
-
-  @override
-  String get locationLongitude => 'Longitude';
-
-  @override
   String get locationInvalid => 'Enter valid coordinates inside Pakistan.';
-
-  @override
-  String get locationCoordinatesHelp =>
-      'Copy the coordinates of this address from your map app.';
 
   @override
   String get getDeliveryQuote => 'Get delivery quote';
@@ -1926,7 +1916,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get farmPickupHelp =>
-      'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.';
+      'Save your farm address and map pin so buyers can price delivery and transporters can collect orders.';
 
   @override
   String get farmPickupSave => 'Save pickup location';
@@ -2034,9 +2024,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pushEmpty => 'No notifications yet.';
-
-  @override
-  String get enterCoordinates => 'Enter coordinates';
 
   @override
   String get save => 'Save';
@@ -2509,10 +2496,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The last action could not be confirmed. Refresh the delivery before trying another action.';
 
   @override
-  String get mapUnavailable =>
-      'The map isn\'t available in this version of the app.';
-
-  @override
   String get openInGoogleMaps => 'Open in Google Maps';
 
   @override
@@ -2635,5 +2618,70 @@ class AppLocalizationsEn extends AppLocalizations {
     String currency,
   ) {
     return 'Historical observation: $date · $source · $market ($count markets) · $currency';
+  }
+
+  @override
+  String get cityPickerChooseProvince => 'Choose your province';
+
+  @override
+  String get cityPickerSearchHint => 'Search for your city';
+
+  @override
+  String get cityPickerClearSearch => 'Clear search';
+
+  @override
+  String get cityPickerChangeProvince => 'Change province';
+
+  @override
+  String get cityPickerNoResults =>
+      'No city found. Check the spelling or pick another province.';
+
+  @override
+  String get cityPickerLoadFailed =>
+      'Couldn\'t load the city list. Please try again.';
+
+  @override
+  String get cityPickerFieldHint => 'Choose province and city';
+
+  @override
+  String get cityPickerRequired => 'Please choose your city.';
+
+  @override
+  String get pinFarFromCityTitle => 'Is this the right place?';
+
+  @override
+  String get pinFarFromCityKeep => 'Yes, use this spot';
+
+  @override
+  String get pinFarFromCityMove => 'No, move the pin';
+
+  @override
+  String get locationDataCredits => 'Location data';
+
+  @override
+  String get locationTimeout =>
+      'Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.';
+
+  @override
+  String get locationLowAccuracy =>
+      'Your location is not exact. Check the pin and drag the map to fix it.';
+
+  @override
+  String get mapAttributionOpenStreetMap => '© OpenStreetMap contributors';
+
+  @override
+  String cityPickerCityCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cities',
+      one: '1 city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pinFarFromCityBody(String km, String city) {
+    return 'This pin is about $km km from $city. Is this where you mean?';
   }
 }
