@@ -31,7 +31,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get logoutConfirmMessage =>
-      'اپنے اکاؤنٹ تک رسائی کے لیے آپ کو دوبارہ سائن ان کرنا ہوگا۔';
+      'اپنے اکاؤنٹ تک رسائی کے لیے آپ کو دوبارہ لاگ ان کرنا ہوگا۔';
 
   @override
   String get welcome => 'خوش آمدید';
@@ -73,7 +73,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navTrace => 'ٹریس';
 
   @override
-  String get navShipments => 'تاریخچہ';
+  String get navShipments => 'ریکارڈ';
 
   @override
   String get navLoans => 'قرضے';
@@ -123,7 +123,7 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get roleFarmer => 'کاشتکار';
+  String get roleFarmer => 'کسان';
 
   @override
   String get roleBuyer => 'خریدار';
@@ -147,7 +147,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get transporterRoleDescription =>
-      'اپنی ترسیل کے کام دیکھیں اور اشیاء کی بروقت فراہمی کو اپ ڈیٹ کریں۔';
+      'اپنی ڈیلیوری کے کام دیکھیں اور اشیاء کی بروقت فراہمی کو اپ ڈیٹ کریں۔';
 
   @override
   String get financialPartnerRoleDescription =>
@@ -193,7 +193,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get descriptionHint =>
-      'تازگی، کاشتکاری کے طریقے، کٹائی کی تاریخ وغیرہ بیان کریں۔';
+      'تازگی، کسانی کے طریقے، کٹائی کی تاریخ وغیرہ بیان کریں۔';
 
   @override
   String get priceWithCurrency => 'قیمت (روپے)';
@@ -241,20 +241,20 @@ class AppLocalizationsUr extends AppLocalizations {
   String get feedAddCommentHint => 'تبصرہ شامل کریں...';
 
   @override
-  String get shipmentsTitle => 'شپمنٹس';
+  String get shipmentsTitle => 'ڈیلیوریاں';
 
   @override
   String get shipmentsDescription =>
-      'اپنی تفویض کردہ ترسیلات، منزل کی صورتحال اور کیو آر (QR) کوڈ سے منسلک معلومات ٹریک کریں۔';
+      'اپنی تفویض کردہ ڈیلیوریاں، منزل کی صورتحال اور کیو آر (QR) کوڈ سے منسلک معلومات ٹریک کریں۔';
 
   @override
-  String get availableDeliveries => 'دستیاب ترسیلات';
+  String get availableDeliveries => 'دستیاب ڈیلیوریاں';
 
   @override
-  String get myDeliveries => 'میری ترسیلات';
+  String get myDeliveries => 'میری ڈیلیوریاں';
 
   @override
-  String get deliveryRequest => 'ترسیل کی درخواست';
+  String get deliveryRequest => 'ڈیلیوری کی درخواست';
 
   @override
   String deliveryItemCount(int count) {
@@ -268,19 +268,19 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get claimDelivery => 'ترسیل قبول کریں';
+  String get claimDelivery => 'ڈیلیوری قبول کریں';
 
   @override
-  String get shipmentTracking => 'ترسیل کی ٹریکنگ';
+  String get shipmentTracking => 'ڈیلیوری کی ٹریکنگ';
 
   @override
-  String get shipmentTimeline => 'ترسیل کی صورتحال';
+  String get shipmentTimeline => 'ڈیلیوری کی تفصیل';
 
   @override
   String get shipmentAssigned => 'تفویض شدہ';
 
   @override
-  String get shipmentPickedUp => 'فصل وصول کر لی گئی';
+  String get shipmentPickedUp => 'وصول کر لی گئی';
 
   @override
   String get shipmentInTransit => 'راستے میں';
@@ -292,18 +292,18 @@ class AppLocalizationsUr extends AppLocalizations {
   String get shipmentFailed => 'ناکام';
 
   @override
-  String get trackDelivery => 'ترسیل ٹریک کریں';
+  String get trackDelivery => 'ڈیلیوری ٹریک کریں';
 
   @override
   String shipmentNumber(String id) {
-    return 'شپمنٹ #$id';
+    return 'ڈیلیوری #$id';
   }
 
   @override
   String get pickupFarm => 'پک اپ فارم';
 
   @override
-  String get deliveryDestination => 'ترسیل کی منزل';
+  String get deliveryDestination => 'ڈیلیوری کی منزل';
 
   @override
   String get confirmPickup => 'فصل وصول کرنے کی تصدیق کریں';
@@ -312,7 +312,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get startTransit => 'روانہ کریں — راستے میں';
 
   @override
-  String get confirmDelivery => 'حتمی ترسیل کی تصدیق کریں';
+  String get confirmDelivery => 'حتمی ڈیلیوری کی تصدیق کریں';
 
   @override
   String shipmentStatusUpdate(String status) {
@@ -493,7 +493,7 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get shippingAddress => 'ترسیل کا پتہ';
+  String get shippingAddress => 'ڈیلیوری کا پتہ';
 
   @override
   String get streetAddress => 'گلی کا پتہ';
@@ -783,7 +783,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get authErrorEmailInUse =>
-      'اس ای میل کا اکاؤنٹ پہلے سے موجود ہے۔ سائن ان کریں۔';
+      'اس ای میل کا اکاؤنٹ پہلے سے موجود ہے۔ لاگ ان کریں۔';
 
   @override
   String get authErrorWeakPassword => 'زیادہ مضبوط پاس ورڈ منتخب کریں۔';
@@ -938,7 +938,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get notificationsNotYetConnectedNote =>
-      'اس ڈیوائس پر آرڈرز، ڈلیوریوں اور قرضوں کی پش اطلاعات آن ہیں۔ یہ موضوع وار سوئچ فی الحال صرف اس سیشن کے لیے ہیں؛ تمام اطلاعات بند کرنے کے لیے انہیں فون کی سیٹنگز میں بند کریں۔';
+      'اس ڈیوائس پر آرڈرز، ڈیلیوریوں اور قرضوں کی پش اطلاعات آن ہیں۔ یہ موضوع وار سوئچ فی الحال صرف اس سیشن کے لیے ہیں؛ تمام اطلاعات بند کرنے کے لیے انہیں فون کی سیٹنگز میں بند کریں۔';
 
   @override
   String get orderUpdates => 'آرڈر کی اپ ڈیٹس';
@@ -948,10 +948,10 @@ class AppLocalizationsUr extends AppLocalizations {
       'آرڈر کی صورتحال تبدیل ہونے پر اطلاع حاصل کریں';
 
   @override
-  String get shipmentUpdates => 'شپمنٹ الرٹس';
+  String get shipmentUpdates => 'ڈیلیوری الرٹس';
 
   @override
-  String get shipmentUpdatesDesc => 'فعال شپمنٹس کو حقیقی وقت میں ٹریک کریں';
+  String get shipmentUpdatesDesc => 'فعال ڈیلیوریوں کو حقیقی وقت میں ٹریک کریں';
 
   @override
   String get communityAlerts => 'کمیونٹی اپ ڈیٹس';
@@ -1088,7 +1088,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'ہم آپ کی رازداری کا احترام کرتے ہیں۔ ہم نام، ای میل، فون نمبر اور لوکیشن ڈیٹا صرف لسٹنگ اور شپمنٹ ٹریکنگ کے لیے جمع کرتے ہیں۔ ہم کبھی بھی صارف کا ڈیٹا کسی تیسرے فریق کو فروخت نہیں کرتے۔';
+      'ہم آپ کی رازداری کا احترام کرتے ہیں۔ ہم نام، ای میل، فون نمبر اور لوکیشن ڈیٹا صرف لسٹنگ اور ڈیلیوری ٹریکنگ کے لیے جمع کرتے ہیں۔ ہم کبھی بھی صارف کا ڈیٹا کسی تیسرے فریق کو فروخت نہیں کرتے۔';
 
   @override
   String get termsConditionsTitle => 'شرائط و ضوابط';
@@ -1449,11 +1449,11 @@ class AppLocalizationsUr extends AppLocalizations {
       'نقشہ اس طرح ہلائیں کہ پن آپ کے فارم کے گیٹ پر ہو۔ ٹرانسپورٹر اسی جگہ پر آئیں گے۔';
 
   @override
-  String get pickDropoffTitle => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+  String get pickDropoffTitle => 'ڈیلیوری کی جگہ نقشے پر لگائیں';
 
   @override
   String get pickDropoffHint =>
-      'نقشہ اس طرح ہلائیں کہ پن اس جگہ ہو جہاں آرڈر پہنچانا ہے۔ ڈلیوری فیس اسی جگہ سے طے ہوتی ہے۔';
+      'نقشہ اس طرح ہلائیں کہ پن اس جگہ ہو جہاں آرڈر پہنچانا ہے۔ ڈیلیوری فیس اسی جگہ سے طے ہوتی ہے۔';
 
   @override
   String get useMyLocation => 'میری موجودہ لوکیشن استعمال کریں';
@@ -1488,7 +1488,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get pinFarmOnMap => 'فارم نقشے پر لگائیں';
 
   @override
-  String get pinDropoffOnMap => 'ڈلیوری کی جگہ نقشے پر لگائیں';
+  String get pinDropoffOnMap => 'ڈیلیوری کی جگہ نقشے پر لگائیں';
 
   @override
   String get pinSet => 'لوکیشن لگ گئی';
@@ -1504,32 +1504,32 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get deliveryFeePinFirst =>
-      'ڈلیوری فیس دیکھنے کے لیے ڈلیوری کی جگہ نقشے پر لگائیں۔';
+      'ڈیلیوری فیس دیکھنے کے لیے ڈیلیوری کی جگہ نقشے پر لگائیں۔';
 
   @override
-  String get deliveryFeeCalculating => 'ڈلیوری فیس کا حساب ہو رہا ہے…';
+  String get deliveryFeeCalculating => 'ڈیلیوری فیس کا حساب ہو رہا ہے…';
 
   @override
   String get deliveryFeeUnavailable =>
-      'اس فارم کے لیے ابھی ڈلیوری فیس طے نہیں ہو سکتی، اس لیے ابھی آرڈر نہیں ہو سکتا۔';
+      'اس فارم کے لیے ابھی ڈیلیوری فیس طے نہیں ہو سکتی، اس لیے ابھی آرڈر نہیں ہو سکتا۔';
 
   @override
   String deliveryFeeWithDistance(String km) {
-    return 'ڈلیوری ($km کلومیٹر)';
+    return 'ڈیلیوری ($km کلومیٹر)';
   }
 
   @override
-  String get navDeliveries => 'ڈلیوریاں';
+  String get navDeliveries => 'ڈیلیوریاں';
 
   @override
-  String get deliveriesTitle => 'ڈلیوریاں';
+  String get deliveriesTitle => 'ڈیلیوریاں';
 
   @override
-  String get deliveryHistoryTitle => 'ڈلیوری کی تاریخچہ';
+  String get deliveryHistoryTitle => 'پچھلی ڈیلیوریاں';
 
   @override
   String get noDeliveriesYet =>
-      'ابھی کوئی ڈلیوری نہیں۔ قبول کی گئی ڈلیوریاں یہاں نظر آئیں گی۔';
+      'ابھی کوئی ڈیلیوری نہیں۔ قبول کی گئی ڈیلیوریاں یہاں نظر آئیں گی۔';
 
   @override
   String get youAreOnline => 'آپ آن لائن ہیں';
@@ -1544,7 +1544,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get offlineSubtitle =>
-      'اپنے قریب ڈلیوری کی پیشکشیں حاصل کرنے کے لیے آن لائن ہوں۔';
+      'اپنے قریب ڈیلیوری کی پیشکشیں حاصل کرنے کے لیے آن لائن ہوں۔';
 
   @override
   String get locationStaleWarning =>
@@ -1552,15 +1552,15 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get offlineHint =>
-      'آپ آف لائن ہیں۔ ڈلیوریاں حاصل کرنے کے لیے اوپر والا سوئچ آن کریں۔';
+      'آپ آف لائن ہیں۔ ڈیلیوریاں حاصل کرنے کے لیے اوپر والا سوئچ آن کریں۔';
 
   @override
   String noOffersNearby(String km) {
-    return 'ابھی $km کلومیٹر کے اندر کوئی ڈلیوری نہیں۔ نئی ڈلیوری آنے پر ہم آپ کو اطلاع دیں گے۔';
+    return 'ابھی $km کلومیٹر کے اندر کوئی ڈیلیوری نہیں۔ نئی ڈیلیوری آنے پر ہم آپ کو اطلاع دیں گے۔';
   }
 
   @override
-  String get offersNearYou => 'آپ کے قریب ڈلیوریاں';
+  String get offersNearYou => 'آپ کے قریب ڈیلیوریاں';
 
   @override
   String offerRoute(String farm, String from, String to) {
@@ -1583,7 +1583,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get offerNoLongerAvailable =>
-      'یہ ڈلیوری اب دستیاب نہیں — شاید کسی اور نے قبول کر لی ہے یا آپ حد سے باہر ہیں۔';
+      'یہ ڈیلیوری اب دستیاب نہیں — شاید کسی اور نے قبول کر لی ہے یا آپ حد سے باہر ہیں۔';
 
   @override
   String get dispatchActionFailed =>
@@ -1591,10 +1591,10 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get dropoffApproximateNote =>
-      'ڈلیوری کی جگہ تقریباً دکھائی گئی ہے (تقریباً 1 کلومیٹر کے اندر)۔ قبول کرنے کے بعد مکمل پتہ نظر آئے گا۔';
+      'ڈیلیوری کی جگہ تقریباً دکھائی گئی ہے (تقریباً 1 کلومیٹر کے اندر)۔ قبول کرنے کے بعد مکمل پتہ نظر آئے گا۔';
 
   @override
-  String get activeDeliveryTitle => 'آپ کی موجودہ ڈلیوری';
+  String get activeDeliveryTitle => 'آپ کی موجودہ ڈیلیوری';
 
   @override
   String youEarn(String amount) {
@@ -1605,7 +1605,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get navigateToPickup => 'پک اپ تک راستہ';
 
   @override
-  String get navigateToDropoff => 'ڈلیوری کی جگہ تک راستہ';
+  String get navigateToDropoff => 'ڈیلیوری کی جگہ تک راستہ';
 
   @override
   String get markAllRead => 'سب پڑھ لیے';
@@ -1865,30 +1865,31 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get deliveryLatitude => 'ترسیل کی جگہ کا عرض بلد';
+  String get deliveryLatitude => 'ڈیلیوری کی جگہ کا عرض بلد';
 
   @override
-  String get deliveryLongitude => 'ترسیل کی جگہ کا طول بلد';
+  String get deliveryLongitude => 'ڈیلیوری کی جگہ کا طول بلد';
 
   @override
   String get locationInvalid => 'پاکستان کے اندر درست نقاط درج کریں۔';
 
   @override
-  String get getDeliveryQuote => 'ترسیل کی قیمت معلوم کریں';
+  String get getDeliveryQuote => 'ڈیلیوری کی قیمت معلوم کریں';
 
   @override
-  String get deliveryQuoteRequired => 'آرڈر دینے سے پہلے ترسیل کی قیمت دیکھیں۔';
+  String get deliveryQuoteRequired =>
+      'آرڈر دینے سے پہلے ڈیلیوری کی قیمت دیکھیں۔';
 
   @override
   String get deliveryQuoteFailed =>
-      'ترسیل کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔';
+      'ڈیلیوری کی قیمت معلوم نہیں ہو سکی۔ اپنی جگہ چیک کریں اور کسان سے وصولی کی جگہ مکمل کرنے کو کہیں، پھر دوبارہ کوشش کریں۔';
 
   @override
-  String get deliveryFee => 'ترسیل کی فیس';
+  String get deliveryFee => 'ڈیلیوری کی فیس';
 
   @override
   String deliveryDistance(String distance) {
-    return 'ترسیل کا تخمینی فاصلہ: $distance کلومیٹر';
+    return 'ڈیلیوری کا تخمینی فاصلہ: $distance کلومیٹر';
   }
 
   @override
@@ -1896,7 +1897,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get farmPickupHelp =>
-      'اپنے فارم کا پتہ اور نقشے کا پن محفوظ کریں تاکہ خریدار ترسیل کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
+      'اپنے فارم کا پتہ اور نقشے کا پن محفوظ کریں تاکہ خریدار ڈیلیوری کی قیمت معلوم کر سکیں اور ٹرانسپورٹر آرڈر وصول کر سکیں۔';
 
   @override
   String get farmPickupSave => 'وصولی کی جگہ محفوظ کریں';
@@ -1913,7 +1914,7 @@ class AppLocalizationsUr extends AppLocalizations {
       'اکاؤنٹ بنانے کے بعد لسٹنگز میں اپنے فارم سے وصولی کا پتہ اور نقشے کے نقاط محفوظ کریں۔';
 
   @override
-  String get dispatchTitle => 'ترسیل کی دستیابی';
+  String get dispatchTitle => 'ڈیلیوری کی دستیابی';
 
   @override
   String get dispatchLoading => 'دستیابی لوڈ ہو رہی ہے…';
@@ -1936,7 +1937,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get dispatchActive =>
-      'دوسری ترسیل قبول کرنے سے پہلے موجودہ ترسیل مکمل کریں۔';
+      'دوسری ڈیلیوری قبول کرنے سے پہلے موجودہ ڈیلیوری مکمل کریں۔';
 
   @override
   String get dispatchUpdated => 'مقام آخری بار شیئر کیا گیا';
@@ -1971,13 +1972,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get dispatchDecline => 'پیشکش مسترد کریں';
 
   @override
-  String get dispatchEarning => 'ترسیل کی آمدنی';
+  String get dispatchEarning => 'ڈیلیوری کی آمدنی';
 
   @override
   String get dispatchPickupDistance => 'فارم تک فاصلہ';
 
   @override
-  String get dispatchDeliveryDistance => 'ترسیل کا تخمینی فاصلہ';
+  String get dispatchDeliveryDistance => 'ڈیلیوری کا تخمینی فاصلہ';
 
   @override
   String get pushDescription =>
@@ -1994,7 +1995,7 @@ class AppLocalizationsUr extends AppLocalizations {
       'آلے کی ترتیبات میں اطلاعات کی اجازت دیں، پھر دوبارہ کوشش کریں۔';
 
   @override
-  String get pushSignIn => 'اطلاعات فعال کرنے کے لیے سائن ان کریں۔';
+  String get pushSignIn => 'اطلاعات فعال کرنے کے لیے لاگ ان کریں۔';
 
   @override
   String get pushInbox => 'اطلاعات کا ان باکس';
@@ -2327,7 +2328,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get notificationAll => 'سب';
 
   @override
-  String get notificationInboxHint => 'آرڈر، ترسیل اور اکاؤنٹ کی خبریں۔';
+  String get notificationInboxHint => 'آرڈر، ڈیلیوری اور اکاؤنٹ کی خبریں۔';
 
   @override
   String get notificationUpdating => 'اپ ڈیٹ ہو رہا ہے…';
@@ -2341,7 +2342,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get notificationEmptyHint =>
-      'آرڈر، ترسیل اور اکاؤنٹ کی نئی اطلاعات یہاں نظر آئیں گی۔';
+      'آرڈر، ڈیلیوری اور اکاؤنٹ کی نئی اطلاعات یہاں نظر آئیں گی۔';
 
   @override
   String get notificationViewRelated => 'متعلقہ سرگرمی دیکھیں';
@@ -2366,7 +2367,8 @@ class AppLocalizationsUr extends AppLocalizations {
   String get profileEditHint => 'آپ کی رابطے، کاروبار یا فارم کی تفصیلات۔';
 
   @override
-  String get profileNotificationHint => 'اپنے آرڈر اور ترسیل کی اطلاعات پڑھیں۔';
+  String get profileNotificationHint =>
+      'اپنے آرڈر اور ڈیلیوری کی اطلاعات پڑھیں۔';
 
   @override
   String get profilePreferencesHint =>
@@ -2478,7 +2480,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get openInGoogleMaps => 'گوگل میپس میں کھولیں';
 
   @override
-  String get deliveryMapTitle => 'ترسیل کا براہِ راست نقشہ';
+  String get deliveryMapTitle => 'ڈیلیوری کا براہِ راست نقشہ';
 
   @override
   String get mapYourFarm => 'آپ کا فارم';
@@ -2657,4 +2659,50 @@ class AppLocalizationsUr extends AppLocalizations {
   String pinFarFromCityBody(String km, String city) {
     return 'یہ پن $city سے تقریباً $km کلومیٹر دور ہے۔ کیا آپ یہی جگہ چاہتے ہیں؟';
   }
+
+  @override
+  String get deliveryStepPickup => 'پک اپ';
+
+  @override
+  String get deliveryStepOnTheWay => 'راستے میں';
+
+  @override
+  String get deliveryStepHandover => 'حوالگی';
+
+  @override
+  String get nextStepHeadToPickup => 'فارم پر جائیں اور آرڈر وصول کریں۔';
+
+  @override
+  String get nextStepStartTrip =>
+      'آرڈر وصول ہو گیا۔ خریدار کی طرف سفر شروع کریں۔';
+
+  @override
+  String get nextStepHandover => 'آرڈر حوالے کریں اور خریدار کا کوڈ درج کریں۔';
+
+  @override
+  String onlineShort(String km) {
+    return '$km کلومیٹر کے اندر پیشکشیں مل رہی ہیں';
+  }
+
+  @override
+  String get locationOpenAppNote =>
+      'ایپ کھلی رکھیں تاکہ آپ کی لوکیشن تازہ رہے۔';
+
+  @override
+  String toPickupKm(String km) {
+    return 'پک اپ تک $km کلومیٹر';
+  }
+
+  @override
+  String tripKm(String km) {
+    return 'سفر $km کلومیٹر';
+  }
+
+  @override
+  String callContact(String name) {
+    return '$name کو کال کریں';
+  }
+
+  @override
+  String get reportProblemShort => 'مسئلہ رپورٹ کریں';
 }

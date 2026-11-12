@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/widgets/delivery_route.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -75,187 +78,92 @@ class ShipmentsScreen extends ConsumerWidget {
   }
 }
 
-class _ShipmentCard extends ConsumerStatefulWidget {
+class _ShipmentCard extends StatelessWidget {
   const _ShipmentCard({required this.shipment});
-  final Shipment shipment;
-  @override
-  ConsumerState<_ShipmentCard> createState() => _ShipmentCardState();
-}
 
-class _ShipmentCardState extends ConsumerState<_ShipmentCard> {
-  Shipment get shipment => widget.shipment;
+  final Shipment shipment;
+
   @override
   Widget build(BuildContext context) {
-    final statusColor = switch (shipment.status) {
-      ShipmentStatus.assigned => AppColors.accentYellow,
-      ShipmentStatus.pickedUp => AppColors.secondaryBlue,
-      ShipmentStatus.inTransit => AppColors.primaryGreen,
-      ShipmentStatus.delivered => AppColors.success,
-      ShipmentStatus.failed => AppColors.errorRed,
-    };
-
-    final statusText = _statusLabel(context, shipment.status);
+    final l10n = context.l10n;
+    final failed = shipment.status == ShipmentStatus.failed;
+    final statusColor = failed ? AppColors.errorRed : AppColors.success;
+    final finished = shipment.actualDelivery ?? shipment.updatedAt;
+    final fee = shipment.deliveryFee;
+    String place(ShipmentAddress a) =>
+        [a.street, a.city].where((part) => part.isNotEmpty).join(', ');
 
     return AppCard(
+      onTap: () => context.push('/shipments/${shipment.id}'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Text(
-                  context.l10n.shipmentNumber(isolateLtr(shipment.id)),
-                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w700),
+                  MaterialLocalizations.of(
+                    context,
+                  ).formatMediumDate(finished.toLocal()),
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.textMuted,
+                  ),
                 ),
               ),
               AppBadge(
-                label: statusText,
+                label: failed ? l10n.shipmentFailed : l10n.shipmentDelivered,
                 backgroundColor: statusColor.withValues(alpha: 0.1),
                 foregroundColor: statusColor,
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.surfaceMedium),
-          const SizedBox(height: AppSpacing.md),
-
-          // Addresses
-          _buildAddressRow(
-            context,
-            icon: Icons.storefront_rounded,
-            label: context.l10n.pickupFarm,
-            address:
-                '${shipment.pickupAddress.street}, ${shipment.pickupAddress.city}',
+          DeliveryRoute(
+            pickup: RouteStop(
+              label: l10n.pickupFarm,
+              title: place(shipment.pickupAddress),
+            ),
+            dropoff: RouteStop(
+              label: l10n.deliveryDestination,
+              title: place(shipment.deliveryAddress),
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
-          _buildAddressRow(
-            context,
-            icon: Icons.location_on_rounded,
-            label: context.l10n.deliveryDestination,
-            address:
-                '${shipment.deliveryAddress.street}, ${shipment.deliveryAddress.city}',
-          ),
-
-          const SizedBox(height: AppSpacing.lg),
-          const Divider(color: AppColors.surfaceMedium),
+          const Divider(height: 1, color: AppColors.surfaceMedium),
           const SizedBox(height: AppSpacing.md),
-
-          // Real status timeline
-          Text(context.l10n.shipmentTimeline, style: AppTextStyles.h3),
-          const SizedBox(height: AppSpacing.sm),
-          _buildTimeline(context),
-
-          const SizedBox(height: AppSpacing.lg),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.shipmentNumber(isolateLtr(_shortId(shipment.id))),
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ),
+              if (fee != null && !failed)
+                Text(
+                  l10n.currencyAmount(
+                    formatCurrencyAmount(fee, Localizations.localeOf(context)),
+                  ),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryGreenDark,
+                  ),
+                ),
+              const SizedBox(width: AppSpacing.xs),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.textMuted,
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildAddressRow(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required String address,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 20, color: AppColors.primaryGreen),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: AppTextStyles.label.copyWith(color: AppColors.textMuted),
-              ),
-              const SizedBox(height: 2),
-              Text(address, style: AppTextStyles.body),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTimeline(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: shipment.statusHistory.length,
-      itemBuilder: (context, index) {
-        final update = shipment.statusHistory[index];
-        final isLast = index == shipment.statusHistory.length - 1;
-
-        return IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: 12,
-                    height: 12,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryGreen,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  if (!isLast)
-                    Expanded(
-                      child: Container(
-                        width: 2,
-                        color: AppColors.primaryGreen.withValues(alpha: 0.3),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            _statusLabel(context, update.status),
-                            style: AppTextStyles.small.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primaryGreenDark,
-                            ),
-                          ),
-                          Text(
-                            '${update.timestamp.hour}:${update.timestamp.minute.toString().padLeft(2, '0')}',
-                            style: AppTextStyles.label.copyWith(
-                              color: AppColors.textMuted,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      Text(update.note, style: AppTextStyles.body),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  String _statusLabel(BuildContext context, ShipmentStatus status) =>
-      switch (status) {
-        ShipmentStatus.assigned => context.l10n.shipmentAssigned,
-        ShipmentStatus.pickedUp => context.l10n.shipmentPickedUp,
-        ShipmentStatus.inTransit => context.l10n.shipmentInTransit,
-        ShipmentStatus.delivered => context.l10n.shipmentDelivered,
-        ShipmentStatus.failed => context.l10n.shipmentFailed,
-      };
+  // Database ids are 24 characters; the tail is enough to tell two apart.
+  static String _shortId(String id) =>
+      id.length > 8 ? id.substring(id.length - 6).toUpperCase() : id;
 }

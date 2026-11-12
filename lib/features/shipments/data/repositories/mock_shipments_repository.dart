@@ -232,4 +232,36 @@ class MockShipmentsRepository extends ShipmentsRepository {
     _shipments[index] = updated;
     return updated;
   }
+
+  @override
+  Future<Map<String, dynamic>> getEarnings() async {
+    final now = DateTime.now();
+    String day(int ago) => now.subtract(Duration(days: ago)).toIso8601String();
+    return {
+      'totals': {'earned': 4350, 'paid': 2400, 'unpaid': 1950},
+      'items': [
+        {
+          'shipmentId': 'ship_3004',
+          'amount': 1150,
+          'status': 'unpaid',
+          'earnedAt': day(1),
+        },
+        {
+          'shipmentId': 'ship_3003',
+          'amount': 800,
+          'status': 'unpaid',
+          'earnedAt': day(3),
+        },
+        {
+          'shipmentId': 'ship_3002',
+          'amount': 2400,
+          'status': 'paid',
+          'earnedAt': day(9),
+        },
+      ],
+      'payouts': [
+        {'reference': 'PAYOUT-0007', 'amount': 2400, 'paidAt': day(6)},
+      ],
+    };
+  }
 }

@@ -2,6 +2,9 @@ import 'package:farm2fork_mobile/app/navigation/app_nav_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
+import 'package:farm2fork_mobile/core/theme/app_colors.dart';
+import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
+import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
@@ -43,8 +46,14 @@ class EarningsScreen extends ConsumerWidget {
           : MaterialLocalizations.of(context).formatMediumDate(parsed);
     }
 
+    Widget muted(String text) => Text(
+      text,
+      style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
+    );
+
     return Scaffold(
-      appBar: AppBar(title: Text(l.deliveryEarnings)),
+      backgroundColor: AppColors.backgroundLight,
+      appBar: AppBar(title: Text(l.deliveryEarnings, style: AppTextStyles.h2)),
       body: ref
           .watch(deliveryEarningsProvider)
           .when(
@@ -65,55 +74,165 @@ class EarningsScreen extends ConsumerWidget {
                 },
                 child: ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppSpacing.pagePadding),
                   children: [
                     AppCard(
+                      backgroundColor: AppColors.primaryGreenDark,
+                      borderColor: AppColors.primaryGreenDark,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          for (final e in {
-                            'earned': l.earnedTotal,
-                            'unpaid': l.unpaidTotal,
-                            'paid': l.paidTotal,
-                          }.entries)
-                            ListTile(
-                              title: Text(e.value),
-                              trailing: Text(money(totals[e.key])),
+                          Text(
+                            l.unpaidTotal,
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.white.withValues(alpha: 0.8),
                             ),
+                          ),
+                          Text(
+                            money(totals['unpaid']),
+                            style: AppTextStyles.h1.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.md),
+                          Row(
+                            children: [
+                              for (final e in {
+                                'earned': l.earnedTotal,
+                                'paid': l.paidTotal,
+                              }.entries)
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        e.value,
+                                        style: AppTextStyles.label.copyWith(
+                                          color: AppColors.white.withValues(
+                                            alpha: 0.7,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        money(totals[e.key]),
+                                        style: AppTextStyles.body.copyWith(
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Text(l.manualPayoutNote),
-                    const SizedBox(height: 8),
-                    Text(l.earningsLedgerScope),
-                    const SizedBox(height: 16),
-                    if (items.isEmpty) Text(l.noEarningsYet),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      '${l.manualPayoutNote} ${l.earningsLedgerScope}',
+                      style: AppTextStyles.small.copyWith(
+                        color: AppColors.textMuted,
+                        height: 1.45,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(l.deliveriesTitle, style: AppTextStyles.h3),
+                    const SizedBox(height: AppSpacing.sm),
+                    if (items.isEmpty) muted(l.noEarningsYet),
                     for (final item in items)
-                      AppCard(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            l.shipmentNumber('${item['shipmentId']}'),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: AppCard(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.lg,
+                            vertical: AppSpacing.md,
                           ),
-                          subtitle: Text(
-                            '${date(item['earnedAt'])} · ${item['status'] == 'paid' ? l.paidTotal : l.unpaidTotal}',
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      date(item['earnedAt']),
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      item['status'] == 'paid'
+                                          ? l.paidTotal
+                                          : l.unpaidTotal,
+                                      style: AppTextStyles.small.copyWith(
+                                        color: item['status'] == 'paid'
+                                            ? AppColors.success
+                                            : AppColors.textMuted,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                money(item['amount']),
+                                style: AppTextStyles.body.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
-                          trailing: Text(money(item['amount'])),
                         ),
                       ),
-                    const SizedBox(height: 20),
-                    Text(
-                      l.payoutRecords,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    if (payouts.isEmpty) Text(l.noPayoutsYet),
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(l.payoutRecords, style: AppTextStyles.h3),
+                    const SizedBox(height: AppSpacing.sm),
+                    if (payouts.isEmpty) muted(l.noPayoutsYet),
                     for (final payout in payouts)
-                      AppCard(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text('${payout['reference'] ?? ''}'),
-                          subtitle: Text('${date(payout['paidAt'])}${payout['reversesPayoutId'] != null ? '\n${l.payoutCorrectionRecord}' : ''}'),
-                          trailing: Text(money(payout['amount'])),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: AppCard(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.lg,
+                            vertical: AppSpacing.md,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      date(payout['paidAt']),
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${payout['reference'] ?? ''}',
+                                      textDirection: TextDirection.ltr,
+                                      style: AppTextStyles.small.copyWith(
+                                        color: AppColors.textMuted,
+                                      ),
+                                    ),
+                                    if (payout['reversesPayoutId'] != null)
+                                      Text(
+                                        l.payoutCorrectionRecord,
+                                        style: AppTextStyles.small.copyWith(
+                                          color: AppColors.textMuted,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                money(payout['amount']),
+                                style: AppTextStyles.body.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                   ],

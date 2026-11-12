@@ -31,7 +31,11 @@ class MockAuthRepository implements AuthRepository {
       ),
   };
 
-  AuthUser? _currentUser;
+  /// Mock builds only: `--dart-define=MOCK_USER=transporter@test.com` starts
+  /// the app already signed in as that demo account, for screen reviews.
+  static const _startAs = String.fromEnvironment('MOCK_USER');
+
+  late AuthUser? _currentUser = _users[_startAs]?.toAuthUser();
 
   @override
   Future<AuthUser?> restoreSession() async => _currentUser;
