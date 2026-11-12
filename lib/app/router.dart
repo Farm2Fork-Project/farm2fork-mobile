@@ -451,21 +451,121 @@ Widget _buildTabView(
           ),
         ),
     ],
-    navBarBuilder: (navBarConfig) => Style2BottomNavBar(
-      navBarConfig: navBarConfig,
-      navBarDecoration: NavBarDecoration(
-        color: AppColors.white,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppRadius.xl),
+    navBarBuilder: (navBarConfig) => _AppNavBar(config: navBarConfig),
+  );
+}
+
+/// Bottom tabs: the active tab is a pill with its label, the rest are icons.
+/// Laid out with directional spacing so Urdu labels never touch the icon.
+class _AppNavBar extends StatelessWidget {
+  const _AppNavBar({required this.config});
+
+  final NavBarConfig config;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      color: AppColors.white,
+      borderRadius: const BorderRadius.vertical(
+        top: Radius.circular(AppRadius.xl),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: AppColors.black.withValues(alpha: 0.08),
+          blurRadius: 18,
+          offset: const Offset(0, -8),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, -8),
+      ],
+    ),
+    child: SafeArea(
+      top: false,
+      child: SizedBox(
+        height: 64,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+          child: Row(
+            children: [
+              for (final (index, item) in config.items.indexed)
+                _AppNavItem(
+                  item: item,
+                  selected: index == config.selectedIndex,
+                  onTap: () => config.onItemSelected(index),
+                ),
+            ],
           ),
-        ],
+        ),
       ),
     ),
   );
+}
+
+class _AppNavItem extends StatelessWidget {
+  const _AppNavItem({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final ItemConfig item;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = selected
+        ? item.activeForegroundColor
+        : item.inactiveForegroundColor;
+    return Expanded(
+      flex: selected ? 2 : 1,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: item.title,
+        excludeSemantics: true,
+        child: InkResponse(
+          onTap: onTap,
+          radius: 40,
+          child: Center(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.symmetric(
+                horizontal: selected ? AppSpacing.lg : AppSpacing.sm,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppColors.primaryGreenSoft
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(AppRadius.pill),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconTheme(
+                    data: IconThemeData(color: color, size: item.iconSize),
+                    child: item.icon,
+                  ),
+                  if (selected && item.title != null) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    Flexible(
+                      child: Text(
+                        item.title!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.small.copyWith(
+                          color: color,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

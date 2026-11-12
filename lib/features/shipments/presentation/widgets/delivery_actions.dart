@@ -68,7 +68,13 @@ class _DeliveryActionState extends ConsumerState<_DeliveryAction> {
       }
       if (mounted) Navigator.pop(context, true);
     } on Object {
-      if (mounted && ref.read(dispatchControllerProvider).asData?.value.needsReconciliation == true) {
+      if (mounted &&
+          ref
+                  .read(dispatchControllerProvider)
+                  .asData
+                  ?.value
+                  .needsReconciliation ==
+              true) {
         final messenger = ScaffoldMessenger.of(context);
         final message = context.l10n.deliveryReconcileRequired;
         Navigator.pop(context, false);

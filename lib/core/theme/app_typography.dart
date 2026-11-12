@@ -34,7 +34,7 @@ abstract final class AppTextStyles {
   );
 
   static TextStyle get label => TextStyle(
-    fontSize: 11.sp,
+    fontSize: 12.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.textMuted,
   );

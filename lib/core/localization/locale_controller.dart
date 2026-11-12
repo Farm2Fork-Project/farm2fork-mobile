@@ -1,3 +1,4 @@
+import 'package:farm2fork_mobile/core/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'locale_repository.dart';
@@ -13,6 +14,11 @@ class LocaleController extends AsyncNotifier<Locale> {
   @override
   Future<Locale> build() async {
     _repository = ref.watch(localeRepositoryProvider);
+    // Mock builds only: `--dart-define=MOCK_LOCALE=ur` for screen reviews.
+    const forced = String.fromEnvironment('MOCK_LOCALE');
+    if (AppConfig.useMocks && (forced == 'en' || forced == 'ur')) {
+      return Locale(forced);
+    }
     final savedLocale = await _repository.getLocale();
     if (savedLocale != null && (savedLocale == 'en' || savedLocale == 'ur')) {
       return Locale(savedLocale);
