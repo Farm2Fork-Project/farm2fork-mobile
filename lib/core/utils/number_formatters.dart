@@ -19,5 +19,5 @@ String formatCompactNumber(num amount, Locale locale) {
 }
 
 String formatShortDate(DateTime date, Locale locale) {
-  return DateFormat.yMd(locale.toLanguageTag()).format(date);
+  return DateFormat.yMMMd(locale.toLanguageTag()).format(date);
 }

@@ -32,20 +32,6 @@ class ListingsScreen extends ConsumerWidget {
         centerTitle: true,
         actions: const [NotificationBell()],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/farmer/create-listing'),
-        backgroundColor: AppColors.primaryGreen,
-        foregroundColor: AppColors.white,
-        elevation: 4,
-        icon: const Icon(Icons.add_rounded),
-        label: Text(
-          context.l10n.navCreateListing,
-          style: AppTextStyles.body.copyWith(
-            color: AppColors.white,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () =>
@@ -168,7 +154,7 @@ class _ListingCardState extends ConsumerState<_ListingCard> {
               : context.l10n.productStatusInactive);
 
     final formattedPrice = context.l10n.priceAmountWithUnit(
-      product.price.toStringAsFixed(0),
+      formatCurrencyAmount(product.price, Localizations.localeOf(context)),
       _getLocalizedUnit(context, product.unit),
     );
 
@@ -237,7 +223,7 @@ class _ListingCardState extends ConsumerState<_ListingCard> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${context.l10n.quantity}: ${product.quantity} ${_getLocalizedUnit(context, product.unit)}',
+                  '${context.l10n.quantity}: ${formatCompactNumber(product.quantity, Localizations.localeOf(context))} ${_getLocalizedUnit(context, product.unit)}',
                   style: AppTextStyles.small.copyWith(
                     color: AppColors.textMuted,
                   ),

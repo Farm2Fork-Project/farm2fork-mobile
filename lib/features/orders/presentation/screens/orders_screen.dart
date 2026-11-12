@@ -224,7 +224,15 @@ class OrderCardState extends ConsumerState<OrderCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.orderNumber(isolateLtr(order.id)),
+                      context.l10n.orderNumber(
+                        isolateLtr(
+                          order.id.length > 8
+                              ? order.id
+                                    .substring(order.id.length - 6)
+                                    .toUpperCase()
+                              : order.id,
+                        ),
+                      ),
                       style: AppTextStyles.h3.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryGreenDark,
@@ -280,7 +288,15 @@ class OrderCardState extends ConsumerState<OrderCard> {
                               ),
                             ),
                             TextSpan(
-                              text: '  x ${item.quantity} ${item.unit}',
+                              text:
+                                  '  × ${formatCompactNumber(item.quantity, Localizations.localeOf(context))} ${switch (item.unit) {
+                                    'kg' => context.l10n.unitKg,
+                                    'ton' => context.l10n.unitTon,
+                                    'dozen' => context.l10n.unitDozen,
+                                    'piece' => context.l10n.unitPiece,
+                                    'litre' => context.l10n.unitLitre,
+                                    _ => item.unit,
+                                  }}',
                               style: TextStyle(
                                 color: AppColors.textMuted,
                                 fontSize: 14,
@@ -292,7 +308,10 @@ class OrderCardState extends ConsumerState<OrderCard> {
                     ),
                     Text(
                       context.l10n.currencyAmount(
-                        item.subtotal.toStringAsFixed(0),
+                        formatCurrencyAmount(
+                          item.subtotal,
+                          Localizations.localeOf(context),
+                        ),
                       ),
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.bold,
@@ -311,7 +330,10 @@ class OrderCardState extends ConsumerState<OrderCard> {
           _OrderAmountRow(
             label: context.l10n.subtotal,
             amount: context.l10n.currencyAmount(
-              order.totalAmount.toStringAsFixed(0),
+              formatCurrencyAmount(
+                order.totalAmount,
+                Localizations.localeOf(context),
+              ),
             ),
           ),
           const SizedBox(height: 6),
@@ -320,7 +342,10 @@ class OrderCardState extends ConsumerState<OrderCard> {
               order.platformFeePercent.toStringAsFixed(0),
             ),
             amount: context.l10n.currencyAmount(
-              order.platformFeeAmount.toStringAsFixed(0),
+              formatCurrencyAmount(
+                order.platformFeeAmount,
+                Localizations.localeOf(context),
+              ),
             ),
           ),
           if (order.deliveryFee > 0) ...[
@@ -328,7 +353,10 @@ class OrderCardState extends ConsumerState<OrderCard> {
             _OrderAmountRow(
               label: context.l10n.deliveryFee,
               amount: context.l10n.currencyAmount(
-                order.deliveryFee.toStringAsFixed(0),
+                formatCurrencyAmount(
+                  order.deliveryFee,
+                  Localizations.localeOf(context),
+                ),
               ),
             ),
           ],
@@ -336,14 +364,21 @@ class OrderCardState extends ConsumerState<OrderCard> {
           _OrderAmountRow(
             label: context.l10n.grandTotal,
             amount: context.l10n.currencyAmount(
-              order.grandTotal.toStringAsFixed(0),
+              formatCurrencyAmount(
+                order.grandTotal,
+                Localizations.localeOf(context),
+              ),
             ),
             total: true,
           ),
 
           if (order.canViewQr) ...[
             const SizedBox(height: AppSpacing.md),
-            OutlinedButton.icon(onPressed: () => showOrderQr(context, order.id), icon: const Icon(Icons.qr_code_2_rounded), label: Text(context.l10n.orderQrTitle)),
+            OutlinedButton.icon(
+              onPressed: () => showOrderQr(context, order.id),
+              icon: const Icon(Icons.qr_code_2_rounded),
+              label: Text(context.l10n.orderQrTitle),
+            ),
           ],
           // Role-specific fields
           const SizedBox(height: AppSpacing.md),
