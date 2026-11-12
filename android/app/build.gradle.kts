@@ -30,6 +30,11 @@ gradle.taskGraph.whenReady {
     }
 }
 
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 // Same HTTPS host as NEXT_PUBLIC_SITE_URL and backend PUBLIC_TRACE_ORIGIN.
 val traceLinkHost = localProperties.getProperty("TRACE_LINK_HOST")
     ?: System.getenv("TRACE_LINK_HOST") ?: "farm2fork.tech"
