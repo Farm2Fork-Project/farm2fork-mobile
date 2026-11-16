@@ -4981,6 +4981,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Replying to {name}'**
   String replyingTo(String name);
+
+  /// No description provided for @yourRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating'**
+  String get yourRating;
+
+  /// No description provided for @rateOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this order'**
+  String get rateOrder;
+
+  /// No description provided for @rateOrderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this order?'**
+  String get rateOrderTitle;
+
+  /// No description provided for @rateOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating is shown on the farmer\'s profile and helps other buyers.'**
+  String get rateOrderHint;
+
+  /// No description provided for @reviewCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell other buyers about quality, packing and delivery (optional)'**
+  String get reviewCommentHint;
+
+  /// No description provided for @submitReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get submitReview;
+
+  /// No description provided for @reviewThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your review.'**
+  String get reviewThanks;
+
+  /// No description provided for @farmerReplyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer\'s reply'**
+  String get farmerReplyLabel;
+
+  /// No description provided for @buyerReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer reviews'**
+  String get buyerReviews;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet. They appear here after buyers rate delivered orders.'**
+  String get noReviewsYet;
+
+  /// No description provided for @replyToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to this review'**
+  String get replyToReview;
+
+  /// No description provided for @replyOnceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can reply once. Buyers will see it.'**
+  String get replyOnceHint;
+
+  /// No description provided for @mandiRates.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandi rates'**
+  String get mandiRates;
+
+  /// No description provided for @mandiRatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest official market prices'**
+  String get mandiRatesHint;
+
+  /// No description provided for @mandiRatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rate list has been published yet. Check back soon.'**
+  String get mandiRatesEmpty;
+
+  /// No description provided for @mandiRatesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Official wholesale prices. Use them as a guide when you set or compare a price.'**
+  String get mandiRatesNote;
+
+  /// No description provided for @mandiRatesSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a crop'**
+  String get mandiRatesSearch;
+
+  /// No description provided for @mandiRatesNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no crop with that name.'**
+  String get mandiRatesNoMatch;
+
+  /// No description provided for @unit40Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'40 kg'**
+  String get unit40Kg;
+
+  /// No description provided for @unit100Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'100 kg'**
+  String get unit100Kg;
+
+  /// No description provided for @ratingOutOfFive.
+  ///
+  /// In en, this message translates to:
+  /// **'{rating} out of 5'**
+  String ratingOutOfFive(String rating);
+
+  /// No description provided for @reviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
+  String reviewCount(int count);
+
+  /// No description provided for @mandiRatesObserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices of {date} · {source}'**
+  String mandiRatesObserved(String date, String source);
+
+  /// No description provided for @mandiRatePer.
+  ///
+  /// In en, this message translates to:
+  /// **'per {unit}'**
+  String mandiRatePer(String unit);
+
+  /// No description provided for @mandiRateFair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair price {amount}'**
+  String mandiRateFair(String amount);
 }
 
 class _AppLocalizationsDelegate

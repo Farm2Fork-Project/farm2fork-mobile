@@ -2833,4 +2833,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String replyingTo(String name) {
     return 'Replying to $name';
   }
+
+  @override
+  String get yourRating => 'Your rating';
+
+  @override
+  String get rateOrder => 'Rate this order';
+
+  @override
+  String get rateOrderTitle => 'How was this order?';
+
+  @override
+  String get rateOrderHint =>
+      'Your rating is shown on the farmer\'s profile and helps other buyers.';
+
+  @override
+  String get reviewCommentHint =>
+      'Tell other buyers about quality, packing and delivery (optional)';
+
+  @override
+  String get submitReview => 'Submit review';
+
+  @override
+  String get reviewThanks => 'Thanks for your review.';
+
+  @override
+  String get farmerReplyLabel => 'Farmer\'s reply';
+
+  @override
+  String get buyerReviews => 'Buyer reviews';
+
+  @override
+  String get noReviewsYet =>
+      'No reviews yet. They appear here after buyers rate delivered orders.';
+
+  @override
+  String get replyToReview => 'Reply to this review';
+
+  @override
+  String get replyOnceHint => 'You can reply once. Buyers will see it.';
+
+  @override
+  String get mandiRates => 'Mandi rates';
+
+  @override
+  String get mandiRatesHint => 'Latest official market prices';
+
+  @override
+  String get mandiRatesEmpty =>
+      'No rate list has been published yet. Check back soon.';
+
+  @override
+  String get mandiRatesNote =>
+      'Official wholesale prices. Use them as a guide when you set or compare a price.';
+
+  @override
+  String get mandiRatesSearch => 'Search a crop';
+
+  @override
+  String get mandiRatesNoMatch => 'This list has no crop with that name.';
+
+  @override
+  String get unit40Kg => '40 kg';
+
+  @override
+  String get unit100Kg => '100 kg';
+
+  @override
+  String ratingOutOfFive(String rating) {
+    return '$rating out of 5';
+  }
+
+  @override
+  String reviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '1 review',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mandiRatesObserved(String date, String source) {
+    return 'Prices of $date · $source';
+  }
+
+  @override
+  String mandiRatePer(String unit) {
+    return 'per $unit';
+  }
+
+  @override
+  String mandiRateFair(String amount) {
+    return 'Fair price $amount';
+  }
 }

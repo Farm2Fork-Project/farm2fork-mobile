@@ -15,6 +15,7 @@ import 'package:farm2fork_mobile/core/utils/bidi_utils.dart';
 import 'package:farm2fork_mobile/core/utils/number_formatters.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
+import 'package:farm2fork_mobile/features/reviews/reviews.dart';
 import 'package:farm2fork_mobile/features/orders/presentation/providers/orders_controller.dart';
 
 class OrdersScreen extends ConsumerWidget {
@@ -385,6 +386,9 @@ class OrderCardState extends ConsumerState<OrderCard> {
           const Divider(color: AppColors.surfaceMedium, height: 1),
           const SizedBox(height: AppSpacing.md),
           _buildRoleSpecificDetails(context),
+          if (role == AppUserRole.buyer &&
+              order.status == OrderStatus.delivered)
+            OrderReviewAction(orderId: order.id),
           if (role == AppUserRole.buyer &&
               order.status == OrderStatus.pending) ...[
             const SizedBox(height: AppSpacing.md),

@@ -14,6 +14,7 @@ import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_icon_circle_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/reviews/reviews.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
@@ -249,6 +250,8 @@ class _ProductDetailBody extends StatelessWidget {
                   _FarmerCard(product: product),
                   const SizedBox(height: AppSpacing.xl),
                 ],
+                if (product.farmer.id.isNotEmpty)
+                  FarmerReviewsCard(farmerId: product.farmer.id),
 
                 // ── Quantity Selector ──────────────────────────────────
                 if (isAvailable) ...[

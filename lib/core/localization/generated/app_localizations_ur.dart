@@ -2807,4 +2807,101 @@ class AppLocalizationsUr extends AppLocalizations {
   String replyingTo(String name) {
     return '$name کو جواب';
   }
+
+  @override
+  String get yourRating => 'آپ کی ریٹنگ';
+
+  @override
+  String get rateOrder => 'اس آرڈر کو ریٹ کریں';
+
+  @override
+  String get rateOrderTitle => 'یہ آرڈر کیسا رہا؟';
+
+  @override
+  String get rateOrderHint =>
+      'آپ کی ریٹنگ کسان کے پروفائل پر دکھائی جاتی ہے اور دوسرے خریداروں کی مدد کرتی ہے۔';
+
+  @override
+  String get reviewCommentHint =>
+      'معیار، پیکنگ اور ڈیلیوری کے بارے میں بتائیں (اختیاری)';
+
+  @override
+  String get submitReview => 'رائے بھیجیں';
+
+  @override
+  String get reviewThanks => 'آپ کی رائے کا شکریہ۔';
+
+  @override
+  String get farmerReplyLabel => 'کسان کا جواب';
+
+  @override
+  String get buyerReviews => 'خریداروں کی رائے';
+
+  @override
+  String get noReviewsYet =>
+      'ابھی کوئی رائے نہیں۔ خریداروں کے ڈیلیور شدہ آرڈر ریٹ کرنے کے بعد یہاں نظر آئے گی۔';
+
+  @override
+  String get replyToReview => 'اس رائے کا جواب دیں';
+
+  @override
+  String get replyOnceHint =>
+      'آپ ایک بار جواب دے سکتے ہیں۔ خریدار اسے دیکھیں گے۔';
+
+  @override
+  String get mandiRates => 'منڈی کے نرخ';
+
+  @override
+  String get mandiRatesHint => 'تازہ ترین سرکاری منڈی نرخ';
+
+  @override
+  String get mandiRatesEmpty =>
+      'ابھی کوئی نرخ نامہ شائع نہیں ہوا۔ کچھ دیر بعد دوبارہ دیکھیں۔';
+
+  @override
+  String get mandiRatesNote =>
+      'سرکاری تھوک نرخ۔ قیمت طے کرتے یا موازنہ کرتے وقت انہیں رہنمائی کے طور پر استعمال کریں۔';
+
+  @override
+  String get mandiRatesSearch => 'فصل تلاش کریں';
+
+  @override
+  String get mandiRatesNoMatch => 'اس فہرست میں اس نام کی کوئی فصل نہیں۔';
+
+  @override
+  String get unit40Kg => '40 کلو';
+
+  @override
+  String get unit100Kg => '100 کلو';
+
+  @override
+  String ratingOutOfFive(String rating) {
+    return '5 میں سے $rating';
+  }
+
+  @override
+  String reviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آراء',
+      one: '1 رائے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mandiRatesObserved(String date, String source) {
+    return '$date کے نرخ · $source';
+  }
+
+  @override
+  String mandiRatePer(String unit) {
+    return 'فی $unit';
+  }
+
+  @override
+  String mandiRateFair(String amount) {
+    return 'مناسب قیمت $amount';
+  }
 }

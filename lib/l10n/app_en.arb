@@ -3056,5 +3056,35 @@
         "type": "String"
       }
     }
-  }
+  },
+  "yourRating": "Your rating",
+  "rateOrder": "Rate this order",
+  "rateOrderTitle": "How was this order?",
+  "rateOrderHint": "Your rating is shown on the farmer's profile and helps other buyers.",
+  "reviewCommentHint": "Tell other buyers about quality, packing and delivery (optional)",
+  "submitReview": "Submit review",
+  "reviewThanks": "Thanks for your review.",
+  "farmerReplyLabel": "Farmer's reply",
+  "buyerReviews": "Buyer reviews",
+  "noReviewsYet": "No reviews yet. They appear here after buyers rate delivered orders.",
+  "replyToReview": "Reply to this review",
+  "replyOnceHint": "You can reply once. Buyers will see it.",
+  "mandiRates": "Mandi rates",
+  "mandiRatesHint": "Latest official market prices",
+  "mandiRatesEmpty": "No rate list has been published yet. Check back soon.",
+  "mandiRatesNote": "Official wholesale prices. Use them as a guide when you set or compare a price.",
+  "mandiRatesSearch": "Search a crop",
+  "mandiRatesNoMatch": "This list has no crop with that name.",
+  "unit40Kg": "40 kg",
+  "unit100Kg": "100 kg",
+  "ratingOutOfFive": "{rating} out of 5",
+  "@ratingOutOfFive": {"placeholders": {"rating": {"type": "String"}}},
+  "reviewCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@reviewCount": {"placeholders": {"count": {"type": "int"}}},
+  "mandiRatesObserved": "Prices of {date} · {source}",
+  "@mandiRatesObserved": {"placeholders": {"date": {"type": "String"}, "source": {"type": "String"}}},
+  "mandiRatePer": "per {unit}",
+  "@mandiRatePer": {"placeholders": {"unit": {"type": "String"}}},
+  "mandiRateFair": "Fair price {amount}",
+  "@mandiRateFair": {"placeholders": {"amount": {"type": "String"}}}
 }
