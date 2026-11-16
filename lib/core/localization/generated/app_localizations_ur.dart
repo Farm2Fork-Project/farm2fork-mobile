@@ -2705,4 +2705,106 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get reportProblemShort => 'مسئلہ رپورٹ کریں';
+
+  @override
+  String get communityRoleTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String get feedSearchHint => 'پوسٹس تلاش کریں';
+
+  @override
+  String get feedSortLatest => 'تازہ ترین';
+
+  @override
+  String get feedSortTop => 'سب سے زیادہ پسندیدہ';
+
+  @override
+  String get feedTrending => 'موضوعات';
+
+  @override
+  String get postKindAll => 'سب';
+
+  @override
+  String get postKindDiscussion => 'گفتگو';
+
+  @override
+  String get postKindQuestion => 'سوال';
+
+  @override
+  String get postKindTip => 'مشورہ';
+
+  @override
+  String get postKindMarket => 'خرید و فروخت';
+
+  @override
+  String get postKindLabel => 'آپ کیا شیئر کر رہے ہیں؟';
+
+  @override
+  String get replyAction => 'جواب دیں';
+
+  @override
+  String get reportAction => 'رپورٹ کریں';
+
+  @override
+  String get reportTitle => 'اس کی رپورٹ کریں';
+
+  @override
+  String get reportSubtitle =>
+      'فارم ٹو فورک ٹیم اسے دیکھے گی۔ لکھنے والے کو نہیں بتایا جاتا کہ رپورٹ کس نے کی۔';
+
+  @override
+  String get reportReasonSpam => 'اسپام یا اشتہار';
+
+  @override
+  String get reportReasonAbuse => 'بدتمیزی یا ہراسانی';
+
+  @override
+  String get reportReasonMisinformation => 'غلط یا گمراہ کن معلومات';
+
+  @override
+  String get reportReasonScam => 'دھوکہ یا فراڈ';
+
+  @override
+  String get reportReasonOther => 'کچھ اور';
+
+  @override
+  String get reportNoteHint => 'تفصیل لکھیں (اختیاری)';
+
+  @override
+  String get reportSubmit => 'رپورٹ بھیجیں';
+
+  @override
+  String get reportSent => 'شکریہ۔ ٹیم اس کا جائزہ لے گی۔';
+
+  @override
+  String get reportAlreadySent => 'آپ پہلے ہی اس کی رپورٹ کر چکے ہیں۔';
+
+  @override
+  String get editPost => 'پوسٹ میں ترمیم';
+
+  @override
+  String get postEdited => 'ترمیم شدہ';
+
+  @override
+  String get communityNoResults =>
+      'کوئی پوسٹ نہیں ملی۔ دوسرے الفاظ آزمائیں یا فلٹر ہٹائیں۔';
+
+  @override
+  String get moreOptions => 'مزید اختیارات';
+
+  @override
+  String feedLikeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پسند',
+      one: '1 پسند',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String replyingTo(String name) {
+    return '$name کو جواب';
+  }
 }

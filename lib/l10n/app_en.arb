@@ -3012,5 +3012,49 @@
       }
     }
   },
-  "reportProblemShort": "Report a problem"
+  "reportProblemShort": "Report a problem",
+  "communityRoleTransporter": "Transporter",
+  "feedSearchHint": "Search posts",
+  "feedSortLatest": "Latest",
+  "feedSortTop": "Most liked",
+  "feedTrending": "Topics",
+  "postKindAll": "All",
+  "postKindDiscussion": "Discussion",
+  "postKindQuestion": "Question",
+  "postKindTip": "Tip",
+  "postKindMarket": "Buy & sell",
+  "postKindLabel": "What are you sharing?",
+  "replyAction": "Reply",
+  "reportAction": "Report",
+  "reportTitle": "Report this",
+  "reportSubtitle": "The Farm2Fork team will look at it. The author is not told who reported.",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonAbuse": "Abuse or harassment",
+  "reportReasonMisinformation": "Wrong or misleading information",
+  "reportReasonScam": "Scam or fraud",
+  "reportReasonOther": "Something else",
+  "reportNoteHint": "Add a detail (optional)",
+  "reportSubmit": "Send report",
+  "reportSent": "Thanks. The team will review it.",
+  "reportAlreadySent": "You have already reported this.",
+  "editPost": "Edit post",
+  "postEdited": "Edited",
+  "communityNoResults": "No posts match. Try other words or clear the filters.",
+  "moreOptions": "More options",
+  "feedLikeCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@feedLikeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "replyingTo": "Replying to {name}",
+  "@replyingTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

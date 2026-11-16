@@ -2731,4 +2731,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportProblemShort => 'Report a problem';
+
+  @override
+  String get communityRoleTransporter => 'Transporter';
+
+  @override
+  String get feedSearchHint => 'Search posts';
+
+  @override
+  String get feedSortLatest => 'Latest';
+
+  @override
+  String get feedSortTop => 'Most liked';
+
+  @override
+  String get feedTrending => 'Topics';
+
+  @override
+  String get postKindAll => 'All';
+
+  @override
+  String get postKindDiscussion => 'Discussion';
+
+  @override
+  String get postKindQuestion => 'Question';
+
+  @override
+  String get postKindTip => 'Tip';
+
+  @override
+  String get postKindMarket => 'Buy & sell';
+
+  @override
+  String get postKindLabel => 'What are you sharing?';
+
+  @override
+  String get replyAction => 'Reply';
+
+  @override
+  String get reportAction => 'Report';
+
+  @override
+  String get reportTitle => 'Report this';
+
+  @override
+  String get reportSubtitle =>
+      'The Farm2Fork team will look at it. The author is not told who reported.';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising';
+
+  @override
+  String get reportReasonAbuse => 'Abuse or harassment';
+
+  @override
+  String get reportReasonMisinformation => 'Wrong or misleading information';
+
+  @override
+  String get reportReasonScam => 'Scam or fraud';
+
+  @override
+  String get reportReasonOther => 'Something else';
+
+  @override
+  String get reportNoteHint => 'Add a detail (optional)';
+
+  @override
+  String get reportSubmit => 'Send report';
+
+  @override
+  String get reportSent => 'Thanks. The team will review it.';
+
+  @override
+  String get reportAlreadySent => 'You have already reported this.';
+
+  @override
+  String get editPost => 'Edit post';
+
+  @override
+  String get postEdited => 'Edited';
+
+  @override
+  String get communityNoResults =>
+      'No posts match. Try other words or clear the filters.';
+
+  @override
+  String get moreOptions => 'More options';
+
+  @override
+  String feedLikeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count likes',
+      one: '1 like',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String replyingTo(String name) {
+    return 'Replying to $name';
+  }
 }

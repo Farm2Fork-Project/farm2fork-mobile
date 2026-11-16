@@ -4801,6 +4801,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report a problem'**
   String get reportProblemShort;
+
+  /// No description provided for @communityRoleTransporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get communityRoleTransporter;
+
+  /// No description provided for @feedSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search posts'**
+  String get feedSearchHint;
+
+  /// No description provided for @feedSortLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get feedSortLatest;
+
+  /// No description provided for @feedSortTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Most liked'**
+  String get feedSortTop;
+
+  /// No description provided for @feedTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get feedTrending;
+
+  /// No description provided for @postKindAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get postKindAll;
+
+  /// No description provided for @postKindDiscussion.
+  ///
+  /// In en, this message translates to:
+  /// **'Discussion'**
+  String get postKindDiscussion;
+
+  /// No description provided for @postKindQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get postKindQuestion;
+
+  /// No description provided for @postKindTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get postKindTip;
+
+  /// No description provided for @postKindMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy & sell'**
+  String get postKindMarket;
+
+  /// No description provided for @postKindLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you sharing?'**
+  String get postKindLabel;
+
+  /// No description provided for @replyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get replyAction;
+
+  /// No description provided for @reportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportAction;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this'**
+  String get reportTitle;
+
+  /// No description provided for @reportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Farm2Fork team will look at it. The author is not told who reported.'**
+  String get reportSubtitle;
+
+  /// No description provided for @reportReasonSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam or advertising'**
+  String get reportReasonSpam;
+
+  /// No description provided for @reportReasonAbuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Abuse or harassment'**
+  String get reportReasonAbuse;
+
+  /// No description provided for @reportReasonMisinformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong or misleading information'**
+  String get reportReasonMisinformation;
+
+  /// No description provided for @reportReasonScam.
+  ///
+  /// In en, this message translates to:
+  /// **'Scam or fraud'**
+  String get reportReasonScam;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a detail (optional)'**
+  String get reportNoteHint;
+
+  /// No description provided for @reportSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send report'**
+  String get reportSubmit;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks. The team will review it.'**
+  String get reportSent;
+
+  /// No description provided for @reportAlreadySent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already reported this.'**
+  String get reportAlreadySent;
+
+  /// No description provided for @editPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit post'**
+  String get editPost;
+
+  /// No description provided for @postEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get postEdited;
+
+  /// No description provided for @communityNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts match. Try other words or clear the filters.'**
+  String get communityNoResults;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @feedLikeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 like} other{{count} likes}}'**
+  String feedLikeCount(int count);
+
+  /// No description provided for @replyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {name}'**
+  String replyingTo(String name);
 }
 
 class _AppLocalizationsDelegate
