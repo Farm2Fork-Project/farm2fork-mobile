@@ -87,7 +87,17 @@ class ApiAuthRepository implements AuthRepository {
         'phone': request.phone,
       ...request.toProfileJson(),
     };
-    final response = await _api.onboard(request.role.backendPath, body);
+    final Map<String, dynamic> response;
+    try {
+      response = await _api.onboard(request.role.backendPath, body);
+    } catch (error, stackTrace) {
+      // The network layer wraps typed errors in a DioException. Surface the
+      // ApiException so the UI can route EMAIL_VERIFICATION_REQUIRED to the
+      // verify screen and show server messages such as a duplicate CNIC.
+      final apiError = _apiExceptionFrom(error);
+      if (apiError != null) Error.throwWithStackTrace(apiError, stackTrace);
+      rethrow;
+    }
     final user = await _persistSession(response);
     return _saveFullName(user, request.fullName);
   }

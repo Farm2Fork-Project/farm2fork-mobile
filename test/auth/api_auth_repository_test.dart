@@ -58,6 +58,7 @@ class _FakeApi implements AuthApiService {
   Map<String, dynamic>? signInResponse;
   Object? signInError;
   Map<String, dynamic>? onboardResponse;
+  Object? onboardError;
   Map<String, dynamic>? meResponse;
   Object? meError;
   String? lastIdToken;
@@ -87,6 +88,7 @@ class _FakeApi implements AuthApiService {
   ) async {
     lastOnboardPath = rolePath;
     lastOnboardBody = body;
+    if (onboardError != null) throw onboardError!;
     return onboardResponse!;
   }
 
@@ -376,6 +378,44 @@ void main() {
     expect(storage.token, isNull);
     expect(storage.clearCalls, 1);
   });
+
+  test(
+    'onboarding surfaces a Dio-wrapped API error as an ApiException',
+    () async {
+      api.onboardError = DioException(
+        requestOptions: RequestOptions(path: '/auth/firebase/onboard/farmer'),
+        error: const ApiException(
+          ApiErrorKind.unauthorized,
+          statusCode: 401,
+          code: 'EMAIL_VERIFICATION_REQUIRED',
+        ),
+      );
+
+      await expectLater(
+        repo.completeOnboarding(
+          const FarmerOnboardingRequest(
+            credential: EmailPasswordOnboardingCredential(
+              email: 'f@example.com',
+              password: 'StrongP@ss1',
+            ),
+            cnic: '35202-1234567-1',
+            farmName: 'Green Acres',
+            farmAddress: 'Chak 5, Canal Road',
+            farmCity: 'Multan',
+            farmProvince: 'Punjab',
+            farmPin: GeoPoint(30.1968, 71.4782),
+          ),
+        ),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.code,
+            'code',
+            'EMAIL_VERIFICATION_REQUIRED',
+          ),
+        ),
+      );
+    },
+  );
 
   test('restoreSession clears the token for a Dio-wrapped 401', () async {
     storage.token = 'stale';
