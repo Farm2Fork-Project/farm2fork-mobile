@@ -238,13 +238,14 @@ void main() {
       expect(repo.location, testGps);
       expect(find.text("You're online"), findsOneWidget);
       expect(find.text('Rs 1,150'), findsNWidgets(2));
-      expect(find.text('Smoke Farm (Sheikhupura) → Lahore'), findsOneWidget);
-      expect(find.text('3.6 km to pickup · 39.7 km trip'), findsNWidgets(2));
+      expect(find.text('Smoke Farm'), findsOneWidget);
+      expect(find.text('3.6 km to pickup'), findsNWidgets(2));
+      expect(find.text('39.7 km trip'), findsNWidgets(2));
 
       await tester.tap(find.text('Decline').last);
       await tester.pumpAndSettle();
       expect(repo.declined, ['o2']);
-      expect(find.text('Ravi Fields (Sheikhupura) → Lahore'), findsNothing);
+      expect(find.text('Ravi Fields'), findsNothing);
 
       await tester.tap(find.text('Accept'));
       await tester.pumpAndSettle();
@@ -252,7 +253,7 @@ void main() {
       expect(find.text('You earn Rs 1,150'), findsOneWidget);
       expect(find.text('Navigate to pickup'), findsOneWidget);
       // Full address only after accepting.
-      expect(find.text('21 Market Road, Lahore, Punjab'), findsOneWidget);
+      expect(find.text('21 Market Road, Lahore'), findsOneWidget);
 
       await tester.tap(find.text('Confirm crop pickup'));
       await tester.pumpAndSettle();

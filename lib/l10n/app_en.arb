@@ -2972,5 +2972,45 @@
         "type": "String"
       }
     }
-  }
+  },
+  "deliveryStepPickup": "Pick up",
+  "deliveryStepOnTheWay": "On the way",
+  "deliveryStepHandover": "Hand over",
+  "nextStepHeadToPickup": "Go to the farm and collect the order.",
+  "nextStepStartTrip": "Order collected. Start the trip to the buyer.",
+  "nextStepHandover": "Hand over the order and enter the buyer's code.",
+  "onlineShort": "Receiving offers within {km} km",
+  "@onlineShort": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "locationOpenAppNote": "Keep the app open so your location stays current.",
+  "toPickupKm": "{km} km to pickup",
+  "@toPickupKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "tripKm": "{km} km trip",
+  "@tripKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "callContact": "Call {name}",
+  "@callContact": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportProblemShort": "Report a problem"
 }

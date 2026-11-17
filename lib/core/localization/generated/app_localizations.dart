@@ -4729,6 +4729,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This pin is about {km} km from {city}. Is this where you mean?'**
   String pinFarFromCityBody(String km, String city);
+
+  /// No description provided for @deliveryStepPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up'**
+  String get deliveryStepPickup;
+
+  /// No description provided for @deliveryStepOnTheWay.
+  ///
+  /// In en, this message translates to:
+  /// **'On the way'**
+  String get deliveryStepOnTheWay;
+
+  /// No description provided for @deliveryStepHandover.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over'**
+  String get deliveryStepHandover;
+
+  /// No description provided for @nextStepHeadToPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the farm and collect the order.'**
+  String get nextStepHeadToPickup;
+
+  /// No description provided for @nextStepStartTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Order collected. Start the trip to the buyer.'**
+  String get nextStepStartTrip;
+
+  /// No description provided for @nextStepHandover.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the order and enter the buyer\'s code.'**
+  String get nextStepHandover;
+
+  /// No description provided for @onlineShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving offers within {km} km'**
+  String onlineShort(String km);
+
+  /// No description provided for @locationOpenAppNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the app open so your location stays current.'**
+  String get locationOpenAppNote;
+
+  /// No description provided for @toPickupKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km to pickup'**
+  String toPickupKm(String km);
+
+  /// No description provided for @tripKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km trip'**
+  String tripKm(String km);
+
+  /// No description provided for @callContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Call {name}'**
+  String callContact(String name);
+
+  /// No description provided for @reportProblemShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem'**
+  String get reportProblemShort;
 }
 
 class _AppLocalizationsDelegate

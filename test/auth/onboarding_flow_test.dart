@@ -481,7 +481,7 @@ void main() {
     await _open(tester, locale: const Locale('ur'), textScale: 1.3);
     expect(tester.takeException(), isNull);
     expect(find.text('آپ فارم ٹو فورک کیسے استعمال کریں گے؟'), findsOneWidget);
-    await _tap(tester, find.text('کاشتکار'));
+    await _tap(tester, find.text('کسان'));
     expect(tester.takeException(), isNull);
     await _type(tester, 'ای میل', 'ayesha@example.com');
     await _type(tester, 'پاس ورڈ', 'Sunflower42');

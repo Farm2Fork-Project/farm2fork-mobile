@@ -50,40 +50,48 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ── Image area ──────────────────────────────────────────────
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(AppRadius.md),
-                ),
-                child: Stack(
-                  children: [
-                    _ProductImage(images: product.images),
-                    if (!isAvailable)
-                      Positioned.fill(
-                        child: Container(
-                          color: AppColors.black.withValues(alpha: 0.45),
-                          alignment: Alignment.center,
-                          child: Text(
-                            productStatusLabel(context, product.status),
-                            style: AppTextStyles.small.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w700,
+              // The photo takes whatever height the text below leaves, so
+              // the card never ends in empty space.
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadius.md),
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _ProductImage(images: product.images),
+                      if (!isAvailable)
+                        Positioned.fill(
+                          child: Container(
+                            color: AppColors.black.withValues(alpha: 0.45),
+                            alignment: Alignment.center,
+                            child: Text(
+                              productStatusLabel(context, product.status),
+                              style: AppTextStyles.small.copyWith(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    PositionedDirectional(
-                      top: AppSpacing.sm,
-                      start: AppSpacing.sm,
-                      child: AppBadge(
-                        label: qualityGradeLabel(context, product.qualityGrade),
-                        icon: Icons.verified_rounded,
-                        backgroundColor: AppColors.white.withValues(
-                          alpha: 0.92,
+                      PositionedDirectional(
+                        top: AppSpacing.sm,
+                        start: AppSpacing.sm,
+                        child: AppBadge(
+                          label: qualityGradeLabel(
+                            context,
+                            product.qualityGrade,
+                          ),
+                          icon: Icons.verified_rounded,
+                          backgroundColor: AppColors.white.withValues(
+                            alpha: 0.92,
+                          ),
+                          foregroundColor: _gradeColor(product.qualityGrade),
                         ),
-                        foregroundColor: _gradeColor(product.qualityGrade),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
@@ -93,7 +101,7 @@ class ProductCard extends StatelessWidget {
                   AppSpacing.md,
                   AppSpacing.sm,
                   AppSpacing.md,
-                  AppSpacing.xs,
+                  AppSpacing.sm,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +175,7 @@ class _ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 112,
+      height: double.infinity,
       width: double.infinity,
       child: images.isNotEmpty
           ? ProductPhoto(url: images.first)

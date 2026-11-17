@@ -1,6 +1,7 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:farm2fork_mobile/features/shipments/presentation/widgets/delivery_actions.dart';
+import 'package:farm2fork_mobile/features/shipments/presentation/widgets/delivery_route.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -190,14 +191,7 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
         title: Text(l10n.deliveriesTitle, style: AppTextStyles.h2),
         backgroundColor: AppColors.backgroundLight,
         centerTitle: true,
-        actions: [
-          IconButton(
-            tooltip: l10n.deliveryEarnings,
-            icon: const Icon(Icons.receipt_long),
-            onPressed: () => context.push('/transporter/earnings'),
-          ),
-          const NotificationBell(),
-        ],
+        actions: [const NotificationBell()],
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -217,45 +211,42 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(AppSpacing.pagePadding),
               children: [
-                if (state.needsReconciliation) Padding(padding: const EdgeInsets.only(bottom: AppSpacing.md), child: Text(l10n.deliveryReconcileRequired)),
-                if (state.refreshFailed)
-                  AppErrorState(
-                    onRetry: () =>
-                        ref.read(dispatchControllerProvider.notifier).refresh(),
-                  ),
-                if (_locationFailed ||
-                    (state.status.online && !state.status.locationFresh))
-                  AppCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l10n.locationStaleWarning),
-                        Wrap(
-                          children: [
-                            TextButton(
-                              onPressed: () =>
-                                  _sharePosition(_trackingGeneration),
-                              child: Text(l10n.retry),
-                            ),
-                            TextButton(
-                              onPressed: () => ref
-                                  .read(locationServiceProvider)
-                                  .openSettingsFor(
-                                    LocationFailure.deniedForever,
-                                  ),
-                              child: Text(l10n.settings),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                 _OnlineCard(
                   status: state.status,
                   busy: _toggling,
                   onChanged: _toggle,
                 ),
-                const SizedBox(height: AppSpacing.lg),
+                if (state.needsReconciliation) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  _Notice(text: l10n.deliveryReconcileRequired),
+                ],
+                if (state.refreshFailed) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  AppErrorState(
+                    onRetry: () =>
+                        ref.read(dispatchControllerProvider.notifier).refresh(),
+                  ),
+                ],
+                if (_locationFailed ||
+                    (state.status.online && !state.status.locationFresh)) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  _Notice(
+                    text: l10n.locationStaleWarning,
+                    actions: [
+                      TextButton(
+                        onPressed: () => _sharePosition(_trackingGeneration),
+                        child: Text(l10n.retry),
+                      ),
+                      TextButton(
+                        onPressed: () => ref
+                            .read(locationServiceProvider)
+                            .openSettingsFor(LocationFailure.deniedForever),
+                        child: Text(l10n.settings),
+                      ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: AppSpacing.xl),
                 if (state.active != null)
                   _ActiveDelivery(shipment: state.active!)
                 else if (!state.status.online)
@@ -279,6 +270,10 @@ class _DeliveriesScreenState extends ConsumerState<DeliveriesScreen>
                       child: _OfferCard(offer: offer, onMessage: _snack),
                     ),
                 ],
+                const SizedBox(height: AppSpacing.lg),
+                _EarningsLink(
+                  onTap: () => context.push('/transporter/earnings'),
+                ),
               ],
             ),
           ),
@@ -304,61 +299,119 @@ class _OnlineCard extends StatelessWidget {
     final l10n = context.l10n;
     final online = status.online;
     return AppCard(
-      backgroundColor: online
-          ? AppColors.primaryGreen.withValues(alpha: 0.08)
-          : AppColors.white,
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        AppSpacing.lg,
+        AppSpacing.md,
+        AppSpacing.sm,
+        AppSpacing.md,
+      ),
+      backgroundColor: online ? AppColors.primaryGreenSoft : AppColors.white,
       borderColor: online ? AppColors.primaryGreen : AppColors.surfaceMedium,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Icon(
-                online
-                    ? Icons.wifi_tethering_rounded
-                    : Icons.portable_wifi_off_rounded,
-                color: online ? AppColors.primaryGreen : AppColors.textMuted,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Text(
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: online ? AppColors.success : AppColors.textMuted,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   online ? l10n.youAreOnline : l10n.youAreOffline,
                   style: AppTextStyles.h3,
                 ),
-              ),
-              if (busy)
-                const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              else
-                Switch.adaptive(
-                  value: online,
-                  activeTrackColor: AppColors.primaryGreen,
-                  onChanged: onChanged,
+                const SizedBox(height: 2),
+                Text(
+                  online
+                      ? l10n.onlineShort(status.radiusKm.toStringAsFixed(0))
+                      : l10n.offlineSubtitle,
+                  style: AppTextStyles.small.copyWith(
+                    color: AppColors.textMuted,
+                    height: 1.35,
+                  ),
                 ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            online
-                ? l10n.onlineSubtitle(status.radiusKm.toStringAsFixed(0))
-                : l10n.offlineSubtitle,
-            style: AppTextStyles.small.copyWith(height: 1.4),
-          ),
-          Text(l10n.foregroundLocationNote, style: AppTextStyles.small),
-          if (online && !status.locationFresh) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              l10n.locationStaleWarning,
-              style: AppTextStyles.small.copyWith(color: AppColors.errorRed),
+                if (online)
+                  Text(
+                    l10n.locationOpenAppNote,
+                    style: AppTextStyles.small.copyWith(
+                      color: AppColors.textMuted,
+                      height: 1.35,
+                    ),
+                  ),
+              ],
             ),
-          ],
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          if (busy)
+            const Padding(
+              padding: EdgeInsets.all(AppSpacing.md),
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            )
+          else
+            Semantics(
+              label: online ? l10n.dispatchGoOffline : l10n.dispatchGoOnline,
+              child: Switch.adaptive(
+                value: online,
+                activeTrackColor: AppColors.primaryGreen,
+                onChanged: onChanged,
+              ),
+            ),
         ],
       ),
     );
   }
+}
+
+/// A warning the transporter should act on, with optional actions.
+class _Notice extends StatelessWidget {
+  const _Notice({required this.text, this.actions = const []});
+
+  final String text;
+  final List<Widget> actions;
+
+  @override
+  Widget build(BuildContext context) => AppCard(
+    padding: const EdgeInsets.all(AppSpacing.md),
+    backgroundColor: AppColors.accentYellowSoft,
+    borderColor: AppColors.accentYellow,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(
+              Icons.warning_amber_rounded,
+              size: 20,
+              color: AppColors.textDark,
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                text,
+                style: AppTextStyles.small.copyWith(height: 1.4),
+              ),
+            ),
+          ],
+        ),
+        if (actions.isNotEmpty)
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: Wrap(children: actions),
+          ),
+      ],
+    ),
+  );
 }
 
 class _Hint extends StatelessWidget {
@@ -369,15 +422,60 @@ class _Hint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+    padding: const EdgeInsets.symmetric(
+      vertical: AppSpacing.xxxl,
+      horizontal: AppSpacing.lg,
+    ),
     child: Column(
       children: [
-        Icon(icon, size: 56, color: AppColors.textMuted),
-        const SizedBox(height: AppSpacing.md),
+        Container(
+          width: 72,
+          height: 72,
+          decoration: const BoxDecoration(
+            color: AppColors.primaryGreenSoft,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 34, color: AppColors.primaryGreen),
+        ),
+        const SizedBox(height: AppSpacing.lg),
         Text(
           text,
           textAlign: TextAlign.center,
-          style: AppTextStyles.body.copyWith(color: AppColors.textMuted),
+          style: AppTextStyles.body.copyWith(
+            color: AppColors.textMuted,
+            height: 1.45,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class _EarningsLink extends StatelessWidget {
+  const _EarningsLink({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => AppCard(
+    onTap: onTap,
+    padding: const EdgeInsets.symmetric(
+      horizontal: AppSpacing.lg,
+      vertical: AppSpacing.md,
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.payments_outlined, color: AppColors.primaryGreen),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: Text(
+            context.l10n.deliveryEarnings,
+            style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
+        Icon(
+          Icons.chevron_right_rounded,
+          color: AppColors.textMuted,
         ),
       ],
     ),
@@ -504,43 +602,79 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(
-                  _money(context, offer.deliveryFee),
-                  style: AppTextStyles.h2.copyWith(
-                    color: AppColors.primaryGreen,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.dispatchEarning, style: AppTextStyles.label),
+                    Text(
+                      _money(context, offer.deliveryFee),
+                      style: AppTextStyles.h1.copyWith(
+                        color: AppColors.primaryGreenDark,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               TextButton.icon(
                 onPressed: _showMap,
-                icon: const Icon(Icons.map_rounded, size: 18),
+                icon: const Icon(Icons.map_outlined, size: 18),
                 label: Text(l10n.viewOnMap),
               ),
             ],
           ),
-          Text(
-            l10n.offerRoute(
-              offer.farmName ?? offer.pickupCity,
-              offer.pickupCity,
-              offer.deliveryCity,
+          const SizedBox(height: AppSpacing.md),
+          DeliveryRoute(
+            pickup: RouteStop(
+              label: l10n.pickupFarm,
+              title: offer.farmName ?? offer.pickupCity,
+              detail: offer.farmName == null ? null : offer.pickupCity,
             ),
-            style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+            dropoff: RouteStop(
+              label: l10n.deliveryDestination,
+              title: offer.deliveryCity,
+            ),
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            l10n.offerDistances(
-              offer.distanceToPickupKm.toStringAsFixed(1),
-              offer.deliveryDistanceKm.toStringAsFixed(1),
-            ),
-            style: AppTextStyles.small.copyWith(color: AppColors.textMuted),
+          const SizedBox(height: AppSpacing.md),
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              DeliveryFact(
+                icon: Icons.near_me_outlined,
+                text: l10n.toPickupKm(
+                  offer.distanceToPickupKm.toStringAsFixed(1),
+                ),
+              ),
+              DeliveryFact(
+                icon: Icons.route_outlined,
+                text: l10n.tripKm(offer.deliveryDistanceKm.toStringAsFixed(1)),
+              ),
+            ],
           ),
           if (items.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(items, style: AppTextStyles.small),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.inventory_2_outlined,
+                  size: 16,
+                  color: AppColors.textMuted,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    items,
+                    style: AppTextStyles.small.copyWith(height: 1.4),
+                  ),
+                ),
+              ],
+            ),
           ],
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             children: [
               Expanded(
@@ -552,6 +686,7 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
+                flex: 2,
                 child: AppButton(
                   label: l10n.acceptDelivery,
                   icon: Icons.check_rounded,
@@ -634,168 +769,197 @@ class _ActiveDeliveryState extends ConsumerState<_ActiveDelivery> {
       _ => '',
     };
 
+    final nextHint = switch (shipment.status) {
+      ShipmentStatus.assigned => l10n.nextStepHeadToPickup,
+      ShipmentStatus.pickedUp => l10n.nextStepStartTrip,
+      ShipmentStatus.inTransit => l10n.nextStepHandover,
+      _ => null,
+    };
+    String place(ShipmentAddress a) =>
+        [a.street, a.city].where((part) => part.isNotEmpty).join(', ');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.activeDeliveryTitle, style: AppTextStyles.h3),
-        const SizedBox(height: AppSpacing.md),
-        if (pickup != null && dropoff != null)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 220,
-              child: AppMap(
-                config: AppMapConfig(
-                  center: pickup,
-                  fitMarkers: true,
-                  showMyLocation: true,
-                  markers: [
-                    AppMarker(
-                      id: 'pickup',
-                      at: pickup,
-                      kind: AppMarkerKind.pickup,
-                    ),
-                    AppMarker(
-                      id: 'dropoff',
-                      at: dropoff,
-                      kind: AppMarkerKind.dropoff,
-                    ),
-                  ],
+        Row(
+          children: [
+            Expanded(
+              child: Text(l10n.activeDeliveryTitle, style: AppTextStyles.h3),
+            ),
+            if (shipment.deliveryFee != null)
+              Text(
+                l10n.youEarn(_money(context, shipment.deliveryFee!)),
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.primaryGreenDark,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-          ),
+          ],
+        ),
         const SizedBox(height: AppSpacing.md),
         AppCard(
+          padding: EdgeInsets.zero,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _statusLabel(shipment.status),
-                      style: AppTextStyles.h3,
-                    ),
+              if (pickup != null && dropoff != null)
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadius.md),
                   ),
-                  if (shipment.deliveryFee != null)
-                    Text(
-                      l10n.youEarn(_money(context, shipment.deliveryFee!)),
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.primaryGreen,
-                        fontWeight: FontWeight.w700,
+                  child: SizedBox(
+                    height: 190,
+                    child: AppMap(
+                      config: AppMapConfig(
+                        center: pickup,
+                        fitMarkers: true,
+                        showMyLocation: true,
+                        markers: [
+                          AppMarker(
+                            id: 'pickup',
+                            at: pickup,
+                            kind: AppMarkerKind.pickup,
+                          ),
+                          AppMarker(
+                            id: 'dropoff',
+                            at: dropoff,
+                            kind: AppMarkerKind.dropoff,
+                          ),
+                        ],
                       ),
                     ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.md),
-              _AddressLine(
-                icon: Icons.agriculture_rounded,
-                label: l10n.pickupFarm,
-                address: shipment.pickupAddress,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              _AddressLine(
-                icon: Icons.location_on_rounded,
-                label: l10n.deliveryDestination,
-                address: shipment.deliveryAddress,
-              ),
-              for (final contact in [
-                shipment.pickupContact,
-                shipment.deliveryContact,
-              ])
-                if (contact != null)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(contact['name'] ?? ''),
-                    subtitle: Text(contact['phone'] ?? ''),
-                    trailing: contact['phone'] == null
-                        ? null
-                        : IconButton(
-                            icon: const Icon(Icons.call_outlined),
-                            onPressed: () async {
-                              try {
-                                if (await launchUrl(
-                                  Uri(scheme: 'tel', path: contact['phone']),
-                                  mode: LaunchMode.externalApplication,
-                                )) {
-                                  return;
-                                }
-                              } on Object {
-                                /* The phone number remains visible for manual dialing. */
-                              }
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(l10n.dispatchActionFailed),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
                   ),
-              const SizedBox(height: AppSpacing.md),
-              if (target != null)
-                AppButton(
-                  label: headingToPickup
-                      ? l10n.navigateToPickup
-                      : l10n.navigateToDropoff,
-                  icon: Icons.navigation_rounded,
-                  variant: AppButtonVariant.secondary,
-                  expand: true,
-                  onPressed: () async {
-                    try {
-                      if (await openDirections(target)) return;
-                    } on Object {
-                      /* Show the visible address fallback below. */
-                    }
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.navigationUnavailable)),
-                      );
-                    }
-                  },
                 ),
-              if (next != null) ...[
-                const SizedBox(height: AppSpacing.sm),
-                AppButton(
-                  label: nextLabel,
-                  expand: true,
-                  isLoading: _busy,
-                  onPressed: _busy
-                      ? null
-                      : () async {
-                          if (next == ShipmentStatus.delivered) {
-                            await showDeliveryAction(context, shipment);
-                          } else {
-                            await _advance(next);
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DeliveryProgress(status: shipment.status),
+                    if (nextHint != null) ...[
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        nextHint,
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w600,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: AppSpacing.lg),
+                    DeliveryRoute(
+                      pickup: RouteStop(
+                        label: l10n.pickupFarm,
+                        title: place(shipment.pickupAddress),
+                        detail: shipment.pickupAddress.province,
+                      ),
+                      dropoff: RouteStop(
+                        label: l10n.deliveryDestination,
+                        title: place(shipment.deliveryAddress),
+                        detail: shipment.deliveryAddress.province,
+                      ),
+                    ),
+                    for (final (role, contact) in [
+                      (l10n.roleFarmer, shipment.pickupContact),
+                      (l10n.roleBuyer, shipment.deliveryContact),
+                    ])
+                      if (contact != null)
+                        _ContactRow(role: role, contact: contact),
+                    const SizedBox(height: AppSpacing.lg),
+                    if (next != null)
+                      AppButton(
+                        label: nextLabel,
+                        expand: true,
+                        isLoading: _busy,
+                        onPressed: _busy
+                            ? null
+                            : () async {
+                                if (next == ShipmentStatus.delivered) {
+                                  await showDeliveryAction(context, shipment);
+                                } else {
+                                  await _advance(next);
+                                }
+                              },
+                      ),
+                    if (target != null) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      AppButton(
+                        label: headingToPickup
+                            ? l10n.navigateToPickup
+                            : l10n.navigateToDropoff,
+                        icon: Icons.navigation_rounded,
+                        variant: AppButtonVariant.secondary,
+                        expand: true,
+                        onPressed: () async {
+                          try {
+                            if (await openDirections(target)) return;
+                          } on Object {
+                            /* The address stays visible above. */
+                          }
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(l10n.navigationUnavailable),
+                              ),
+                            );
                           }
                         },
+                      ),
+                    ],
+                  ],
                 ),
-              ],
-              TextButton.icon(
-                onPressed: _busy
-                    ? null
-                    : () async {
-                        final reported = await showDeliveryAction(
-                          context,
-                          shipment,
-                          issue: true,
-                        );
-                        if (reported == true && context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.problemReportSuccess)),
-                          );
-                        }
-                      },
-                icon: const Icon(Icons.report_problem_outlined),
-                label: Text(l10n.reportDeliveryProblem),
               ),
-              const SizedBox(height: AppSpacing.xs),
-              Center(
-                child: TextButton(
-                  onPressed: () => context.push('/shipments/${shipment.id}'),
-                  child: Text(l10n.shipmentTimeline),
+              const Divider(height: 1, color: AppColors.surfaceMedium),
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton.icon(
+                        onPressed: () =>
+                            context.push('/shipments/${shipment.id}'),
+                        icon: const Icon(Icons.timeline_rounded, size: 18),
+                        label: Text(
+                          l10n.shipmentTimeline,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const VerticalDivider(
+                      width: 1,
+                      color: AppColors.surfaceMedium,
+                    ),
+                    Expanded(
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.errorRed,
+                        ),
+                        onPressed: _busy
+                            ? null
+                            : () async {
+                                final reported = await showDeliveryAction(
+                                  context,
+                                  shipment,
+                                  issue: true,
+                                );
+                                if (reported == true && context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(l10n.problemReportSuccess),
+                                    ),
+                                  );
+                                }
+                              },
+                        icon: const Icon(
+                          Icons.report_problem_outlined,
+                          size: 18,
+                        ),
+                        label: Text(
+                          l10n.reportProblemShort,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -806,42 +970,79 @@ class _ActiveDeliveryState extends ConsumerState<_ActiveDelivery> {
   }
 }
 
-class _AddressLine extends StatelessWidget {
-  const _AddressLine({
-    required this.icon,
-    required this.label,
-    required this.address,
-  });
+/// Who to call at a stop, labelled by role so the two rows are not confused.
+class _ContactRow extends StatelessWidget {
+  const _ContactRow({required this.role, required this.contact});
 
-  final IconData icon;
-  final String label;
-  final ShipmentAddress address;
+  final String role;
+  final Map<String, String?> contact;
 
   @override
-  Widget build(BuildContext context) => Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Icon(icon, size: 20, color: AppColors.primaryGreen),
-      const SizedBox(width: AppSpacing.sm),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: AppTextStyles.label.copyWith(color: AppColors.textMuted),
-            ),
-            Text(
-              [
-                address.street,
-                address.city,
-                address.province,
-              ].where((part) => part.isNotEmpty).join(', '),
-              style: AppTextStyles.body,
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final name = contact['name'] ?? '';
+    final phone = contact['phone'];
+    return Container(
+      margin: const EdgeInsets.only(top: AppSpacing.md),
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        AppSpacing.md,
+        AppSpacing.xs,
+        AppSpacing.xs,
+        AppSpacing.xs,
       ),
-    ],
-  );
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        border: Border.all(color: AppColors.surfaceMedium),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(role, style: AppTextStyles.label),
+                Text(
+                  name,
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (phone != null)
+                  Text(
+                    phone,
+                    textDirection: TextDirection.ltr,
+                    style: AppTextStyles.small.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (phone != null)
+            IconButton.filledTonal(
+              tooltip: l10n.callContact(name),
+              icon: const Icon(Icons.call_rounded),
+              onPressed: () async {
+                try {
+                  if (await launchUrl(
+                    Uri(scheme: 'tel', path: phone),
+                    mode: LaunchMode.externalApplication,
+                  )) {
+                    return;
+                  }
+                } on Object {
+                  /* The number stays visible for manual dialing. */
+                }
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.dispatchActionFailed)),
+                  );
+                }
+              },
+            ),
+        ],
+      ),
+    );
+  }
 }

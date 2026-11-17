@@ -2684,4 +2684,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String pinFarFromCityBody(String km, String city) {
     return 'This pin is about $km km from $city. Is this where you mean?';
   }
+
+  @override
+  String get deliveryStepPickup => 'Pick up';
+
+  @override
+  String get deliveryStepOnTheWay => 'On the way';
+
+  @override
+  String get deliveryStepHandover => 'Hand over';
+
+  @override
+  String get nextStepHeadToPickup => 'Go to the farm and collect the order.';
+
+  @override
+  String get nextStepStartTrip =>
+      'Order collected. Start the trip to the buyer.';
+
+  @override
+  String get nextStepHandover =>
+      'Hand over the order and enter the buyer\'s code.';
+
+  @override
+  String onlineShort(String km) {
+    return 'Receiving offers within $km km';
+  }
+
+  @override
+  String get locationOpenAppNote =>
+      'Keep the app open so your location stays current.';
+
+  @override
+  String toPickupKm(String km) {
+    return '$km km to pickup';
+  }
+
+  @override
+  String tripKm(String km) {
+    return '$km km trip';
+  }
+
+  @override
+  String callContact(String name) {
+    return 'Call $name';
+  }
+
+  @override
+  String get reportProblemShort => 'Report a problem';
 }
