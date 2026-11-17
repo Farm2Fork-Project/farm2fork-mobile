@@ -157,6 +157,9 @@ class _FakeLocation implements LocationService {
   final LocationFailure? failure;
 
   @override
+  Future<GeoPoint> currentForPin() => current();
+
+  @override
   Future<GeoPoint> current() async {
     if (failure != null) throw LocationException(failure!);
     return _here;

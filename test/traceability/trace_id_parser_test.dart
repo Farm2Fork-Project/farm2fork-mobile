@@ -10,8 +10,8 @@ void main() {
 
   test('extracts the id from a scanned QR trace link', () {
     expect(parseTraceProductId('https://farm2fork.com/trace/$_id'), _id);
-    expect(parseTraceProductId('http://localhost:3001/trace/$_id/'), _id);
-    expect(parseTraceProductId('https://x.pk/trace/$_id?src=qr#top'), _id);
+    expect(parseTraceProductId('https://farm2fork.tech/trace/$_id/'), _id);
+    expect(parseTraceProductId('https://x.pk/trace/$_id?src=qr#top'), isNull);
   });
 
   test('rejects input that cannot be a product id', () {

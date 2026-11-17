@@ -11,7 +11,13 @@ abstract final class AppTheme {
       // Urdu text has no glyphs in the platform default font; falling back
       // to Noto Nastaliq Urdu gives it correct Nastaliq shaping everywhere
       // in the app without touching AppTextStyles or any screen.
-      fontFamilyFallback: const ['NotoNastaliqUrdu'],
+      // The platform fonts are listed first: on iOS an unnamed default family
+      // otherwise resolves Latin text to Noto Nastaliq's serif Latin glyphs.
+      fontFamilyFallback: const [
+        '.AppleSystemUIFont',
+        'Roboto',
+        'NotoNastaliqUrdu',
+      ],
       colorScheme: const ColorScheme.light(
         primary: AppColors.primaryGreen,
         secondary: AppColors.secondaryBlue,

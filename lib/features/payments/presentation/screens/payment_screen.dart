@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:farm2fork_mobile/features/traceability/presentation/widgets/order_qr_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
@@ -132,6 +133,10 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen>
                 busy,
                 simulator,
               ),
+            ],
+            if (allPaid) ...[
+              const SizedBox(height: 16),
+              for (final id in widget.orderIds) OutlinedButton.icon(onPressed: () => showOrderQr(context, id), icon: const Icon(Icons.qr_code_2_rounded), label: Text(context.l10n.orderQrTitle)),
             ],
             const SizedBox(height: 20),
             AppButton(

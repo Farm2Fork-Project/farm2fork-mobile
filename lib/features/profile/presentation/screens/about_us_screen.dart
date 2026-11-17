@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:farm2fork_mobile/core/location/pakistan_locations.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 
-class AboutUsScreen extends StatelessWidget {
+class AboutUsScreen extends ConsumerWidget {
   const AboutUsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final attribution = ref
+        .watch(pakistanLocationsProvider)
+        .maybeWhen(data: (d) => d.attribution, orElse: () => '');
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
@@ -58,6 +63,31 @@ class AboutUsScreen extends StatelessWidget {
                     context.l10n.aboutUsContent,
                     style: AppTextStyles.body.copyWith(height: 1.5),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.locationDataCredits,
+                    style: AppTextStyles.h3,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    context.l10n.mapAttributionOpenStreetMap,
+                    style: AppTextStyles.small.copyWith(height: 1.5),
+                  ),
+                  if (attribution.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      attribution,
+                      textDirection: TextDirection.ltr,
+                      style: AppTextStyles.small.copyWith(height: 1.5),
+                    ),
+                  ],
                 ],
               ),
             ),

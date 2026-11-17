@@ -2354,23 +2354,11 @@ abstract class AppLocalizations {
   /// **'Rs {min} – {max} per {unit}'**
   String aiPriceRange(String min, String max, String unit);
 
-  /// Price source: the farmer's own market
+  /// Caveat: price is rule-based
   ///
   /// In en, this message translates to:
-  /// **'Wholesale mandi price in {market} on {date}.'**
-  String aiPriceLocal(String market, String date);
-
-  /// Price source: Punjab-wide markets
-  ///
-  /// In en, this message translates to:
-  /// **'Middle half of wholesale mandi prices across {count} Punjab markets on {date}.'**
-  String aiPricePunjab(int count, String date);
-
-  /// Official price source and caveat
-  ///
-  /// In en, this message translates to:
-  /// **'Source: AMIS Punjab ({commodity}). Wholesale prices; your selling price can differ.'**
-  String aiPriceSource(String commodity);
+  /// **'Rule-based estimate from reference ranges, season and grade — not live market data.'**
+  String get aiPriceRuleBased;
 
   /// Button applying the suggested price
   ///
@@ -2381,7 +2369,7 @@ abstract class AppLocalizations {
   /// No rule for this unit/category
   ///
   /// In en, this message translates to:
-  /// **'No official mandi price covers this product or unit.'**
+  /// **'No official wholesale observation covers this crop or unit. Enter your price manually.'**
   String get aiPriceNoRule;
 
   /// AI quality check title
@@ -2437,48 +2425,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The model has no training data for this crop yet.'**
   String get aiCropNotTrained;
-
-  /// Quality check result when no grade can be shown
-  ///
-  /// In en, this message translates to:
-  /// **'No grade from this photo'**
-  String get aiReviewTitle;
-
-  /// Review reason: low model confidence
-  ///
-  /// In en, this message translates to:
-  /// **'The model wasn\'t sure enough about this photo to suggest a grade.'**
-  String get aiReviewLowConfidence;
-
-  /// Review reason: photo unlike training photos
-  ///
-  /// In en, this message translates to:
-  /// **'This photo looks different from the photos the model learned from, so a grade could be wrong.'**
-  String get aiReviewUnfamiliarPhoto;
-
-  /// Review reason: photo checks unavailable
-  ///
-  /// In en, this message translates to:
-  /// **'Photo checks aren\'t available right now, so no grade is shown.'**
-  String get aiReviewUnavailable;
-
-  /// Tips for retaking a produce photo
-  ///
-  /// In en, this message translates to:
-  /// **'For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.'**
-  String get aiReviewTips;
-
-  /// Button: take another photo
-  ///
-  /// In en, this message translates to:
-  /// **'Retake photo'**
-  String get aiReviewRetake;
-
-  /// Hint: pick the grade manually
-  ///
-  /// In en, this message translates to:
-  /// **'Or choose the listing grade yourself.'**
-  String get aiReviewManual;
 
   /// Result caveat: low confidence
   ///
@@ -2723,25 +2669,25 @@ abstract class AppLocalizations {
   /// locationServiceDisabled
   ///
   /// In en, this message translates to:
-  /// **'Location is turned off on this phone. Turn it on to continue.'**
+  /// **'Location is turned off on this phone. Turn it on, or drag the map to place the pin.'**
   String get locationServiceDisabled;
 
   /// locationPermissionDenied
   ///
   /// In en, this message translates to:
-  /// **'Farm2Fork needs location permission for this.'**
+  /// **'Farm2Fork needs location permission to find you. You can also drag the map to place the pin.'**
   String get locationPermissionDenied;
 
   /// locationPermissionDeniedForever
   ///
   /// In en, this message translates to:
-  /// **'Location permission is blocked. Allow it in Settings to continue.'**
+  /// **'Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.'**
   String get locationPermissionDeniedForever;
 
   /// locationUnavailable
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t get your location. Move to open sky and try again.'**
+  /// **'Couldn\'t get your location. Move to open sky and try again. You can also drag the map to place the pin.'**
   String get locationUnavailable;
 
   /// openSettings
@@ -3398,29 +3344,11 @@ abstract class AppLocalizations {
   /// **'Delivery longitude'**
   String get deliveryLongitude;
 
-  /// No description provided for @locationLatitude.
-  ///
-  /// In en, this message translates to:
-  /// **'Latitude'**
-  String get locationLatitude;
-
-  /// No description provided for @locationLongitude.
-  ///
-  /// In en, this message translates to:
-  /// **'Longitude'**
-  String get locationLongitude;
-
   /// No description provided for @locationInvalid.
   ///
   /// In en, this message translates to:
   /// **'Enter valid coordinates inside Pakistan.'**
   String get locationInvalid;
-
-  /// No description provided for @locationCoordinatesHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Copy the coordinates of this address from your map app.'**
-  String get locationCoordinatesHelp;
 
   /// No description provided for @getDeliveryQuote.
   ///
@@ -3461,7 +3389,7 @@ abstract class AppLocalizations {
   /// No description provided for @farmPickupHelp.
   ///
   /// In en, this message translates to:
-  /// **'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.'**
+  /// **'Save your farm address and map pin so buyers can price delivery and transporters can collect orders.'**
   String get farmPickupHelp;
 
   /// No description provided for @farmPickupSave.
@@ -3661,12 +3589,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notifications yet.'**
   String get pushEmpty;
-
-  /// No description provided for @enterCoordinates.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter coordinates'**
-  String get enterCoordinates;
 
   /// Generic save button
   ///
@@ -4495,6 +4417,720 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The last action could not be confirmed. Refresh the delivery before trying another action.'**
   String get deliveryReconcileRequired;
+
+  /// Button: show the place in Google Maps
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Google Maps'**
+  String get openInGoogleMaps;
+
+  /// deliveryMapTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Live delivery map'**
+  String get deliveryMapTitle;
+
+  /// mapYourFarm
+  ///
+  /// In en, this message translates to:
+  /// **'Your farm'**
+  String get mapYourFarm;
+
+  /// mapYourDropoff
+  ///
+  /// In en, this message translates to:
+  /// **'Your drop-off'**
+  String get mapYourDropoff;
+
+  /// mapTransporter
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get mapTransporter;
+
+  /// transporterLocationWaiting
+  ///
+  /// In en, this message translates to:
+  /// **'The transporter\'s position appears here while their app is open.'**
+  String get transporterLocationWaiting;
+
+  /// transporterLocationJustNow
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter position updated just now.'**
+  String get transporterLocationJustNow;
+
+  /// Age of the transporter position
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter position updated {minutes} min ago.'**
+  String transporterLocationMinutes(int minutes);
+
+  /// No description provided for @orderQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order QR'**
+  String get orderQrTitle;
+
+  /// No description provided for @orderQrDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to follow this order from farm to delivery.'**
+  String get orderQrDescription;
+
+  /// No description provided for @orderJourneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order journey'**
+  String get orderJourneyTitle;
+
+  /// No description provided for @orderJourneyPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'This public journey keeps addresses, payment amounts and personal details private.'**
+  String get orderJourneyPublic;
+
+  /// No description provided for @orderQrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The QR is unavailable. Payment may still be processing or the order may have been refunded.'**
+  String get orderQrUnavailable;
+
+  /// No description provided for @orderQrCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Order link copied'**
+  String get orderQrCopied;
+
+  /// No description provided for @orderQrCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get orderQrCopy;
+
+  /// No description provided for @orderQrShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share QR'**
+  String get orderQrShare;
+
+  /// No description provided for @orderQrView.
+  ///
+  /// In en, this message translates to:
+  /// **'View journey'**
+  String get orderQrView;
+
+  /// No description provided for @orderTraceNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Order journey unavailable'**
+  String get orderTraceNotFound;
+
+  /// No description provided for @orderTraceNotFoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the QR link. Only confirmed, paid orders have a public journey.'**
+  String get orderTraceNotFoundDesc;
+
+  /// No description provided for @orderTracePaidAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed'**
+  String get orderTracePaidAt;
+
+  /// No description provided for @orderTraceLedgerUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.'**
+  String get orderTraceLedgerUnavailable;
+
+  /// No description provided for @orderTraceLedgerChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger records checked'**
+  String get orderTraceLedgerChecked;
+
+  /// No description provided for @orderPrivateDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Private order details'**
+  String get orderPrivateDetails;
+
+  /// No description provided for @qrScanCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR code'**
+  String get qrScanCamera;
+
+  /// No description provided for @qrCameraHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Point your camera at a Farm2Fork product or order QR code.'**
+  String get qrCameraHint;
+
+  /// No description provided for @qrCameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera unavailable. Allow camera access in Settings, or paste your QR link below.'**
+  String get qrCameraUnavailable;
+
+  /// No description provided for @qrCameraTorch.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle torch'**
+  String get qrCameraTorch;
+
+  /// No description provided for @qrInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a Farm2Fork QR code. Try another code or paste a valid link.'**
+  String get qrInvalidCode;
+
+  /// No description provided for @qrUseLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a link instead'**
+  String get qrUseLink;
+
+  /// No description provided for @qrScanAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan again'**
+  String get qrScanAgain;
+
+  /// No description provided for @orderTraceLedgerMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger readback did not match this event. Verification is incomplete.'**
+  String get orderTraceLedgerMismatch;
+
+  /// No description provided for @aiReviewRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo needs review. Retake a clear crop photo or choose the grade manually.'**
+  String get aiReviewRecovery;
+
+  /// No description provided for @aiWholesaleBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Official wholesale reference, not a farm-gate or live price. Set your own listing price.'**
+  String get aiWholesaleBasis;
+
+  /// No description provided for @aiWholesaleObservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Historical observation: {date} · {source} · {market} ({count} markets) · {currency}'**
+  String aiWholesaleObservation(
+    String date,
+    String source,
+    String market,
+    int count,
+    String currency,
+  );
+
+  /// cityPickerChooseProvince
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your province'**
+  String get cityPickerChooseProvince;
+
+  /// cityPickerSearchHint
+  ///
+  /// In en, this message translates to:
+  /// **'Search for your city'**
+  String get cityPickerSearchHint;
+
+  /// cityPickerClearSearch
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get cityPickerClearSearch;
+
+  /// cityPickerChangeProvince
+  ///
+  /// In en, this message translates to:
+  /// **'Change province'**
+  String get cityPickerChangeProvince;
+
+  /// cityPickerNoResults
+  ///
+  /// In en, this message translates to:
+  /// **'No city found. Check the spelling or pick another province.'**
+  String get cityPickerNoResults;
+
+  /// cityPickerLoadFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the city list. Please try again.'**
+  String get cityPickerLoadFailed;
+
+  /// cityPickerFieldHint
+  ///
+  /// In en, this message translates to:
+  /// **'Choose province and city'**
+  String get cityPickerFieldHint;
+
+  /// cityPickerRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose your city.'**
+  String get cityPickerRequired;
+
+  /// pinFarFromCityTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Is this the right place?'**
+  String get pinFarFromCityTitle;
+
+  /// pinFarFromCityKeep
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, use this spot'**
+  String get pinFarFromCityKeep;
+
+  /// pinFarFromCityMove
+  ///
+  /// In en, this message translates to:
+  /// **'No, move the pin'**
+  String get pinFarFromCityMove;
+
+  /// locationDataCredits
+  ///
+  /// In en, this message translates to:
+  /// **'Location data'**
+  String get locationDataCredits;
+
+  /// locationTimeout
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.'**
+  String get locationTimeout;
+
+  /// locationLowAccuracy
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is not exact. Check the pin and drag the map to fix it.'**
+  String get locationLowAccuracy;
+
+  /// mapAttributionOpenStreetMap
+  ///
+  /// In en, this message translates to:
+  /// **'© OpenStreetMap contributors'**
+  String get mapAttributionOpenStreetMap;
+
+  /// cityPickerCityCount
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 city} other{{count} cities}}'**
+  String cityPickerCityCount(int count);
+
+  /// pinFarFromCityBody
+  ///
+  /// In en, this message translates to:
+  /// **'This pin is about {km} km from {city}. Is this where you mean?'**
+  String pinFarFromCityBody(String km, String city);
+
+  /// No description provided for @deliveryStepPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up'**
+  String get deliveryStepPickup;
+
+  /// No description provided for @deliveryStepOnTheWay.
+  ///
+  /// In en, this message translates to:
+  /// **'On the way'**
+  String get deliveryStepOnTheWay;
+
+  /// No description provided for @deliveryStepHandover.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over'**
+  String get deliveryStepHandover;
+
+  /// No description provided for @nextStepHeadToPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the farm and collect the order.'**
+  String get nextStepHeadToPickup;
+
+  /// No description provided for @nextStepStartTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Order collected. Start the trip to the buyer.'**
+  String get nextStepStartTrip;
+
+  /// No description provided for @nextStepHandover.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the order and enter the buyer\'s code.'**
+  String get nextStepHandover;
+
+  /// No description provided for @onlineShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving offers within {km} km'**
+  String onlineShort(String km);
+
+  /// No description provided for @locationOpenAppNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the app open so your location stays current.'**
+  String get locationOpenAppNote;
+
+  /// No description provided for @toPickupKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km to pickup'**
+  String toPickupKm(String km);
+
+  /// No description provided for @tripKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km trip'**
+  String tripKm(String km);
+
+  /// No description provided for @callContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Call {name}'**
+  String callContact(String name);
+
+  /// No description provided for @reportProblemShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem'**
+  String get reportProblemShort;
+
+  /// No description provided for @communityRoleTransporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get communityRoleTransporter;
+
+  /// No description provided for @feedSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search posts'**
+  String get feedSearchHint;
+
+  /// No description provided for @feedSortLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get feedSortLatest;
+
+  /// No description provided for @feedSortTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Most liked'**
+  String get feedSortTop;
+
+  /// No description provided for @feedTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get feedTrending;
+
+  /// No description provided for @postKindAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get postKindAll;
+
+  /// No description provided for @postKindDiscussion.
+  ///
+  /// In en, this message translates to:
+  /// **'Discussion'**
+  String get postKindDiscussion;
+
+  /// No description provided for @postKindQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get postKindQuestion;
+
+  /// No description provided for @postKindTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get postKindTip;
+
+  /// No description provided for @postKindMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy & sell'**
+  String get postKindMarket;
+
+  /// No description provided for @postKindLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you sharing?'**
+  String get postKindLabel;
+
+  /// No description provided for @replyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get replyAction;
+
+  /// No description provided for @reportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportAction;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this'**
+  String get reportTitle;
+
+  /// No description provided for @reportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Farm2Fork team will look at it. The author is not told who reported.'**
+  String get reportSubtitle;
+
+  /// No description provided for @reportReasonSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam or advertising'**
+  String get reportReasonSpam;
+
+  /// No description provided for @reportReasonAbuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Abuse or harassment'**
+  String get reportReasonAbuse;
+
+  /// No description provided for @reportReasonMisinformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong or misleading information'**
+  String get reportReasonMisinformation;
+
+  /// No description provided for @reportReasonScam.
+  ///
+  /// In en, this message translates to:
+  /// **'Scam or fraud'**
+  String get reportReasonScam;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a detail (optional)'**
+  String get reportNoteHint;
+
+  /// No description provided for @reportSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send report'**
+  String get reportSubmit;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks. The team will review it.'**
+  String get reportSent;
+
+  /// No description provided for @reportAlreadySent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already reported this.'**
+  String get reportAlreadySent;
+
+  /// No description provided for @editPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit post'**
+  String get editPost;
+
+  /// No description provided for @postEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get postEdited;
+
+  /// No description provided for @communityNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts match. Try other words or clear the filters.'**
+  String get communityNoResults;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @feedLikeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 like} other{{count} likes}}'**
+  String feedLikeCount(int count);
+
+  /// No description provided for @replyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {name}'**
+  String replyingTo(String name);
+
+  /// No description provided for @yourRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating'**
+  String get yourRating;
+
+  /// No description provided for @rateOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this order'**
+  String get rateOrder;
+
+  /// No description provided for @rateOrderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this order?'**
+  String get rateOrderTitle;
+
+  /// No description provided for @rateOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating is shown on the farmer\'s profile and helps other buyers.'**
+  String get rateOrderHint;
+
+  /// No description provided for @reviewCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell other buyers about quality, packing and delivery (optional)'**
+  String get reviewCommentHint;
+
+  /// No description provided for @submitReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get submitReview;
+
+  /// No description provided for @reviewThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your review.'**
+  String get reviewThanks;
+
+  /// No description provided for @farmerReplyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer\'s reply'**
+  String get farmerReplyLabel;
+
+  /// No description provided for @buyerReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer reviews'**
+  String get buyerReviews;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet. They appear here after buyers rate delivered orders.'**
+  String get noReviewsYet;
+
+  /// No description provided for @replyToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to this review'**
+  String get replyToReview;
+
+  /// No description provided for @replyOnceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can reply once. Buyers will see it.'**
+  String get replyOnceHint;
+
+  /// No description provided for @mandiRates.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandi rates'**
+  String get mandiRates;
+
+  /// No description provided for @mandiRatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest official market prices'**
+  String get mandiRatesHint;
+
+  /// No description provided for @mandiRatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rate list has been published yet. Check back soon.'**
+  String get mandiRatesEmpty;
+
+  /// No description provided for @mandiRatesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Official wholesale prices. Use them as a guide when you set or compare a price.'**
+  String get mandiRatesNote;
+
+  /// No description provided for @mandiRatesSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a crop'**
+  String get mandiRatesSearch;
+
+  /// No description provided for @mandiRatesNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no crop with that name.'**
+  String get mandiRatesNoMatch;
+
+  /// No description provided for @unit40Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'40 kg'**
+  String get unit40Kg;
+
+  /// No description provided for @unit100Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'100 kg'**
+  String get unit100Kg;
+
+  /// No description provided for @ratingOutOfFive.
+  ///
+  /// In en, this message translates to:
+  /// **'{rating} out of 5'**
+  String ratingOutOfFive(String rating);
+
+  /// No description provided for @reviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
+  String reviewCount(int count);
+
+  /// No description provided for @mandiRatesObserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices of {date} · {source}'**
+  String mandiRatesObserved(String date, String source);
+
+  /// No description provided for @mandiRatePer.
+  ///
+  /// In en, this message translates to:
+  /// **'per {unit}'**
+  String mandiRatePer(String unit);
+
+  /// No description provided for @mandiRateFair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair price {amount}'**
+  String mandiRateFair(String amount);
 }
 
 class _AppLocalizationsDelegate

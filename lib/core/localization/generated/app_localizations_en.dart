@@ -1292,19 +1292,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String aiPriceLocal(String market, String date) {
-    return 'Wholesale mandi price in $market on $date.';
-  }
-
-  @override
-  String aiPricePunjab(int count, String date) {
-    return 'Middle half of wholesale mandi prices across $count Punjab markets on $date.';
-  }
-
-  @override
-  String aiPriceSource(String commodity) {
-    return 'Source: AMIS Punjab ($commodity). Wholesale prices; your selling price can differ.';
-  }
+  String get aiPriceRuleBased =>
+      'Rule-based estimate from reference ranges, season and grade — not live market data.';
 
   @override
   String aiUsePrice(String price) {
@@ -1313,7 +1302,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiPriceNoRule =>
-      'No official mandi price covers this product or unit.';
+      'No official wholesale observation covers this crop or unit. Enter your price manually.';
 
   @override
   String get aiQualityTitle => 'Photo quality check';
@@ -1346,31 +1335,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiCropNotTrained =>
       'The model has no training data for this crop yet.';
-
-  @override
-  String get aiReviewTitle => 'No grade from this photo';
-
-  @override
-  String get aiReviewLowConfidence =>
-      'The model wasn\'t sure enough about this photo to suggest a grade.';
-
-  @override
-  String get aiReviewUnfamiliarPhoto =>
-      'This photo looks different from the photos the model learned from, so a grade could be wrong.';
-
-  @override
-  String get aiReviewUnavailable =>
-      'Photo checks aren\'t available right now, so no grade is shown.';
-
-  @override
-  String get aiReviewTips =>
-      'For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.';
-
-  @override
-  String get aiReviewRetake => 'Retake photo';
-
-  @override
-  String get aiReviewManual => 'Or choose the listing grade yourself.';
 
   @override
   String get aiLowConfidence => 'Low confidence — check the grade yourself.';
@@ -1505,19 +1469,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationServiceDisabled =>
-      'Location is turned off on this phone. Turn it on to continue.';
+      'Location is turned off on this phone. Turn it on, or drag the map to place the pin.';
 
   @override
   String get locationPermissionDenied =>
-      'Farm2Fork needs location permission for this.';
+      'Farm2Fork needs location permission to find you. You can also drag the map to place the pin.';
 
   @override
   String get locationPermissionDeniedForever =>
-      'Location permission is blocked. Allow it in Settings to continue.';
+      'Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.';
 
   @override
   String get locationUnavailable =>
-      'Couldn\'t get your location. Move to open sky and try again.';
+      'Couldn\'t get your location. Move to open sky and try again. You can also drag the map to place the pin.';
 
   @override
   String get openSettings => 'Settings';
@@ -1926,17 +1890,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryLongitude => 'Delivery longitude';
 
   @override
-  String get locationLatitude => 'Latitude';
-
-  @override
-  String get locationLongitude => 'Longitude';
-
-  @override
   String get locationInvalid => 'Enter valid coordinates inside Pakistan.';
-
-  @override
-  String get locationCoordinatesHelp =>
-      'Copy the coordinates of this address from your map app.';
 
   @override
   String get getDeliveryQuote => 'Get delivery quote';
@@ -1962,7 +1916,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get farmPickupHelp =>
-      'Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.';
+      'Save your farm address and map pin so buyers can price delivery and transporters can collect orders.';
 
   @override
   String get farmPickupSave => 'Save pickup location';
@@ -2070,9 +2024,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pushEmpty => 'No notifications yet.';
-
-  @override
-  String get enterCoordinates => 'Enter coordinates';
 
   @override
   String get save => 'Save';
@@ -2543,4 +2494,439 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deliveryReconcileRequired =>
       'The last action could not be confirmed. Refresh the delivery before trying another action.';
+
+  @override
+  String get openInGoogleMaps => 'Open in Google Maps';
+
+  @override
+  String get deliveryMapTitle => 'Live delivery map';
+
+  @override
+  String get mapYourFarm => 'Your farm';
+
+  @override
+  String get mapYourDropoff => 'Your drop-off';
+
+  @override
+  String get mapTransporter => 'Transporter';
+
+  @override
+  String get transporterLocationWaiting =>
+      'The transporter\'s position appears here while their app is open.';
+
+  @override
+  String get transporterLocationJustNow =>
+      'Transporter position updated just now.';
+
+  @override
+  String transporterLocationMinutes(int minutes) {
+    return 'Transporter position updated $minutes min ago.';
+  }
+
+  @override
+  String get orderQrTitle => 'Order QR';
+
+  @override
+  String get orderQrDescription =>
+      'Scan to follow this order from farm to delivery.';
+
+  @override
+  String get orderJourneyTitle => 'Order journey';
+
+  @override
+  String get orderJourneyPublic =>
+      'This public journey keeps addresses, payment amounts and personal details private.';
+
+  @override
+  String get orderQrUnavailable =>
+      'The QR is unavailable. Payment may still be processing or the order may have been refunded.';
+
+  @override
+  String get orderQrCopied => 'Order link copied';
+
+  @override
+  String get orderQrCopy => 'Copy link';
+
+  @override
+  String get orderQrShare => 'Share QR';
+
+  @override
+  String get orderQrView => 'View journey';
+
+  @override
+  String get orderTraceNotFound => 'Order journey unavailable';
+
+  @override
+  String get orderTraceNotFoundDesc =>
+      'Check the QR link. Only confirmed, paid orders have a public journey.';
+
+  @override
+  String get orderTracePaidAt => 'Payment confirmed';
+
+  @override
+  String get orderTraceLedgerUnavailable =>
+      'Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.';
+
+  @override
+  String get orderTraceLedgerChecked => 'Ledger records checked';
+
+  @override
+  String get orderPrivateDetails => 'Private order details';
+
+  @override
+  String get qrScanCamera => 'Scan QR code';
+
+  @override
+  String get qrCameraHint =>
+      'Point your camera at a Farm2Fork product or order QR code.';
+
+  @override
+  String get qrCameraUnavailable =>
+      'Camera unavailable. Allow camera access in Settings, or paste your QR link below.';
+
+  @override
+  String get qrCameraTorch => 'Toggle torch';
+
+  @override
+  String get qrInvalidCode =>
+      'This is not a Farm2Fork QR code. Try another code or paste a valid link.';
+
+  @override
+  String get qrUseLink => 'Paste a link instead';
+
+  @override
+  String get qrScanAgain => 'Scan again';
+
+  @override
+  String get orderTraceLedgerMismatch =>
+      'Ledger readback did not match this event. Verification is incomplete.';
+
+  @override
+  String get aiReviewRecovery =>
+      'Photo needs review. Retake a clear crop photo or choose the grade manually.';
+
+  @override
+  String get aiWholesaleBasis =>
+      'Official wholesale reference, not a farm-gate or live price. Set your own listing price.';
+
+  @override
+  String aiWholesaleObservation(
+    String date,
+    String source,
+    String market,
+    int count,
+    String currency,
+  ) {
+    return 'Historical observation: $date · $source · $market ($count markets) · $currency';
+  }
+
+  @override
+  String get cityPickerChooseProvince => 'Choose your province';
+
+  @override
+  String get cityPickerSearchHint => 'Search for your city';
+
+  @override
+  String get cityPickerClearSearch => 'Clear search';
+
+  @override
+  String get cityPickerChangeProvince => 'Change province';
+
+  @override
+  String get cityPickerNoResults =>
+      'No city found. Check the spelling or pick another province.';
+
+  @override
+  String get cityPickerLoadFailed =>
+      'Couldn\'t load the city list. Please try again.';
+
+  @override
+  String get cityPickerFieldHint => 'Choose province and city';
+
+  @override
+  String get cityPickerRequired => 'Please choose your city.';
+
+  @override
+  String get pinFarFromCityTitle => 'Is this the right place?';
+
+  @override
+  String get pinFarFromCityKeep => 'Yes, use this spot';
+
+  @override
+  String get pinFarFromCityMove => 'No, move the pin';
+
+  @override
+  String get locationDataCredits => 'Location data';
+
+  @override
+  String get locationTimeout =>
+      'Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.';
+
+  @override
+  String get locationLowAccuracy =>
+      'Your location is not exact. Check the pin and drag the map to fix it.';
+
+  @override
+  String get mapAttributionOpenStreetMap => '© OpenStreetMap contributors';
+
+  @override
+  String cityPickerCityCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cities',
+      one: '1 city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pinFarFromCityBody(String km, String city) {
+    return 'This pin is about $km km from $city. Is this where you mean?';
+  }
+
+  @override
+  String get deliveryStepPickup => 'Pick up';
+
+  @override
+  String get deliveryStepOnTheWay => 'On the way';
+
+  @override
+  String get deliveryStepHandover => 'Hand over';
+
+  @override
+  String get nextStepHeadToPickup => 'Go to the farm and collect the order.';
+
+  @override
+  String get nextStepStartTrip =>
+      'Order collected. Start the trip to the buyer.';
+
+  @override
+  String get nextStepHandover =>
+      'Hand over the order and enter the buyer\'s code.';
+
+  @override
+  String onlineShort(String km) {
+    return 'Receiving offers within $km km';
+  }
+
+  @override
+  String get locationOpenAppNote =>
+      'Keep the app open so your location stays current.';
+
+  @override
+  String toPickupKm(String km) {
+    return '$km km to pickup';
+  }
+
+  @override
+  String tripKm(String km) {
+    return '$km km trip';
+  }
+
+  @override
+  String callContact(String name) {
+    return 'Call $name';
+  }
+
+  @override
+  String get reportProblemShort => 'Report a problem';
+
+  @override
+  String get communityRoleTransporter => 'Transporter';
+
+  @override
+  String get feedSearchHint => 'Search posts';
+
+  @override
+  String get feedSortLatest => 'Latest';
+
+  @override
+  String get feedSortTop => 'Most liked';
+
+  @override
+  String get feedTrending => 'Topics';
+
+  @override
+  String get postKindAll => 'All';
+
+  @override
+  String get postKindDiscussion => 'Discussion';
+
+  @override
+  String get postKindQuestion => 'Question';
+
+  @override
+  String get postKindTip => 'Tip';
+
+  @override
+  String get postKindMarket => 'Buy & sell';
+
+  @override
+  String get postKindLabel => 'What are you sharing?';
+
+  @override
+  String get replyAction => 'Reply';
+
+  @override
+  String get reportAction => 'Report';
+
+  @override
+  String get reportTitle => 'Report this';
+
+  @override
+  String get reportSubtitle =>
+      'The Farm2Fork team will look at it. The author is not told who reported.';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising';
+
+  @override
+  String get reportReasonAbuse => 'Abuse or harassment';
+
+  @override
+  String get reportReasonMisinformation => 'Wrong or misleading information';
+
+  @override
+  String get reportReasonScam => 'Scam or fraud';
+
+  @override
+  String get reportReasonOther => 'Something else';
+
+  @override
+  String get reportNoteHint => 'Add a detail (optional)';
+
+  @override
+  String get reportSubmit => 'Send report';
+
+  @override
+  String get reportSent => 'Thanks. The team will review it.';
+
+  @override
+  String get reportAlreadySent => 'You have already reported this.';
+
+  @override
+  String get editPost => 'Edit post';
+
+  @override
+  String get postEdited => 'Edited';
+
+  @override
+  String get communityNoResults =>
+      'No posts match. Try other words or clear the filters.';
+
+  @override
+  String get moreOptions => 'More options';
+
+  @override
+  String feedLikeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count likes',
+      one: '1 like',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String replyingTo(String name) {
+    return 'Replying to $name';
+  }
+
+  @override
+  String get yourRating => 'Your rating';
+
+  @override
+  String get rateOrder => 'Rate this order';
+
+  @override
+  String get rateOrderTitle => 'How was this order?';
+
+  @override
+  String get rateOrderHint =>
+      'Your rating is shown on the farmer\'s profile and helps other buyers.';
+
+  @override
+  String get reviewCommentHint =>
+      'Tell other buyers about quality, packing and delivery (optional)';
+
+  @override
+  String get submitReview => 'Submit review';
+
+  @override
+  String get reviewThanks => 'Thanks for your review.';
+
+  @override
+  String get farmerReplyLabel => 'Farmer\'s reply';
+
+  @override
+  String get buyerReviews => 'Buyer reviews';
+
+  @override
+  String get noReviewsYet =>
+      'No reviews yet. They appear here after buyers rate delivered orders.';
+
+  @override
+  String get replyToReview => 'Reply to this review';
+
+  @override
+  String get replyOnceHint => 'You can reply once. Buyers will see it.';
+
+  @override
+  String get mandiRates => 'Mandi rates';
+
+  @override
+  String get mandiRatesHint => 'Latest official market prices';
+
+  @override
+  String get mandiRatesEmpty =>
+      'No rate list has been published yet. Check back soon.';
+
+  @override
+  String get mandiRatesNote =>
+      'Official wholesale prices. Use them as a guide when you set or compare a price.';
+
+  @override
+  String get mandiRatesSearch => 'Search a crop';
+
+  @override
+  String get mandiRatesNoMatch => 'This list has no crop with that name.';
+
+  @override
+  String get unit40Kg => '40 kg';
+
+  @override
+  String get unit100Kg => '100 kg';
+
+  @override
+  String ratingOutOfFive(String rating) {
+    return '$rating out of 5';
+  }
+
+  @override
+  String reviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '1 review',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mandiRatesObserved(String date, String source) {
+    return 'Prices of $date · $source';
+  }
+
+  @override
+  String mandiRatePer(String unit) {
+    return 'per $unit';
+  }
+
+  @override
+  String mandiRateFair(String amount) {
+    return 'Fair price $amount';
+  }
 }

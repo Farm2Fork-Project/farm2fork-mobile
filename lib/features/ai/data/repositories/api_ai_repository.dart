@@ -41,13 +41,56 @@ class ApiAiRepository implements AiRepository {
       }),
       on422: AiErrorKind.noPriceRule,
     );
+    String requiredText(String key) {
+      final value = dto[key];
+      if (value is! String || value.trim().isEmpty) {
+        throw const AiException(AiErrorKind.failed);
+      }
+      return value;
+    }
+
+    final min = _number(dto['predictedMinPrice']);
+    final max = _number(dto['predictedMaxPrice']);
+    final date = requiredText('observedOn');
+    final parsedDate = DateTime.tryParse(date);
+    final count = dto['marketCount'];
+    final sourceUrl = requiredText('sourceUrl');
+    final uri = Uri.tryParse(sourceUrl);
+    if (dto['method'] != 'official_wholesale' ||
+        dto['currency'] != 'PKR' ||
+        dto['unit'] != ProductDtoMapper.unitToWire(unit) ||
+        !min.isFinite ||
+        !max.isFinite ||
+        min <= 0 ||
+        max < min ||
+        !RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(date) ||
+        parsedDate == null ||
+        parsedDate.toIso8601String().substring(0, 10) != date ||
+        date.compareTo(
+              DateTime.now().toUtc().toIso8601String().substring(0, 10),
+            ) >
+            0 ||
+        count is! int ||
+        count < 1 ||
+        uri == null ||
+        !const ['http', 'https'].contains(uri.scheme) ||
+        uri.userInfo.isNotEmpty ||
+        uri.host.isEmpty) {
+      throw const AiException(AiErrorKind.failed);
+    }
     return PriceSuggestion(
-      minPrice: _number(dto['predictedMinPrice']),
-      maxPrice: _number(dto['predictedMaxPrice']),
-      commodity: '${dto['commodity'] ?? ''}',
-      observedOn: DateTime.parse('${dto['observedOn']}'),
-      marketScope: '${dto['marketScope'] ?? 'Punjab'}',
-      marketCount: _number(dto['marketCount']).toInt(),
+      minPrice: min,
+      maxPrice: max,
+      unit: requiredText('unit'),
+      currency: requiredText('currency'),
+      modelVersion: requiredText('modelVersion'),
+      commodity: requiredText('commodity'),
+      observedOn: date,
+      marketScope: requiredText('marketScope'),
+      marketCount: count,
+      source: requiredText('source'),
+      sourceUrl: sourceUrl,
+      predictionId: requiredText('predictionId'),
     );
   }
 
@@ -70,22 +113,40 @@ class ApiAiRepository implements AiRepository {
       ),
       on422: AiErrorKind.invalidPhoto,
     );
-    final suggested = dto['suggestedListingGrade'] as String?;
+    final suggested = dto['suggestedListingGrade'];
+    final similarity = dto['photoSimilarity'];
+    final confidence = _number(dto['confidenceScore']);
+    final safe =
+        dto.containsKey('reviewReason') &&
+        dto['reviewReason'] == null &&
+        similarity is num &&
+        similarity.isFinite &&
+        similarity >= -1 &&
+        similarity <= 1 &&
+        dto['needsReview'] == false &&
+        dto['cropSupported'] == true &&
+        dto['crop'] == crop.name &&
+        dto['lowConfidence'] == false &&
+        confidence.isFinite &&
+        confidence >= 0.7 &&
+        confidence <= 1 &&
+        dto['modelStatus'] == 'trained' &&
+        const ['A', 'B', 'C'].contains(dto['modelGrade']) &&
+        const ['A', 'B', 'C'].contains(suggested) &&
+        suggested == dto['modelGrade'];
+
     return QualityCheck(
-      modelGrade: dto['modelGrade'] as String?,
-      reviewReason: dto['needsReview'] == true
-          ? switch (dto['reviewReason']) {
-              'unfamiliar_photo' => QualityReviewReason.unfamiliarPhoto,
-              'photo_check_unavailable' =>
-                QualityReviewReason.photoCheckUnavailable,
-              _ => QualityReviewReason.lowConfidence,
-            }
-          : null,
-      suggestedListingGrade: suggested == null
+      modelGrade: (dto['modelGrade'] as String?) ?? '?',
+      suggestedListingGrade: !safe
           ? null
-          : ProductDtoMapper.gradeFromWire(suggested),
+          : ProductDtoMapper.gradeFromWire(suggested as String),
       confidence: _number(dto['confidenceScore']),
-      cropSupported: dto['cropSupported'] != false,
+      cropSupported: dto['cropSupported'] == true,
+      needsReview: !safe,
+      reviewReason: dto['reviewReason'] as String?,
+      photoSimilarity: dto['photoSimilarity'] is num
+          ? (dto['photoSimilarity'] as num).toDouble()
+          : null,
       lowConfidence: dto['lowConfidence'] == true,
       modelStatus: _modelStatus(dto['modelStatus']) ?? AiModelStatus.untrained,
     );

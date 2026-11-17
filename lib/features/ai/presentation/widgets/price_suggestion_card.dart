@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:farm2fork_mobile/core/localization/l10n_extension.dart';
 import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
@@ -14,8 +13,7 @@ import 'package:farm2fork_mobile/features/ai/presentation/widgets/ai_assist_mess
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 
-/// Fair-price helper on the pricing step. The estimate is rule-based and
-/// says so; the farmer applies it explicitly.
+/// Historical official wholesale reference; the farmer applies it explicitly.
 class PriceSuggestionCard extends ConsumerStatefulWidget {
   const PriceSuggestionCard({
     super.key,
@@ -43,20 +41,29 @@ class _PriceSuggestionCardState extends ConsumerState<PriceSuggestionCard> {
   PriceSuggestion? _suggestion;
   AiErrorKind? _error;
   bool _loading = false;
+  int _request = 0;
 
   @override
   void didUpdateWidget(covariant PriceSuggestionCard old) {
     super.didUpdateWidget(old);
     // A range for another unit or grade would be misleading: drop it.
-    if (old.unit != widget.unit || old.grade != widget.grade) {
+    if (old.unit != widget.unit ||
+        old.grade != widget.grade ||
+        old.productName != widget.productName ||
+        old.category != widget.category) {
       _suggestion = null;
+      _request++;
+      _loading = false;
+      _error = null;
     }
   }
 
   Future<void> _suggest() async {
+    final request = ++_request;
     setState(() {
       _loading = true;
       _error = null;
+      _suggestion = null;
     });
     try {
       final suggestion = await ref
@@ -67,13 +74,17 @@ class _PriceSuggestionCardState extends ConsumerState<PriceSuggestionCard> {
             unit: widget.unit,
             grade: widget.grade,
           );
-      if (mounted) setState(() => _suggestion = suggestion);
+      if (mounted && request == _request) {
+        setState(() => _suggestion = suggestion);
+      }
     } on AiException catch (e) {
-      if (mounted) setState(() => _error = e.kind);
+      if (mounted && request == _request) setState(() => _error = e.kind);
     } catch (_) {
-      if (mounted) setState(() => _error = AiErrorKind.failed);
+      if (mounted && request == _request) {
+        setState(() => _error = AiErrorKind.failed);
+      }
     } finally {
-      if (mounted) setState(() => _loading = false);
+      if (mounted && request == _request) setState(() => _loading = false);
     }
   }
 
@@ -128,22 +139,17 @@ class _PriceSuggestionCardState extends ConsumerState<PriceSuggestionCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
-            AiNote(
-              text: suggestion.punjabWide
-                  ? l10n.aiPricePunjab(
-                      suggestion.marketCount,
-                      DateFormat.yMMMd(
-                        locale.toLanguageTag(),
-                      ).format(suggestion.observedOn),
-                    )
-                  : l10n.aiPriceLocal(
-                      suggestion.marketScope,
-                      DateFormat.yMMMd(
-                        locale.toLanguageTag(),
-                      ).format(suggestion.observedOn),
-                    ),
+            AiNote(text: l10n.aiWholesaleBasis),
+            Text(
+              l10n.aiWholesaleObservation(
+                suggestion.observedOn,
+                suggestion.source,
+                suggestion.marketScope,
+                suggestion.marketCount,
+                suggestion.currency,
+              ),
             ),
-            AiNote(text: l10n.aiPriceSource(suggestion.commodity)),
+            SelectableText(suggestion.sourceUrl),
             const SizedBox(height: AppSpacing.sm),
             AppButton(
               label: l10n.aiUsePrice(

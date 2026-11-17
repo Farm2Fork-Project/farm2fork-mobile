@@ -60,18 +60,177 @@ Future<Object?> _priceError(Object error) async {
 }
 
 void main() {
+  test('missing review flag cannot recommend a listing grade', () async {
+    final result =
+        await ApiAiRepository(
+          _Api(
+            response: {
+              'modelGrade': 'A',
+              'suggestedListingGrade': 'A',
+              'confidenceScore': 0.99,
+              'cropSupported': true,
+              'lowConfidence': false,
+              'modelStatus': 'trained',
+            },
+          ),
+        ).checkQuality(
+          bytes: [1],
+          filename: 'rice.jpg',
+          mimeType: 'image/jpeg',
+          crop: GradableCrop.rice,
+        );
+    expect(result.suggestedListingGrade, isNull);
+  });
+
+  test('quality safety gates override an optimistic listing grade', () async {
+    final safe = <String, dynamic>{
+      'modelGrade': 'A',
+      'suggestedListingGrade': 'A',
+      'confidenceScore': .9,
+      'cropSupported': true,
+      'lowConfidence': false,
+      'modelStatus': 'trained',
+      'needsReview': false,
+      'reviewReason': null,
+      'photoSimilarity': .9,
+      'crop': 'rice',
+    };
+    for (final patch in <Map<String, dynamic>>[
+      {'needsReview': true},
+      {'crop': 'mango'},
+      {'crop': null},
+      {'confidenceScore': double.infinity},
+      {'confidenceScore': 1.01},
+      {'suggestedListingGrade': 'B'},
+      {'confidenceScore': .69},
+      {'modelStatus': 'untrained'},
+      {'cropSupported': false},
+      {'lowConfidence': true},
+      {'modelGrade': 'D'},
+      {'photoSimilarity': null},
+      {'photoSimilarity': double.nan},
+      {'reviewReason': 'unfamiliar_photo'},
+    ]) {
+      final result = await ApiAiRepository(_Api(response: {...safe, ...patch}))
+          .checkQuality(
+            bytes: [1],
+            filename: 'rice.jpg',
+            mimeType: 'image/jpeg',
+            crop: GradableCrop.rice,
+          );
+      expect(result.canApply, isFalse, reason: '$patch');
+      expect(result.suggestedListingGrade, isNull, reason: '$patch');
+    }
+    final result = await ApiAiRepository(_Api(response: safe)).checkQuality(
+      bytes: [1],
+      filename: 'rice.jpg',
+      mimeType: 'image/jpeg',
+      crop: GradableCrop.rice,
+    );
+    expect(result.canApply, isTrue);
+  });
+
   test(
-    'sends the backend price contract and reads a dated official range',
+    'direct quality models reject invalid confidence and mismatching grade',
+    () {
+      for (final confidence in [double.infinity, double.nan, 1.01]) {
+        expect(
+          QualityCheck(
+            modelGrade: 'A',
+            suggestedListingGrade: QualityGrade.a,
+            confidence: confidence,
+            cropSupported: true,
+            lowConfidence: false,
+            modelStatus: AiModelStatus.trained,
+            needsReview: false,
+            photoSimilarity: .9,
+          ).canApply,
+          isFalse,
+        );
+      }
+      expect(
+        const QualityCheck(
+          modelGrade: 'A',
+          suggestedListingGrade: QualityGrade.b,
+          confidence: .9,
+          cropSupported: true,
+          lowConfidence: false,
+          modelStatus: AiModelStatus.trained,
+          needsReview: false,
+          photoSimilarity: .9,
+        ).canApply,
+        isFalse,
+      );
+    },
+  );
+  test('future official price observations are rejected', () async {
+    await expectLater(
+      ApiAiRepository(
+        _Api(
+          response: {
+            'predictedMinPrice': 10,
+            'predictedMaxPrice': 20,
+            'method': 'official_wholesale',
+            'currency': 'PKR',
+            'unit': 'kg',
+            'modelVersion': 'official-v1',
+            'commodity': 'Mango',
+            'observedOn': '2999-01-01',
+            'marketScope': 'Punjab',
+            'marketCount': 1,
+            'source': 'AMIS',
+            'sourceUrl': 'http://www.amis.pk',
+            'predictionId': 'test-id',
+          },
+        ),
+      ).suggestPrice(
+        productName: 'Mango',
+        category: ProductCategory.fruits,
+        unit: ProductUnit.kg,
+        grade: QualityGrade.a,
+      ),
+      throwsA(isA<AiException>()),
+    );
+  });
+
+  test('legacy price ranges without provenance are rejected', () async {
+    await expectLater(
+      ApiAiRepository(
+        _Api(
+          response: {
+            'predictedMinPrice': 10,
+            'predictedMaxPrice': 20,
+            'method': 'rule_based',
+          },
+        ),
+      ).suggestPrice(
+        productName: 'Mango',
+        category: ProductCategory.fruits,
+        unit: ProductUnit.kg,
+        grade: QualityGrade.a,
+      ),
+      throwsA(isA<AiException>()),
+    );
+  });
+
+  test(
+    'sends the backend price contract and reads a provenanced wholesale range',
     () async {
       final api = _Api(
         response: {
           'predictedMinPrice': 154,
           'predictedMaxPrice': 352,
           'method': 'official_wholesale',
-          'commodity': 'Mango(Chounsa)',
-          'observedOn': '2026-08-15',
-          'marketScope': 'Multan',
-          'marketCount': 1,
+          'currency': 'PKR',
+          'unit': 'kg',
+          'modelVersion': 'official-v1',
+          'commodity': 'Mango',
+          'observedOn': '2026-10-01',
+          'marketScope': 'Punjab',
+          'marketCount': 2,
+          'source': 'AMIS',
+          'sourceUrl': 'http://www.amis.pk',
+          'predictionId': 'test-id',
         },
       );
       final price = await ApiAiRepository(api).suggestPrice(
@@ -89,9 +248,8 @@ void main() {
       });
       expect(price.minPrice, 154);
       expect(price.midpoint, 253);
-      expect(price.observedOn, DateTime(2026, 8, 15));
-      expect(price.marketScope, 'Multan');
-      expect(price.punjabWide, isFalse);
+      expect(price.observedOn, '2026-10-01');
+      expect(price.source, 'AMIS');
     },
   );
 

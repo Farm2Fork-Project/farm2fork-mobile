@@ -1561,28 +1561,9 @@
       }
     }
   },
-  "aiPriceLocal": "Wholesale mandi price in {market} on {date}.",
-  "@aiPriceLocal": {
-    "description": "Price source: the farmer's own market",
-    "placeholders": {
-      "market": {"type": "String"},
-      "date": {"type": "String"}
-    }
-  },
-  "aiPricePunjab": "Middle half of wholesale mandi prices across {count} Punjab markets on {date}.",
-  "@aiPricePunjab": {
-    "description": "Price source: Punjab-wide markets",
-    "placeholders": {
-      "count": {"type": "int"},
-      "date": {"type": "String"}
-    }
-  },
-  "aiPriceSource": "Source: AMIS Punjab ({commodity}). Wholesale prices; your selling price can differ.",
-  "@aiPriceSource": {
-    "description": "Official price source and caveat",
-    "placeholders": {
-      "commodity": {"type": "String"}
-    }
+  "aiPriceRuleBased": "Rule-based estimate from reference ranges, season and grade — not live market data.",
+  "@aiPriceRuleBased": {
+    "description": "Caveat: price is rule-based"
   },
   "aiUsePrice": "Use Rs {price}",
   "@aiUsePrice": {
@@ -1594,7 +1575,7 @@
       }
     }
   },
-  "aiPriceNoRule": "No official mandi price covers this product or unit.",
+  "aiPriceNoRule": "No official wholesale observation covers this crop or unit. Enter your price manually.",
   "@aiPriceNoRule": {
     "description": "No rule for this unit/category"
   },
@@ -1643,34 +1624,6 @@
   "aiCropNotTrained": "The model has no training data for this crop yet.",
   "@aiCropNotTrained": {
     "description": "Result caveat: crop not trained"
-  },
-  "aiReviewTitle": "No grade from this photo",
-  "@aiReviewTitle": {
-    "description": "Quality check result when no grade can be shown"
-  },
-  "aiReviewLowConfidence": "The model wasn't sure enough about this photo to suggest a grade.",
-  "@aiReviewLowConfidence": {
-    "description": "Review reason: low model confidence"
-  },
-  "aiReviewUnfamiliarPhoto": "This photo looks different from the photos the model learned from, so a grade could be wrong.",
-  "@aiReviewUnfamiliarPhoto": {
-    "description": "Review reason: photo unlike training photos"
-  },
-  "aiReviewUnavailable": "Photo checks aren't available right now, so no grade is shown.",
-  "@aiReviewUnavailable": {
-    "description": "Review reason: photo checks unavailable"
-  },
-  "aiReviewTips": "For a better photo: spread a small sample on a plain, light surface, shoot from above in daylight, and fill the frame.",
-  "@aiReviewTips": {
-    "description": "Tips for retaking a produce photo"
-  },
-  "aiReviewRetake": "Retake photo",
-  "@aiReviewRetake": {
-    "description": "Button: take another photo"
-  },
-  "aiReviewManual": "Or choose the listing grade yourself.",
-  "@aiReviewManual": {
-    "description": "Hint: pick the grade manually"
   },
   "aiLowConfidence": "Low confidence — check the grade yourself.",
   "@aiLowConfidence": {
@@ -1838,19 +1791,19 @@
   "@locationOutsidePakistan": {
     "description": "locationOutsidePakistan"
   },
-  "locationServiceDisabled": "Location is turned off on this phone. Turn it on to continue.",
+  "locationServiceDisabled": "Location is turned off on this phone. Turn it on, or drag the map to place the pin.",
   "@locationServiceDisabled": {
     "description": "locationServiceDisabled"
   },
-  "locationPermissionDenied": "Farm2Fork needs location permission for this.",
+  "locationPermissionDenied": "Farm2Fork needs location permission to find you. You can also drag the map to place the pin.",
   "@locationPermissionDenied": {
     "description": "locationPermissionDenied"
   },
-  "locationPermissionDeniedForever": "Location permission is blocked. Allow it in Settings to continue.",
+  "locationPermissionDeniedForever": "Location permission is blocked. Allow it in Settings. You can also drag the map to place the pin.",
   "@locationPermissionDeniedForever": {
     "description": "locationPermissionDeniedForever"
   },
-  "locationUnavailable": "Couldn't get your location. Move to open sky and try again.",
+  "locationUnavailable": "Couldn't get your location. Move to open sky and try again. You can also drag the map to place the pin.",
   "@locationUnavailable": {
     "description": "locationUnavailable"
   },
@@ -2400,17 +2353,14 @@
   },
   "deliveryLatitude": "Delivery latitude",
   "deliveryLongitude": "Delivery longitude",
-  "locationLatitude": "Latitude",
-  "locationLongitude": "Longitude",
   "locationInvalid": "Enter valid coordinates inside Pakistan.",
-  "locationCoordinatesHelp": "Copy the coordinates of this address from your map app.",
   "getDeliveryQuote": "Get delivery quote",
   "deliveryQuoteRequired": "Review a delivery quote before placing your order.",
   "deliveryQuoteFailed": "Could not price delivery. Check your location and ask the farmer to complete their pickup location, then retry.",
   "deliveryFee": "Delivery fee",
   "deliveryDistance": "Estimated delivery distance: {distance} km",
   "farmPickupLocation": "Farm pickup location",
-  "farmPickupHelp": "Save your farm address and coordinates so buyers can price delivery and transporters can collect orders.",
+  "farmPickupHelp": "Save your farm address and map pin so buyers can price delivery and transporters can collect orders.",
   "farmPickupSave": "Save pickup location",
   "farmPickupSaved": "Pickup location saved.",
   "farmPickupFailed": "Could not load or save your farm location. Check the details and retry.",
@@ -2451,7 +2401,6 @@
   "pushInbox": "Notification inbox",
   "pushReadAll": "Mark all as read",
   "pushEmpty": "No notifications yet.",
-  "enterCoordinates": "Enter coordinates",
   "save": "Save",
   "@save": {
     "description": "Generic save button"
@@ -2860,5 +2809,282 @@
   "deliveryUnitUnavailable": "unit unavailable",
   "earningsLedgerScope": "Totals include deliveries completed with buyer confirmation. Earlier deliveries require reconciliation.",
   "payoutCorrectionRecord": "Record correction; no bank transfer was reversed",
-  "deliveryReconcileRequired": "The last action could not be confirmed. Refresh the delivery before trying another action."
+  "deliveryReconcileRequired": "The last action could not be confirmed. Refresh the delivery before trying another action.",
+  "openInGoogleMaps": "Open in Google Maps",
+  "@openInGoogleMaps": {
+    "description": "Button: show the place in Google Maps"
+  },
+  "deliveryMapTitle": "Live delivery map",
+  "@deliveryMapTitle": {
+    "description": "deliveryMapTitle"
+  },
+  "mapYourFarm": "Your farm",
+  "@mapYourFarm": {
+    "description": "mapYourFarm"
+  },
+  "mapYourDropoff": "Your drop-off",
+  "@mapYourDropoff": {
+    "description": "mapYourDropoff"
+  },
+  "mapTransporter": "Transporter",
+  "@mapTransporter": {
+    "description": "mapTransporter"
+  },
+  "transporterLocationWaiting": "The transporter's position appears here while their app is open.",
+  "@transporterLocationWaiting": {
+    "description": "transporterLocationWaiting"
+  },
+  "transporterLocationJustNow": "Transporter position updated just now.",
+  "@transporterLocationJustNow": {
+    "description": "transporterLocationJustNow"
+  },
+  "transporterLocationMinutes": "Transporter position updated {minutes} min ago.",
+  "@transporterLocationMinutes": {
+    "description": "Age of the transporter position",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "orderQrTitle": "Order QR",
+  "orderQrDescription": "Scan to follow this order from farm to delivery.",
+  "orderJourneyTitle": "Order journey",
+  "orderJourneyPublic": "This public journey keeps addresses, payment amounts and personal details private.",
+  "orderQrUnavailable": "The QR is unavailable. Payment may still be processing or the order may have been refunded.",
+  "orderQrCopied": "Order link copied",
+  "orderQrCopy": "Copy link",
+  "orderQrShare": "Share QR",
+  "orderQrView": "View journey",
+  "orderTraceNotFound": "Order journey unavailable",
+  "orderTraceNotFoundDesc": "Check the QR link. Only confirmed, paid orders have a public journey.",
+  "orderTracePaidAt": "Payment confirmed",
+  "orderTraceLedgerUnavailable": "Ledger readback is unavailable. Recorded events are shown below; independent verification is pending.",
+  "orderTraceLedgerChecked": "Ledger records checked",
+  "orderPrivateDetails": "Private order details",
+  "qrScanCamera": "Scan QR code",
+  "qrCameraHint": "Point your camera at a Farm2Fork product or order QR code.",
+  "qrCameraUnavailable": "Camera unavailable. Allow camera access in Settings, or paste your QR link below.",
+  "qrCameraTorch": "Toggle torch",
+  "qrInvalidCode": "This is not a Farm2Fork QR code. Try another code or paste a valid link.",
+  "qrUseLink": "Paste a link instead",
+  "qrScanAgain": "Scan again",
+  "orderTraceLedgerMismatch": "Ledger readback did not match this event. Verification is incomplete.",
+  "aiReviewRecovery": "Photo needs review. Retake a clear crop photo or choose the grade manually.",
+  "aiWholesaleBasis": "Official wholesale reference, not a farm-gate or live price. Set your own listing price.",
+  "aiWholesaleObservation": "Historical observation: {date} · {source} · {market} ({count} markets) · {currency}",
+  "@aiWholesaleObservation": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      },
+      "market": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "cityPickerChooseProvince": "Choose your province",
+  "@cityPickerChooseProvince": {
+    "description": "cityPickerChooseProvince"
+  },
+  "cityPickerSearchHint": "Search for your city",
+  "@cityPickerSearchHint": {
+    "description": "cityPickerSearchHint"
+  },
+  "cityPickerClearSearch": "Clear search",
+  "@cityPickerClearSearch": {
+    "description": "cityPickerClearSearch"
+  },
+  "cityPickerChangeProvince": "Change province",
+  "@cityPickerChangeProvince": {
+    "description": "cityPickerChangeProvince"
+  },
+  "cityPickerNoResults": "No city found. Check the spelling or pick another province.",
+  "@cityPickerNoResults": {
+    "description": "cityPickerNoResults"
+  },
+  "cityPickerLoadFailed": "Couldn't load the city list. Please try again.",
+  "@cityPickerLoadFailed": {
+    "description": "cityPickerLoadFailed"
+  },
+  "cityPickerFieldHint": "Choose province and city",
+  "@cityPickerFieldHint": {
+    "description": "cityPickerFieldHint"
+  },
+  "cityPickerRequired": "Please choose your city.",
+  "@cityPickerRequired": {
+    "description": "cityPickerRequired"
+  },
+  "pinFarFromCityTitle": "Is this the right place?",
+  "@pinFarFromCityTitle": {
+    "description": "pinFarFromCityTitle"
+  },
+  "pinFarFromCityKeep": "Yes, use this spot",
+  "@pinFarFromCityKeep": {
+    "description": "pinFarFromCityKeep"
+  },
+  "pinFarFromCityMove": "No, move the pin",
+  "@pinFarFromCityMove": {
+    "description": "pinFarFromCityMove"
+  },
+  "locationDataCredits": "Location data",
+  "@locationDataCredits": {
+    "description": "locationDataCredits"
+  },
+  "locationTimeout": "Finding your location is taking too long. Move to open sky and try again, or drag the map to place the pin.",
+  "@locationTimeout": {
+    "description": "locationTimeout"
+  },
+  "locationLowAccuracy": "Your location is not exact. Check the pin and drag the map to fix it.",
+  "@locationLowAccuracy": {
+    "description": "locationLowAccuracy"
+  },
+  "mapAttributionOpenStreetMap": "© OpenStreetMap contributors",
+  "@mapAttributionOpenStreetMap": {
+    "description": "mapAttributionOpenStreetMap"
+  },
+  "cityPickerCityCount": "{count, plural, =1{1 city} other{{count} cities}}",
+  "@cityPickerCityCount": {
+    "description": "cityPickerCityCount",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pinFarFromCityBody": "This pin is about {km} km from {city}. Is this where you mean?",
+  "@pinFarFromCityBody": {
+    "description": "pinFarFromCityBody",
+    "placeholders": {
+      "km": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveryStepPickup": "Pick up",
+  "deliveryStepOnTheWay": "On the way",
+  "deliveryStepHandover": "Hand over",
+  "nextStepHeadToPickup": "Go to the farm and collect the order.",
+  "nextStepStartTrip": "Order collected. Start the trip to the buyer.",
+  "nextStepHandover": "Hand over the order and enter the buyer's code.",
+  "onlineShort": "Receiving offers within {km} km",
+  "@onlineShort": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "locationOpenAppNote": "Keep the app open so your location stays current.",
+  "toPickupKm": "{km} km to pickup",
+  "@toPickupKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "tripKm": "{km} km trip",
+  "@tripKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "callContact": "Call {name}",
+  "@callContact": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportProblemShort": "Report a problem",
+  "communityRoleTransporter": "Transporter",
+  "feedSearchHint": "Search posts",
+  "feedSortLatest": "Latest",
+  "feedSortTop": "Most liked",
+  "feedTrending": "Topics",
+  "postKindAll": "All",
+  "postKindDiscussion": "Discussion",
+  "postKindQuestion": "Question",
+  "postKindTip": "Tip",
+  "postKindMarket": "Buy & sell",
+  "postKindLabel": "What are you sharing?",
+  "replyAction": "Reply",
+  "reportAction": "Report",
+  "reportTitle": "Report this",
+  "reportSubtitle": "The Farm2Fork team will look at it. The author is not told who reported.",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonAbuse": "Abuse or harassment",
+  "reportReasonMisinformation": "Wrong or misleading information",
+  "reportReasonScam": "Scam or fraud",
+  "reportReasonOther": "Something else",
+  "reportNoteHint": "Add a detail (optional)",
+  "reportSubmit": "Send report",
+  "reportSent": "Thanks. The team will review it.",
+  "reportAlreadySent": "You have already reported this.",
+  "editPost": "Edit post",
+  "postEdited": "Edited",
+  "communityNoResults": "No posts match. Try other words or clear the filters.",
+  "moreOptions": "More options",
+  "feedLikeCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@feedLikeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "replyingTo": "Replying to {name}",
+  "@replyingTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "yourRating": "Your rating",
+  "rateOrder": "Rate this order",
+  "rateOrderTitle": "How was this order?",
+  "rateOrderHint": "Your rating is shown on the farmer's profile and helps other buyers.",
+  "reviewCommentHint": "Tell other buyers about quality, packing and delivery (optional)",
+  "submitReview": "Submit review",
+  "reviewThanks": "Thanks for your review.",
+  "farmerReplyLabel": "Farmer's reply",
+  "buyerReviews": "Buyer reviews",
+  "noReviewsYet": "No reviews yet. They appear here after buyers rate delivered orders.",
+  "replyToReview": "Reply to this review",
+  "replyOnceHint": "You can reply once. Buyers will see it.",
+  "mandiRates": "Mandi rates",
+  "mandiRatesHint": "Latest official market prices",
+  "mandiRatesEmpty": "No rate list has been published yet. Check back soon.",
+  "mandiRatesNote": "Official wholesale prices. Use them as a guide when you set or compare a price.",
+  "mandiRatesSearch": "Search a crop",
+  "mandiRatesNoMatch": "This list has no crop with that name.",
+  "unit40Kg": "40 kg",
+  "unit100Kg": "100 kg",
+  "ratingOutOfFive": "{rating} out of 5",
+  "@ratingOutOfFive": {"placeholders": {"rating": {"type": "String"}}},
+  "reviewCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@reviewCount": {"placeholders": {"count": {"type": "int"}}},
+  "mandiRatesObserved": "Prices of {date} · {source}",
+  "@mandiRatesObserved": {"placeholders": {"date": {"type": "String"}, "source": {"type": "String"}}},
+  "mandiRatePer": "per {unit}",
+  "@mandiRatePer": {"placeholders": {"unit": {"type": "String"}}},
+  "mandiRateFair": "Fair price {amount}",
+  "@mandiRateFair": {"placeholders": {"amount": {"type": "String"}}}
 }

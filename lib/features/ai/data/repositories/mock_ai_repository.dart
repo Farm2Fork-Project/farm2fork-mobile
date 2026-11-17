@@ -3,8 +3,7 @@ import 'package:farm2fork_mobile/features/ai/data/repositories/ai_repository.dar
 import 'package:farm2fork_mobile/features/marketplace/data/models/product.dart';
 import 'package:farm2fork_mobile/features/marketplace/data/models/product_category.dart';
 
-/// Offline stand-in for USE_MOCKS builds. Mirrors the real service's honesty:
-/// rule-based prices and an untrained (preview) grading model.
+/// Offline stand-in with no verified price observations and untrained grading.
 class MockAiRepository implements AiRepository {
   @override
   Future<AiStatus> status() async =>
@@ -21,15 +20,8 @@ class MockAiRepository implements AiRepository {
     if (unit == ProductUnit.dozen || unit == ProductUnit.piece) {
       throw const AiException(AiErrorKind.noPriceRule);
     }
-    final factor = unit == ProductUnit.ton ? 1000 : 1;
-    return PriceSuggestion(
-      minPrice: 100.0 * factor,
-      maxPrice: 180.0 * factor,
-      commodity: 'Wheat',
-      observedOn: DateTime(2026, 10, 22),
-      marketScope: 'Punjab',
-      marketCount: 12,
-    );
+    // Offline builds have no verified market observation.
+    throw const AiException(AiErrorKind.noPriceRule);
   }
 
   @override
@@ -45,7 +37,7 @@ class MockAiRepository implements AiRepository {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     return QualityCheck(
       modelGrade: 'B',
-      suggestedListingGrade: QualityGrade.b,
+      suggestedListingGrade: null,
       confidence: 0.27,
       cropSupported: true,
       lowConfidence: true,

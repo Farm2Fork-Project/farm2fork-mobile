@@ -4,12 +4,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 
-enum LocationFailure { serviceDisabled, denied, deniedForever, unavailable }
+enum LocationFailure {
+  serviceDisabled,
+  denied,
+  deniedForever,
+  timeout,
+
+  /// A position came back but it is too coarse to trust (see
+  /// [LocationException.approximate]).
+  lowAccuracy,
+  unavailable,
+}
+
+/// Fixes worse than this (metres) are reported as [LocationFailure.lowAccuracy].
+const double maxTrustedAccuracyMeters = 500;
 
 class LocationException implements Exception {
-  const LocationException(this.failure);
+  const LocationException(this.failure, {this.approximate});
 
   final LocationFailure failure;
+
+  /// The rough position for [LocationFailure.lowAccuracy]; callers may still
+  /// move the map there and ask the user to adjust the pin.
+  final GeoPoint? approximate;
 }
 
 /// Foreground location only: the app never asks for background access.
@@ -17,6 +34,11 @@ abstract class LocationService {
   /// Checks services and permission (asking once if needed), then returns
   /// the current position. Throws [LocationException].
   Future<GeoPoint> current();
+
+  /// Like [current] but strict: throws [LocationFailure.lowAccuracy] (with the
+  /// rough position) when the fix is too coarse to place a pin on, so the UI
+  /// can ask the user to check and drag it.
+  Future<GeoPoint> currentForPin();
 
   /// Position updates while the caller listens (e.g. transporter online).
   Stream<GeoPoint> watch({int distanceFilterMeters = 200});
@@ -30,16 +52,52 @@ abstract class LocationService {
 class GeolocatorLocationService implements LocationService {
   @override
   Future<GeoPoint> current() async {
+    try {
+      return (await _fix()).point;
+    } on LocationException catch (e) {
+      // Dispatch only needs a best-effort position.
+      final rough = e.approximate;
+      if (e.failure == LocationFailure.lowAccuracy && rough != null) {
+        return rough;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<GeoPoint> currentForPin() async => (await _fix()).point;
+
+  Future<({GeoPoint point})> _fix() async {
     await _ensurePermission();
     try {
       final position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 20),
+          timeLimit: Duration(seconds: 15),
         ),
       );
-      return GeoPoint(position.latitude, position.longitude);
+      final point = GeoPoint(position.latitude, position.longitude);
+      if (position.accuracy > maxTrustedAccuracyMeters) {
+        throw LocationException(
+          LocationFailure.lowAccuracy,
+          approximate: point,
+        );
+      }
+      return (point: point);
     } on TimeoutException {
+      // A stale fix beats nothing; the user can still drag the pin.
+      final last = await _lastKnown();
+      if (last != null) {
+        throw LocationException(LocationFailure.lowAccuracy, approximate: last);
+      }
+      throw const LocationException(LocationFailure.timeout);
+    } on LocationServiceDisabledException {
+      throw const LocationException(LocationFailure.serviceDisabled);
+    } on PermissionDeniedException {
+      throw const LocationException(LocationFailure.denied);
+    } on LocationException {
+      rethrow;
+    } on Object {
       throw const LocationException(LocationFailure.unavailable);
     }
   }
@@ -61,6 +119,15 @@ class GeolocatorLocationService implements LocationService {
       await Geolocator.openLocationSettings();
     } else {
       await Geolocator.openAppSettings();
+    }
+  }
+
+  Future<GeoPoint?> _lastKnown() async {
+    try {
+      final p = await Geolocator.getLastKnownPosition();
+      return p == null ? null : GeoPoint(p.latitude, p.longitude);
+    } on Object {
+      return null;
     }
   }
 

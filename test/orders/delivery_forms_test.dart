@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
-import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
-import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../support/harness.dart' show pickCity, testLocationsOverride;
 import 'package:farm2fork_mobile/core/localization/generated/app_localizations.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/screens/checkout_screen.dart';
@@ -69,14 +69,6 @@ class _Farm extends FarmLocationService {
   }
 }
 
-Widget _app(Widget home) => ScreenUtilInit(
-  designSize: const Size(390, 844),
-  builder: (context, child) => MaterialApp(
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: home,
-  ),
-);
 Finder _field(String label) => find.byWidgetPredicate(
   (w) => w is TextField && w.decoration?.labelText == label,
 );
@@ -93,7 +85,10 @@ void main() {
     (tester) async {
       final repo = _Orders();
       final container = ProviderContainer(
-        overrides: [ordersRepositoryProvider.overrideWithValue(repo)],
+        overrides: [
+          ordersRepositoryProvider.overrideWithValue(repo),
+          testLocationsOverride,
+        ],
       );
       addTearDown(container.dispose);
       container
@@ -147,10 +142,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       await _enter(tester, 'Street Address', 'Mall road');
-      await _enter(tester, 'City', 'Lahore');
-      tester
-          .widget<ProvinceDropdown>(find.byType(ProvinceDropdown))
-          .onChanged(PakistanProvince.punjab);
+      await pickCity(tester, find.byType(CityPickerField), 'Punjab', 'Lahore');
       await tester.tap(find.text('Get delivery quote'));
       await tester.pumpAndSettle();
       expect(repo.addresses, isEmpty);
@@ -162,7 +154,7 @@ void main() {
       expect(repo.addresses.single.lat, 31.5204);
       expect(repo.created, 0);
       expect(find.text('Get delivery quote'), findsNothing);
-      await _enter(tester, 'City', 'Multan');
+      await pickCity(tester, find.byType(CityPickerField), 'Punjab', 'Multan');
       expect(find.text('Get delivery quote'), findsOneWidget);
       await tester.tap(find.text('Get delivery quote'));
       await tester.pumpAndSettle();
@@ -174,24 +166,49 @@ void main() {
     },
   );
   testWidgets(
-    'farmer loads and saves a complete pickup pin and rejects invalid coordinates',
+    'farmer loads and saves a complete pickup pin from pickers only',
     (tester) async {
       final farm = _Farm();
+      final router = GoRouter(
+        routes: [
+          GoRoute(path: '/', builder: (_, _) => const FarmLocationScreen()),
+          GoRoute(
+            path: LocationPickerScreen.route,
+            builder: (context, _) => Scaffold(
+              body: TextButton(
+                onPressed: () => context.pop(const GeoPoint(31.5304, 74.3587)),
+                child: const Text('Select test pin'),
+              ),
+            ),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [farmLocationServiceProvider.overrideWithValue(farm)],
-          child: _app(const FarmLocationScreen()),
+          overrides: [
+            farmLocationServiceProvider.overrideWithValue(farm),
+            testLocationsOverride,
+          ],
+          child: ScreenUtilInit(
+            designSize: const Size(390, 844),
+            builder: (_, _) => MaterialApp.router(
+              routerConfig: router,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+            ),
+          ),
         ),
       );
       await tester.pumpAndSettle();
-      expect(_field('City'), findsOneWidget);
-      expect(find.text('Punjab'), findsOneWidget);
-      await _enter(tester, 'Latitude', '0');
-      await tester.ensureVisible(find.text('Save pickup location'));
-      await tester.tap(find.text('Save pickup location'));
+      expect(find.text('Lahore, Punjab'), findsOneWidget);
+      expect(find.text('Latitude'), findsNothing);
+      expect(find.text('Longitude'), findsNothing);
+      await tester.ensureVisible(find.text('Change'));
+      await tester.tap(find.text('Change'));
       await tester.pumpAndSettle();
-      expect(farm.saved, isEmpty);
-      await _enter(tester, 'Latitude', '31.5304');
+      await tester.tap(find.text('Select test pin'));
+      await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Save pickup location'));
       await tester.tap(find.text('Save pickup location'));
       await tester.pumpAndSettle();

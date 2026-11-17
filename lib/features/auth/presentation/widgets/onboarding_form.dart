@@ -11,7 +11,7 @@ import 'package:farm2fork_mobile/core/utils/pakistan_identity.dart';
 import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/onboarding_request.dart';
 import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
-import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/onboarding_draft.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/utils/auth_role_l10n.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/utils/onboarding_support.dart';
@@ -607,28 +607,12 @@ class _OnboardingPickupStepState extends State<OnboardingPickupStep> {
       subtitle: l10n.onboardingPickupSubtitle,
       formKey: widget.formKey,
       children: [
-        AuthTextField(
-          controller: form[OnboardingField.address],
-          label: l10n.streetAddress,
-          textInputAction: TextInputAction.next,
-          textCapitalization: TextCapitalization.words,
-          autofillHints: const [AutofillHints.streetAddressLine1],
-          validator: (v) => validateRequiredField(context, v),
-        ),
-        gap,
-        AuthTextField(
-          controller: form[OnboardingField.city],
-          label: l10n.city,
-          textInputAction: TextInputAction.next,
-          textCapitalization: TextCapitalization.words,
-          autofillHints: const [AutofillHints.addressCity],
-          validator: (v) => validateRequiredField(context, v),
-        ),
-        gap,
-        ProvinceDropdown(
-          value: PakistanProvince.fromWire(province),
-          onChanged: (v) => setState(() {
-            form[OnboardingField.province].text = v?.wire ?? '';
+        CityPickerField(
+          city: form[OnboardingField.city].text,
+          province: PakistanProvince.fromWire(province),
+          onChanged: (choice) => setState(() {
+            form[OnboardingField.city].text = choice.city;
+            form[OnboardingField.province].text = choice.province.wire;
           }),
         ),
         gap,
@@ -636,7 +620,19 @@ class _OnboardingPickupStepState extends State<OnboardingPickupStep> {
         LocationPinField(
           purpose: LocationPickerPurpose.farm,
           initialValue: form.farmPin,
+          city: form[OnboardingField.city].text,
+          province: province,
           onChanged: (pin) => form.farmPin = pin,
+        ),
+        gap,
+        AuthTextField(
+          controller: form[OnboardingField.address],
+          label: l10n.streetAddress,
+          hintText: l10n.farmStreetHint,
+          textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.words,
+          autofillHints: const [AutofillHints.streetAddressLine1],
+          validator: (v) => validateRequiredField(context, v),
         ),
       ],
     );

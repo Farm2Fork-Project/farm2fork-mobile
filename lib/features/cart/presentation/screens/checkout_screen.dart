@@ -19,7 +19,7 @@ import 'package:farm2fork_mobile/core/location/geo_point.dart';
 import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
 import 'package:farm2fork_mobile/core/maps/location_pin_field.dart';
 import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
-import 'package:farm2fork_mobile/features/farm_location/presentation/province_dropdown.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 import 'package:farm2fork_mobile/features/orders/data/models/order.dart';
 import 'package:farm2fork_mobile/features/orders/data/repositories/orders_repository_provider.dart';
 
@@ -40,7 +40,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
   final _street = TextEditingController();
-  final _city = TextEditingController();
+  String _city = '';
   final _zip = TextEditingController();
   PakistanProvince? _province;
   GeoPoint? _dropoff;
@@ -51,7 +51,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   String? _quotedKey;
   String _key(List<FarmerCartGroup> groups) => jsonEncode([
     _street.text,
-    _city.text,
+    _city,
     _province?.wire,
     _zip.text,
     _dropoff?.lat,
@@ -65,7 +65,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
-    for (final controller in [_street, _city, _zip]) {
+    for (final controller in [_street, _zip]) {
       controller.addListener(() {
         if (mounted) setState(() {});
       });
@@ -75,14 +75,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   void dispose() {
     _street.dispose();
-    _city.dispose();
     _zip.dispose();
     super.dispose();
   }
 
   OrderAddress _address() => OrderAddress(
     street: _street.text.trim(),
-    city: _city.text.trim(),
+    city: _city.trim(),
     province: _province?.wire ?? '',
     zip: _zip.text.trim().isEmpty ? null : _zip.text.trim(),
     lat: _dropoff?.lat,
@@ -221,21 +220,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               street: _street,
                               city: _city,
                               province: _province,
-                              onProvinceChanged: (value) =>
-                                  setState(() => _province = value),
+                              onCityChanged: (choice) => setState(() {
+                                _city = choice.city;
+                                _province = choice.province;
+                              }),
                               zip: _zip,
                               enabled: !isSubmitting,
-                            ),
-                            const SizedBox(height: AppSpacing.md),
-                            AbsorbPointer(
-                              absorbing: isSubmitting,
-                              child: LocationPinField(
-                                purpose: LocationPickerPurpose.dropoff,
-                                initialValue: _dropoff,
-                                onChanged: (pin) {
-                                  setState(() => _dropoff = pin);
-                                  _refreshQuotes(groups);
-                                },
+                              pinField: AbsorbPointer(
+                                absorbing: isSubmitting,
+                                child: LocationPinField(
+                                  purpose: LocationPickerPurpose.dropoff,
+                                  initialValue: _dropoff,
+                                  city: _city,
+                                  province: _province?.wire,
+                                  onChanged: (pin) {
+                                    setState(() => _dropoff = pin);
+                                    _refreshQuotes(groups);
+                                  },
+                                ),
                               ),
                             ),
                             const SizedBox(height: AppSpacing.xl),
@@ -279,17 +281,21 @@ class _AddressForm extends StatelessWidget {
     required this.street,
     required this.city,
     required this.province,
-    required this.onProvinceChanged,
+    required this.onCityChanged,
     required this.zip,
     required this.enabled,
+    required this.pinField,
   });
 
   final TextEditingController street;
-  final TextEditingController city;
+  final String city;
   final PakistanProvince? province;
-  final ValueChanged<PakistanProvince?> onProvinceChanged;
+  final ValueChanged<CityChoice> onCityChanged;
   final TextEditingController zip;
   final bool enabled;
+
+  /// The map-pin field, shown right after the city so the map opens there.
+  final Widget pinField;
 
   @override
   Widget build(BuildContext context) {
@@ -298,23 +304,20 @@ class _AddressForm extends StatelessWidget {
 
     return Column(
       children: [
+        CityPickerField(
+          city: city,
+          province: province,
+          enabled: enabled,
+          onChanged: onCityChanged,
+        ),
+        const SizedBox(height: AppSpacing.md),
+        pinField,
+        const SizedBox(height: AppSpacing.md),
         AppTextField(
           controller: street,
           label: context.l10n.streetAddress,
           validator: required,
           enabled: enabled,
-        ),
-        const SizedBox(height: AppSpacing.md),
-        AppTextField(
-          controller: city,
-          label: context.l10n.city,
-          validator: required,
-          enabled: enabled,
-        ),
-        const SizedBox(height: AppSpacing.md),
-        ProvinceDropdown(
-          value: province,
-          onChanged: enabled ? onProvinceChanged : (_) {},
         ),
         const SizedBox(height: AppSpacing.md),
         AppTextField(

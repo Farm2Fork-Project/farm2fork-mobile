@@ -9,7 +9,6 @@ import 'package:farm2fork_mobile/core/theme/app_colors.dart';
 import 'package:farm2fork_mobile/core/theme/app_sizes.dart';
 import 'package:farm2fork_mobile/core/theme/app_typography.dart';
 import 'package:farm2fork_mobile/core/widgets/app_state_placeholder.dart';
-import 'package:farm2fork_mobile/core/widgets/section_header.dart';
 import 'package:farm2fork_mobile/features/cart/presentation/providers/cart_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/widgets/auth_required_sheet.dart';
@@ -99,15 +98,6 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(
-              AppSpacing.pagePadding,
-              AppSpacing.sm,
-              AppSpacing.pagePadding,
-              0,
-            ),
-            child: const _MarketplaceHeader(),
-          ),
           _SearchBar(
             controller: _searchController,
             onChanged: (value) {
@@ -156,7 +146,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                           crossAxisCount: isWide ? 3 : 2,
                           crossAxisSpacing: AppSpacing.md,
                           mainAxisSpacing: AppSpacing.md,
-                          childAspectRatio: isWide ? 0.82 : 0.70,
+                          childAspectRatio: isWide ? 0.82 : 0.74,
                         ),
                         itemCount: products.length,
                         itemBuilder: (context, i) {
@@ -211,35 +201,6 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
   }
 }
 
-class _MarketplaceHeader extends StatelessWidget {
-  const _MarketplaceHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.primaryGreenDark,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primaryGreenDark.withValues(alpha: 0.16),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: SectionHeader(
-        title: context.l10n.marketplace,
-        subtitle: context.l10n.searchHint,
-        titleColor: AppColors.white,
-        subtitleColor: AppColors.primaryGreenSoft,
-      ),
-    );
-  }
-}
-
 class _SearchBar extends StatelessWidget {
   const _SearchBar({
     required this.controller,
@@ -256,7 +217,7 @@ class _SearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(
         AppSpacing.pagePadding,
-        AppSpacing.md,
+        AppSpacing.xs,
         AppSpacing.pagePadding,
         AppSpacing.sm,
       ),
@@ -343,6 +304,7 @@ class _Chip extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.xs,

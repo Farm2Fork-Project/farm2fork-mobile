@@ -59,6 +59,11 @@ abstract class Shipment with _$Shipment {
     Map<String, String?>? pickupContact,
     Map<String, String?>? deliveryContact,
     Map<String, dynamic>? issue,
+    // Transporter's last reported position, only where the backend shares it
+    // (farmer before pickup, buyer after pickup).
+    double? transporterLat,
+    double? transporterLng,
+    DateTime? transporterLocationAt,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Shipment;

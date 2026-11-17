@@ -40,7 +40,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Farm2Fork uses the camera so you can take a profile photo.</string>
+	<string>Farm2Fork uses the camera to scan produce and order QR codes and take a profile photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Farm2Fork uses your photos so you can choose a profile photo.</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -87,8 +87,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>GMSApiKey</key>
-	<string>$(MAPS_API_KEY)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Farm2Fork uses your location to pin your farm or delivery address, and to offer transporters deliveries near them while they are online.</string>
 </dict>

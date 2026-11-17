@@ -146,6 +146,10 @@ class ApiShipmentsRepository extends ShipmentsRepository {
   Shipment _shipmentFromDto(Map<String, dynamic> dto) {
     final history = dto['statusHistory'];
     if (history is! List) throw const ApiException(ApiErrorKind.unknown);
+    final location = dto['transporterLocation'];
+    final tracked = location is Map
+        ? Map<String, dynamic>.from(location)
+        : null;
     return Shipment(
       id: _requiredString(dto, 'id'),
       orderId: _requiredString(dto, 'orderId'),
@@ -170,6 +174,11 @@ class ApiShipmentsRepository extends ShipmentsRepository {
       issue: dto['issue'] == null
           ? null
           : Map<String, dynamic>.from(dto['issue'] as Map),
+      transporterLat: (tracked?['lat'] as num?)?.toDouble(),
+      transporterLng: (tracked?['lng'] as num?)?.toDouble(),
+      transporterLocationAt: tracked?['at'] == null
+          ? null
+          : _date(tracked!['at']),
       createdAt: _date(dto['createdAt']),
       updatedAt: _date(dto['updatedAt']),
     );

@@ -125,7 +125,7 @@ abstract final class AppNavConfig {
     return location.startsWith('/auth') ||
         location.startsWith('/guest') ||
         location.startsWith('/marketplace/products/') ||
-        location.startsWith('/trace/products/') ||
+        location.startsWith('/trace/') ||
         (location.startsWith('/settings/') && !_isAccountSettings(location)) ||
         // Farmer onboarding pins the farm before the backend session exists.
         location == '/pick-location';
@@ -139,10 +139,13 @@ abstract final class AppNavConfig {
     required AppUserRole role,
     required String location,
   }) {
+    if (location.startsWith('/trace/') || location.startsWith('/orders/')) {
+      return true;
+    }
     if (role == AppUserRole.admin) return false;
     if (location.startsWith('/marketplace/products/')) return true;
     // A product's provenance is public; any signed-in role may open it.
-    if (location.startsWith('/trace/products/')) return true;
+    if (location.startsWith('/trace/')) return true;
     if (location == '/pick-location') return true;
     if (location == notificationsRoute) return true;
     if (location.startsWith('/community/')) {

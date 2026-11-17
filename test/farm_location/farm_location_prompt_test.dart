@@ -4,7 +4,9 @@ import 'package:farm2fork_mobile/core/location/location_service.dart';
 import 'package:farm2fork_mobile/core/maps/app_map.dart';
 import 'package:farm2fork_mobile/core/maps/location_picker_screen.dart';
 import 'package:farm2fork_mobile/features/farm_location/data/farm_location.dart';
+import 'package:farm2fork_mobile/features/farm_location/presentation/city_picker.dart';
 import 'package:farm2fork_mobile/features/farm_location/presentation/farm_location_prompt.dart';
+import '../support/harness.dart' show pickCity, testLocationsOverride;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +31,9 @@ class _Repo implements FarmLocationRepository {
 }
 
 class _Gps implements LocationService {
+  @override
+  Future<GeoPoint> currentForPin() => current();
+
   @override
   Future<GeoPoint> current() async => _gps;
 
@@ -71,6 +76,7 @@ Future<void> _pump(WidgetTester tester, _Repo repo) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        testLocationsOverride,
         farmLocationRepositoryProvider.overrideWithValue(repo),
         appMapBuilderProvider.overrideWithValue(_fakeMap),
         locationServiceProvider.overrideWithValue(_Gps()),
@@ -144,14 +150,12 @@ void main() {
     await tester.tap(find.text('Save location'));
     await tester.pumpAndSettle();
     expect(repo.saved, isNull);
-    expect(find.text('This field is required'), findsNWidgets(2));
+    expect(find.text('This field is required'), findsOneWidget);
+    expect(find.text('Please choose your city.'), findsOneWidget);
     expect(find.text('Pin the location on the map'), findsOneWidget);
 
     await tester.enterText(find.byType(TextFormField).first, 'Chak 5');
-    await tester.tap(find.text('Select province'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Sindh').last);
-    await tester.pumpAndSettle();
+    await pickCity(tester, find.byType(CityPickerField), 'Punjab', 'Multan');
 
     // Picker: starts at the GPS fix, the farmer nudges the map, confirms.
     await tester.tap(find.text('Pin farm on map'));
@@ -169,7 +173,7 @@ void main() {
     expect(repo.saved?.toJson(), {
       'address': 'Chak 5',
       'city': 'Multan',
-      'province': 'Sindh',
+      'province': 'Punjab',
       'lat': _panned.lat,
       'lng': _panned.lng,
     });

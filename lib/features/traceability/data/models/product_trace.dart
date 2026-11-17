@@ -25,12 +25,14 @@ class TraceLedger {
     this.txHash,
     this.blockNumber,
     this.confirmedAt,
+    this.onChain,
   });
 
   final TraceLedgerStatus status;
   final String? txHash;
   final int? blockNumber;
   final DateTime? confirmedAt;
+  final String? onChain;
 }
 
 class TraceEvent {
