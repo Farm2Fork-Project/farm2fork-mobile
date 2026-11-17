@@ -2705,4 +2705,203 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get reportProblemShort => 'مسئلہ رپورٹ کریں';
+
+  @override
+  String get communityRoleTransporter => 'ٹرانسپورٹر';
+
+  @override
+  String get feedSearchHint => 'پوسٹس تلاش کریں';
+
+  @override
+  String get feedSortLatest => 'تازہ ترین';
+
+  @override
+  String get feedSortTop => 'سب سے زیادہ پسندیدہ';
+
+  @override
+  String get feedTrending => 'موضوعات';
+
+  @override
+  String get postKindAll => 'سب';
+
+  @override
+  String get postKindDiscussion => 'گفتگو';
+
+  @override
+  String get postKindQuestion => 'سوال';
+
+  @override
+  String get postKindTip => 'مشورہ';
+
+  @override
+  String get postKindMarket => 'خرید و فروخت';
+
+  @override
+  String get postKindLabel => 'آپ کیا شیئر کر رہے ہیں؟';
+
+  @override
+  String get replyAction => 'جواب دیں';
+
+  @override
+  String get reportAction => 'رپورٹ کریں';
+
+  @override
+  String get reportTitle => 'اس کی رپورٹ کریں';
+
+  @override
+  String get reportSubtitle =>
+      'فارم ٹو فورک ٹیم اسے دیکھے گی۔ لکھنے والے کو نہیں بتایا جاتا کہ رپورٹ کس نے کی۔';
+
+  @override
+  String get reportReasonSpam => 'اسپام یا اشتہار';
+
+  @override
+  String get reportReasonAbuse => 'بدتمیزی یا ہراسانی';
+
+  @override
+  String get reportReasonMisinformation => 'غلط یا گمراہ کن معلومات';
+
+  @override
+  String get reportReasonScam => 'دھوکہ یا فراڈ';
+
+  @override
+  String get reportReasonOther => 'کچھ اور';
+
+  @override
+  String get reportNoteHint => 'تفصیل لکھیں (اختیاری)';
+
+  @override
+  String get reportSubmit => 'رپورٹ بھیجیں';
+
+  @override
+  String get reportSent => 'شکریہ۔ ٹیم اس کا جائزہ لے گی۔';
+
+  @override
+  String get reportAlreadySent => 'آپ پہلے ہی اس کی رپورٹ کر چکے ہیں۔';
+
+  @override
+  String get editPost => 'پوسٹ میں ترمیم';
+
+  @override
+  String get postEdited => 'ترمیم شدہ';
+
+  @override
+  String get communityNoResults =>
+      'کوئی پوسٹ نہیں ملی۔ دوسرے الفاظ آزمائیں یا فلٹر ہٹائیں۔';
+
+  @override
+  String get moreOptions => 'مزید اختیارات';
+
+  @override
+  String feedLikeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پسند',
+      one: '1 پسند',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String replyingTo(String name) {
+    return '$name کو جواب';
+  }
+
+  @override
+  String get yourRating => 'آپ کی ریٹنگ';
+
+  @override
+  String get rateOrder => 'اس آرڈر کو ریٹ کریں';
+
+  @override
+  String get rateOrderTitle => 'یہ آرڈر کیسا رہا؟';
+
+  @override
+  String get rateOrderHint =>
+      'آپ کی ریٹنگ کسان کے پروفائل پر دکھائی جاتی ہے اور دوسرے خریداروں کی مدد کرتی ہے۔';
+
+  @override
+  String get reviewCommentHint =>
+      'معیار، پیکنگ اور ڈیلیوری کے بارے میں بتائیں (اختیاری)';
+
+  @override
+  String get submitReview => 'رائے بھیجیں';
+
+  @override
+  String get reviewThanks => 'آپ کی رائے کا شکریہ۔';
+
+  @override
+  String get farmerReplyLabel => 'کسان کا جواب';
+
+  @override
+  String get buyerReviews => 'خریداروں کی رائے';
+
+  @override
+  String get noReviewsYet =>
+      'ابھی کوئی رائے نہیں۔ خریداروں کے ڈیلیور شدہ آرڈر ریٹ کرنے کے بعد یہاں نظر آئے گی۔';
+
+  @override
+  String get replyToReview => 'اس رائے کا جواب دیں';
+
+  @override
+  String get replyOnceHint =>
+      'آپ ایک بار جواب دے سکتے ہیں۔ خریدار اسے دیکھیں گے۔';
+
+  @override
+  String get mandiRates => 'منڈی کے نرخ';
+
+  @override
+  String get mandiRatesHint => 'تازہ ترین سرکاری منڈی نرخ';
+
+  @override
+  String get mandiRatesEmpty =>
+      'ابھی کوئی نرخ نامہ شائع نہیں ہوا۔ کچھ دیر بعد دوبارہ دیکھیں۔';
+
+  @override
+  String get mandiRatesNote =>
+      'سرکاری تھوک نرخ۔ قیمت طے کرتے یا موازنہ کرتے وقت انہیں رہنمائی کے طور پر استعمال کریں۔';
+
+  @override
+  String get mandiRatesSearch => 'فصل تلاش کریں';
+
+  @override
+  String get mandiRatesNoMatch => 'اس فہرست میں اس نام کی کوئی فصل نہیں۔';
+
+  @override
+  String get unit40Kg => '40 کلو';
+
+  @override
+  String get unit100Kg => '100 کلو';
+
+  @override
+  String ratingOutOfFive(String rating) {
+    return '5 میں سے $rating';
+  }
+
+  @override
+  String reviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count آراء',
+      one: '1 رائے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mandiRatesObserved(String date, String source) {
+    return '$date کے نرخ · $source';
+  }
+
+  @override
+  String mandiRatePer(String unit) {
+    return 'فی $unit';
+  }
+
+  @override
+  String mandiRateFair(String amount) {
+    return 'مناسب قیمت $amount';
+  }
 }

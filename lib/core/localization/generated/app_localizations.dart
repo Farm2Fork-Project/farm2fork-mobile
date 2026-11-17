@@ -4801,6 +4801,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report a problem'**
   String get reportProblemShort;
+
+  /// No description provided for @communityRoleTransporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get communityRoleTransporter;
+
+  /// No description provided for @feedSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search posts'**
+  String get feedSearchHint;
+
+  /// No description provided for @feedSortLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get feedSortLatest;
+
+  /// No description provided for @feedSortTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Most liked'**
+  String get feedSortTop;
+
+  /// No description provided for @feedTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get feedTrending;
+
+  /// No description provided for @postKindAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get postKindAll;
+
+  /// No description provided for @postKindDiscussion.
+  ///
+  /// In en, this message translates to:
+  /// **'Discussion'**
+  String get postKindDiscussion;
+
+  /// No description provided for @postKindQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get postKindQuestion;
+
+  /// No description provided for @postKindTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get postKindTip;
+
+  /// No description provided for @postKindMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy & sell'**
+  String get postKindMarket;
+
+  /// No description provided for @postKindLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you sharing?'**
+  String get postKindLabel;
+
+  /// No description provided for @replyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get replyAction;
+
+  /// No description provided for @reportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportAction;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this'**
+  String get reportTitle;
+
+  /// No description provided for @reportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Farm2Fork team will look at it. The author is not told who reported.'**
+  String get reportSubtitle;
+
+  /// No description provided for @reportReasonSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam or advertising'**
+  String get reportReasonSpam;
+
+  /// No description provided for @reportReasonAbuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Abuse or harassment'**
+  String get reportReasonAbuse;
+
+  /// No description provided for @reportReasonMisinformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong or misleading information'**
+  String get reportReasonMisinformation;
+
+  /// No description provided for @reportReasonScam.
+  ///
+  /// In en, this message translates to:
+  /// **'Scam or fraud'**
+  String get reportReasonScam;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a detail (optional)'**
+  String get reportNoteHint;
+
+  /// No description provided for @reportSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send report'**
+  String get reportSubmit;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks. The team will review it.'**
+  String get reportSent;
+
+  /// No description provided for @reportAlreadySent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already reported this.'**
+  String get reportAlreadySent;
+
+  /// No description provided for @editPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit post'**
+  String get editPost;
+
+  /// No description provided for @postEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get postEdited;
+
+  /// No description provided for @communityNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts match. Try other words or clear the filters.'**
+  String get communityNoResults;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @feedLikeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 like} other{{count} likes}}'**
+  String feedLikeCount(int count);
+
+  /// No description provided for @replyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {name}'**
+  String replyingTo(String name);
+
+  /// No description provided for @yourRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating'**
+  String get yourRating;
+
+  /// No description provided for @rateOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this order'**
+  String get rateOrder;
+
+  /// No description provided for @rateOrderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this order?'**
+  String get rateOrderTitle;
+
+  /// No description provided for @rateOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating is shown on the farmer\'s profile and helps other buyers.'**
+  String get rateOrderHint;
+
+  /// No description provided for @reviewCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell other buyers about quality, packing and delivery (optional)'**
+  String get reviewCommentHint;
+
+  /// No description provided for @submitReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get submitReview;
+
+  /// No description provided for @reviewThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your review.'**
+  String get reviewThanks;
+
+  /// No description provided for @farmerReplyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer\'s reply'**
+  String get farmerReplyLabel;
+
+  /// No description provided for @buyerReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer reviews'**
+  String get buyerReviews;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet. They appear here after buyers rate delivered orders.'**
+  String get noReviewsYet;
+
+  /// No description provided for @replyToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to this review'**
+  String get replyToReview;
+
+  /// No description provided for @replyOnceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can reply once. Buyers will see it.'**
+  String get replyOnceHint;
+
+  /// No description provided for @mandiRates.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandi rates'**
+  String get mandiRates;
+
+  /// No description provided for @mandiRatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest official market prices'**
+  String get mandiRatesHint;
+
+  /// No description provided for @mandiRatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rate list has been published yet. Check back soon.'**
+  String get mandiRatesEmpty;
+
+  /// No description provided for @mandiRatesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Official wholesale prices. Use them as a guide when you set or compare a price.'**
+  String get mandiRatesNote;
+
+  /// No description provided for @mandiRatesSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a crop'**
+  String get mandiRatesSearch;
+
+  /// No description provided for @mandiRatesNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no crop with that name.'**
+  String get mandiRatesNoMatch;
+
+  /// No description provided for @unit40Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'40 kg'**
+  String get unit40Kg;
+
+  /// No description provided for @unit100Kg.
+  ///
+  /// In en, this message translates to:
+  /// **'100 kg'**
+  String get unit100Kg;
+
+  /// No description provided for @ratingOutOfFive.
+  ///
+  /// In en, this message translates to:
+  /// **'{rating} out of 5'**
+  String ratingOutOfFive(String rating);
+
+  /// No description provided for @reviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
+  String reviewCount(int count);
+
+  /// No description provided for @mandiRatesObserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices of {date} · {source}'**
+  String mandiRatesObserved(String date, String source);
+
+  /// No description provided for @mandiRatePer.
+  ///
+  /// In en, this message translates to:
+  /// **'per {unit}'**
+  String mandiRatePer(String unit);
+
+  /// No description provided for @mandiRateFair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair price {amount}'**
+  String mandiRateFair(String amount);
 }
 
 class _AppLocalizationsDelegate

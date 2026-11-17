@@ -10,9 +10,14 @@ import 'package:farm2fork_mobile/core/widgets/app_button.dart';
 import 'package:farm2fork_mobile/core/widgets/app_text_field.dart';
 import 'package:farm2fork_mobile/core/media/photo_picker.dart';
 import 'package:farm2fork_mobile/features/community/data/community.dart';
+import 'package:farm2fork_mobile/features/community/presentation/widgets.dart';
 
+/// Composer for a new post, or an editor when [editing] is given (photos
+/// cannot be changed after publishing).
 class CreatePostScreen extends ConsumerStatefulWidget {
-  const CreatePostScreen({super.key});
+  const CreatePostScreen({super.key, this.editing});
+
+  final CommunityPost? editing;
 
   @override
   ConsumerState<CreatePostScreen> createState() => _CreatePostScreenState();
@@ -20,9 +25,12 @@ class CreatePostScreen extends ConsumerStatefulWidget {
 
 class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _title = TextEditingController();
-  final _content = TextEditingController();
-  final _tags = TextEditingController();
+  late final _title = TextEditingController(text: widget.editing?.title);
+  late final _content = TextEditingController(text: widget.editing?.content);
+  late final _tags = TextEditingController(
+    text: widget.editing?.tags.join(', '),
+  );
+  late PostKind _kind = widget.editing?.kind ?? PostKind.discussion;
   final List<XFile> _photos = [];
   bool _posting = false;
 
@@ -49,16 +57,33 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _posting = true);
     try {
-      final post = await ref
-          .read(communityRepositoryProvider)
-          .create(
-            title: _title.text.trim(),
-            content: _content.text.trim(),
-            tags: _parsedTags,
-            photos: _photos,
-          );
-      ref.invalidate(communityFeedProvider);
-      if (mounted) context.pushReplacement('/community/posts/${post.id}');
+      final repository = ref.read(communityRepositoryProvider);
+      final editing = widget.editing;
+      final post = editing == null
+          ? await repository.create(
+              title: _title.text.trim(),
+              content: _content.text.trim(),
+              tags: _parsedTags,
+              photos: _photos,
+              kind: _kind,
+            )
+          : await repository.update(
+              editing.id,
+              title: _title.text.trim(),
+              content: _content.text.trim(),
+              tags: _parsedTags,
+              kind: _kind,
+            );
+      ref
+        ..invalidate(communityFeedProvider)
+        ..invalidate(trendingTagsProvider);
+      if (!mounted) return;
+      if (editing == null) {
+        context.pushReplacement('/community/posts/${post.id}');
+      } else {
+        ref.invalidate(communityPostProvider(post.id));
+        context.pop();
+      }
     } on Object {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -77,13 +102,49 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         (v == null || v.trim().isEmpty) ? l10n.fieldRequired : null;
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
-      appBar: AppBar(title: Text(l10n.newPost, style: AppTextStyles.h3)),
+      appBar: AppBar(
+        title: Text(
+          widget.editing == null ? l10n.newPost : l10n.editPost,
+          style: AppTextStyles.h3,
+        ),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.pagePadding),
             children: [
+              Text(l10n.postKindLabel, style: AppTextStyles.label),
+              const SizedBox(height: AppSpacing.sm),
+              Wrap(
+                spacing: AppSpacing.sm,
+                runSpacing: AppSpacing.sm,
+                children: [
+                  for (final kind in PostKind.values)
+                    ChoiceChip(
+                      avatar: Icon(
+                        postKindIcon(kind),
+                        size: 16,
+                        color: _kind == kind
+                            ? AppColors.white
+                            : AppColors.textDark,
+                      ),
+                      label: Text(postKindLabel(l10n, kind)),
+                      selected: _kind == kind,
+                      showCheckmark: false,
+                      selectedColor: AppColors.primaryGreen,
+                      backgroundColor: AppColors.white,
+                      labelStyle: AppTextStyles.small.copyWith(
+                        color: _kind == kind
+                            ? AppColors.white
+                            : AppColors.textDark,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      onSelected: (_) => setState(() => _kind = kind),
+                    ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
               AppTextField(
                 controller: _title,
                 label: l10n.postTitleLabel,
@@ -107,6 +168,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     ? l10n.postTooManyTags(maxPostTags)
                     : null,
               ),
+              if (widget.editing == null) ...[
               const SizedBox(height: AppSpacing.md),
               Text(
                 l10n.postPhotosLabel(maxPostPhotos),
@@ -137,9 +199,12 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                   ],
                 ],
               ),
+              ],
               const SizedBox(height: AppSpacing.xl),
               AppButton(
-                label: l10n.publishPost,
+                label: widget.editing == null
+                    ? l10n.publishPost
+                    : l10n.saveChanges,
                 icon: Icons.send_rounded,
                 expand: true,
                 isLoading: _posting,

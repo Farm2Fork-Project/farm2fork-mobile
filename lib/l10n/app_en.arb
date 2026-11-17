@@ -3012,5 +3012,79 @@
       }
     }
   },
-  "reportProblemShort": "Report a problem"
+  "reportProblemShort": "Report a problem",
+  "communityRoleTransporter": "Transporter",
+  "feedSearchHint": "Search posts",
+  "feedSortLatest": "Latest",
+  "feedSortTop": "Most liked",
+  "feedTrending": "Topics",
+  "postKindAll": "All",
+  "postKindDiscussion": "Discussion",
+  "postKindQuestion": "Question",
+  "postKindTip": "Tip",
+  "postKindMarket": "Buy & sell",
+  "postKindLabel": "What are you sharing?",
+  "replyAction": "Reply",
+  "reportAction": "Report",
+  "reportTitle": "Report this",
+  "reportSubtitle": "The Farm2Fork team will look at it. The author is not told who reported.",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonAbuse": "Abuse or harassment",
+  "reportReasonMisinformation": "Wrong or misleading information",
+  "reportReasonScam": "Scam or fraud",
+  "reportReasonOther": "Something else",
+  "reportNoteHint": "Add a detail (optional)",
+  "reportSubmit": "Send report",
+  "reportSent": "Thanks. The team will review it.",
+  "reportAlreadySent": "You have already reported this.",
+  "editPost": "Edit post",
+  "postEdited": "Edited",
+  "communityNoResults": "No posts match. Try other words or clear the filters.",
+  "moreOptions": "More options",
+  "feedLikeCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@feedLikeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "replyingTo": "Replying to {name}",
+  "@replyingTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "yourRating": "Your rating",
+  "rateOrder": "Rate this order",
+  "rateOrderTitle": "How was this order?",
+  "rateOrderHint": "Your rating is shown on the farmer's profile and helps other buyers.",
+  "reviewCommentHint": "Tell other buyers about quality, packing and delivery (optional)",
+  "submitReview": "Submit review",
+  "reviewThanks": "Thanks for your review.",
+  "farmerReplyLabel": "Farmer's reply",
+  "buyerReviews": "Buyer reviews",
+  "noReviewsYet": "No reviews yet. They appear here after buyers rate delivered orders.",
+  "replyToReview": "Reply to this review",
+  "replyOnceHint": "You can reply once. Buyers will see it.",
+  "mandiRates": "Mandi rates",
+  "mandiRatesHint": "Latest official market prices",
+  "mandiRatesEmpty": "No rate list has been published yet. Check back soon.",
+  "mandiRatesNote": "Official wholesale prices. Use them as a guide when you set or compare a price.",
+  "mandiRatesSearch": "Search a crop",
+  "mandiRatesNoMatch": "This list has no crop with that name.",
+  "unit40Kg": "40 kg",
+  "unit100Kg": "100 kg",
+  "ratingOutOfFive": "{rating} out of 5",
+  "@ratingOutOfFive": {"placeholders": {"rating": {"type": "String"}}},
+  "reviewCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@reviewCount": {"placeholders": {"count": {"type": "int"}}},
+  "mandiRatesObserved": "Prices of {date} · {source}",
+  "@mandiRatesObserved": {"placeholders": {"date": {"type": "String"}, "source": {"type": "String"}}},
+  "mandiRatePer": "per {unit}",
+  "@mandiRatePer": {"placeholders": {"unit": {"type": "String"}}},
+  "mandiRateFair": "Fair price {amount}",
+  "@mandiRateFair": {"placeholders": {"amount": {"type": "String"}}}
 }

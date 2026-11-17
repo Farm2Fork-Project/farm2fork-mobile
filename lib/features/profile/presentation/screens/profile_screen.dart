@@ -13,6 +13,8 @@ import 'package:farm2fork_mobile/core/widgets/app_card.dart';
 import 'package:farm2fork_mobile/core/widgets/app_notice_banner.dart';
 import 'package:farm2fork_mobile/core/widgets/app_settings_tile.dart';
 import 'package:farm2fork_mobile/core/widgets/section_header.dart';
+import 'package:farm2fork_mobile/features/rates/rates.dart';
+import 'package:farm2fork_mobile/features/reviews/reviews.dart';
 import 'package:farm2fork_mobile/features/auth/data/models/auth_user.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/providers/auth_controller.dart';
 import 'package:farm2fork_mobile/features/auth/presentation/utils/auth_role_l10n.dart';
@@ -113,6 +115,20 @@ class ProfileScreen extends ConsumerWidget {
                           icon: Icons.account_balance_rounded,
                           onTap: () =>
                               context.push(AppNavConfig.farmerLoansRoute),
+                        ),
+                      if (user?.role == AppUserRole.farmer)
+                        AppSettingsTile(
+                          title: l10n.buyerReviews,
+                          icon: Icons.star_outline_rounded,
+                          onTap: () => context.push(MyFarmReviewsScreen.route),
+                        ),
+                      if (user?.role == AppUserRole.farmer ||
+                          user?.role == AppUserRole.buyer)
+                        AppSettingsTile(
+                          title: l10n.mandiRates,
+                          subtitle: l10n.mandiRatesHint,
+                          icon: Icons.receipt_long_rounded,
+                          onTap: () => context.push(MandiRatesScreen.route),
                         ),
                       if (user?.role == AppUserRole.buyer)
                         AppSettingsTile(

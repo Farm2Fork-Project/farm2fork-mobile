@@ -46,6 +46,9 @@ import 'package:farm2fork_mobile/features/shipments/presentation/screens/deliver
 import 'package:farm2fork_mobile/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:farm2fork_mobile/features/loans/presentation/screens/farmer_loans_screen.dart';
 import 'package:farm2fork_mobile/features/loans/presentation/screens/loan_review_screen.dart';
+import 'package:farm2fork_mobile/features/community/data/community.dart';
+import 'package:farm2fork_mobile/features/rates/rates.dart';
+import 'package:farm2fork_mobile/features/reviews/reviews.dart';
 import 'package:farm2fork_mobile/features/community/presentation/screens/create_post_screen.dart';
 import 'package:farm2fork_mobile/features/community/presentation/screens/post_detail_screen.dart';
 import 'package:farm2fork_mobile/features/shipments/presentation/screens/shipment_tracking_screen.dart';
@@ -237,9 +240,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const FeedScreen(),
       ),
       GoRoute(
+        path: MandiRatesScreen.route,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const MandiRatesScreen(),
+      ),
+      GoRoute(
+        path: MyFarmReviewsScreen.route,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, _) => MyFarmReviewsScreen(
+          farmerId:
+              ProviderScope.containerOf(
+                context,
+              ).read(authControllerProvider).asData?.value.user?.id ??
+              '',
+        ),
+      ),
+      GoRoute(
         path: AppNavConfig.newPostRoute,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, _) => const CreatePostScreen(),
+        builder: (_, state) => CreatePostScreen(
+          editing: state.extra is CommunityPost
+              ? state.extra as CommunityPost
+              : null,
+        ),
       ),
       GoRoute(
         path: '/community/posts/:id',
